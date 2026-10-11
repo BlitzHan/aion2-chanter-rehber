@@ -95,8 +95,56 @@ details summary{cursor:pointer;padding:10px 14px;font-weight:600}
 details .pad{padding-top:0;color:var(--muted)}
 details .pad b{color:var(--text)}
 footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);font-size:12px}
+/* daevanion */
+.boards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.board h3{margin:0 0 2px;font-size:15px}
+.board .bm{color:var(--dim);font-size:12px;margin-bottom:8px}
+.dg{display:grid;grid-template-columns:repeat(11,1fr);gap:2px;background:#0c0f16;border:1px solid var(--line);border-radius:10px;padding:6px;aspect-ratio:1}
+.dg i{display:block;border-radius:3px;position:relative}
+.dg i.st{background:#1c2232;border-radius:50%;margin:30%}
+.dg i.sk{background:#2a2346;border:1px solid #3f3570}
+.dg i.un{background:#3a2f12;transform:rotate(45deg) scale(.75);border:1px solid #6b5520}
+.dg i.start{background:radial-gradient(circle,#e8c06a 30%,transparent 32%),#1a1f2c;border-radius:50%}
+.dg i.on.st{background:var(--gold);margin:22%}
+.dg i.on.un{background:var(--gold);border-color:#fff3}
+.dg i.on.sk{border:1px solid var(--gold);background-size:cover;background-position:center}
+.dg i.on{box-shadow:0 0 6px #e8c06a66}
+.dkeys{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.dkeys span{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 6px 2px 2px}
+.dkeys img{width:20px;height:20px;border-radius:4px}
+.dkeys .u{padding-left:6px;color:var(--gold);border-color:#5d4a1c;background:#2a2412}
+.dstat{color:var(--muted);font-size:12px;margin-top:6px}
+/* kişisel dizilim */
+.hb-wrap{overflow-x:auto}
+.hb{display:grid;grid-template-columns:repeat(12,minmax(46px,1fr));gap:6px;min-width:620px;align-items:end}
+.hb .col{display:flex;flex-direction:column-reverse;gap:4px;padding:4px;border-radius:8px;border:1px solid transparent}
+.hb .col.chg{border-color:#5f48a0;background:var(--purplebg)}
+.hb .col.rm{border-color:#6a3a3a;background:#2a1718}
+.hb .key{text-align:center;font-weight:800;font-size:12px;color:var(--gold);order:-1}
+.hb .cell{position:relative;aspect-ratio:1;border-radius:7px;border:1px solid var(--line);background:#10131b;cursor:pointer}
+.hb .cell img{width:100%;height:100%;border-radius:6px;display:block}
+.hb .cell .lv{position:absolute;right:-3px;bottom:-3px;background:#0b0d12;border:1px solid var(--line2);color:var(--text);font-size:10px;font-weight:800;border-radius:5px;padding:0 3px;line-height:14px}
+.hb .cell.empty{cursor:default;border-style:dashed}
+.hb .cell.x img{opacity:.35;filter:grayscale(1)}
+.hb .cell.x::after{content:"✕";position:absolute;inset:0;display:grid;place-items:center;color:var(--red);font-weight:900;font-size:20px}
+.hb .cell.try{outline:2px dashed var(--purple);outline-offset:1px}
+.hb-l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 6px}
+.chg-list{list-style:none;margin:0;padding:0}
+.chg-list li{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:start;padding:9px 14px;border-top:1px solid var(--line)}
+.chg-list li:first-child{border-top:0}
+.chg-list .k{font-weight:800;color:var(--gold);background:var(--panel2);border:1px solid var(--line2);border-radius:7px;text-align:center;padding:4px 0}
+.chg-list b{color:var(--text)}
+.chg-list .d{color:var(--muted)}
+.lvls{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:4px 10px;align-items:center}
+.lvls img{width:32px;height:32px;border-radius:6px;border:1px solid var(--line2)}
+.lvls .now{font-weight:800;white-space:nowrap}
+.lvls .now em{font-style:normal;color:var(--gold)}
+.lvls .now.stop em{color:var(--red)}
+.lvls .note{color:var(--muted);font-size:12.5px}
 @media (max-width:900px){
-  .layout{grid-template-columns:1fr}
+  .boards{grid-template-columns:1fr}
+  .layout{grid-template-columns:minmax(0,1fr)}
+  .tabs button{padding:7px 6px;font-size:13px}
   .detail{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;max-height:70vh;overflow:auto;border-radius:14px 14px 0 0;transform:translateY(105%);transition:transform .2s;z-index:20;box-shadow:0 -10px 30px #000a}
   .detail.open{transform:none}
   .detail .close{display:block}
@@ -116,16 +164,19 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
   <img class="cls" src="icons/ICON_CH_SKILL_019.webp" alt="">
   <div>
     <h1>Chanter · PvE Build</h1>
-    <div class="sub">Aion 2 · Grobs build'i · <a href="https://www.youtube.com/watch?v=2qTjfkuzdj4" target="_blank" rel="noopener">video</a> · <a id="qlink" href="#" target="_blank" rel="noopener">Questlog</a></div>
+    <div class="sub">Aion 2 · Kişisel build</div>
   </div>
   <div class="tabs" role="tablist">
     <button data-tab="early" class="on">Early · Leveling</button>
     <button data-tab="mid">Mid · Level 45</button>
+    <button data-tab="me">Benim dizilimim</button>
   </div>
 </div></div>
 
 <div class="layout">
   <main>
+    <div id="me" hidden></div>
+    <div id="std">
     <div class="card">
       <div class="summary" id="summary"></div>
     </div>
@@ -153,14 +204,13 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
     </div>
 
     <div class="card" id="notes"></div>
+    <div class="card" id="daev"></div>
+    </div>
   </main>
 
   <aside class="card detail" id="detail"></aside>
 </div>
 
-<footer>
-  Grobs'un <a href="https://www.youtube.com/watch?v=2qTjfkuzdj4" target="_blank" rel="noopener">“The Only Chanter PVE Guide You Need”</a> videosundan Türkçe özet. Build verisi: <a href="https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz" target="_blank" rel="noopener">questlog.gg</a> · <a href="https://questlog.gg/aion-2/en/daevanion-planner/1axQ0wzhiYGz" target="_blank" rel="noopener">Daevanion planı</a>. Puan sırası videodaki önceliklere göre derlendi. Skill isimleri ve ikonları NCSOFT'a aittir; resmi değildir. Güncelleme: 11.10.2026
-</footer>
 
 <script>
 const BUILDS = {
@@ -170,7 +220,7 @@ const BUILDS = {
       "<b>Rol:</b> hasar vuran support, heal'i az",
       "<b>Ana hasar:</b> Onslaught + Incandescent Blow spam'i",
       "<b>Kilit:</b> Dark Crush 12 (Piercing Strike), Rushing Smash 12",
-      "<b>Stigma yuvası:</b> 22 · 27 · 32 · 37"
+      "<b>Stigma:</b> Undefeated · Sprint · Power of the Storm"
     ],
     // lvl: hedef skill seviyesi, pick: seçilecek uzmanlık slotları
     skills: {
@@ -226,7 +276,7 @@ const BUILDS = {
       ["Chanter ne iş yapar?", "Oyun Chanter'ı support sayıyor ama Chanter partiye heal'le değil, <b>buff'la</b> destek olur. Cleric yoksa ana destek sensin, ama heal'in az. Şu anki dengede hasarı çok yüksek. Kısacası: iyi vuran bir support'sun, ne tam healer ne saf DPS."],
       ["Dark Crush nasıl çalışır?", "Dark Crush'ı istediğin an basamazsın, önce bir tetikleyiciyle açılması gerekir: <b>Spinning Strike</b> (2 sn), <b>Impactful Crush</b> (2 sn) ve mid game'de <b>Marchutan's Wrath</b> (3 sn). Early game'de Dark Crush'ın cooldown'u yüzünden ana hasar Onslaught ve Incandescent Blow'dan gelir."],
       ["Cleric ile çakışma", "Undefeated Mantra ve Power of the Storm, Cleric'in bazı buff'larıyla üst üste binmiyor. Cleric'in ne kullandığını bilmiyorsan yine de bu ikisini tak; çok güçlüler."],
-      ["Stigma yuvaları", "Yuvalar 22 / 27 / 32 / 37. level'da açılır. Sıra önerisi: Undefeated Mantra → Sprint Mantra → Power of the Storm → Marchutan's Wrath (37'de; Grobs bunu mid game'de ekliyor)."]
+      ["Stigma sırası", "Yuva açıldıkça: Undefeated Mantra → Sprint Mantra → Power of the Storm → Marchutan's Wrath. Grobs Marchutan's Wrath'ı mid game'de ekliyor, ama 4. yuva açıldığında hemen takabilirsin."]
     ]
   },
   mid: {
@@ -292,6 +342,128 @@ const BUILDS = {
   }
 };
 
+// Kişisel dizilim: [skillId, seviye] — sütun içinde 0. sıra en altta (oyundaki gibi)
+const R = id => id; // okunurluk
+BUILDS.me = {
+  skills: Object.assign({}, BUILDS.early.skills, {
+    "18330000": BUILDS.mid.skills["18330000"],
+    "18130000": {lvl:5, pick:[], why:"Senin <b>ikinci atılman</b> (E). 20 m'den hedefe atılır, savunmasını %30 düşürür. Dodge gerektirmediği için Tremor Crush'tan rahat. Grobs bu yuvada Power of the Storm kullanıyor; dungeon'a girerken onunla değiştirmeyi düşün."},
+    "18080000": {lvl:"Bırak", pick:[], why:"Sadece <b>stun yemiş</b> hedefe vurur. R zincirindeki Impactful Crush mobları %100 stun'ladığı için tam bu anda açılır. 2. tuşun “kendiliğinden” çıkmasının muhtemel sebebi bu. Build'de yok, puan verme."},
+    "18150000": {lvl:"Bırak", pick:[], why:"Build'de yok. E sütununda Fracturing Blow'un arkasında duruyordu: Fracturing cooldown'dayken E'ye basınca atılmak yerine bu çıkar. Çubuktan kaldır."},
+    "18210000": {lvl:8, pick:[2], why:"Önce dodge (Shift) gerektiriyor ve sen E ile atılıyorsun. Çubuktan kaldırabilirsin. 9'a çıkmış, daha fazla puan verme."}
+  }),
+  cur: {
+    "1":[["18120000",10]], "2":[["18210000",9],["18080000",11]], "3":[["18300000",12]],
+    "4":[["18100000",13],["18060000",9],["18290000",12],["18330000",5]],
+    "5":[], "6":[], "7":[["18190000",10]], "8":[["18160000",5]],
+    "Q":[["18090000",12]], "E":[["18130000",5],["18150000",12]],
+    "Sol":[["18010000",12]], "Sağ":[["18040000",12]]
+  },
+  next: {
+    "1":[["18120000",10]], "2":[], "3":[],
+    "4":[["18100000",13],["18290000",12],["18330000",5],["18060000",9]],
+    "5":[], "6":[], "7":[["18190000",10]], "8":[["18160000",5]],
+    "Q":[["18090000",12]], "E":[["18130000",5]],
+    "Sol":[["18300000",12,"try"],["18010000",12]], "Sağ":[["18040000",12]]
+  },
+  changes: [
+    ["2", "<b>Boşalt.</b> Tremor Crush dodge'dan sonra, Wave Blow ise stun yemiş hedefe açılıyor. R zincirindeki Impactful Crush mobları stun'layınca Wave Blow devreye giriyor; elin R'deyken çıkan skiller büyük ihtimalle bunlar. İkisi de build'de yok."],
+    ["R", "<b>Sırayı değiştir:</b> Dark Crush › Spinning Strike › Marchutan's Wrath › Impactful Crush. Spinning Strike hem vurur hem kritik hasar buff'ı verir, bu yüzden ilk tetikleyici o olsun. Stun'layan Impactful Crush en sona gitsin."],
+    ["E", "<b>Sadece Fracturing Blow kalsın.</b> Arkasındaki Heat Wave Blow'u kaldır; yoksa Fracturing cooldown'dayken E'ye basınca atılmak yerine Heat Wave Blow çıkar."],
+    ["Sol", "<b>Dene:</b> Gust Rampage'i sol tık sütununda Onslaught'un önüne koy. Gust Rampage yalnızca stagger olmuş boss'ta açıldığı için o an kendiliğinden onu spam'lersin, diğer her an Onslaught vurur. Çalışmazsa 3'e geri al."],
+    ["7·8", "<b>Mantra'lar aura gibi çalışır:</b> bir kez açınca kalır, bu yüzden 7 ve 8'e hiç basmaman normal. Sadece buff çubuğunda simgelerinin göründüğünden emin ol (ölünce veya bölge değişince kapanıyor mu, bir kontrol et)."],
+    ["5", "<b>Dungeon için:</b> partiye girince E'deki Fracturing Blow yerine Power of the Storm'u stigma olarak takıp 5'e koyabilirsin. Boss başında bir kez basılır. Solo leveling'de Fracturing Blow kalsın."]
+  ],
+  // [skill, şimdi, hedef, not, dur?]
+  lvls: [
+    ["18100000", 13, 16, "En önemlisi: 16'da cooldown kalkar", false],
+    ["18120000", 10, 12, "+%5 heal uzmanlığı", false],
+    ["18010000", 12, 16, "Storm Chain (4. vuruş)", false],
+    ["18290000", 12, 16, "Her vuruş kritik", false],
+    ["18190000", 10, 20, "Stigma puanının hepsi buraya", false],
+    ["18330000", 5, 5, "Tamam", false],
+    ["18060000", 9, 8, "Yeterli, puan verme", true],
+    ["18300000", 12, 8, "Fazlası var, puan verme", true],
+    ["18210000", 9, 8, "Puan verme", true],
+    ["18080000", 11, "–", "Build'de yok, puan verme", true],
+    ["18150000", 12, "–", "Build'de yok, puan verme", true]
+  ]
+};
+const KEYS = ["1","2","3","4","5","6","7","8","Q","E","Sol","Sağ"];
+const KEYLBL = k => k === "4" ? "4 · R" : k;
+
+function hotbar(layout, diff) {
+  return `<div class="hb-wrap"><div class="hb">${KEYS.map(k => {
+    const col = layout[k] || [];
+    let cls = "col";
+    if (diff) {
+      const a = JSON.stringify((BUILDS.me.cur[k]||[]).map(x=>x[0])), b = JSON.stringify(col.map(x=>x[0]));
+      if (a !== b) cls += col.length < (BUILDS.me.cur[k]||[]).length && !col.some(x=>x[2]) ? " rm" : " chg";
+    }
+    const cells = col.length ? col.map(([id, lv, f]) => {
+      const gone = !diff && !Object.values(BUILDS.me.next).flat().some(x => x[0] === id);
+      return `<div class="cell ${gone ? "x" : ""} ${f === "try" ? "try" : ""}" data-id="${id}" title="${SK[id].name}"><img src="${SK[id].icon}" alt="${SK[id].name}"><span class="lv">${lv}</span></div>`;
+    }).join("") : `<div class="cell empty"></div>`;
+    return `<div class="${cls}">${cells}<div class="key">${KEYLBL(k)}</div></div>`;
+  }).join("")}</div></div>`;
+}
+
+function renderMe() {
+  const M = BUILDS.me;
+  $("me").innerHTML = `
+    <div class="card"><div class="summary">
+      <span class="pill"><b>Oynayış:</b> Sol · Sağ · R macro · Q/E atılma · 1 heal</span>
+      <span class="pill"><b>Amaç:</b> R'deyken yanlış skill çıkmasın</span>
+      <span class="pill"><b>Seviye:</b> 35</span>
+    </div></div>
+    <div class="card"><h2>Şimdiki dizilim <span class="r">✕ = kaldır</span></h2>
+      <div class="pad">${hotbar(M.cur, false)}</div></div>
+    <div class="card"><h2>Önerilen dizilim <span class="r">Mor = değişti · kesikli = dene</span></h2>
+      <div class="pad">${hotbar(M.next, true)}
+      <div class="hb-l" style="margin-top:10px">Sütunda en alttaki skill önce denenir (oyundaki gibi)</div></div></div>
+    <div class="card"><h2>Ne değişti, neden?</h2>
+      <ul class="chg-list">${M.changes.map(([k, t]) => `<li><span class="k">${k}</span><div class="d">${t}</div></li>`).join("")}</ul></div>
+    <div class="card"><h2>Puanı nereye vereceksin? <span class="r">şimdi → hedef</span></h2>
+      <div class="pad lvls">${M.lvls.map(([id, a, b, n, stop]) =>
+        `<img src="${SK[id].icon}" alt="" data-id="${id}" style="cursor:pointer"><div><b>${SK[id].name}</b><div class="note">${n}</div></div><span class="now ${stop ? "stop" : ""}">${a} <em>→ ${b}</em></span>`).join("")}</div></div>`;
+}
+
+let DV = null;
+function renderDaev() {
+  const el = $("daev");
+  if (tab !== "early" || !DV) { el.hidden = true; return; }
+  el.hidden = false;
+  const statTR = {"Attack":"Saldırı","Max HP":"Maks HP","Max MP":"Maks MP","Defense":"Savunma","Critical Hit":"Kritik","Critical Hit Resist":"Kritik direnci","Combat Speed":"Savaş hızı","Damage Boost":"Hasar artışı"};
+  el.innerHTML = `<h2>Daevanion · Early game <span class="r">Toplam 85 puan · U tuşu</span></h2>
+    <div class="pad">
+    <div class="boards">${DV.map(b => {
+      const sel = new Set(b.sel), map = {};
+      b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
+      const cells = [];
+      for (let r = 3; r <= 13; r++) for (let c = 3; c <= 13; c++) {
+        const n = map[r + "-" + c];
+        if (!n) { cells.push("<i></i>"); continue; }
+        const t = n.t === "start" ? "start" : n.t === "skilllevel" ? "sk" : n.g >= 41 ? "un" : "st";
+        const on = sel.has(n.id) ? " on" : "";
+        const bg = on && n.skill && SK[n.skill] ? ` style="background-image:url(${SK[n.skill].icon})"` : "";
+        cells.push(`<i class="${t}${on}"${bg} title="${n.name}"></i>`);
+      }
+      const picked = b.nodes.filter(n => sel.has(n.id));
+      const keys = picked.filter(n => n.t === "skilllevel" || n.g >= 41);
+      const pts = picked.reduce((a, n) => a + n.cost, 0);
+      const stats = {};
+      picked.filter(n => n.t === "stat" && n.g < 41).forEach(n => stats[n.name] = (stats[n.name] || 0) + 1);
+      return `<div class="board"><h3>${b.name}</h3><div class="bm">Lv ${b.need}'de açılır · ${pts} puan</div>
+        <div class="dg">${cells.join("")}</div>
+        <div class="dkeys">${keys.map(n => n.skill && SK[n.skill]
+          ? `<span><img src="${SK[n.skill].icon}" alt="">${SK[n.skill].name} +1</span>`
+          : `<span class="u">◆ ${statTR[n.name] || n.name}</span>`).join("")}</div>
+        <div class="dstat">${Object.entries(stats).map(([k, v]) => `${statTR[k] || k} ×${v}`).join(" · ")}</div></div>`;
+    }).join("")}</div>
+    <div class="hb-l" style="margin-top:12px">Ortadaki başlangıçtan çıkan altın yollar seçili düğümler. Skill düğümleri o skille +1 seviye verir; ◆ büyük stat düğümüdür.</div>
+    </div>`;
+}
+
 let SK = {}, tab = "early", selected = null;
 const $ = id => document.getElementById(id);
 const icon = id => SK[id].icon;
@@ -299,9 +471,11 @@ const typeTR = t => ({active:"Aktif", stigma:"Stigma", passive:"Pasif"}[t] || t)
 const specTxt = (id, slots) => slots.map(s => SK[id].specs.find(p => p.slot === s)?.txt).filter(Boolean);
 
 function render() {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  $("me").hidden = tab !== "me"; $("std").hidden = tab === "me";
+  if (tab === "me") { renderMe(); showDetail(selected && BUILDS.me.skills[selected] ? selected : "18100000", false); return; }
   const B = BUILDS[tab];
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("qlink").href = B.questlog;
   $("summary").innerHTML = B.summary.map(s => `<span class="pill">${s}</span>`).join("");
 
   $("bars").innerHTML = B.bars.map(([label, ids]) =>
@@ -332,6 +506,7 @@ function render() {
   $("notes").innerHTML = `<h2>Bilmen gerekenler</h2>` + B.notes.map(([t, b], i) =>
     `<details ${i === 0 && tab === "mid" ? "open" : ""}><summary>${t}</summary><div class="pad">${b}</div></details>`).join("");
 
+  renderDaev();
   if (!selected || !B.skills[selected]) selected = B.bars[0][1][0];
   showDetail(selected, false);
 }
@@ -366,9 +541,9 @@ document.addEventListener("click", e => {
   if (tb) { tab = tb.dataset.tab; history.replaceState(null, "", "#" + tab); render(); }
 });
 
-fetch("skills.json").then(r => r.json()).then(d => {
-  SK = d;
-  if (location.hash === "#mid") tab = "mid";
+Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
+  SK = d; DV = dv;
+  if (["#mid", "#me"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>

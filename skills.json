@@ -560,5 +560,81 @@
   "icon": "icons/ICON_CH_SKILL_Passive_001.webp",
   "desc": "Grants a Protection Circle that lasts for 5s on landing an attack. Removes the Protection Circle at 10 stacks and grants Divine Barrier to the caster and party members, which blocks damage equaling 3.1% of Max HP for 10s. The Divine Barrier refreshes upon reaching 10 stacks of Protection Circle while Divine Barrier is active. Grants a Noble Protective Shield for 5s that blocks 21% damage when the caster's HP drops below 50%. Protection Circle Cooldown: 0.5s Noble Protective Shield Cooldown: 60s",
   "specs": []
+ },
+ "18080000": {
+  "name": "Wave Blow",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_008.webp",
+  "desc": "Deals damage to a target afflicted with Stun within 4m and inflicts Knockdown for 3s. Has a 7% chance to trigger on attacking a target with Incapacitated Immunity, changing the skill motion. 10 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18080010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "Multi-Hit on hit"
+   },
+   {
+    "id": "18080020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "+6m Range"
+   },
+   {
+    "id": "18080030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "+1s Knockdown duration"
+   },
+   {
+    "id": "18080040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "-15% target's PvE Damage Boost and -7.5% PvP Damage Boost for 10s"
+   },
+   {
+    "id": "18080050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "-5s cooldown"
+   }
+  ]
+ },
+ "18150000": {
+  "name": "Heat Wave Blow",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_015.webp",
+  "desc": "Selects a target within 4m and deals damage to up to 4 enemies within 4m with a 40% chance to inflict Seal for 3s on Block. 100% chance to inflict Seal on NPC targets. 10 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18150010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "40% chance to inflict Stun for 3s"
+   },
+   {
+    "id": "18150020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "+20% Seal Chance"
+   },
+   {
+    "id": "18150030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Up to +20% damage when more targets hit"
+   },
+   {
+    "id": "18150040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "Ignores Block and Evasion and lands as Multi-Hit"
+   },
+   {
+    "id": "18150050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "25% chance to reset [Heat Wave Blow] cooldown on Block"
+   }
+  ]
  }
 }
