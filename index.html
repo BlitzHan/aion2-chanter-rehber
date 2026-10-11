@@ -96,24 +96,33 @@ details .pad{padding-top:0;color:var(--muted)}
 details .pad b{color:var(--text)}
 footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);font-size:12px}
 /* daevanion */
-.boards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.board h3{margin:0 0 2px;font-size:15px}
-.board .bm{color:var(--dim);font-size:12px;margin-bottom:8px}
-.dg{display:grid;grid-template-columns:repeat(11,1fr);gap:2px;background:#0c0f16;border:1px solid var(--line);border-radius:10px;padding:6px;aspect-ratio:1}
-.dg i{display:block;border-radius:3px;position:relative}
-.dg i.st{background:#1c2232;border-radius:50%;margin:30%}
-.dg i.sk{background:#2a2346;border:1px solid #3f3570}
-.dg i.un{background:#3a2f12;transform:rotate(45deg) scale(.75);border:1px solid #6b5520}
-.dg i.start{background:radial-gradient(circle,#e8c06a 30%,transparent 32%),#1a1f2c;border-radius:50%}
-.dg i.on.st{background:var(--gold);margin:22%}
-.dg i.on.un{background:var(--gold);border-color:#fff3}
-.dg i.on.sk{border:1px solid var(--gold);background-size:cover;background-position:center}
-.dg i.on{box-shadow:0 0 6px #e8c06a66}
-.dkeys{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
-.dkeys span{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 6px 2px 2px}
-.dkeys img{width:20px;height:20px;border-radius:4px}
-.dkeys .u{padding-left:6px;color:var(--gold);border-color:#5d4a1c;background:#2a2412}
-.dstat{color:var(--muted);font-size:12px;margin-top:6px}
+.btabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.btabs button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--muted)}
+.btabs button.on{border-color:var(--gold);color:var(--gold);background:#2a2412}
+.btabs button small{color:var(--dim);margin-left:4px}
+.dwrap{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
+.dg{display:grid;grid-template-columns:repeat(11,1fr);gap:3px;background:#0c0f16;border:1px solid var(--line);border-radius:10px;padding:8px}
+.dg .nd{position:relative;aspect-ratio:1;border-radius:6px;display:grid;place-items:center}
+.dg .nd img{width:100%;height:100%;object-fit:cover;border-radius:5px;display:block}
+.dg .nd.off img{opacity:.28;filter:grayscale(.7)}
+.dg .nd.off .lb{opacity:.45}
+.dg .nd.on{box-shadow:0 0 0 2px var(--gold),0 0 10px #e8c06a55}
+.dg .nd.sk.on{box-shadow:0 0 0 2px #b48cff,0 0 10px #b48cff66}
+.dg .nd.un.on{box-shadow:0 0 0 2px #ff9f5a,0 0 10px #ff9f5a66}
+.dg .lb{position:absolute;left:0;right:0;bottom:1px;text-align:center;font-size:9px;font-weight:800;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000;letter-spacing:.02em;pointer-events:none}
+.dg .no{position:absolute;top:-5px;left:-5px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--gold);color:#1b1404;font-size:10px;font-weight:900;display:grid;place-items:center;z-index:1}
+.dg .nd.sk .no{background:var(--purple);color:#14092a}
+.dg .nd.un .no{background:#ff9f5a}
+.steps2{list-style:none;margin:0;padding:0;max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.steps2 li{display:grid;grid-template-columns:26px 26px 1fr auto;gap:8px;align-items:center;padding:5px 10px;border-top:1px solid var(--line);font-size:12.5px}
+.steps2 li:first-child{border-top:0}
+.steps2 .n{font-weight:900;color:var(--gold);text-align:right}
+.steps2 img{width:26px;height:26px;border-radius:5px}
+.steps2 .c{color:var(--dim);font-size:11px}
+.steps2 li.sk{background:#1c1730}
+.steps2 li.un{background:#2a1d12}
+.dlegend{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:12px;margin-top:10px}
+.dlegend b{color:var(--text)}
 /* kişisel dizilim */
 .hb-wrap{overflow-x:auto}
 .hb{display:grid;grid-template-columns:repeat(12,minmax(46px,1fr));gap:6px;min-width:620px;align-items:end}
@@ -142,7 +151,10 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
 .lvls .now.stop em{color:var(--red)}
 .lvls .note{color:var(--muted);font-size:12.5px}
 @media (max-width:900px){
-  .boards{grid-template-columns:1fr}
+  .dwrap{grid-template-columns:1fr}
+  .steps2{max-height:none}
+  .dg{gap:2px;padding:5px}
+  .dg .lb{font-size:7.5px}
   .layout{grid-template-columns:minmax(0,1fr)}
   .tabs button{padding:7px 6px;font-size:13px}
   .detail{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;max-height:70vh;overflow:auto;border-radius:14px 14px 0 0;transform:translateY(105%);transition:transform .2s;z-index:20;box-shadow:0 -10px 30px #000a}
@@ -352,6 +364,12 @@ BUILDS.me = {
     "18150000": {lvl:"Bırak", pick:[], why:"Build'de yok. E sütununda Fracturing Blow'un arkasında duruyordu: Fracturing cooldown'dayken E'ye basınca atılmak yerine bu çıkar. Çubuktan kaldır."},
     "18210000": {lvl:8, pick:[2], why:"Önce dodge (Shift) gerektiriyor ve sen E ile atılıyorsun. Çubuktan kaldırabilirsin. 9'a çıkmış, daha fazla puan verme."}
   }),
+  // Questlog "Chanter - Leveling": sütun 9 = Q, 10 = E, 11 = sol tık, 12 = sağ tık
+  grobs: {
+    "1":[["18300000",8]], "2":[], "3":[["18160000",1]], "4":[["18190000",1]], "5":[["18250000",1]], "6":[["18120000",12]],
+    "7":[["18090000",12],["18210000",8]], "8":[["18060000",8]], "Q":[], "E":[],
+    "Sol":[["18010000",20]], "Sağ":[["18100000",12],["18290000",12],["18330000",1],["18040000",12]]
+  },
   cur: {
     "1":[["18120000",10]], "2":[["18210000",9],["18080000",11]], "3":[["18300000",12]],
     "4":[["18100000",13],["18060000",9],["18290000",12],["18330000",5]],
@@ -392,7 +410,7 @@ BUILDS.me = {
 const KEYS = ["1","2","3","4","5","6","7","8","Q","E","Sol","Sağ"];
 const KEYLBL = k => k === "4" ? "4 · R" : k;
 
-function hotbar(layout, diff) {
+function hotbar(layout, diff, plain) {
   return `<div class="hb-wrap"><div class="hb">${KEYS.map(k => {
     const col = layout[k] || [];
     let cls = "col";
@@ -401,10 +419,10 @@ function hotbar(layout, diff) {
       if (a !== b) cls += col.length < (BUILDS.me.cur[k]||[]).length && !col.some(x=>x[2]) ? " rm" : " chg";
     }
     const cells = col.length ? col.map(([id, lv, f]) => {
-      const gone = !diff && !Object.values(BUILDS.me.next).flat().some(x => x[0] === id);
+      const gone = !diff && !plain && !Object.values(BUILDS.me.next).flat().some(x => x[0] === id);
       return `<div class="cell ${gone ? "x" : ""} ${f === "try" ? "try" : ""}" data-id="${id}" title="${SK[id].name}"><img src="${SK[id].icon}" alt="${SK[id].name}"><span class="lv">${lv}</span></div>`;
     }).join("") : `<div class="cell empty"></div>`;
-    return `<div class="${cls}">${cells}<div class="key">${KEYLBL(k)}</div></div>`;
+    return `<div class="${cls}">${cells}<div class="key">${plain ? k : KEYLBL(k)}</div></div>`;
   }).join("")}</div></div>`;
 }
 
@@ -416,11 +434,14 @@ function renderMe() {
       <span class="pill"><b>Amaç:</b> R'deyken yanlış skill çıkmasın</span>
       <span class="pill"><b>Seviye:</b> 35</span>
     </div></div>
-    <div class="card"><h2>Şimdiki dizilim <span class="r">✕ = kaldır</span></h2>
-      <div class="pad">${hotbar(M.cur, false)}</div></div>
-    <div class="card"><h2>Önerilen dizilim <span class="r">Mor = değişti · kesikli = dene</span></h2>
+    <div class="card"><h2>Grobs'un dizilimi <span class="r">Questlog · Early</span></h2>
+      <div class="pad">${hotbar(M.grobs, false, true)}
+      <div class="hb-l" style="margin-top:10px">Grobs Dark Crush zincirini sağ tıka koyuyor, Incandescent Blow zincirin sonunda. Sen R kullandığın için zincir 4 · R'de kalıyor.</div></div></div>
+    <div class="card"><h2>Sana önerilen <span class="r">Mor = değişti · kesikli = dene</span></h2>
       <div class="pad">${hotbar(M.next, true)}
       <div class="hb-l" style="margin-top:10px">Sütunda en alttaki skill önce denenir (oyundaki gibi)</div></div></div>
+    <div class="card"><h2>Şimdiki dizilimin <span class="r">✕ = kaldır</span></h2>
+      <div class="pad">${hotbar(M.cur, false)}</div></div>
     <div class="card"><h2>Ne değişti, neden?</h2>
       <ul class="chg-list">${M.changes.map(([k, t]) => `<li><span class="k">${k}</span><div class="d">${t}</div></li>`).join("")}</ul></div>
     <div class="card"><h2>Puanı nereye vereceksin? <span class="r">şimdi → hedef</span></h2>
@@ -428,39 +449,61 @@ function renderMe() {
         `<img src="${SK[id].icon}" alt="" data-id="${id}" style="cursor:pointer"><div><b>${SK[id].name}</b><div class="note">${n}</div></div><span class="now ${stop ? "stop" : ""}">${a} <em>→ ${b}</em></span>`).join("")}</div></div>`;
 }
 
-let DV = null;
+let DV = null, board = 0;
+const ST = {
+  fixingdamage:["SLD","Saldırı"], hpmax:["HP","Maks HP"], mpmax:["MP","Maks MP"], defense:["SVN","Savunma"],
+  critical:["KRT","Kritik"], criticalresist:["KDİ","Kritik direnci"],
+  combatspeed:["HIZ","Savaş hızı"], amplifyalldamage:["HSR","Hasar artışı"], amplifycriticaldamage:["KHA","Kritik hasar artışı"],
+  cooltimedecrease:["CD","Cooldown azaltma"], decreasecriticaldamage:["KHD","Kritik hasar direnci"], decreasedamage:["HAZ","Hasar azaltma"]
+};
+function nodeInfo(n) {
+  if (n.t === "start") return {img:"icons/dv/Start.webp", lb:"", name:"Başlangıç", cls:"st"};
+  if (n.t === "skilllevel") return {img:n.icon, lb:"+1", name:n.name + " +1 seviye", cls:"sk"};
+  const st = ST[n.stat] || [n.name.slice(0,3).toUpperCase(), n.name];
+  const un = n.g >= 41;
+  return {img:"icons/dv/" + (un ? "Unique" : "Common") + ".webp", lb:st[0], name:st[1] + (un ? " (büyük)" : ""), cls:un ? "un" : "st"};
+}
 function renderDaev() {
   const el = $("daev");
   if (tab !== "early" || !DV) { el.hidden = true; return; }
   el.hidden = false;
-  const statTR = {"Attack":"Saldırı","Max HP":"Maks HP","Max MP":"Maks MP","Defense":"Savunma","Critical Hit":"Kritik","Critical Hit Resist":"Kritik direnci","Combat Speed":"Savaş hızı","Damage Boost":"Hasar artışı"};
-  el.innerHTML = `<h2>Daevanion · Early game <span class="r">Toplam 85 puan · U tuşu</span></h2>
+  const b = DV[board];
+  const ord = {}; b.order.forEach((id, i) => ord[id] = i + 1);
+  const map = {}; b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
+  let cells = "";
+  for (let r = 3; r <= 13; r++) for (let c = 3; c <= 13; c++) {
+    const n = map[r + "-" + c];
+    if (!n) { cells += "<div></div>"; continue; }
+    const f = nodeInfo(n), on = ord[n.id] || n.t === "start";
+    cells += `<div class="nd ${f.cls} ${on ? "on" : "off"}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}">
+      <img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${ord[n.id] ? `<span class="no">${ord[n.id]}</span>` : ""}</div>`;
+  }
+  const byId = {}; b.nodes.forEach(n => byId[n.id] = n);
+  const pts = b.order.reduce((a, id) => a + byId[id].cost, 0);
+  el.innerHTML = `<h2>Daevanion · Early game <span class="r">U tuşu · toplam 85 puan</span></h2>
     <div class="pad">
-    <div class="boards">${DV.map(b => {
-      const sel = new Set(b.sel), map = {};
-      b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
-      const cells = [];
-      for (let r = 3; r <= 13; r++) for (let c = 3; c <= 13; c++) {
-        const n = map[r + "-" + c];
-        if (!n) { cells.push("<i></i>"); continue; }
-        const t = n.t === "start" ? "start" : n.t === "skilllevel" ? "sk" : n.g >= 41 ? "un" : "st";
-        const on = sel.has(n.id) ? " on" : "";
-        const bg = on && n.skill && SK[n.skill] ? ` style="background-image:url(${SK[n.skill].icon})"` : "";
-        cells.push(`<i class="${t}${on}"${bg} title="${n.name}"></i>`);
-      }
-      const picked = b.nodes.filter(n => sel.has(n.id));
-      const keys = picked.filter(n => n.t === "skilllevel" || n.g >= 41);
-      const pts = picked.reduce((a, n) => a + n.cost, 0);
-      const stats = {};
-      picked.filter(n => n.t === "stat" && n.g < 41).forEach(n => stats[n.name] = (stats[n.name] || 0) + 1);
-      return `<div class="board"><h3>${b.name}</h3><div class="bm">Lv ${b.need}'de açılır · ${pts} puan</div>
-        <div class="dg">${cells.join("")}</div>
-        <div class="dkeys">${keys.map(n => n.skill && SK[n.skill]
-          ? `<span><img src="${SK[n.skill].icon}" alt="">${SK[n.skill].name} +1</span>`
-          : `<span class="u">◆ ${statTR[n.name] || n.name}</span>`).join("")}</div>
-        <div class="dstat">${Object.entries(stats).map(([k, v]) => `${statTR[k] || k} ×${v}`).join(" · ")}</div></div>`;
-    }).join("")}</div>
-    <div class="hb-l" style="margin-top:12px">Ortadaki başlangıçtan çıkan altın yollar seçili düğümler. Skill düğümleri o skille +1 seviye verir; ◆ büyük stat düğümüdür.</div>
+      <div class="btabs">${DV.map((x, i) => {
+        const p = x.order.reduce((a, id) => a + x.nodes.find(n => n.id === id).cost, 0);
+        return `<button data-board="${i}" class="${i === board ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${p} p</small></button>`;
+      }).join("")}</div>
+      <div class="dwrap">
+        <div>
+          <div class="dg">${cells}</div>
+          <div class="dlegend">
+            <span><b>Numara</b> = alma sırası</span>
+            <span><b style="color:var(--purple)">Mor</b> = skill +1 seviye</span>
+            <span><b style="color:#ff9f5a">Turuncu</b> = büyük stat</span>
+            <span>SLD saldırı · HP · MP · SVN savunma · KRT kritik · KDİ kritik direnci · HIZ savaş hızı · HSR hasar artışı</span>
+          </div>
+        </div>
+        <div>
+          <div class="hb-l">${b.name} · ${b.order.length} düğüm · ${pts} puan</div>
+          <ol class="steps2">${b.order.map((id, i) => {
+            const n = byId[id], f = nodeInfo(n);
+            return `<li class="${f.cls}"><span class="n">${i + 1}</span><img src="${f.img}" alt=""><span>${f.name}</span><span class="c">${n.cost} p</span></li>`;
+          }).join("")}</ol>
+        </div>
+      </div>
     </div>`;
 }
 
@@ -537,6 +580,8 @@ function showDetail(id, open = true) {
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-id]");
   if (t) showDetail(t.dataset.id);
+  const bb = e.target.closest("[data-board]");
+  if (bb) { board = +bb.dataset.board; renderDaev(); }
   const tb = e.target.closest("[data-tab]");
   if (tb) { tab = tb.dataset.tab; history.replaceState(null, "", "#" + tab); render(); }
 });
