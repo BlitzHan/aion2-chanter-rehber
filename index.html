@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aion 2 Chanter Rehberi</title>
+<meta name="description" content="Aion 2 Chanter PvE rehberi: early game ve mid game skill, stigma, pasif, uzmanlık ve macro tavsiyeleri (Grobs videosundan).">
+<link rel="icon" href="icons/ICON_CH_SKILL_019.webp">
+<style>
+:root{
+  --bg:#0d0f14; --panel:#151922; --panel2:#1b2030; --line:#2a3145;
+  --text:#e6e8ee; --muted:#9aa3b8; --gold:#e8c06a; --gold2:#f5d68f;
+  --blue:#6aa8ff; --green:#5fd39a; --red:#ff7a7a; --purple:#b48cff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#2a2140 0%,transparent 60%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--gold2)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{padding:48px 0 24px}
+.kicker{color:var(--gold);letter-spacing:.12em;text-transform:uppercase;font-size:13px;font-weight:600}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.15;margin:8px 0 12px}
+h2{font-size:28px;margin:0 0 6px}
+h3{font-size:20px;margin:28px 0 10px;color:var(--gold2)}
+p.lead{color:var(--muted);font-size:18px;max-width:720px;margin:0}
+nav.toc{position:sticky;top:0;z-index:5;background:rgba(13,15,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;scrollbar-width:none}
+nav.toc a{white-space:nowrap;text-decoration:none;color:var(--muted);padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:14px}
+nav.toc a:hover{color:var(--text);border-color:var(--gold)}
+section{padding:40px 0;border-bottom:1px solid var(--line)}
+.phase{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:6px;margin-bottom:10px}
+.phase.early{background:#173a2a;color:var(--green)}
+.phase.mid{background:#2e2350;color:var(--purple)}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:16px 0}
+.box.tip{border-left:4px solid var(--gold)}
+.box.warn{border-left:4px solid var(--red)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.video{display:flex;gap:16px;align-items:center;margin-top:20px}
+.video img{width:200px;border-radius:10px;border:1px solid var(--line)}
+/* skill kartı */
+.skill{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0}
+.skill-head{display:flex;gap:14px;align-items:flex-start}
+.icon{width:56px;height:56px;border-radius:10px;border:1px solid #3b4460;flex:none;background:#000}
+.icon.sm{width:40px;height:40px;border-radius:8px}
+.skill-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.skill-title b{font-size:18px}
+.tag{font-size:12px;padding:2px 8px;border-radius:6px;background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.tag.lvl{background:#3a2f12;color:var(--gold2);border-color:#5d4a1c}
+.tag.prio{background:#123044;color:var(--blue);border-color:#1e4a66}
+.desc{color:var(--muted);font-size:14px;margin:4px 0 0}
+.why{margin:10px 0 0}
+.specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:12px}
+.spec{font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:#11141c;color:#6f7890;position:relative}
+.spec .sl{display:block;font-size:11px;font-weight:700;letter-spacing:.05em;color:#58607a}
+.spec.on{color:var(--text);background:#1d2a1f;border-color:#3a7a52}
+.spec.on .sl{color:var(--green)}
+.spec.on::after{content:"✓";position:absolute;right:8px;top:6px;color:var(--green);font-weight:700}
+.spec.new{background:#251d3d;border-color:#6a50b0}
+.spec.new .sl{color:var(--purple)}
+.spec.new::after{content:"YENİ";position:absolute;right:8px;top:6px;color:var(--purple);font-size:10px;font-weight:700}
+.spec.drop{text-decoration:line-through;opacity:.75}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--muted);margin:8px 0}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend .l-on::before{background:#1d2a1f;border:1px solid #3a7a52}
+.legend .l-new::before{background:#251d3d;border:1px solid #6a50b0}
+.legend .l-off::before{background:#11141c;border:1px solid var(--line)}
+/* macro */
+.macro{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#0f1219;border:1px dashed #3b4460;border-radius:12px;padding:12px;margin:8px 0}
+.macro .ln{font-size:12px;color:var(--muted);font-weight:700;margin-right:4px}
+.mstep{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;text-align:center;width:84px}
+.arrow{color:var(--gold);font-size:20px}
+.keys{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+kbd{background:#232a3c;border:1px solid #3b4460;border-bottom-width:3px;border-radius:6px;padding:2px 8px;font:600 14px ui-monospace,monospace}
+/* timeline */
+.tl{position:relative;margin:16px 0 0 8px;padding-left:24px;border-left:2px solid var(--line)}
+.tl-item{position:relative;margin:0 0 18px}
+.tl-item::before{content:"";position:absolute;left:-31px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--bg)}
+.tl-item .t{font-weight:700;color:var(--gold2)}
+.inline-icons{display:inline-flex;gap:6px;vertical-align:middle;margin-left:6px}
+.rot{counter-reset:r;list-style:none;padding:0}
+.rot li{counter-increment:r;display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:8px 0}
+.rot li::before{content:counter(r);flex:none;width:28px;height:28px;border-radius:50%;background:var(--gold);color:#1a1405;font-weight:800;display:grid;place-items:center}
+footer{padding:32px 0 48px;color:var(--muted);font-size:14px}
+@media (max-width:720px){
+  .grid2{grid-template-columns:1fr}
+  .video{flex-direction:column;align-items:flex-start}
+  .video img{width:100%}
+  .mstep{width:70px}
+}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="kicker">Aion 2 · Chanter · PvE</div>
+  <h1>Chanter Rehberi: Early Game ve Mid Game</h1>
+  <p class="lead">Hangi skilleri geliştireceğin, skill seviye atladıkça hangi uzmanlığı (specialization) açacağın, stigmalar, pasifler ve macro. Hepsi ikonlarıyla.</p>
+  <div class="video">
+    <a href="https://www.youtube.com/watch?v=2qTjfkuzdj4" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/2qTjfkuzdj4/hqdefault.jpg" alt="Grobs Chanter rehberi videosu"></a>
+    <div>
+      <b>Kaynak:</b> Grobs, <a href="https://www.youtube.com/watch?v=2qTjfkuzdj4" target="_blank" rel="noopener">“The Only Chanter PVE Guide You Need | AION 2”</a> (20:42).<br>
+      Build'ler, Grobs'un Questlog sayfalarındaki <a href="https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz?build-id=11948" target="_blank" rel="noopener">Leveling</a> ve <a href="https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz?build-id=13893" target="_blank" rel="noopener">Level 45</a> build'lerinden alındı. <a href="https://questlog.gg/aion-2/en/daevanion-planner/1axQ0wzhiYGz" target="_blank" rel="noopener">Daevanion planı</a>.
+    </div>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap">
+  <a href="#temel">Chanter nedir</a>
+  <a href="#yol">Yol haritası</a>
+  <a href="#e-aktif">Early: Aktif</a>
+  <a href="#e-stigma">Early: Stigma</a>
+  <a href="#e-pasif">Early: Pasif</a>
+  <a href="#e-macro">Early: Macro</a>
+  <a href="#m-aktif">Mid: Aktif</a>
+  <a href="#m-stigma">Mid: Stigma</a>
+  <a href="#m-pasif">Mid: Pasif</a>
+  <a href="#m-macro">Mid: Macro ve rotasyon</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="temel">
+  <h2>Önce şunu bil: Chanter ne iş yapar?</h2>
+  <p>Oyun Chanter'ı “support” sayıyor ama Chanter'ın desteği heal'den değil, <b>buff'tan</b> geliyor. Partide Cleric yoksa ana destek sensin, ama elinde az heal var. Buna karşılık şu anki dengede Chanter <b>çok ciddi hasar</b> çıkarıyor.</p>
+  <div class="box tip"><b>Kısaca:</b> Chanter, iyi hasar vuran bir support'tur. Asla tam healer olmazsın, asla saf DPS de olmazsın. Partiyi buff'larla güçlendirir, kendin de vurursun.</div>
+  <div class="box"><b>Bir terim:</b> Skill'i seviye atlattıkça (8, 12, 16…) <b>uzmanlık</b> (specialization) seçenekleri açılır. Kartlarda <span style="color:var(--green)">yeşil ✓</span> olanları seç. Gri olanları alma.</div>
+</section>
+
+<section id="yol">
+  <h2>Yol haritası: ne zaman ne açılır?</h2>
+  <p>Karakter level'ın arttıkça stigma yuvaları açılır (22 / 27 / 32 / 37). Grobs hangi stigmanın hangi yuvaya gideceğini sıralamıyor; aşağıdaki sıra, onun önceliklerine göre bir öneri. Skill seviyeleri ise karakter level'ına bağlı tavanlara takılır. Örneğin 22. level'da Dark Crush 8'de durur.</p>
+  <div class="tl">
+    <div class="tl-item"><div class="t">Level 1–21</div>Aktif skilleri sırayla aç. Puanı önce <b>Onslaught, Incandescent Blow, Dark Crush, Spinning Strike</b> dörtlüsüne ver.<span class="inline-icons" data-icons="18010000,18040000,18100000,18290000"></span></div>
+    <div class="tl-item"><div class="t">Level 22: 1. stigma yuvası</div><b>Undefeated Mantra</b>. Partiye hasar ve hasar direnci verir, hep açık kalır.<span class="inline-icons" data-icons="18190000"></span></div>
+    <div class="tl-item"><div class="t">Level 27: 2. stigma yuvası</div><b>Sprint Mantra</b>. Hareket hızı verir ve vurdukça partiyi iyileştirir.<span class="inline-icons" data-icons="18160000"></span></div>
+    <div class="tl-item"><div class="t">Level 32: 3. stigma yuvası</div><b>Power of the Storm</b>. 2 dakikada bir partiye büyük hasar patlaması verir.<span class="inline-icons" data-icons="18250000"></span></div>
+    <div class="tl-item"><div class="t">Level 37: 4. stigma yuvası</div><b>Marchutan's Wrath</b>. Dark Crush'ı tetikler. Grobs bunu mid game setinde açıyor, ama yuva açılınca hemen takmanda sakınca yok.<span class="inline-icons" data-icons="18330000"></span></div>
+    <div class="tl-item"><div class="t">Skill seviyesi 8</div>İlk uzmanlık seçimi. <b>Impactful Crush</b> ve <b>Tremor Crush</b>'ı 8'de bırak, puanı başka yere harca.</div>
+    <div class="tl-item"><div class="t">Skill seviyesi 12</div>Önemli kilitler: <b>Dark Crush → Piercing Strike</b> zincirini al, <b>Rushing Smash → öldürünce cooldown sıfırlansın</b> uzmanlığını al.<span class="inline-icons" data-icons="18100000,18090000"></span></div>
+    <div class="tl-item"><div class="t">Level 45 → mid game</div>Hedef <b>Dark Crush 16</b>: cooldown tamamen kalkar ve en büyük güç artışı budur. Ardından Onslaught 16, Power of the Storm 5, Undefeated Mantra 20.</div>
+  </div>
+</section>
+
+<!-- ================= EARLY ================= -->
+<section id="e-aktif">
+  <span class="phase early">Early game · leveling</span>
+  <h2>Aktif skiller</h2>
+  <div class="legend"><span class="l-on">Seç</span><span class="l-off">Alma / önemsiz</span></div>
+  <h3>4 ana hasar skilli</h3>
+  <div data-build="early" data-skills="18010000,18040000,18100000,18290000"></div>
+  <div class="box tip">Leveling'de Spinning Strike ve Dark Crush'ın cooldown'u uzun. Bu yüzden hasarının çoğu <b>Onslaught</b> (sol tık) ve <b>Incandescent Blow</b>'dan gelir. Onslaught MP doldurur, Incandescent Blow MP harcar, ikisini dönüşümlü bas.</div>
+  <h3>Yardımcı skiller</h3>
+  <div data-build="early" data-skills="18060000,18300000,18090000,18210000,18120000"></div>
+</section>
+
+<section id="e-stigma">
+  <span class="phase early">Early game · leveling</span>
+  <h2>Stigmalar</h2>
+  <p>Mantra'lar bir kez açtığın ve tüm partiye etki eden aura'lardır. Leveling'de bu üç stigma yeterli.</p>
+  <div data-build="early" data-skills="18160000,18190000,18250000"></div>
+  <div class="box">Undefeated Mantra ve Power of the Storm, Cleric'in bazı buff'larıyla <b>üst üste binmiyor</b>. Cleric'in ne kullandığını bilmiyorsan yine de bu ikisini tak, çünkü ikisi de çok güçlü.</div>
+</section>
+
+<section id="e-pasif">
+  <span class="phase early">Early game · leveling</span>
+  <h2>Pasifler</h2>
+  <p>Leveling'de puanı iki pasife ver ve ikisini de maksimuma çıkar.</p>
+  <div data-build="early" data-skills="18750000,18800000"></div>
+</section>
+
+<section id="e-macro">
+  <span class="phase early">Early game · leveling</span>
+  <h2>Macro ve oynanış</h2>
+  <p>Tek satırlık bir macro yeter. Sıra yukarıdan aşağıya, hepsi <b>aynı satırda</b>:</p>
+  <div class="macro" data-macro="18100000,18290000,18040000"><span class="ln">Satır 1</span></div>
+  <div class="keys"><kbd>Sol tık</kbd> + <kbd>Macro tuşu</kbd> <span style="color:var(--muted)">ikisini birlikte basılı tut</span></div>
+  <ol class="rot">
+    <li><div>Macro önce <b>Dark Crush</b>'ı dener. Tetiklenmediği için basamaz ve <b>Spinning Strike</b>'a geçer.</div></li>
+    <li><div>Spinning Strike, Dark Crush'ı <b>2 saniyeliğine</b> açar. Macro geri dönüp <b>Dark Crush</b>'ı basar.</div></li>
+    <li><div>İkisi de cooldown'dayken macro <b>Incandescent Blow</b>'a düşer. Bundan sonra çoğunlukla Onslaught (sol tık) ve Incandescent Blow döner.</div></li>
+  </ol>
+  <div class="box tip"><b>Daha fazla hasar istersen:</b> Dark Crush'ın cooldown'u bittiğini görünce <b>Impactful Crush</b>'a bas. Dark Crush'ı yeniden tetikler, böylece Spinning Strike'ı beklemen gerekmez. Zorunlu değil: sadece sol tık + macro ile de leveling'i hızlıca bitirirsin.<span class="inline-icons" data-icons="18060000,18100000"></span></div>
+  <div class="box">Macro'yu hiç kurmadıysan Grobs, videonun sağ üstündeki kartta macro'ların nasıl çalıştığını anlatan ayrı bir videoya link veriyor. Önce onu izle.</div>
+</section>
+
+<!-- ================= MID ================= -->
+<section id="m-aktif">
+  <span class="phase mid">Mid game · level 45</span>
+  <h2>Aktif skiller: seviye 16 hedefleri</h2>
+  <p>45'te ana hedefin tüm aktif, pasif ve stigma skillerini geliştirmek. Bazı uzmanlıklar belli eşiklerde açılıyor ve çok güçlü. Öncelik sırası:</p>
+  <div class="legend"><span class="l-on">Seç (önceden de seçiliydi)</span><span class="l-new">Yeni seçim</span><span class="l-off">Alma</span></div>
+  <div data-build="mid" data-skills="18100000,18010000,18120000,18290000"></div>
+  <div class="box tip"><b>Neden Dark Crush 16 bu kadar önemli?</b> Spinning Strike Dark Crush'ı 2 saniyeliğine açıyor ama Dark Crush'ın kendi 5 saniyelik cooldown'u yüzünden ancak bir kez basabiliyordun. Cooldown kalkınca o 2 saniyede <b>durmadan</b> basarsın. Birden fazla tetikleyicin (Spinning Strike, Marchutan's Wrath, Impactful Crush) olduğu için Dark Crush neredeyse sürekli akar.</div>
+  <h3>Değişmeyenler</h3>
+  <p>Bunlar early game'deki gibi kalıyor:</p>
+  <div data-build="mid" data-skills="18040000,18090000,18060000,18210000,18300000"></div>
+</section>
+
+<section id="m-stigma">
+  <span class="phase mid">Mid game · level 45</span>
+  <h2>Stigmalar: 4. stigma ve seviye sırası</h2>
+  <div data-build="mid" data-skills="18330000,18250000,18190000,18160000"></div>
+  <div class="box"><b>Puan sırası:</b> önce <b>Power of the Storm 5</b> (cooldown 30 sn kısalır, yani %25 daha sık kullanırsın), sonra bütün puanı <b>Undefeated Mantra 20</b>'ye ver. Kritik hasar artışı ve double chance tüm partinin hasarını ciddi artırır. Mantra 20 olunca diğer stigmalara geç.</div>
+  <h3>Alternatifler</h3>
+  <div data-build="mid" data-skills="18130000,18170000"></div>
+  <div class="box warn"><b>Partinin tek healer'ı olsan bile</b> Grobs build'i değiştirmiyor: Marchutan's Wrath, Undefeated Mantra, Sprint Mantra ve Power of the Storm. Healing Touch'ın heal'i az ve 30 saniye cooldown'u var. Daha çok vurmak ve takıma daha iyi buff vermek daha değerli. Yine de kendin deneyebilirsin.</div>
+</section>
+
+<section id="m-pasif">
+  <span class="phase mid">Mid game · level 45</span>
+  <h2>Pasifler</h2>
+  <p>Artık elinde bolca skill puanı olur ve bütün pasifleri maksimuma çıkarabilirsin; hepsi bir miktar fayda verir. Ama <b>odaklanman gereken üç pasif</b> var:</p>
+  <div data-build="mid" data-skills="18750000,18800000,18760000"></div>
+  <h3>Bilmen gereken bir pasif daha</h3>
+  <div data-build="mid" data-skills="18730000"></div>
+</section>
+
+<section id="m-macro">
+  <span class="phase mid">Mid game · level 45</span>
+  <h2>Macro ve rotasyon</h2>
+  <p>Artık iki satır var. <b>Dark Crush ve üç tetikleyicisi mutlaka aynı satırda</b> olmalı, Incandescent Blow ayrı satırda dursun.</p>
+  <div class="macro" data-macro="18100000,18290000,18330000,18060000"><span class="ln">Satır 1</span></div>
+  <div class="macro" data-macro="18040000"><span class="ln">Satır 2</span></div>
+  <div class="grid2">
+    <div class="box"><b>Macro nasıl akar:</b> Dark Crush'ı dener → olmazsa Spinning Strike (Dark Crush 2 sn açılır) → aynı satırda olduğu için geri dönüp Dark Crush'ı spam'ler → Spinning Strike cooldown'daysa Marchutan's Wrath (Dark Crush 3 sn açılır) → sonra Impactful Crush. Tetikleyicilerin hepsi cooldown'dayken Onslaught ve Incandescent Blow döner.</div>
+    <div class="box"><b>Tuşlar:</b><div class="keys"><kbd>Sol tık</kbd> + <kbd>Macro tuşu</kbd></div>Sol tıkı sürekli basılı tutmak animasyonları iptal eder (animation cancel). Onslaught 16'daki 4. zincir vuruşu da bu sayede çok hasar verir.</div>
+  </div>
+  <h3>Boss rotasyonu</h3>
+  <ol class="rot">
+    <li><img class="icon sm" data-icon="18250000" alt=""><div><b>Power of the Storm</b> ile tüm partiyi buff'la.</div></li>
+    <li><img class="icon sm" data-icon="18090000" alt=""><div><b>Rushing Smash</b> ile boss'a atla.</div></li>
+    <li><img class="icon sm" data-icon="18100000" alt=""><div>Hemen <b>macro</b>'ya geç. Hasarın tamamı macro'dan gelir.</div></li>
+    <li><img class="icon sm" data-icon="18120000" alt=""><div>Biri can kaybedince <b>Recuperation</b> ile partiyi iyileştir.</div></li>
+  </ol>
+</section>
+
+</main>
+
+<footer class="wrap">
+  <p>İçerik Grobs'un videosundan Türkçe özetlenmiştir. Build ve skill verisi: <a href="https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz" target="_blank" rel="noopener">questlog.gg</a>. Skill ikonları ve isimleri NCSOFT'a aittir. Bu sayfa resmi değildir, hayran rehberidir. Oyun yamaları build'i değiştirebilir.</p>
+  <p>Son güncelleme: 11 Ekim 2026</p>
+</footer>
+
+<script>
+// Grobs'un build'leri. Uzmanlıklar slot numarasıyla (1-5 aktif, 1-4 stigma).
+// why: Türkçe açıklama. pick: seçilen slotlar. newPick: mid game'de yeni seçilenler. drop: mid game'de bırakılanlar.
+const BUILD = {
+  early: {
+    "18010000": {lvl:"Max", prio:"Ana hasar", pick:[2,3], why:"Sol tık. Cooldown'u yok, durmadan basılır ve <b>MP doldurur</b>. Can çalma leveling'i kolaylaştırır, multi-hit biraz daha hasar ekler."},
+    "18040000": {lvl:"12", prio:"Ana hasar", pick:[2,3], why:"Sağ tık. Cooldown'u yok, <b>MP harcar</b>. Tek önemli uzmanlık 3. slot: az hedefe vurunca %12 daha fazla hasar (boss'ta işe yarar). İkinci seçim önemli değil; Grobs blok alıyor."},
+    "18100000": {lvl:"12", prio:"Ana hasar", pick:[3,4], why:"İleride ana hasar skillin olacak. Kendi başına basılamaz, önce bir tetikleyiciyle açılması gerekir. <b>Piercing Strike</b> zinciri Dark Crush'tan bile çok vurur; 12'ye gelince hemen al."},
+    "18290000": {lvl:"12", prio:"Ana hasar", pick:[1,3], why:"Ağır vurur, her vuruşta %15 kritik hasar buff'ı verir (2 kez birikir, toplam %30). En önemlisi: kullanınca <b>Dark Crush 2 saniye açılır</b>. Bu ilk tetikleyicin."},
+    "18060000": {lvl:"8", prio:"Tetikleyici", pick:[3], why:"Uzaktan 3 saniye stun. PvE'de stun pek işe yaramaz ama Dark Crush'ı 2 saniye açtığı için ikinci tetikleyicindir. <b>Sadece 8'e çıkar</b> ve hemen “mobile skill” yap, kullanırken hareket edebilirsin."},
+    "18300000": {lvl:"8", prio:"Boss", pick:[1], why:"Sadece <b>stagger olmuş boss</b>'a vurur, ama o sırada durmadan spam'lenebilir. Leveling'de iyi hasar verir. Uzmanlıklar önemsiz; can çalma işe yarar."},
+    "18090000": {lvl:"12", prio:"Hareket", pick:[4], why:"Hedefe atılır. <b>12'de “düşman ölünce cooldown sıfırlanır”</b> uzmanlığı açılır ve oyunu değiştirir: düşmanı bu skill öldürmek zorunda değil. Atıl, öldür, sıradakine atıl. Diğer uzmanlıklar PvE'de işe yaramaz."},
+    "18210000": {lvl:"8", prio:"Hareket", pick:[2], why:"İkinci atılma skilli, ama önce <b>Shift (dodge)</b> yapman gerekir. 8'de bırak, +10 m menzil al; böylece Rushing Smash'le aynı menzile gelir. Boss'ta ikinci kaçış/atılma olarak işe yarar."},
+    "18120000": {lvl:"12", prio:"Heal", pick:[1,4], why:"Tek aktif heal'in, tüm partiyi iyileştirir. 8'de art arda <b>2 kez kullanım</b> + zamana yayılan heal gelir. 12'de +%5 heal al. Cleric yoksa daha çok heal hayat kurtarır."},
+    "18160000": {lvl:"1", prio:"Stigma", pick:[], why:"Hareket hızı ve vurdukça %15 şansla partiye heal verir. Partin hızlı olunca saldırılardan kolayca kaçar; Chanter'lı partide herkes daha az darbe yer. Leveling'de de seni hızlandırır."},
+    "18190000": {lvl:"1", prio:"Stigma", pick:[], why:"Tüm partiye <b>PvE hasar artışı + PvE hasar direnci</b>. Herkes daha çok vurur ve daha az hasar alır. Her zaman açık olsun."},
+    "18250000": {lvl:"1", prio:"Stigma", pick:[], why:"2 dakika cooldown'lu parti buff'ı: <b>savaş hızı + cooldown azaltma</b>. Her an hazır değil, ama bastığında tüm partinin hasarı büyük artar."},
+    "18750000": {lvl:"Max", prio:"Pasif", pick:[], why:"PvE hasar artışı, savunma ve isabet verir. Asıl değerli kısmı PvE hasar artışı. <b>Her zaman maksimuma çıkar.</b>"},
+    "18800000": {lvl:"Max", prio:"Pasif", pick:[], why:"Kritik hasar artışı + kritik vuruşta ek hasar şansı. Leveling'de de sonrasında da iyi hasar katar."}
+  },
+  mid: {
+    "18100000": {lvl:"16", prio:"1. öncelik", pick:[3], newPick:[5], drop:[4], why:"<b>16'da cooldown tamamen kalkar.</b> Mid game'in en önemli eşiği bu. Tetikleyicilerin Dark Crush'ı açtığı her an onu durmadan basabilirsin. Piercing Strike zinciri yerine 5. slotu seç."},
+    "18010000": {lvl:"16", prio:"2. öncelik", pick:[], newPick:[4,5], drop:[2,3], why:"16'da <b>Storm Chain</b> gelir: zincir 3 yerine 4 vuruş olur ve 4. vuruş öncekilerden çok daha fazla vurur. Sol tıkı durmadan basıp animasyonları iptal ettiğin için bu çok hasar demek. Ayrıca <b>vuruşta Spinning Strike cooldown'u −1 sn</b> uzmanlığına geç; Spinning Strike bir Dark Crush tetikleyicisi."},
+    "18120000": {lvl:"16", prio:"Opsiyonel", pick:[1], newPick:[5], drop:[4], why:"16'da cooldown 3 sn kısalır. Ek %5 heal'den vazgeçersin; ideal değil ama yine daha iyi. Büyük bir değişiklik sayılmaz."},
+    "18290000": {lvl:"16", prio:"Opsiyonel", pick:[3], newPick:[5], drop:[1], why:"16'da blok ve kaçınmayı yok sayar ve <b>her zaman kritik</b> vurur. Çok büyük değil ama iyi. −5 sn cooldown uzmanlığının yerine alırsın."},
+    "18040000": {lvl:"12", prio:"Aynı", pick:[2,3], why:"Early'deki gibi; az hedef bonusu (3. slot) yeterli."},
+    "18090000": {lvl:"12", prio:"Aynı", pick:[4], why:"Öldürünce cooldown sıfırlansın. Boss'a açılışı bununla yaparsın."},
+    "18060000": {lvl:"8", prio:"Tetikleyici", pick:[3], why:"Macro'nun 1. satırında Dark Crush tetikleyicisi olarak durur. Mobile skill olarak kalsın."},
+    "18210000": {lvl:"8", prio:"Aynı", pick:[2], why:"+10 m menzil. Boss'ta yedek atılma."},
+    "18300000": {lvl:"8", prio:"Aynı", pick:[1], why:"Stagger olmuş boss'a spam'le."},
+    "18330000": {lvl:"5", prio:"4. stigma", pick:[1], why:"Uzaktan ve iyi vuran bir skill. Önemli olan, <b>Dark Crush'ı 3 saniye açması</b>. Dark Crush'ın cooldown'u kalktıktan sonra bu tetikleyici çok güçlenir."},
+    "18250000": {lvl:"5", prio:"İlk puan", pick:[1], why:"<b>Önce bunu 5 yap:</b> cooldown 30 sn kısalır, yani %25 daha sık kullanırsın."},
+    "18190000": {lvl:"20", prio:"Ana hedef", pick:[1,2,3,4], why:"Power of the Storm 5'ten sonra <b>bütün puanı buraya</b> ver. Partiye PvE hasar artışı ve direnç verir. Seviye uzmanlıkları kritik vuruş, isabet, <b>kritik hasar</b> ve <b>double chance</b> ekler; bunlar tüm partinin hasarını ciddi artırır. 20 olunca diğer stigmalara geç."},
+    "18160000": {lvl:"1+", prio:"Stigma", pick:[], why:"Takılı kalır. Mantra 20 olduktan sonra puan buraya da gidebilir."},
+    "18130000": {lvl:"–", prio:"Hazır parti", pick:[], why:"Hazır kurulmuş (premade) bir partideysen ve Cleric'in buff'ları seninkilerle çakışıyorsa iyi bir seçenek. Düşmanın savunmasını düşürür, tüm partinin hasarı artar. Savunma sabit bir hasar azaltması olduğu için düşürmek oyunun başında (Season 1) çok daha etkili."},
+    "18170000": {lvl:"–", prio:"Önerilmez", pick:[], why:"Bazıları ek heal için alıyor. Grobs'a göre heal miktarı düşük ve 30 sn cooldown'u var. Kendin daha çok vurman ve takıma daha iyi buff vermen daha değerli."},
+    "18750000": {lvl:"Max", prio:"Odak", pick:[], why:"PvE hasar artışı. Early'deki gibi maksimum."},
+    "18800000": {lvl:"Max", prio:"Odak", pick:[], why:"Kritik hasar artışı + ek hasar şansı. Maksimum."},
+    "18760000": {lvl:"Max", prio:"Odak (yeni)", pick:[], why:"Impact (CC) şansı pek önemli değil. Asıl değerli olan <b>double chance</b>, yani çift hasar vurma şansı. Çok güçlü."},
+    "18730000": {lvl:"–", prio:"Bilgi", pick:[], why:"Her vuruşta bir yığın (stack) kazanırsın; 10 yığında tüm partiye kalkan verirsin. Boss'a vurdukça takımına sürekli kalkan gider. İyi bir pasif ama öncelik verme."}
+  }
+};
+
+const SLOT_LBL = s => "Uzmanlık " + s;
+
+fetch("skills.json").then(r => r.json()).then(SK => {
+  const img = (id, cls="icon") => `<img class="${cls}" src="${SK[id].icon}" alt="${SK[id].name}" loading="lazy">`;
+
+  document.querySelectorAll("[data-build]").forEach(el => {
+    const b = BUILD[el.dataset.build];
+    el.innerHTML = el.dataset.skills.split(",").map(id => {
+      const s = SK[id], c = b[id];
+      const pick = new Set(c.pick || []), np = new Set(c.newPick || []), dr = new Set(c.drop || []);
+      const specs = s.specs.length ? `<div class="specs">${s.specs.map(p => {
+        let cls = "spec";
+        if (np.has(p.slot)) cls += " new";
+        else if (pick.has(p.slot)) cls += " on";
+        if (dr.has(p.slot)) cls += " drop";
+        return `<div class="${cls}"><span class="sl">Skill lv ${p.lvl} · ${SLOT_LBL(p.slot)}</span>${p.txt}</div>`;
+      }).join("")}</div>` : "";
+      const typeTR = {active:"Aktif", stigma:"Stigma", passive:"Pasif"}[s.type] || s.type;
+      return `<div class="skill">
+        <div class="skill-head">${img(id)}
+          <div>
+            <div class="skill-title"><b>${s.name}</b><span class="tag">${typeTR}</span><span class="tag lvl">Hedef seviye: ${c.lvl}</span><span class="tag prio">${c.prio}</span></div>
+            <p class="desc">${s.desc}</p>
+          </div>
+        </div>
+        <p class="why">${c.why}</p>
+        ${specs}
+      </div>`;
+    }).join("");
+  });
+
+  document.querySelectorAll("[data-macro]").forEach(el => {
+    el.innerHTML += el.dataset.macro.split(",").map((id, i) =>
+      (i ? `<span class="arrow">→</span>` : "") + `<div class="mstep">${img(id)}<span>${SK[id].name}</span></div>`
+    ).join("");
+  });
+
+  document.querySelectorAll("[data-icons]").forEach(el => {
+    el.innerHTML = el.dataset.icons.split(",").map(id => img(id, "icon sm")).join("");
+  });
+  document.querySelectorAll("img[data-icon]").forEach(el => { el.src = SK[el.dataset.icon].icon; el.alt = SK[el.dataset.icon].name; });
+});
+</script>
+</body>
+</html>

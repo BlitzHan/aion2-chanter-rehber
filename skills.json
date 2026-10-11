@@ -1,0 +1,564 @@
+{
+ "18010000": {
+  "name": "Onslaught",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_001.webp",
+  "desc": "Deals damage to up to 4 enemies within 4m and restores 100 MP.",
+  "specs": [
+   {
+    "id": "18010010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "+20% MP restored"
+   },
+   {
+    "id": "18010020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "Absorbs 0.7% HP"
+   },
+   {
+    "id": "18010030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "+50% Multi-Hit on hit"
+   },
+   {
+    "id": "18010040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "-1s [Spinning Strike] cooldown on hit"
+   },
+   {
+    "id": "18010050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "Adds [Storm Chain] Chain Skill"
+   }
+  ]
+ },
+ "18040000": {
+  "name": "Incandescent Blow",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_004.webp",
+  "desc": "Deals damage to up to 4 enemies within 4m. 2 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18040010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "-20% MP consumed"
+   },
+   {
+    "id": "18040020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "+200 Block while using skill"
+   },
+   {
+    "id": "18040030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Deals up to 12% more damage when less targets are hit"
+   },
+   {
+    "id": "18040040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "-200 enemy Accuracy for 3s on landing Bursting Blow"
+   },
+   {
+    "id": "18040050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "Ignores Block and Evasion and lands as Multi-Hit"
+   }
+  ]
+ },
+ "18100000": {
+  "name": "Dark Crush",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_010.webp",
+  "desc": "Deals damage to a target within 20m. 5 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18100010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "Absorbs 0.7% HP"
+   },
+   {
+    "id": "18100020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "Deals extra damage on attacking a target afflicted with Impact-type status"
+   },
+   {
+    "id": "18100030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Critical Hit on hit"
+   },
+   {
+    "id": "18100040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "Adds [Piercing Strike] Chain Skill"
+   },
+   {
+    "id": "18100050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "Removes [Dark Crush] cooldown"
+   }
+  ]
+ },
+ "18290000": {
+  "name": "Spinning Strike",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_029.webp",
+  "desc": "Selects a target within 20m and deals damage to up to 4 enemies nearby. Increases the caster's Critical Damage Boost by 15% for 30s on hit. Stacks up to 2 times. [Dark Crush] becomes available for 2s on skill use. 15 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18290010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "-5s cooldown"
+   },
+   {
+    "id": "18290020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "+10% Heal Boost (up to 20%)"
+   },
+   {
+    "id": "18290030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Up to +20% damage when less targets hit"
+   },
+   {
+    "id": "18290040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "40% chance to inflict Seal for 3s"
+   },
+   {
+    "id": "18290050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "Ignores Block and Evasion and lands as a Critical Hit"
+   }
+  ]
+ },
+ "18060000": {
+  "name": "Impactful Crush",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_006.webp",
+  "desc": "Deals damage to a target within 20m. Has a 60% chance to inflict Stun for 3s. 100% chance to inflict Stun on NPC targets. [Dark Crush] becomes available for 2s on skill use. 10 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18060010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "Changes to AoE damage"
+   },
+   {
+    "id": "18060020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "+1s [Impactful Crush] Stun duration"
+   },
+   {
+    "id": "18060030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Changes to mobile skill"
+   },
+   {
+    "id": "18060040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "+30% Skill Speed"
+   },
+   {
+    "id": "18060050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "+20% [Impactful Crush] Stun Chance"
+   }
+  ]
+ },
+ "18300000": {
+  "name": "Gust Rampage",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_030.webp",
+  "desc": "Deals damage to a target afflicted with Stagger within 4m.",
+  "specs": [
+   {
+    "id": "18300010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "Absorbs 5% HP"
+   },
+   {
+    "id": "18300020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "Restores 120 MP"
+   },
+   {
+    "id": "18300030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Changes to mobile skill"
+   },
+   {
+    "id": "18300040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "Multi-Hit on hit"
+   },
+   {
+    "id": "18300050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "-1s all skill cooldowns on hit"
+   }
+  ]
+ },
+ "18090000": {
+  "name": "Rushing Smash",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_009.webp",
+  "desc": "Rushes at a target within 20m and deals damage to up to 4 enemies and restores 100 MP. 10 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18090010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "-20% target's Impact-type Resist for 5s"
+   },
+   {
+    "id": "18090020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "Changes to Charge Skill, dealing up to 200% more damage"
+   },
+   {
+    "id": "18090030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "50% chance to trigger [Heat Wave Blow] on hit"
+   },
+   {
+    "id": "18090040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "Resets cooldown on defeating an enemy"
+   },
+   {
+    "id": "18090050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "Ignores Block and Evasion and lands as Multi-Hit"
+   }
+  ]
+ },
+ "18210000": {
+  "name": "Tremor Crush",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_021.webp",
+  "desc": "Move to a target within 10m and deal damage with a 50% chance to inflict Stun for 3s after using [Dodge] or while flying. 100% chance to inflict Stun on NPC targets. 10 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18210010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "Restores 300 Stamina on hit"
+   },
+   {
+    "id": "18210020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "+10m [Tremor Crush] range"
+   },
+   {
+    "id": "18210030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "+50% Multi-Hit on hit"
+   },
+   {
+    "id": "18210040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "Adds [Surging Strike] Chain Skill"
+   },
+   {
+    "id": "18210050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "+25% [Tremor Crush] Stun Chance"
+   }
+  ]
+ },
+ "18120000": {
+  "name": "Recuperation",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_013.webp",
+  "desc": "Restores 183-201 HP and removes 1 debuff(s) for the caster and party members within 40m. Restores HP every 2s for 8s.",
+  "specs": [
+   {
+    "id": "18120010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "+1 consecutive use and Heal over Time can stack up to 2 times"
+   },
+   {
+    "id": "18120020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "Removes up to 2 debuffs"
+   },
+   {
+    "id": "18120030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "+4s healing duration"
+   },
+   {
+    "id": "18120040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "+5% HP restored"
+   },
+   {
+    "id": "18120050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "-3s cooldown"
+   }
+  ]
+ },
+ "18160000": {
+  "name": "Sprint Mantra",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_016.webp",
+  "desc": "Increases Move Speed by 10.5% and grants a 15% chance to restore 127-140 HP on landing an attack to the caster and nearby party members. Healing Cooldown: 1s",
+  "specs": [
+   {
+    "id": "18160010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "+10% Incoming Heal"
+   },
+   {
+    "id": "18160020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "+30% Natural Stamina Regen"
+   },
+   {
+    "id": "18160030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "+50% amount restored when HP is 50% or less"
+   },
+   {
+    "id": "18160040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+10% Restoration"
+   }
+  ]
+ },
+ "18190000": {
+  "name": "Undefeated Mantra",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_019.webp",
+  "desc": "Increases PvE Damage Boost and PvE Damage Tolerance by 10.5% and PvP Damage Boost and PvP Damage Tolerance by 5.25% for the caster and nearby party members. Does not stack with the Damage Boost effect from the Cleric skill [Light of Protection]; only the higher-level skill effect applies. If both skills are the same level, Undefeated Mantra takes precedence.",
+  "specs": [
+   {
+    "id": "18190010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "+100 Critical Hit"
+   },
+   {
+    "id": "18190020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "+100 Accuracy"
+   },
+   {
+    "id": "18190030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "+5% Critical Damage Boost"
+   },
+   {
+    "id": "18190040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+5% Double Chance"
+   }
+  ]
+ },
+ "18250000": {
+  "name": "Power of the Storm",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_025.webp",
+  "desc": "Increases Combat Speed by 20% and reduces skill cooldowns by 20% for 10s. Increases Combat Speed by 20% and reduces skill cooldowns by 10% for party members within 40m. Cannot receive effect of [Power of the Storm] if Cleric skill [Earth's Blessing] effect is active.",
+  "specs": [
+   {
+    "id": "18250010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "-30s cooldown"
+   },
+   {
+    "id": "18250020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "+200 Accuracy"
+   },
+   {
+    "id": "18250030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "+200 Critical Hit"
+   },
+   {
+    "id": "18250040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+20% Caster Attack and +10% party member Attack"
+   }
+  ]
+ },
+ "18330000": {
+  "name": "Marchutan's Wrath",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_033.webp",
+  "desc": "Selects a target within 20m and deals damage to up to 4 enemies within 4m. [Dark Crush] becomes available for 3s on skill use.",
+  "specs": [
+   {
+    "id": "18330010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "Up to +20% damage when less targets hit"
+   },
+   {
+    "id": "18330020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "50% chance to inflict Stun for 3s"
+   },
+   {
+    "id": "18330030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "-70% Incoming Heal and Potion Recovery"
+   },
+   {
+    "id": "18330040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+25% additional Stun Chance"
+   }
+  ]
+ },
+ "18130000": {
+  "name": "Fracturing Blow",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_043.webp",
+  "desc": "Rushes to a target within 20m and deals damage and reduces their Defense by 30% for 5s. Increases damage by 20% to targets afflicted with an Impact-type status. 20 Stagger Gauge Damage",
+  "specs": [
+   {
+    "id": "18130010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "-15s cooldown"
+   },
+   {
+    "id": "18130020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "Inflict Exposed for 5s on hit"
+   },
+   {
+    "id": "18130030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "Critical Hit on hit"
+   },
+   {
+    "id": "18130040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+30% additional Impact-type Status target damage"
+   }
+  ]
+ },
+ "18170000": {
+  "name": "Healing Touch",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_017.webp",
+  "desc": "Restores 927-1020 HP for the caster and party members within 40m.",
+  "specs": [
+   {
+    "id": "18170010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "+20% amount healed when HP is 50% or less"
+   },
+   {
+    "id": "18170020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "Restores 1000 Stamina"
+   },
+   {
+    "id": "18170030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "Removes 5 debuff(s)"
+   },
+   {
+    "id": "18170040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+5% HP restored"
+   }
+  ]
+ },
+ "18750000": {
+  "name": "Attack Preparation",
+  "type": "passive",
+  "icon": "icons/ICON_GL_SKILL_Passive_005.webp",
+  "desc": "Increases the caster's PvE Damage Boost by 5.5%, PvP Damage Boost by 2.75%, Defense by 2%, and Accuracy by 100.",
+  "specs": []
+ },
+ "18800000": {
+  "name": "Wind's Promise",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_008.webp",
+  "desc": "Increases the caster's Critical Damage Boost by 5.7% and has a 50% chance to deal extra damage to the target on landing a Critical Hit. Extra Damage Cooldown: 1s",
+  "specs": []
+ },
+ "18760000": {
+  "name": "Impact Hit",
+  "type": "passive",
+  "icon": "icons/ICON_GL_SKILL_Passive_006.webp",
+  "desc": "Increases the caster's Impact-type Chance by 11.2% and Double Chance by 0.3%.",
+  "specs": []
+ },
+ "18730000": {
+  "name": "Protection Circle",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_001.webp",
+  "desc": "Grants a Protection Circle that lasts for 5s on landing an attack. Removes the Protection Circle at 10 stacks and grants Divine Barrier to the caster and party members, which blocks damage equaling 3.1% of Max HP for 10s. The Divine Barrier refreshes upon reaching 10 stacks of Protection Circle while Divine Barrier is active. Grants a Noble Protective Shield for 5s that blocks 21% damage when the caster's HP drops below 50%. Protection Circle Cooldown: 0.5s Noble Protective Shield Cooldown: 60s",
+  "specs": []
+ }
+}
