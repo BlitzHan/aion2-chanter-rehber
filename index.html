@@ -163,6 +163,48 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
 .lvls .now em{font-style:normal;color:var(--gold)}
 .lvls .now.stop em{color:var(--red)}
 .lvls .note{color:var(--muted);font-size:12.5px}
+/* ek bilgiler */
+.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.path .p{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
+.path .p .v{font-size:22px;font-weight:900;color:var(--gold)}
+.path .p .t{font-weight:700;margin:2px 0}
+.path .p .d{color:var(--muted);font-size:12.5px}
+.path .p.end{border-color:#5f48a0;background:var(--purplebg)}
+.path .p.end .v{color:var(--purple)}
+.prio{list-style:none;margin:0;padding:0}
+.prio li{display:grid;grid-template-columns:26px 36px minmax(0,1fr);gap:10px;align-items:center;padding:8px 14px;border-top:1px solid var(--line);cursor:pointer}
+.prio li:first-child{border-top:0}
+.prio li:hover{background:#181d29}
+.prio .n{font-weight:900;color:var(--gold);text-align:right}
+.prio img{width:36px;height:36px;border-radius:7px;border:1px solid var(--line2)}
+.prio .d{color:var(--muted);font-size:12.5px}
+.prio li.no .n{color:var(--red)}
+.prio li.no img{filter:grayscale(1);opacity:.6}
+.loads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.load{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
+.load .h{font-weight:700;margin-bottom:6px}
+.load .ic{display:flex;gap:6px;flex-wrap:wrap}
+.load .ic img{width:40px;height:40px;border-radius:7px;border:1px solid var(--line2);cursor:pointer}
+.load .d{color:var(--muted);font-size:12.5px;margin-top:6px}
+.dvp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.dvp .b{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
+.dvp .b img{width:40px;height:40px}
+.dvp .b .nm{font-weight:700}
+.dvp .b .st{color:#ff9f5a;font-weight:700;font-size:13px}
+.dvp .b .sk{display:flex;gap:4px;justify-content:center;margin-top:6px}
+.dvp .b .sk img{width:24px;height:24px;border-radius:5px}
+table.cmp{width:100%;border-collapse:collapse;font-size:13px}
+table.cmp th,table.cmp td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+table.cmp th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-top:0}
+table.cmp td:first-child{font-weight:700;white-space:nowrap}
+table.cmp td{color:var(--muted)}
+.tipbox{background:#2a2412;border:1px solid #5d4a1c;border-radius:10px;padding:10px 12px}
+.tipbox b{color:var(--gold)}
+@media (max-width:900px){
+  .path,.dvp{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .loads{grid-template-columns:1fr}
+  .tabs{display:grid;grid-template-columns:1fr 1fr}
+}
 @media (max-width:900px){
   .dwrap{grid-template-columns:1fr}
   .steps2{max-height:none}
@@ -194,6 +236,7 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
   <div class="tabs" role="tablist">
     <button data-tab="early" class="on">Early · Leveling</button>
     <button data-tab="mid">Mid · Level 45</button>
+    <button data-tab="x">Ek bilgiler</button>
     <button data-tab="me">Benim dizilimim</button>
   </div>
 </div></div>
@@ -201,6 +244,7 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
 <div class="layout">
   <main>
     <div id="me" hidden></div>
+    <div id="x" hidden></div>
     <div id="std">
     <div class="card">
       <div class="summary" id="summary"></div>
@@ -375,6 +419,7 @@ BUILDS.me = {
     "18130000": {lvl:5, pick:[], why:"Senin <b>ikinci atılman</b> (E). 20 m'den hedefe atılır, savunmasını %30 düşürür. Dodge gerektirmediği için Tremor Crush'tan rahat. Grobs bu yuvada Power of the Storm kullanıyor; dungeon'a girerken onunla değiştirmeyi düşün."},
     "18080000": {lvl:"Bırak", pick:[], why:"Sadece <b>stun yemiş</b> hedefe vurur. R zincirindeki Impactful Crush mobları %100 stun'ladığı için tam bu anda açılır. 2. tuşun “kendiliğinden” çıkmasının muhtemel sebebi bu. Build'de yok, puan verme."},
     "18150000": {lvl:"Bırak", pick:[], why:"Build'de yok. E sütununda Fracturing Blow'un arkasında duruyordu: Fracturing cooldown'dayken E'ye basınca atılmak yerine bu çıkar. Çubuktan kaldır."},
+    "18250000": {lvl:5, pick:[1], why:"Sende yok, ama iki video da her zaman takıyor. 2 dakikada bir 10 sn boyunca savaş hızı ve cooldown azaltma verir. <b>3'e koy</b> ve her boss/pack başında bas. Sprint Mantra'nın yuvasına gelir; 5'e çıkınca cooldown 30 sn kısalır."},
     "18210000": {lvl:8, pick:[2], why:"Önce dodge (Shift) gerektiriyor ve sen E ile atılıyorsun. Çubuktan kaldırabilirsin. 9'a çıkmış, daha fazla puan verme."}
   }),
   // Questlog "Chanter - Leveling": sütun 9 = Q, 10 = E, 11 = sol tık, 12 = sağ tık
@@ -391,19 +436,20 @@ BUILDS.me = {
     "Sol":[["18010000",12]], "Sağ":[["18040000",12]]
   },
   next: {
-    "1":[["18120000",10]], "2":[], "3":[],
-    "4":[["18100000",13],["18290000",12],["18330000",5],["18060000",9]],
-    "5":[], "6":[], "7":[["18190000",10]], "8":[["18160000",5]],
+    "1":[["18120000",10]], "2":[["18060000",9]], "3":[["18250000",1]],
+    "4":[["18100000",13],["18290000",12],["18330000",5]],
+    "5":[], "6":[], "7":[["18190000",10]], "8":[],
     "Q":[["18090000",12]], "E":[["18130000",5]],
     "Sol":[["18300000",12,"try"],["18010000",12]], "Sağ":[["18040000",12]]
   },
   changes: [
-    ["2", "<b>Boşalt.</b> Tremor Crush dodge'dan sonra, Wave Blow ise stun yemiş hedefe açılıyor. R zincirindeki Impactful Crush mobları stun'layınca Wave Blow devreye giriyor; elin R'deyken çıkan skiller büyük ihtimalle bunlar. İkisi de build'de yok."],
-    ["R", "<b>Sırayı değiştir:</b> Dark Crush › Spinning Strike › Marchutan's Wrath › Impactful Crush. Spinning Strike hem vurur hem kritik hasar buff'ı verir, bu yüzden ilk tetikleyici o olsun. Stun'layan Impactful Crush en sona gitsin."],
+    ["R", "<b>Zincir:</b> Dark Crush › Spinning Strike › Marchutan's Wrath. <b>Impactful Crush'ı çıkar</b> (notXeon): Dark Crush 16 olana kadar zincirde Dark Crush'ın açık kalma süresini boşa harcıyor. Dark Crush 16 olunca zincirin sonuna geri koy."],
+    ["2", "<b>Impactful Crush buraya.</b> Dark Crush'ın cooldown'u bitince bas, Dark Crush'ı yeniden açar. Wave Blow ve Tremor Crush çıkıyor; ikisi de build'de yok. Wave Blow stun yemiş hedefe açıldığı için R'deyken kendiliğinden çıkan skill büyük ihtimalle oydu."],
+    ["3 · 8", "<b>Sprint Mantra yerine Power of the Storm.</b> İki video da Power of the Storm'u her zaman takıyor; sende hiç yok. 2 dakikada bir basılır, bu yüzden elinin yakınında 3'e koy. Sprint Mantra'yı dungeon'da veya mob farmında geri tak."],
     ["E", "<b>Sadece Fracturing Blow kalsın.</b> Arkasındaki Heat Wave Blow'u kaldır; yoksa Fracturing cooldown'dayken E'ye basınca atılmak yerine Heat Wave Blow çıkar."],
     ["Sol", "<b>Dene:</b> Gust Rampage'i sol tık sütununda Onslaught'un önüne koy. Gust Rampage yalnızca stagger olmuş boss'ta açıldığı için o an kendiliğinden onu spam'lersin, diğer her an Onslaught vurur. Çalışmazsa 3'e geri al."],
-    ["7·8", "<b>Mantra'lar aura gibi çalışır:</b> bir kez açınca kalır, bu yüzden 7 ve 8'e hiç basmaman normal. Sadece buff çubuğunda simgelerinin göründüğünden emin ol (ölünce veya bölge değişince kapanıyor mu, bir kontrol et)."],
-    ["5", "<b>Dungeon için:</b> partiye girince E'deki Fracturing Blow yerine Power of the Storm'u stigma olarak takıp 5'e koyabilirsin. Boss başında bir kez basılır. Solo leveling'de Fracturing Blow kalsın."]
+    ["7", "<b>Undefeated Mantra aura gibi çalışır:</b> bir kez açınca kalır, bu yüzden 7'ye hiç basmaman normal. Buff çubuğunda simgesinin göründüğünden emin ol."],
+    ["E", "<b>Fracturing Blow kalsın:</b> notXeon'un DPS setinde de var. Dungeon'da Sprint Mantra ile değiştirmek bir seçenek."]
   ],
   // [skill, şimdi, hedef, not, dur?]
   lvls: [
@@ -412,14 +458,126 @@ BUILDS.me = {
     ["18010000", 12, 16, "Storm Chain (4. vuruş)", false],
     ["18290000", 12, 16, "Her vuruş kritik", false],
     ["18190000", 10, 20, "Stigma puanının hepsi buraya", false],
+    ["18250000", "–", 5, "Yeni stigma; 5'te −30 sn cooldown", false],
     ["18330000", 5, 5, "Tamam", false],
     ["18060000", 9, 8, "Yeterli, puan verme", true],
-    ["18300000", 12, 8, "Fazlası var, puan verme", true],
+    ["18300000", 12, 8, "Fazlası var; notXeon hiç almıyor", true],
     ["18210000", 9, 8, "Puan verme", true],
     ["18080000", 11, "–", "Build'de yok, puan verme", true],
     ["18150000", 12, "–", "Build'de yok, puan verme", true]
   ]
 };
+BUILDS.x = {
+  skills: {
+    "18100000": {lvl:16, pick:[3], add:[5], why:"Sınıfın kimliği bu skill: PvE'de de PvP'de de ana hasarın. 16'da cooldown'u kalkar ve tetikleyici açtığı sürece durmadan basarsın. Yol: 10 skill puanı + 4 Daevanion düğümü + 2 silah/yüzük eki ya da Arcana kartı."},
+    "18040000": {lvl:16, pick:[3], add:[5], why:"İkinci en büyük hasar kaynağın (sağ tık). 16'da <b>blok ve kaçınmayı yok sayar, multi-hit vurur</b>. Dark Crush'tan sonra 16'ya çıkarılacak ilk skill."},
+    "18010000": {lvl:16, pick:[], add:[4,5], why:"16'da <b>Storm Chain</b> gelir ve zincire bir vuruş ekler. <b>Vuruşta Spinning Strike −1 sn</b> uzmanlığıyla birlikte her turda Spinning Strike'ı ve onunla birlikte Dark Crush'ı daha sık basarsın."},
+    "18290000": {lvl:12, pick:[1,3], why:"En büyük tek vuruşun ama cooldown'u uzun. Cooldown'u kısaldıkça Dark Crush'ı daha sık açarsın."},
+    "18090000": {lvl:16, pick:[4], why:"notXeon Incandescent Blow ve Onslaught'tan sonra bunu 16'ya çıkarıyor; Spinning Strike 16 da aynı seviyede bir seçenek."},
+    "18120000": {lvl:12, pick:[1,4], why:"<b>16'ya gerek yok:</b> 16'daki cooldown azaltma iyi değil. 2 kullanım ve +%5 heal uzmanlıkları kalsın."},
+    "18300000": {lvl:"Alma", pick:[], why:"notXeon kullanmıyor: Dark Crush 16 olunca macro rotasyonu bu spam skilinden daha iyi, başta da buna verecek skill puanı yok. “Puanım olsa bile almam” diyor."},
+    "18060000": {lvl:8, pick:[3], why:"<b>Dark Crush 16 değilken macro zincirine koyma.</b> Dark Crush'ın cooldown'u varken Impactful Crush'ın açtığı 2 saniye boşa gider. Ayrı bir tuşa koy; Dark Crush'ın cooldown'u bitince elle bas."},
+    "18750000": {lvl:"1.", pick:[], why:"En önemli pasif: düz hasar artışı. Seviyesi karakter level'ına bağlı kilitli (yaklaşık 17, 22, 34…), kilit açıldıkça hemen yükselt."},
+    "18740000": {lvl:"2.", pick:[], why:"Kritik şansı ve <b>perfect</b> şansı verir."},
+    "18760000": {lvl:"3.", pick:[], why:"<b>Double chance</b> verir; PvE'de en etkili hasar statı. Bu sürümde zayıflatıldı ama hâlâ çok iyi."},
+    "18780000": {lvl:"4.", pick:[], why:"Vurdukça hedefin hasar direncini düşürür."},
+    "18800000": {lvl:"5.", pick:[], why:"Hikâyede geç açılır ama <b>level kilidi yok</b>: açılınca bütün pasif puanlarını verip hemen 10 yap. Kritik hasar artışı büyük bir hasar artışı demek."},
+    "18730000": {lvl:"Sonra", pick:[], why:"En iyi savunma pasifi: can %50'nin altına inince kalkan verir. Hasar pasifleri bitince ilk buna geç."},
+    "18710000": {lvl:"Başta değil", pick:[], why:"İyi bir pasif ama sadece savunma statı verir; başta gerek yok."},
+    "18770000": {lvl:"Alma", pick:[], why:"notXeon test etmiş: sadece stun veya knockdown yemiş hedefe ek hasar veriyor. PvE'de, özellikle boss'ta, bu neredeyse hiç olmuyor."},
+    "18720000": {lvl:"Alma", pick:[], why:"Başta yeterli blok statın olmuyor; heal'i de geç oyunda bile önemsiz."},
+    "18790000": {lvl:"PvP", pick:[], why:"Durum etkisi direnci verir; PvP pasifi, PvE'de önemsiz."},
+    "18190000": {lvl:20, pick:[1,2,3,4], why:"<b>Her içerikte takılı.</b> Çok stat verir; ilk maksimuma çıkarılacak stigma."},
+    "18250000": {lvl:5, pick:[1], why:"<b>Her içerikte takılı.</b> 12 sn boyunca ~%20 hasar artışı. Şu an herkesin savaş hızı düşük olduğu için çok değerli."},
+    "18160000": {lvl:1, pick:[], why:"Dungeon'da ve mob farmında 3. veya 4. yuvaya: hareket hızı mekaniklerden kaçmayı kolaylaştırır. PvP'de (Abyss'te çoğu zaman uçuyorsun) işe yaramaz."},
+    "18330000": {lvl:5, pick:[1], why:"DPS setinde. Dark Crush'ı tetikler."},
+    "18130000": {lvl:5, pick:[], why:"Hedefin savunmasını 5 sn düşürür. PvP'de çok güçlü, PvE'de orta. Dungeon'da Sprint Mantra ile değiştirilebilir."},
+    "18230000": {lvl:1, pick:[], why:"DPS rotasyonu için bir seçenek."},
+    "18240000": {lvl:1, pick:[], why:"Healer setinde: partiye kalkan."},
+    "18170000": {lvl:1, pick:[], why:"Healer setinde: parti heal'i."}
+  },
+  path: [
+    ["10", "Skill puanı", "Normal skill puanlarıyla 10'a çıkar."],
+    ["+4", "Daevanion", "4 tahtanın her birinde bir Dark Crush düğümü var (mavi skill düğümü). Hepsini al → 14."],
+    ["+2", "Silah / yüzük eki", "Dark Crush eki yalnızca silahta veya yüzükte çıkar: iki yüzük ya da yüzük + silah."],
+    ["16", "Arcana kartı", "En garantili yol: Transcendence dungeon'larından çıkan aktif skill kartları. 1600 gear score ister."]
+  ],
+  dvp: [
+    ["Nezekan", "Savaş hızı", "Cooldown azaltma bu kadar önemli değil", ["18100000"]],
+    ["Zikel", "Hasar artışı", "", ["18290000"]],
+    ["Vaizel", "Kritik hasar artışı", "", []],
+    ["Triniel", "Multi-Hit şansı", "", []]
+  ],
+  dvSkills: ["18100000","18040000","18290000","18010000"],
+  to16: ["18100000","18040000","18010000","18090000","18120000","18300000"],
+  passives: ["18750000","18740000","18760000","18780000","18800000","18730000"],
+  passivesNo: ["18710000","18770000","18720000","18790000"],
+  loads: [
+    ["DPS (genel)", ["18190000","18250000","18330000","18130000"], "notXeon'un “ikisini seç” dediği DPS seti."],
+    ["PvE dungeon · mob farmı", ["18190000","18250000","18330000","18160000"], "Fracturing Blow yerine Sprint Mantra: mekaniklerden kaçmak ve farm hızı için."],
+    ["PvP · Abyss", ["18190000","18250000","18330000","18130000"], "Sprint Mantra çıkar (uçarken işe yaramaz), Fracturing Blow kesin."],
+    ["Healer", ["18190000","18250000","18240000","18170000"], "Kalkan + heal + mantra. Seçenek: Ensnaring Mark."]
+  ],
+  cmp: [
+    ["Gust Rampage", "Leveling'de alıyor (8)", "Almıyor, puanı başka yere ver"],
+    ["16'ya ikinci skill", "Onslaught", "Incandescent Blow, sonra Onslaught"],
+    ["Recuperation 16", "Opsiyonel, alıyor", "Gerek yok"],
+    ["Impactful Crush", "Macro zincirinde", "Dark Crush 16 olana kadar ayrı tuşta"],
+    ["Pasifler", "Attack Prep · Wind's Promise · Impact Hit", "Attack Prep → Inspiring Spell → Impact Hit → Earth's Promise → Wind's Promise"],
+    ["Stigma", "Undefeated · Sprint · Power of the Storm · Marchutan", "Undefeated + Power of the Storm her zaman; 3–4. yuva içeriğe göre"],
+    ["Ortak", "Dark Crush 16 en büyük hedef · Undefeated Mantra'yı önce maksimuma çıkar · Power of the Storm takılı", ""]
+  ]
+};
+
+function renderX() {
+  const X = BUILDS.x, ic = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}" data-id="${id}">`;
+  const prioList = (ids, no) => ids.map((id, i) => `<li class="${no ? "no" : ""}" data-id="${id}"><span class="n">${no ? "✕" : i + 1}</span><img src="${SK[id].icon}" alt=""><div><b>${SK[id].name}</b><div class="d">${X.skills[id].why}</div></div></li>`).join("");
+  $("x").innerHTML = `
+    <div class="card"><div class="summary">
+      <span class="pill"><b>Kaynak:</b> notXeon · erken oyun Chanter rehberi</span>
+      <span class="pill"><b>Ana fikir:</b> her şey Dark Crush 16 için</span>
+      <span class="pill"><b>Odile enerjisi:</b> Transcendence dungeon'ına sakla</span>
+    </div></div>
+
+    <div class="card"><h2>Dark Crush'ı 16'ya çıkarmanın yolu</h2>
+      <div class="pad">
+        <div class="path">${X.path.map(([v, t, d], i) => `<div class="p ${i === 3 ? "end" : ""}"><div class="v">${v}</div><div class="t">${t}</div><div class="d">${d}</div></div>`).join("")}</div>
+        <p style="color:var(--muted);margin:10px 0 0">Arcana kartları 45'ten sonra ana önceliğin: dungeon'lar, sealed dungeon'lar, kolye ve kemer yükseltme derken 1600 gear score'a ulaşınca Odile enerjisinin hepsini Transcendence dungeon'ına harca.</p>
+      </div></div>
+
+    <div class="card"><h2>Dark Crush 16 değilken macro <span class="r">Sende şu an 13</span></h2>
+      <div class="pad">
+        <div class="tipbox"><b>Impactful Crush'ı macro zincirinden çıkar.</b> Dark Crush'ın cooldown'u varken macro Spinning Strike → Dark Crush → Impactful Crush sırasıyla akar. Ama Dark Crush cooldown'dayken Impactful Crush'ın açtığı 2 saniye boşa gider. Sonuçta bütün tetikleyiciler cooldown'a girer ve Dark Crush'ı bir kez basmış olursun.</div>
+        <ol class="steps"><li>Macro'da Dark Crush ve Spinning Strike kalsın.</li><li><b>Impactful Crush'ı ayrı bir tuşa</b> koy.</li><li>Dark Crush'ın cooldown'u (birkaç saniye) bitince Impactful Crush'a bas, açılan Dark Crush'ı macro basar.</li><li>Dark Crush 16 olunca Impactful Crush zincire geri döner; cooldown olmadığı için artık hiçbir pencere boşa gitmez.</li></ol>
+      </div></div>
+
+    <div class="card"><h2>Daevanion önceliği <span class="r">Önce hasar düğümleri</span></h2>
+      <div class="pad">
+        <div class="dvp">${X.dvp.map(([b, st, n]) => `<div class="b"><img src="icons/dv/Unique.webp" alt=""><div class="nm">${b}</div><div class="st">${st}</div>${n ? `<div class="d" style="color:var(--dim);font-size:11.5px">${n}</div>` : ""}</div>`).join("")}</div>
+        <p style="color:var(--muted);margin:10px 0 6px">Bu büyük hasar düğümlerine giden yolda skill düğümleri de var. Önce şu skillerin düğümlerini al:</p>
+        <div class="load"><div class="ic">${X.dvSkills.map(ic).join("")}</div><div class="d">Dark Crush → Incandescent Blow → Spinning Strike → Onslaught (Onslaught 16'daki Spinning Strike −1 sn uzmanlığı için).</div></div>
+      </div></div>
+
+    <div class="card"><h2>Skill puanı: 16'ya sırası</h2>
+      <ol class="prio">${X.to16.slice(0, 4).map((id, i) => `<li data-id="${id}"><span class="n">${i + 1}</span><img src="${SK[id].icon}" alt=""><div><b>${SK[id].name} → 16</b><div class="d">${X.skills[id].why}</div></div></li>`).join("")}
+        ${prioList(["18120000","18300000"], true)}</ol></div>
+
+    <div class="card"><h2>Pasif sırası <span class="r">Savunma pasiflerini başta umursama</span></h2>
+      <ol class="prio">${prioList(X.passives)}</ol>
+      <div class="foot" style="padding:8px 14px;color:var(--dim);border-top:1px solid var(--line)">Alma / başta gerek yok:</div>
+      <ol class="prio">${prioList(X.passivesNo, true)}</ol></div>
+
+    <div class="card"><h2>Stigma setleri <span class="r">Şu an 4 yuva</span></h2>
+      <div class="pad">
+        <div class="loads">${X.loads.map(([h, ids, d]) => `<div class="load"><div class="h">${h}</div><div class="ic">${ids.map(ic).join("")}</div><div class="d">${d}</div></div>`).join("")}</div>
+        <p style="color:var(--muted);margin:10px 0 0">Undefeated Mantra her içerikte takılı ve ilk maksimuma çıkarılacak stigma. Power of the Storm da her zaman takılı. Stigmalar düşük seviyede zayıf; seviye atladıkça güçlenirler.</p>
+      </div></div>
+
+    <div class="card"><h2>Grobs ile farkları</h2>
+      <div class="pad" style="overflow-x:auto"><table class="cmp"><tr><th>Konu</th><th>Grobs</th><th>notXeon</th></tr>
+        ${X.cmp.map(([a, b, c]) => c ? `<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>` : `<tr><td>${a}</td><td colspan="2" style="color:var(--green)">${b}</td></tr>`).join("")}</table></div></div>`;
+}
+
 const KEYS = ["1","2","3","4","5","6","7","8","Q","E","Sol","Sağ"];
 const KEYLBL = k => k === "4" ? "4 · R" : k;
 
@@ -444,7 +602,7 @@ function renderMe() {
   $("me").innerHTML = `
     <div class="card"><div class="summary">
       <span class="pill"><b>Oynayış:</b> Sol · Sağ · R macro · Q/E atılma · 1 heal</span>
-      <span class="pill"><b>Amaç:</b> R'deyken yanlış skill çıkmasın</span>
+      <span class="pill"><b>Amaç:</b> R'deyken yanlış skill çıkmasın · Dark Crush boşa gitmesin</span>
       <span class="pill"><b>Seviye:</b> 35</span>
     </div></div>
     <div class="card"><h2>Grobs'un dizilimi <span class="r">Questlog · Early</span></h2>
@@ -549,8 +707,8 @@ const specTxt = (id, slots) => slots.map(s => SK[id].specs.find(p => p.slot === 
 
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("me").hidden = tab !== "me"; $("std").hidden = tab === "me";
-  if (tab === "me") { renderMe(); showDetail(selected && BUILDS.me.skills[selected] ? selected : "18100000", false); return; }
+  $("me").hidden = tab !== "me"; $("x").hidden = tab !== "x"; $("std").hidden = tab === "me" || tab === "x";
+  if (tab === "me" || tab === "x") { tab === "me" ? renderMe() : renderX(); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
   const B = BUILDS[tab];
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
   $("summary").innerHTML = B.summary.map(s => `<span class="pill">${s}</span>`).join("");
@@ -624,7 +782,7 @@ document.addEventListener("click", e => {
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DV = dv;
-  if (["#mid", "#me"].includes(location.hash)) tab = location.hash.slice(1);
+  if (["#mid", "#me", "#x"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>

@@ -636,5 +636,111 @@
     "txt": "25% chance to reset [Heat Wave Blow] cooldown on Block"
    }
   ]
+ },
+ "18740000": {
+  "name": "Inspiring Spell",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_011.webp",
+  "desc": "Increases the caster's Critical Hit by 100 and Perfect Chance by 0.5%.",
+  "specs": []
+ },
+ "18780000": {
+  "name": "Earth's Promise",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_010.webp",
+  "desc": "Reduces the target's PvE Damage Tolerance by 5.4% and PvP Damage Tolerance by 2.7% for 5s each time an attack lands. [Earth's Promise]'s PvE/PvP Damage Tolerance reduction effect does not apply when used together with the Cleric skill [Chain of Torment]. Cooldown: 10s",
+  "specs": []
+ },
+ "18770000": {
+  "name": "Raging Spell",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_007.webp",
+  "desc": "Deals extra damage to targets afflicted with Stagger or an Impact-type status. Cooldown: 1s",
+  "specs": []
+ },
+ "18720000": {
+  "name": "Crossguard",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_002.webp",
+  "desc": "Increases the caster's Block by 200 and restores 53-58 HP on Block. Cooldown: 1s",
+  "specs": []
+ },
+ "18710000": {
+  "name": "Blessing of Life",
+  "type": "passive",
+  "icon": "icons/ICON_CH_SKILL_Passive_012.webp",
+  "desc": "Increases the caster's HP by 150. Increases Max HP by an additional 6.5% and Heal Boost by 15300% of Attack.",
+  "specs": []
+ },
+ "18790000": {
+  "name": "Survival Willpower",
+  "type": "passive",
+  "icon": "icons/ICON_GL_SKILL_Passive_009.webp",
+  "desc": "Increases the caster's Status Effect Resist by 17%. Increases PvE Damage Tolerance by 12% and PvP Damage Tolerance by 6% for 5s when afflicted with Stun, Knockdown, Airborne, Frost, or Fear. Increases Status Effect Resist by 10% for 5s when hit while afflicted with Stun, Knockdown, Airborne, Frost, or Fear (up to 10 stacks). Damage Tolerance Increase Cooldown: 60s Status Effect Resist Increase Cooldown: 1s",
+  "specs": []
+ },
+ "18240000": {
+  "name": "Impeding Authority",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_024.webp",
+  "desc": "Grants a Protective Shield that blocks damage equaling 16% of Max HP for 20s to the caster and nearby party members within 40m.",
+  "specs": [
+   {
+    "id": "18240010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "+15% Defense"
+   },
+   {
+    "id": "18240020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "+10% Incoming Heal"
+   },
+   {
+    "id": "18240030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "+10% PvE Damage Tolerance, +5% PvP Damage Tolerance"
+   },
+   {
+    "id": "18240040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "Restores 7% of Max HP when Protective Shield ends or is broken"
+   }
+  ]
+ },
+ "18230000": {
+  "name": "Ensnaring Mark",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_023.webp",
+  "desc": "Selects a target within 20m and deals damage to up to 4 enemies within 4m. Has a 50% chance to inflict Seal for 5s. 100% chance to inflict Seal on NPC targets. [Dark Crush] becomes available for 3s on skill use.",
+  "specs": [
+   {
+    "id": "18230010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "50% chance to inflict Root"
+   },
+   {
+    "id": "18230020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "50% chance to inflict -1000 enemy Max Stamina"
+   },
+   {
+    "id": "18230030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "+3s Seal, Root, Max Stamina reduction effect"
+   },
+   {
+    "id": "18230040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+25% Seal, Root, Max Stamina reduction chance"
+   }
+  ]
  }
 }
