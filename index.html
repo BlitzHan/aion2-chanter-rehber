@@ -113,6 +113,19 @@ footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);fon
 .dg .no{position:absolute;top:-5px;left:-5px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--gold);color:#1b1404;font-size:10px;font-weight:900;display:grid;place-items:center;z-index:1}
 .dg .nd.sk .no{background:var(--purple);color:#14092a}
 .dg .nd.un .no{background:#ff9f5a}
+.dg .nd.keep{box-shadow:0 0 0 2px #357050}
+.dg .nd.keep .no{background:var(--green);color:#06210f}
+.dg .nd.drop{box-shadow:0 0 0 2px var(--red),0 0 10px #ff808066}
+.dg .nd.drop img{opacity:.45}
+.dg .nd.drop .no{background:var(--red);color:#2a0606}
+.phase-sw{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px;margin-left:8px;text-transform:none;letter-spacing:0}
+.phase-sw button{border:0;background:none;padding:3px 10px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px}
+.phase-sw button.on{background:var(--gold);color:#1b1404}
+.btabs button .dr{color:var(--red);margin-left:4px;font-size:11px}
+.steps2 li.hd{display:block;background:#0f1219;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.steps2 li.drop{background:#2a1416}
+.steps2 li.drop .n{color:var(--red)}
+.keepnote{background:var(--greenbg);border:1px solid #357050;border-radius:8px;padding:6px 10px;font-size:12.5px;margin-bottom:8px}
 .steps2{list-style:none;margin:0;padding:0;max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:10px}
 .steps2 li{display:grid;grid-template-columns:26px 26px 1fr auto;gap:8px;align-items:center;padding:5px 10px;border-top:1px solid var(--line);font-size:12.5px}
 .steps2 li:first-child{border-top:0}
@@ -454,7 +467,7 @@ const ST = {
   fixingdamage:["SLD","Saldırı"], hpmax:["HP","Maks HP"], mpmax:["MP","Maks MP"], defense:["SVN","Savunma"],
   critical:["KRT","Kritik"], criticalresist:["KDİ","Kritik direnci"],
   combatspeed:["HIZ","Savaş hızı"], amplifyalldamage:["HSR","Hasar artışı"], amplifycriticaldamage:["KHA","Kritik hasar artışı"],
-  cooltimedecrease:["CD","Cooldown azaltma"], decreasecriticaldamage:["KHD","Kritik hasar direnci"], decreasedamage:["HAZ","Hasar azaltma"]
+  cooltimedecrease:["CD","Cooldown azaltma"], additionalhitrate:["ÇVR","Multi-Hit (çoklu vuruş)"], additionalhitresistrate:["ÇVD","Multi-Hit direnci"], decreasecriticaldamage:["KHD","Kritik hasar direnci"], decreasedamage:["HAZ","Hasar azaltma"]
 };
 function nodeInfo(n) {
   if (n.t === "start") return {img:"icons/dv/Start.webp", lb:"", name:"Başlangıç", cls:"st"};
@@ -463,45 +476,66 @@ function nodeInfo(n) {
   const un = n.g >= 41;
   return {img:"icons/dv/" + (un ? "Unique" : "Common") + ".webp", lb:st[0], name:st[1] + (un ? " (büyük)" : ""), cls:un ? "un" : "st"};
 }
+let dphase = null;
 function renderDaev() {
   const el = $("daev");
-  if (tab !== "early" || !DV) { el.hidden = true; return; }
+  if (tab === "me" || !DV) { el.hidden = true; return; }
   el.hidden = false;
-  const b = DV[board];
-  const ord = {}; b.order.forEach((id, i) => ord[id] = i + 1);
+  const ph = dphase || tab;
+  const boards = DV.filter(x => ph === "early" ? x.early.length : (x.keep.length + x.add.length));
+  if (board >= boards.length) board = 0;
+  const b = boards[board];
+  const byId = {}; b.nodes.forEach(n => byId[n.id] = n);
+  const cost = L => L.reduce((a, id) => a + byId[id].cost, 0);
+  const num = {}, state = {};
+  if (ph === "early") b.early.forEach((id, i) => { num[id] = i + 1; state[id] = "on"; });
+  else {
+    b.keep.forEach(id => state[id] = "keep");
+    b.add.forEach((id, i) => { num[id] = i + 1; state[id] = "on"; });
+    b.drop.forEach(id => state[id] = "drop");
+  }
   const map = {}; b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
   let cells = "";
   for (let r = 3; r <= 13; r++) for (let c = 3; c <= 13; c++) {
     const n = map[r + "-" + c];
     if (!n) { cells += "<div></div>"; continue; }
-    const f = nodeInfo(n), on = ord[n.id] || n.t === "start";
-    cells += `<div class="nd ${f.cls} ${on ? "on" : "off"}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}">
-      <img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${ord[n.id] ? `<span class="no">${ord[n.id]}</span>` : ""}</div>`;
+    const f = nodeInfo(n), st = state[n.id] || (n.t === "start" ? "on" : "off");
+    const badge = st === "keep" ? "✓" : st === "drop" ? "✕" : (num[n.id] || "");
+    cells += `<div class="nd ${f.cls} ${st === "on" || st === "off" ? st : "on " + st}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}${st === "drop" ? " · GERİ AL" : ""}">
+      <img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge ? `<span class="no">${badge}</span>` : ""}</div>`;
   }
-  const byId = {}; b.nodes.forEach(n => byId[n.id] = n);
-  const pts = b.order.reduce((a, id) => a + byId[id].cost, 0);
-  el.innerHTML = `<h2>Daevanion · Early game <span class="r">U tuşu · toplam 85 puan</span></h2>
+  const row = (id, n, cls) => { const x = byId[id], f = nodeInfo(x); return `<li class="${f.cls} ${cls || ""}"><span class="n">${n}</span><img src="${f.img}" alt=""><span>${f.name}</span><span class="c">${x.cost} p</span></li>`; };
+  let list = "", info = "";
+  if (ph === "early") {
+    info = `${b.name} · ${b.early.length} düğüm · ${cost(b.early)} puan`;
+    list = b.early.map((id, i) => row(id, i + 1)).join("");
+  } else {
+    info = `${b.name} · mid toplam ${cost(b.keep) + cost(b.add)} puan`;
+    if (b.drop.length) list += `<li class="hd">1 · Önce geri al (${cost(b.drop)} puan geri gelir)</li>` + b.drop.map(id => row(id, "✕", "drop")).join("");
+    list += `<li class="hd">${b.drop.length ? "2 · " : ""}Sonra sırayla ekle (${cost(b.add)} puan)</li>` + b.add.map((id, i) => row(id, i + 1)).join("");
+  }
+  const totalP = ph === "early" ? 85 : 325;
+  el.innerHTML = `<h2>Daevanion <span class="phase-sw"><button data-dphase="early" class="${ph === "early" ? "on" : ""}">Early</button><button data-dphase="mid" class="${ph === "mid" ? "on" : ""}">Mid · 45</button></span><span class="r">U tuşu · toplam ${totalP} puan</span></h2>
     <div class="pad">
-      <div class="btabs">${DV.map((x, i) => {
-        const p = x.order.reduce((a, id) => a + x.nodes.find(n => n.id === id).cost, 0);
-        return `<button data-board="${i}" class="${i === board ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${p} p</small></button>`;
+      <div class="btabs">${boards.map((x, i) => {
+        const bi = {}; x.nodes.forEach(n => bi[n.id] = n);
+        const p = (ph === "early" ? x.early : x.add).reduce((a, id) => a + bi[id].cost, 0);
+        return `<button data-board="${i}" class="${i === board ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${ph === "mid" ? "+" : ""}${p} p</small>${ph === "mid" && x.drop.length ? `<span class="dr">✕${x.drop.length}</span>` : ""}</button>`;
       }).join("")}</div>
       <div class="dwrap">
         <div>
           <div class="dg">${cells}</div>
           <div class="dlegend">
-            <span><b>Numara</b> = alma sırası</span>
+            ${ph === "mid" ? `<span><b style="color:var(--green)">✓</b> = early'de aldın, kalsın</span><span><b style="color:var(--red)">✕</b> = geri al</span><span><b>Numara</b> = ekleme sırası</span>` : `<span><b>Numara</b> = alma sırası</span>`}
             <span><b style="color:var(--purple)">Mor</b> = skill +1 seviye</span>
             <span><b style="color:#ff9f5a">Turuncu</b> = büyük stat</span>
-            <span>SLD saldırı · HP · MP · SVN savunma · KRT kritik · KDİ kritik direnci · HIZ savaş hızı · HSR hasar artışı</span>
+            <span>SLD saldırı · HP · MP · SVN savunma · KRT kritik · KDİ kritik direnci · ÇVR multi-hit · HIZ savaş hızı · HSR hasar artışı · CD cooldown</span>
           </div>
         </div>
         <div>
-          <div class="hb-l">${b.name} · ${b.order.length} düğüm · ${pts} puan</div>
-          <ol class="steps2">${b.order.map((id, i) => {
-            const n = byId[id], f = nodeInfo(n);
-            return `<li class="${f.cls}"><span class="n">${i + 1}</span><img src="${f.img}" alt=""><span>${f.name}</span><span class="c">${n.cost} p</span></li>`;
-          }).join("")}</ol>
+          <div class="hb-l">${info}</div>
+          ${ph === "mid" && b.keep.length ? `<div class="keepnote">✓ Early'den ${b.keep.length} düğüm (${cost(b.keep)} p) aynen kalıyor.</div>` : ""}
+          <ol class="steps2">${list}</ol>
         </div>
       </div>
     </div>`;
@@ -582,8 +616,10 @@ document.addEventListener("click", e => {
   if (t) showDetail(t.dataset.id);
   const bb = e.target.closest("[data-board]");
   if (bb) { board = +bb.dataset.board; renderDaev(); }
+  const dp = e.target.closest("[data-dphase]");
+  if (dp) { dphase = dp.dataset.dphase; board = 0; renderDaev(); }
   const tb = e.target.closest("[data-tab]");
-  if (tb) { tab = tb.dataset.tab; history.replaceState(null, "", "#" + tab); render(); }
+  if (tb) { tab = tb.dataset.tab; dphase = null; board = 0; history.replaceState(null, "", "#" + tab); render(); }
 });
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
