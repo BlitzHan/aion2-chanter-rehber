@@ -208,6 +208,50 @@ table.cmp td{color:var(--muted)}
 .shots figcaption{color:var(--muted);font-size:12px;margin-top:4px}
 .shot1 img{max-width:100%;border-radius:8px;border:1px solid var(--line2);display:block}
 table.cmp td.w{white-space:normal}
+.plan .pl{font-weight:800;margin:18px 0 8px;font-size:14px}
+.plan .pl:first-child{margin-top:0}
+.plan .pl span{font-weight:400;color:var(--dim);font-size:12px;margin-left:6px}
+.lvbar{display:grid;grid-template-columns:repeat(10,minmax(0,1fr)) minmax(0,2fr);gap:4px}
+.lvbar .lb{border-radius:7px;padding:6px 2px;text-align:center;border:1px solid var(--line);background:var(--panel2)}
+.lvbar .lb span{display:block;font-size:10.5px;color:var(--muted)}
+.lvbar .lb b{display:block;font-size:13px;min-height:18px}
+.lvbar .c1{background:#15281e;border-color:#245c3c}.lvbar .c1 b{color:var(--green)}
+.lvbar .c2{background:#2a2412;border-color:#5d4a1c}.lvbar .c2 b{color:var(--gold)}
+.lvbar .c4{background:#2a1718;border-color:#6a3a3a}.lvbar .c4 b{color:var(--red)}
+.lvbar .ext{background:var(--purplebg);border-color:#5f48a0}.lvbar .ext b{color:var(--purple);font-size:11px}
+.lvnote{color:var(--muted);font-size:12.5px;margin:6px 0 10px}
+.lvnote b{color:var(--text)}
+.stack{display:flex;gap:3px;border-radius:8px;overflow:hidden;font-size:11.5px;font-weight:700;text-align:center}
+.stack div{padding:7px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stack .s1{background:#3a2f12;color:var(--gold)}.stack .s2{background:var(--purplebg);color:var(--purple)}.stack .s3{background:#16263a;color:#7fb6ff}
+.ptiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ptiles.sm{grid-template-columns:repeat(5,minmax(0,1fr))}
+.pt{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer}
+.pt:hover{border-color:var(--line2)}
+.pt>img{width:52px;height:52px;border-radius:9px;border:1px solid var(--line2);display:block;margin:0 auto}
+.pt .pn{position:absolute;left:6px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1b1404;font-weight:800;font-size:12px;display:grid;place-items:center}
+.pt .pto{position:absolute;right:6px;top:6px;color:var(--gold);font-weight:800;font-size:13px}
+.pt .pnm{font-weight:700;font-size:12.5px;margin-top:6px}
+.pt.dim{opacity:.6}
+.pcs{display:flex;flex-direction:column;gap:3px;margin-top:6px}
+.pc{font-size:11px;background:#10131b;border:1px solid var(--line);border-radius:6px;padding:2px 5px;color:var(--green);text-align:left}
+.pc b{display:inline-block;min-width:16px;color:#14092a;background:var(--green);border-radius:4px;text-align:center;margin-right:5px}
+.pd{font-size:11.5px;color:var(--muted);margin-top:5px}
+.prow{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.pbox{flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
+.pbox .ph{font-weight:700;font-size:12.5px;margin-bottom:6px}
+.pbox .pi{display:flex;gap:6px;flex-wrap:wrap}
+.pbox .pi img{width:40px;height:40px;border-radius:7px;border:1px solid var(--line2);cursor:pointer}
+.pbox.no{border-color:#6a3a3a;background:#2a1718;flex:0 0 auto}
+.pbox.no .pi img{filter:grayscale(1);opacity:.7}
+.tri img{width:170px;border-radius:8px;border:1px solid var(--line2);display:block}
+@media (max-width:900px){
+  .ptiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ptiles.sm{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .lvbar{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .lvbar .ext{grid-column:span 5}
+  .tri img{width:100%}
+}
 @media (max-width:900px){
   .path,.dvp{grid-template-columns:repeat(2,minmax(0,1fr))}
   .loads{grid-template-columns:1fr}
@@ -639,6 +683,61 @@ BUILDS.t = {
   dv: [["Nezekan","dv-nezekan"],["Zikel","dv-zikel"],["Vaizel","dv-vaizel"],["Triniel","dv-triniel"],["Azphel","dv-azphel"]]
 };
 
+// 40. level puan planı (tablo build'e göre, görsel)
+const PLAN40 = {
+  // [skill, hedef, [uzmanlık slotu, kısa ad]...]
+  skills: [
+    ["18100000", 10, [[3,"Kritik"],[4,"Piercing Strike"]]],
+    ["18010000", 10, [[3,"Multi-hit"],[4,"Spinning −1 sn"]]],
+    ["18290000", 10, [[1,"−5 sn CD"],[3,"Az hedef hasar"]]],
+    ["18040000", 10, [[3,"Az hedef +%12"]]],
+    ["18090000", 10, [[1,"Impact direnci −%20"],[4,"Öldürünce sıfırla"]]],
+    ["18060000", 10, [[3,"Mobile"],[4,"Skill hızı"]]],
+    ["18120000", 10, [[1,"2 kullanım"],[4,"+%5 heal"]]],
+    ["18200000", 10, [[3,"Kullanınca %10 HP"]]]
+  ],
+  later: ["18150000","18210000","18080000"],
+  no: "18300000",
+  stig: [["18250000", 5, "Toplam 5 puan · −30 sn CD"], ["18190000", 20, "16–20 arası seviye başına 8 puan"], ["18140000", 5, "5'te iki kullanım"], ["18160000", 1, "1'de kalsın"]],
+  pas: ["18800000","18760000","18750000","18780000","18740000"],
+  trin: ["18100000","18010000","18290000","18040000","18800000","18760000"],
+  cost: ["—",1,1,1,2,2,2,4,4,4]
+};
+function renderPlan40() {
+  const P = PLAN40, im = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" data-id="${id}">`;
+  const tile = (id, n, to, chips, cls = "") => `<div class="pt ${cls}" data-id="${id}">
+      <span class="pn">${n}</span>${im(id)}<span class="pto">${to}</span>
+      <div class="pnm">${SK[id].name}</div>${chips || ""}</div>`;
+  const chip = (s, t) => `<span class="pc"><b>${s}</b>${t}</span>`;
+  return `
+    <div class="card plan"><h2>40. level planı <span class="r">Puanı soldan sağa ver</span></h2>
+      <div class="pad">
+        <div class="pl">1 · Puan nasıl işler?</div>
+        <div class="lvbar">${P.cost.map((c, i) => `<div class="lb c${c === "—" ? 0 : c}"><span>Lv ${i + 1}</span><b>${c === "—" ? "" : c + " p"}</b></div>`).join("")}
+          <div class="lb ext"><span>11 +</span><b>Daevanion · ekipman</b></div></div>
+        <div class="lvnote">Skill puanıyla en fazla <b>10</b>. 1 → 10 = <b>21 puan</b>. Üstü Daevanion ve ekipmandan gelir.</div>
+        <div class="stack"><div class="s1" style="flex:10">10 · skill puanı</div><div class="s2" style="flex:4">+4 · Daevanion</div><div class="s3" style="flex:6">+6 · ekipman / Arcana</div></div>
+        <div class="lvnote">Dark Crush 20'nin yolu: Nezekan, Zikel, Vaizel ve Triniel'de birer +1 düğüm, kalanı yüzük, silah, Chalice ve Parchment.</div>
+
+        <div class="pl">2 · Skill puanı <span>her birini 10'a çıkar, sonra sıradakine geç</span></div>
+        <div class="ptiles">${P.skills.map(([id, to, sp], i) => tile(id, i + 1, "→ " + to, `<div class="pcs">${sp.map(([s, t]) => chip(s, t)).join("")}</div>`)).join("")}</div>
+        <div class="prow">
+          <div class="pbox"><div class="ph">Sonra (hedef 12)</div><div class="pi">${P.later.map(im).join("")}</div></div>
+          <div class="pbox no"><div class="ph">Puan verme</div><div class="pi">${im(P.no)}</div><div class="pd">45'te sıfırlarken geri al</div></div>
+        </div>
+
+        <div class="pl">3 · Stigma puanı <span>ayrı havuz</span></div>
+        <div class="ptiles">${P.stig.map(([id, to, d], i) => tile(id, i + 1, "→ " + to, `<div class="pd">${d}</div>`, i === 3 ? "dim" : "")).join("")}</div>
+
+        <div class="pl">4 · Pasif <span>en fazla 10</span></div>
+        <div class="ptiles sm">${P.pas.map((id, i) => tile(id, i + 1, "")).join("")}</div>
+
+        <div class="pl">5 · Daevanion: Triniel açıldı <span>önce bu +1 düğümleri</span></div>
+        <div class="prow"><a class="tri" href="icons/tablo/dv-triniel.png" target="_blank"><img src="icons/tablo/dv-triniel.png" alt="Triniel"></a>
+          <div class="pbox"><div class="ph">+1 seviye (3 puan) · pasif (2 puan)</div><div class="pi">${P.trin.map(im).join("")}</div><div class="pd">Düğüme giden yoldaki stat düğümleri de alınır. Görsel tablodaki tam Triniel planı.</div></div></div>
+      </div></div>`;
+}
+
 function renderT() {
   const T = BUILDS.t, ic = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}" data-id="${id}">`;
   const row = (id, i, no) => {
@@ -655,6 +754,8 @@ function renderT() {
       <span class="pill"><b>Yeni:</b> Defiance · Focused Defense</span>
       <span class="pill"><b>Pasif:</b> Wind's Promise önce</span>
     </div></div>
+
+    ${renderPlan40()}
 
     <div class="card"><h2>Skill puanı <span class="r">Leveling'de önce 20 işaretlileri yükselt</span></h2>
       <ol class="prio">${T.order.map((id, i) => row(id, i)).join("")}${T.no.map(id => row(id, 0, true)).join("")}</ol>
