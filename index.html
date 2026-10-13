@@ -200,6 +200,14 @@ table.cmp td:first-child{font-weight:700;white-space:nowrap}
 table.cmp td{color:var(--muted)}
 .tipbox{background:#2a2412;border:1px solid #5d4a1c;border-radius:10px;padding:10px 12px}
 .tipbox b{color:var(--gold)}
+.prio .lvt{color:var(--gold);font-weight:800;margin-left:6px}
+.prio .spx{font-size:12px;color:var(--green);margin-top:2px}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.shots figure{margin:0}
+.shots img{width:100%;border-radius:8px;border:1px solid var(--line2);display:block}
+.shots figcaption{color:var(--muted);font-size:12px;margin-top:4px}
+.shot1 img{max-width:100%;border-radius:8px;border:1px solid var(--line2);display:block}
+table.cmp td.w{white-space:normal}
 @media (max-width:900px){
   .path,.dvp{grid-template-columns:repeat(2,minmax(0,1fr))}
   .loads{grid-template-columns:1fr}
@@ -237,6 +245,7 @@ table.cmp td{color:var(--muted)}
     <button data-tab="early" class="on">Early · Leveling</button>
     <button data-tab="mid">Mid · Level 45</button>
     <button data-tab="x">Ek bilgiler</button>
+    <button data-tab="t">Tablo build</button>
     <button data-tab="me">Benim dizilimim</button>
   </div>
 </div></div>
@@ -245,6 +254,7 @@ table.cmp td{color:var(--muted)}
   <main>
     <div id="me" hidden></div>
     <div id="x" hidden></div>
+    <div id="t" hidden></div>
     <div id="std">
     <div class="card">
       <div class="summary" id="summary"></div>
@@ -529,6 +539,174 @@ BUILDS.x = {
   ]
 };
 
+// "Personal Aion 2 Class Info" tablosunun Chanter sekmesi (endgame PvE)
+BUILDS.t = {
+  src: "https://docs.google.com/spreadsheets/d/1lbHaVairHaz26M8XGNF9CBWqiiHHBM6CylTwNKnlOug/htmlview?gid=1832734703",
+  skills: {
+    "18010000": {lvl:20, pick:[3,4,5], why:"Leveling'de önce <b>20 işaretli</b> skillere puan ver. Multi-hit, <b>vuruşta Spinning Strike −1 sn</b> ve Storm Chain; üçü birden."},
+    "18040000": {lvl:16, pick:[3,5], why:"Az hedefte +%12 hasar ve 16'da blok/kaçınmayı yok sayıp multi-hit. notXeon ile aynı seçim."},
+    "18090000": {lvl:12, pick:[1,4], why:"Öldürünce cooldown sıfırlanır (4). Yanında hedefin Impact direncini %20 düşüren 1. uzmanlık; Dark Crush'ın Impact bonusuyla uyumlu."},
+    "18060000": {lvl:12, pick:[3,4], why:"Mobile skill (3) ve 12'de +%30 skill hızı (4). Bu build'de Dark Crush zincirinde üçüncü sırada."},
+    "18100000": {lvl:20, pick:[3,4,5], why:"Tabloda <b>“Dark Rush”</b> diye yazılmış, kastedilen Dark Crush. Kritik, Piercing Strike ve cooldown kaldırma; üçü birden. Grobs/notXeon 16'da Piercing Strike'ı bırakıyordu, burada 20'de üçü de tutuluyor."},
+    "18300000": {lvl:"Alma", pick:[], why:"Tabloda “N/A”: puan verilmiyor. notXeon da almıyordu."},
+    "18150000": {lvl:12, pick:[3,4], why:"Çok hedefte +%20 hasar ve 12'de blok/kaçınmayı yok sayıp multi-hit. Senin dizilimde çıkarmıştık; bu build kullanıyor ama örnek tuş diziliminde yok."},
+    "18120000": {lvl:"16–20", pick:[1,4], why:"İki kullanım + zamana yayılan heal (1) ve +%5 heal (4). Örnek dizilimde 14'te, 2 tuşunda."},
+    "18210000": {lvl:12, pick:[2,3], why:"+10 m menzil ve multi-hit. Örnek dizilimde Q'da, Wave Blow'un altında."},
+    "18080000": {lvl:12, pick:[1,4], why:"Multi-hit ve 12'de hedefin PvE hasar artışını %15 düşüren debuff. Q sütununda Tremor Crush'ın üstünde: yalnızca stun yemiş hedefe açıldığı için o an kendiliğinden çıkar."},
+    "18290000": {lvl:20, pick:[1,2,3], why:"−5 sn cooldown, +%10 heal artışı, az hedefte +%20 hasar. Spinning Strike Dark Crush'ı açan tetikleyici; 20 işaretli."},
+    "18200000": {lvl:16, pick:[3,5], why:"<b>Yeni skill:</b> stun, knockdown, havaya kaldırma, fear gibi kontrolleri temizler ve 5 sn kontrol bağışıklığı verir. Kullanınca %10 HP (3) ve bağışıklık süresince büyük hasar direnci (5). Örnek dizilimde yok, ayrı bir tuşa koy."},
+    "18800000": {lvl:"1.", pick:[], why:"Pasif sırasında ilk. Kritik hasar artışı."},
+    "18760000": {lvl:"2.", pick:[], why:"Double chance verir."},
+    "18750000": {lvl:"3.", pick:[], why:"Düz PvE hasar artışı; seviyesi karakter level'ına bağlı."},
+    "18780000": {lvl:"4.", pick:[], why:"Vurdukça hedefin hasar direncini düşürür."},
+    "18740000": {lvl:"5.", pick:[], why:"Kritik ve perfect şansı."},
+    "18190000": {lvl:20, pick:[1,2,3,4], why:"Stigma sırasında ilk, 20'ye çıkar. Örnek dizilimde 5'te."},
+    "18250000": {lvl:"5+", pick:[1], why:"En az 5 (−30 sn cooldown). Örnek dizilimde 13'te, 3 tuşunda."},
+    "18160000": {lvl:"1+", pick:[], why:"Takılı kalsın, 1 yeter. Örnek dizilimde 10'da, 6 tuşunda."},
+    "18140000": {lvl:5, pick:[1], why:"<b>Yeni stigma:</b> kısa süre bloğu garantiler, blok hasar azaltmasını %100 artırır, blokta MP ve stamina verir. 5'te <b>iki kullanım</b>. Marchutan's Wrath'ın yerine 4. yuvada; örnek dizilimde E'de."},
+    "18420000": {lvl:"Alt.", pick:[], why:"Alternatif stigma: 120 sn boyunca maks HP +%5,4 ve anında heal."},
+    "18240000": {lvl:"Alt.", pick:[], why:"Alternatif stigma: kendine ve partiye kalkan."},
+    "18330000": {lvl:"Alt.", pick:[], why:"Bu build'de alternatif. Grobs ve notXeon 4. yuvaya takıyordu; burada yerini Focused Defense alıyor."}
+  },
+  order: ["18010000","18040000","18090000","18060000","18100000","18150000","18120000","18210000","18080000","18290000","18200000"],
+  no: ["18300000"],
+  passives: ["18800000","18760000","18750000","18780000","18740000"],
+  stigmas: ["18190000","18250000","18160000","18140000"],
+  stigAlt: ["18420000","18240000","18330000"],
+  // Tablodaki ekran görüntüsünden; sütunda 0. sıra en altta
+  layout: {
+    "1":[["18090000",12]], "2":[["18120000",14]], "3":[["18250000",13]], "4":[], "5":[["18190000",20]], "6":[["18160000",10]],
+    "7":[], "8":[], "Q":[["18210000",12],["18080000",12]], "E":[["18140000",5]],
+    "Sol":[["18010000",15]], "Sağ":[["18100000",17],["18290000",17],["18060000",12],["18040000",16]]
+  },
+  cmp: [
+    ["Dark Crush", "16'da cooldown kalkar, Piercing Strike bırakılır", "20, uzmanlık 3/4/5: Piercing Strike da kalır"],
+    ["Onslaught", "16, uzmanlık 4/5", "20, uzmanlık 3/4/5 (multi-hit de eklenir)"],
+    ["Spinning Strike", "Grobs 16 (3/5), notXeon 12 (1/3)", "20, uzmanlık 1/2/3"],
+    ["4. stigma", "Marchutan's Wrath", "Focused Defense 5 (Marchutan alternatif)"],
+    ["Pasif", "notXeon: Attack Prep önce", "Wind's Promise önce, Attack Prep 3."],
+    ["Heat Wave Blow", "Senin dizilimden çıkarmıştık", "12, uzmanlık 3/4"],
+    ["Defiance", "Hiç geçmiyordu", "16, uzmanlık 3/5"],
+    ["Ortak", "Gust Rampage alınmaz · Undefeated Mantra 20 · Power of the Storm takılı · Incandescent Blow 3/5", ""]
+  ],
+  arcana: [
+    ["Chalice (Vigor)", "Time", "Dark Crush › Wind's Promise › Impact Hit › Onslaught"],
+    ["Parchment (Vigor)", "Life / Destiny", "Dark Crush › Onslaught › Spinning Strike"],
+    ["Compass (Magic)", "Death / Freedom", "Incandescent Blow › Recuperation"],
+    ["Bell (Magic)", "Destruction", "Attack Preparation"],
+    ["Mirror (Magic)", "Illusion / Wisdom", "Wind's Promise = Impact Hit › Inspiring Spell › Earth's Promise"],
+    ["Scales", "Destruction", "Spinning Strike › Wind's Promise › Impact Hit › Attack Preparation"],
+    ["Key", "Attack", "Boss hasarı › Kritik hasar"],
+    ["Hourglass", "Defense", "Maks saldırı › Boss saldırısı › Kritik saldırı"],
+    ["Dice", "Accuracy", "Double Chance"],
+    ["Lantern", "Evasion", "Endurance"]
+  ],
+  genus: [
+    ["1 · 5", "Max Attack › Attack Bonus", "aynı", "aynı", "aynı", "aynı"],
+    ["2 · 8", "HP % artışı", "aynı", "aynı", "aynı", "aynı"],
+    ["3 · 6 · 9", "Kritik, isabet › tavan dolmadıysa Power Shard", "aynı", "aynı", "aynı", "aynı"],
+    ["4", "Kritik hasar artışı › Hasar artışı", "Multi-Hit / Perfect şansı (4 ve 7)", "Double Chance", "Silah hasarı artışı › Hasar artışı", "Ön/arka hasar artışı"],
+    ["7", "Hasar direnci, PvE hasar direnci › Endurance", "Hasar direnci, PvE hasar direnci › Endurance", "Hasar direnci › Endurance", "Hasar direnci, PvE hasar direnci › Endurance", "Hasar direnci, PvE hasar direnci › Endurance"]
+  ],
+  soul: [
+    ["Silah", "Silah hasarı artışı › Savaş hızı › Might › Precision › Hasar artışı › Multi-Hit şansı › Saldırı"],
+    ["Guard", "Silah hasarı artışı › Savaş hızı › Hasar artışı › Might › Precision › Multi-Hit şansı › Saldırı"],
+    ["Kask", "Gelen heal › Wind's Promise › Impact Hit › Double Chance › Saldırı artışı › Kritik › Saldırı"],
+    ["Omuz", "Kritik hasar artışı › Wind's Promise › Impact Hit › İsabet › Kritik › Saldırı › Savunma artışı"],
+    ["Göğüs", "Hasar artışı › Wind's Promise › Impact Hit › Kritik › İsabet › Saldırı › Savunma artışı"],
+    ["Bacak", "Hasar direnci › Wind's Promise › Impact Hit › Perfect artışı › Saldırı artışı › Kritik › Saldırı"],
+    ["Eldiven · Bot", "Hız › Wind's Promise › Impact Hit › Perfect şansı › Kritik › Saldırı › Savunma artışı"],
+    ["Pelerin", "Wind's Promise › Impact Hit › Smite › Double Chance › Saldırı artışı › Kritik › Saldırı"],
+    ["Küpe · Kolye", "Wind's Promise › Impact Hit › Attack Preparation › Might › Precision › İsabet › Kritik › Saldırı"],
+    ["Yüzük", "Dark Crush › Onslaught › Might › Precision › Spinning Strike › Recuperation › Incandescent Blow › Saldırı"],
+    ["Bileklik", "Wisdom › Destruction › Time › Illusion › Death › Justice › Life › Space › Freedom › Destiny"],
+    ["Broş", "Might › Precision › İsabet › Kritik › Constitution"],
+    ["Mühür", "Saldırı › Boss saldırısı › Maks saldırı › Kritik saldırı › PvE saldırısı › Power Shard hasar bonusu"]
+  ],
+  misc: [
+    ["Mana stone", "Ön hasar artışı (önden vuruyorsan) › Silah hasarı artışı ≈ Kritik hasar artışı › Hasar artışı › Saldırı"],
+    ["Yükseltme (enhance)", "Double Chance bonusları › Silah hasarı artışı › Hasar artışı › Saldırı › İsabet bonusu ve kritik"],
+    ["Kanat (giyilen)", "Eroded Wings (%45) / Talisra Wings (%23) / Awaken Pride Wings (%12,5)"],
+    ["Kanat (yükseltilecek)", "Azure Flash, Awaken Pride, Blue Wave, Brawler, Dramata Nest, Eroded, Forest Spirit, Illusory Echo, Nightmare, Salvation, Talisra, Ultimate Daeva"],
+    ["Unvan · saldırı", "Playing God › Unbound Genus › Guardian of Verteron"],
+    ["Unvan · savunma", "Saint of Verteron / Rule All Creation / Dominator of All Dimensions"],
+    ["Unvan · özel", "Empty Closet › Through Hell and Back"],
+    ["Theostone", "Başta Poison ve Beast en iyisi; ileride hepsi aşağı yukarı aynı"],
+    ["Pantheon · Colossus", "Önce Zikel / Kromede, Season 2'de Kaisinel"],
+    ["Pantheon · heykel", "Freedom, Death ve Space"],
+    ["Pantheon · tablo", "Önce Illusion ve Wisdom, sonra Life"]
+  ],
+  dv: [["Nezekan","dv-nezekan"],["Zikel","dv-zikel"],["Vaizel","dv-vaizel"],["Triniel","dv-triniel"],["Azphel","dv-azphel"]]
+};
+
+function renderT() {
+  const T = BUILDS.t, ic = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}" data-id="${id}">`;
+  const row = (id, i, no) => {
+    const c = T.skills[id], sp = specTxt(id, c.pick);
+    return `<li class="${no ? "no" : ""}" data-id="${id}"><span class="n">${no ? "✕" : i + 1}</span><img src="${SK[id].icon}" alt="">
+      <div><b>${SK[id].name}</b>${no ? "" : `<span class="lvt">→ ${c.lvl}</span>`}${sp.length ? `<div class="spx">Uzmanlık ${c.pick.join("/")}: ${sp.join(" · ")}</div>` : ""}<div class="d">${c.why}</div></div></li>`;
+  };
+  const tbl = (head, rows) => `<div class="pad" style="overflow-x:auto"><table class="cmp"><tr>${head.map(h => `<th>${h}</th>`).join("")}</tr>
+    ${rows.map(r => `<tr>${r.map((v, i) => `<td class="${i ? "w" : ""}">${v}</td>`).join("")}</tr>`).join("")}</table></div>`;
+  $("t").innerHTML = `
+    <div class="card"><div class="summary">
+      <span class="pill"><b>Kaynak:</b> <a href="${T.src}" target="_blank" rel="noopener">Personal Aion 2 Class Info</a> · Chanter sekmesi</span>
+      <span class="pill"><b>Odak:</b> Dark Crush, Onslaught, Spinning Strike 20</span>
+      <span class="pill"><b>Yeni:</b> Defiance · Focused Defense</span>
+      <span class="pill"><b>Pasif:</b> Wind's Promise önce</span>
+    </div></div>
+
+    <div class="card"><h2>Skill puanı <span class="r">Leveling'de önce 20 işaretlileri yükselt</span></h2>
+      <ol class="prio">${T.order.map((id, i) => row(id, i)).join("")}${T.no.map(id => row(id, 0, true)).join("")}</ol>
+      <div class="foot" style="padding:8px 14px;color:var(--dim);border-top:1px solid var(--line)">Tablo bir öncelik sırası vermiyor, skilleri hedef seviye ve uzmanlıkla listeliyor. Sıra tablodaki gibi.</div></div>
+
+    <div class="two">
+      <div class="card"><h2>Pasif sırası</h2><ol class="prio">${T.passives.map((id, i) => row(id, i)).join("")}</ol></div>
+      <div class="card"><h2>Stigma sırası</h2><ol class="prio">${T.stigmas.map((id, i) => row(id, i)).join("")}</ol>
+        <div class="pad"><div class="load"><div class="h">Alternatif</div><div class="ic">${T.stigAlt.map(ic).join("")}</div><div class="d">Guardian Blessing · Impeding Authority · Marchutan's Wrath</div></div></div></div>
+    </div>
+
+    <div class="card"><h2>Tuş dizilimi <span class="r">Tablodaki örnek · seviyeler ekipman dahil</span></h2>
+      <div class="pad">${hotbar(T.layout, false, true)}
+      <p style="color:var(--muted);margin:10px 0 0">Sütunda en alttaki skill önce denenir. Sağ tık sütunu Dark Crush › Spinning Strike › Impactful Crush › Incandescent Blow: Dark Crush açıksa onu, değilse tetikleyicileri, hepsi cooldown'daysa Incandescent Blow'u basar. Q'da Wave Blow, Tremor Crush'ın önünde.</p>
+      <details style="margin-top:10px"><summary>Ekran görüntüsü</summary><div class="shot1" style="margin-top:8px"><img src="icons/tablo/dizilim.png" alt="Tablodaki tuş dizilimi"></div></details></div></div>
+
+    <div class="card"><h2>Macro</h2>
+      <div class="pad">
+        <div class="macro"><span class="ln">Satır 1</span>${ic("18100000")}<span style="color:var(--muted)">Dark Crush · gecikme 10 ms</span></div>
+        <ol class="steps">
+          <li>Macro'da <b>yalnızca Dark Crush</b> var.</li>
+          <li><kbd>Sol tık</kbd> + macro tuşunu birlikte basılı tut; macro tuşu için <b>sağ tık</b> öneriliyor.</li>
+          <li>Ayarlar › Gameplay › <b>Macro</b> = fare tuşu. <b>Skill Quickslot: Quick Use 1</b> = fare + <kbd>R</kbd>. <b>Separate Special Skill Hotkey</b> = OFF.</li>
+        </ol>
+        <details style="margin-top:10px"><summary>Ekran görüntüleri</summary>
+          <div class="shot1" style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
+            <img src="icons/tablo/macro.png" alt="Macro penceresi" style="width:360px">
+            <img src="icons/tablo/ayar-macro.png" alt="Gameplay › Macro">
+            <img src="icons/tablo/ayar-quickslot.png" alt="Quick Use 1 ve Special Skill Hotkey">
+          </div></details></div></div>
+
+    <div class="card"><h2>Grobs ve notXeon ile farkları</h2>
+      <div class="pad" style="overflow-x:auto"><table class="cmp"><tr><th>Konu</th><th>Grobs / notXeon</th><th>Bu tablo</th></tr>
+        ${T.cmp.map(([a, b, c]) => c ? `<tr><td>${a}</td><td class="w">${b}</td><td class="w">${c}</td></tr>` : `<tr><td>${a}</td><td colspan="2" class="w" style="color:var(--green)">${b}</td></tr>`).join("")}</table></div></div>
+
+    <div class="card"><h2>Daevanion <span class="r">Tablodaki tahtalar · görsel</span></h2>
+      <div class="pad"><div class="shots">${T.dv.map(([n, f]) => `<figure><a href="icons/tablo/${f}.png" target="_blank"><img src="icons/tablo/${f}.png" alt="${n}" loading="lazy"></a><figcaption>${n}</figcaption></figure>`).join("")}</div>
+      <p style="color:var(--muted);margin:10px 0 0">Çerçeveli düğümler alınanlar. Büyütmek için görsele tıkla. Başka tahta lazımsa tablo <a href="https://questlog.gg/aion-2/en/skill-builder" target="_blank" rel="noopener">questlog skill builder</a>'ı öneriyor.</p></div></div>
+
+    <div class="card"><h2>Arcana <span class="r">Ekipman etkisi hedefleri örnek, her zaman birebir çıkmaz</span></h2>
+      ${tbl(["Kart", "God stat", "Ekipman etkisi hedefi"], T.arcana)}</div>
+
+    <div class="card"><h2>Genus Insight tahtaları</h2>
+      ${tbl(["Satır", "Cogni", "Natura", "Special", "Fera", "Varian"], T.genus)}</div>
+
+    <div class="card"><h2>Soul binding <span class="r">Ekipman başına stat önceliği</span></h2>
+      ${tbl(["Yuva", "Öncelik"], T.soul)}</div>
+
+    <div class="card"><h2>Diğer öncelikler</h2>
+      ${tbl(["Konu", "Öncelik"], T.misc)}</div>`;
+}
+
 function renderX() {
   const X = BUILDS.x, ic = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}" data-id="${id}">`;
   const prioList = (ids, no) => ids.map((id, i) => `<li class="${no ? "no" : ""}" data-id="${id}"><span class="n">${no ? "✕" : i + 1}</span><img src="${SK[id].icon}" alt=""><div><b>${SK[id].name}</b><div class="d">${X.skills[id].why}</div></div></li>`).join("");
@@ -707,8 +885,9 @@ const specTxt = (id, slots) => slots.map(s => SK[id].specs.find(p => p.slot === 
 
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("me").hidden = tab !== "me"; $("x").hidden = tab !== "x"; $("std").hidden = tab === "me" || tab === "x";
-  if (tab === "me" || tab === "x") { tab === "me" ? renderMe() : renderX(); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
+  const own = {me: renderMe, x: renderX, t: renderT};
+  Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own;
+  if (tab in own) { own[tab](); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
   const B = BUILDS[tab];
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
   $("summary").innerHTML = B.summary.map(s => `<span class="pill">${s}</span>`).join("");
@@ -782,7 +961,7 @@ document.addEventListener("click", e => {
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DV = dv;
-  if (["#mid", "#me", "#x"].includes(location.hash)) tab = location.hash.slice(1);
+  if (["#mid", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>

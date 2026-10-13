@@ -742,5 +742,107 @@
     "txt": "+25% Seal, Root, Max Stamina reduction chance"
    }
   ]
+ },
+ "18200000": {
+  "name": "Defiance",
+  "type": "active",
+  "icon": "icons/ICON_CH_SKILL_Defiance.webp",
+  "desc": "Removes Stun, Knockdown, Airborne, Grab, Frost, and Fear from the caster and grants Tenacity (Status Effect Immunity) for 5s. Unaffected by cooldown reduction.",
+  "specs": [
+   {
+    "id": "18200010",
+    "slot": 1,
+    "lvl": 8,
+    "txt": "Adds [Crushing Strike] Chain Skill"
+   },
+   {
+    "id": "18200020",
+    "slot": 2,
+    "lvl": 8,
+    "txt": "Restores 1,000 Stamina on using [Defiance]"
+   },
+   {
+    "id": "18200030",
+    "slot": 3,
+    "lvl": 8,
+    "txt": "Restores 10% HP on using [Defiance]"
+   },
+   {
+    "id": "18200040",
+    "slot": 4,
+    "lvl": 12,
+    "txt": "+2s Tenacity duration"
+   },
+   {
+    "id": "18200050",
+    "slot": 5,
+    "lvl": 16,
+    "txt": "+50% PvE Damage Tolerance and +25% PvP Damage Tolerance for Tenacity duration"
+   }
+  ]
+ },
+ "18140000": {
+  "name": "Focused Defense",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_FocusedDefense.webp",
+  "desc": "Temporarily increases Block Damage Reduction by 100% and guarantees Block. Restores 110 MP and Stamina once on Block.",
+  "specs": [
+   {
+    "id": "18140010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "+1 consecutive use"
+   },
+   {
+    "id": "18140020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "Changes to mobile skill"
+   },
+   {
+    "id": "18140030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "+20% Move Speed for 3s on Block"
+   },
+   {
+    "id": "18140040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "Restores 5% HP once on Parry"
+   }
+  ]
+ },
+ "18420000": {
+  "name": "Guardian Blessing",
+  "type": "stigma",
+  "icon": "icons/ICON_CH_SKILL_GuardianBlessing.webp",
+  "desc": "Increases the caster's Max HP by 5.4% for 120s and immediately restores 5.4% HP. Not affected by buff dispel effects.",
+  "specs": [
+   {
+    "id": "18420010",
+    "slot": 1,
+    "lvl": 5,
+    "txt": "+10% Status Effect Resist"
+   },
+   {
+    "id": "18420020",
+    "slot": 2,
+    "lvl": 10,
+    "txt": "x1.5 [Crossguard] effect for the duration"
+   },
+   {
+    "id": "18420030",
+    "slot": 3,
+    "lvl": 15,
+    "txt": "x1.5 [Wind's Promise] effect for the duration"
+   },
+   {
+    "id": "18420040",
+    "slot": 4,
+    "lvl": 20,
+    "txt": "+10% Incoming Heal"
+   }
+  ]
  }
 }
