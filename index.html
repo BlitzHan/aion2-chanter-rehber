@@ -747,7 +747,7 @@ function renderPlan40() {
 
 // Daevanion yol haritası: tablodaki tahta görsellerinden okunan düğümler, global adım sırasıyla (daevanion.json "tablo")
 let tBoard = 0, tStep = null, tPts = 0;
-try { tPts = +localStorage.getItem("tpts") || 0; } catch (e) {}
+try { tPts = +new URLSearchParams(location.search).get("p") || +localStorage.getItem("tpts") || 0; } catch (e) {}
 function tSteps() {
   const S = {};
   DV.forEach((b, bi) => (b.tablo || []).forEach(([id, s]) => {
