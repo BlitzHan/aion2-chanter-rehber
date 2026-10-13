@@ -208,6 +208,15 @@ table.cmp td{color:var(--muted)}
 .shots figcaption{color:var(--muted);font-size:12px;margin-top:4px}
 .shot1 img{max-width:100%;border-radius:8px;border:1px solid var(--line2);display:block}
 table.cmp td.w{white-space:normal}
+.ptsrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.ptsrow input{width:110px;background:var(--panel2);border:1px solid var(--line2);border-radius:8px;color:var(--text);font:inherit;font-weight:700;padding:6px 10px}
+.ptsrow span{color:var(--dim);font-size:12px}
+#tdv .steps2 li{cursor:pointer}
+#tdv .steps2 li.done{opacity:.55}
+#tdv .steps2 li.done .n{color:var(--green)}
+#tdv .steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
+.dg .nd.hl{animation:hl 1s ease-in-out infinite alternate;z-index:2}
+@keyframes hl{from{box-shadow:0 0 0 2px #fff,0 0 4px #fff8}to{box-shadow:0 0 0 3px #fff,0 0 16px #fffc}}
 .plan .pl{font-weight:800;margin:18px 0 8px;font-size:14px}
 .plan .pl:first-child{margin-top:0}
 .plan .pl span{font-weight:400;color:var(--dim);font-size:12px;margin-left:6px}
@@ -732,10 +741,67 @@ function renderPlan40() {
         <div class="pl">4 · Pasif <span>en fazla 10</span></div>
         <div class="ptiles sm">${P.pas.map((id, i) => tile(id, i + 1, "")).join("")}</div>
 
-        <div class="pl">5 · Daevanion: Triniel açıldı <span>önce bu +1 düğümleri</span></div>
-        <div class="prow"><a class="tri" href="icons/tablo/dv-triniel.png" target="_blank"><img src="icons/tablo/dv-triniel.png" alt="Triniel"></a>
-          <div class="pbox"><div class="ph">+1 seviye (3 puan) · pasif (2 puan)</div><div class="pi">${P.trin.map(im).join("")}</div><div class="pd">Düğüme giden yoldaki stat düğümleri de alınır. Görsel tablodaki tam Triniel planı.</div></div></div>
+        <div class="pl">5 · Daevanion <span>aşağıdaki yol haritasında, adım adım</span></div>
       </div></div>`;
+}
+
+// Daevanion yol haritası: tablodaki tahta görsellerinden okunan düğümler, global adım sırasıyla (daevanion.json "tablo")
+let tBoard = 0, tStep = null, tPts = 0;
+try { tPts = +localStorage.getItem("tpts") || 0; } catch (e) {}
+function tSteps() {
+  const S = {};
+  DV.forEach((b, bi) => (b.tablo || []).forEach(([id, s]) => {
+    const n = b.nodes.find(x => x.id === id);
+    (S[s] = S[s] || {s, bi, ids: [], cost: 0}).ids.push(id); S[s].cost += n.cost;
+  }));
+  let cum = 0;
+  return Object.values(S).sort((a, b) => a.s - b.s).map(x => {
+    cum += x.cost; const b = DV[x.bi], last = b.nodes.find(n => n.id === x.ids[x.ids.length - 1]);
+    const big = x.ids.map(id => b.nodes.find(n => n.id === id)).filter(n => n.t === "skilllevel" || n.g >= 41);
+    return Object.assign(x, {cum, target: big.length ? big[big.length - 1] : last, rest: !big.length});
+  });
+}
+function renderTDaev() {
+  const el = $("tdvb"); if (!el || !DV) return;
+  const steps = tSteps(), b = DV[tBoard], stepOf = {};
+  (b.tablo || []).forEach(([id, s]) => stepOf[id] = s);
+  const doneS = steps.filter(x => x.cum <= tPts).length;
+  const rs = b.nodes.map(n => n.r), cs = b.nodes.map(n => n.c);
+  const r0 = Math.min(...rs), r1 = Math.max(...rs), c0 = Math.min(...cs), c1 = Math.max(...cs);
+  const map = {}; b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
+  let cells = "";
+  for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+    const n = map[r + "-" + c];
+    if (!n) { cells += "<div></div>"; continue; }
+    const f = nodeInfo(n), s = stepOf[n.id];
+    let st = n.t === "start" ? "on" : s ? (s <= doneS ? "on keep" : "on") : "off";
+    if (s && s === tStep) st += " hl";
+    const badge = s ? (s <= doneS ? "✓" : s) : "";
+    cells += `<div class="nd ${f.cls} ${st}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}${s ? " · adım " + s : ""}"><img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge ? `<span class="no">${badge}</span>` : ""}</div>`;
+  }
+  const bp = DV.map((x, i) => steps.filter(s => s.bi === i).reduce((a, s) => a + s.cost, 0));
+  const next = steps[doneS];
+  el.innerHTML = `
+    <div class="btabs">${DV.map((x, i) => `<button data-tboard="${i}" class="${i === tBoard ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${bp[i]} p</small></button>`).join("")}</div>
+    ${tPts ? `<div class="keepnote">${doneS ? `✓ ${doneS} adım bitti (${steps[doneS - 1].cum} puan).` : "Henüz bir adım bitmiyor."} ${next ? `Sıradaki: <b>${next.s}. adım</b>, ${DV[next.bi].name} · ${next.rest ? "kalan düğümler" : nodeInfo(next.target).name} (${next.cost} puan, ${next.cum - tPts} puan eksik).` : "Plan tamam."}</div>` : ""}
+    <div class="dwrap">
+      <div><div class="dg" style="grid-template-columns:repeat(${c1 - c0 + 1},1fr)">${cells}</div>
+        <div class="dlegend"><span><b>Numara</b> = adım (bütün tahtalarda ortak sıra)</span><span><b style="color:var(--green)">✓</b> = puanınla alınmış</span><span><b style="color:var(--purple)">Mor</b> = skill +1</span><span><b style="color:#ff9f5a">Turuncu</b> = büyük stat</span><span>Soluk = bu build'de alınmıyor</span></div></div>
+      <ol class="steps2">${steps.map(x => {
+        const f = nodeInfo(x.target);
+        return `<li class="${x.s <= doneS ? "done" : ""} ${x.s === tStep ? "sel" : ""} ${x.rest ? "" : f.cls}" data-tstep="${x.s}"><span class="n">${x.s <= doneS ? "✓" : x.s}</span><img src="${f.img}" alt=""><span>${x.rest ? "Kalan düğümler" : f.name}<br><small style="color:var(--dim)">${DV[x.bi].name}</small></span><span class="c">${x.cost} p<br>Σ ${x.cum}</span></li>`;
+      }).join("")}</ol>
+    </div>`;
+  const sel = el.querySelector(".steps2 li.sel"); if (sel) sel.scrollIntoView({block: "nearest"});
+}
+function tDaevCard() {
+  return `<div class="card" id="tdv"><h2>Daevanion yol haritası <span class="r">U tuşu · tablodaki tahtalar</span></h2>
+    <div class="pad">
+      <div class="tipbox"><b>Bir tahtayı baştan sona doldurma.</b> Puan bütün tahtalarda ortak. Önce dört tahtadaki <b>Dark Crush +1</b> düğümlerine git (ilk 84 puan), sonra Onslaught, Spinning Strike, Wind's Promise ve Impact Hit düğümlerine, en son büyük statlara. Numaraları sırayla takip et; listeden bir adıma tıklarsan tahtada yanıp söner.</div>
+      <div class="ptsrow"><label for="tpts"><b>Daevanion puanın:</b></label><input id="tpts" type="number" min="0" max="400" value="${tPts || ""}" placeholder="ör. 120"><span>Yazınca alacağın adımlar ✓ olur.</span></div>
+      <div id="tdvb"></div>
+      <details style="margin-top:12px"><summary>Tablodaki orijinal görseller</summary><div class="shots" style="margin-top:8px">${BUILDS.t.dv.map(([n, f]) => `<figure><a href="icons/tablo/${f}.png" target="_blank"><img src="icons/tablo/${f}.png" alt="${n}" loading="lazy"></a><figcaption>${n}</figcaption></figure>`).join("")}</div></details>
+    </div></div>`;
 }
 
 function renderT() {
@@ -756,6 +822,8 @@ function renderT() {
     </div></div>
 
     ${renderPlan40()}
+
+    ${tDaevCard()}
 
     <div class="card"><h2>Skill puanı <span class="r">Leveling'de önce 20 işaretlileri yükselt</span></h2>
       <ol class="prio">${T.order.map((id, i) => row(id, i)).join("")}${T.no.map(id => row(id, 0, true)).join("")}</ol>
@@ -791,10 +859,6 @@ function renderT() {
       <div class="pad" style="overflow-x:auto"><table class="cmp"><tr><th>Konu</th><th>Grobs / notXeon</th><th>Bu tablo</th></tr>
         ${T.cmp.map(([a, b, c]) => c ? `<tr><td>${a}</td><td class="w">${b}</td><td class="w">${c}</td></tr>` : `<tr><td>${a}</td><td colspan="2" class="w" style="color:var(--green)">${b}</td></tr>`).join("")}</table></div></div>
 
-    <div class="card"><h2>Daevanion <span class="r">Tablodaki tahtalar · görsel</span></h2>
-      <div class="pad"><div class="shots">${T.dv.map(([n, f]) => `<figure><a href="icons/tablo/${f}.png" target="_blank"><img src="icons/tablo/${f}.png" alt="${n}" loading="lazy"></a><figcaption>${n}</figcaption></figure>`).join("")}</div>
-      <p style="color:var(--muted);margin:10px 0 0">Çerçeveli düğümler alınanlar. Büyütmek için görsele tıkla. Başka tahta lazımsa tablo <a href="https://questlog.gg/aion-2/en/skill-builder" target="_blank" rel="noopener">questlog skill builder</a>'ı öneriyor.</p></div></div>
-
     <div class="card"><h2>Arcana <span class="r">Ekipman etkisi hedefleri örnek, her zaman birebir çıkmaz</span></h2>
       ${tbl(["Kart", "God stat", "Ekipman etkisi hedefi"], T.arcana)}</div>
 
@@ -806,6 +870,7 @@ function renderT() {
 
     <div class="card"><h2>Diğer öncelikler</h2>
       ${tbl(["Konu", "Öncelik"], T.misc)}</div>`;
+  renderTDaev();
 }
 
 function renderX() {
@@ -933,7 +998,8 @@ function renderDaev() {
   }
   const map = {}; b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
   let cells = "";
-  for (let r = 3; r <= 13; r++) for (let c = 3; c <= 13; c++) {
+  const R0 = Math.min(...b.nodes.map(n => n.r)), R1 = Math.max(...b.nodes.map(n => n.r)), C0 = Math.min(...b.nodes.map(n => n.c)), C1 = Math.max(...b.nodes.map(n => n.c));
+  for (let r = R0; r <= R1; r++) for (let c = C0; c <= C1; c++) {
     const n = map[r + "-" + c];
     if (!n) { cells += "<div></div>"; continue; }
     const f = nodeInfo(n), st = state[n.id] || (n.t === "start" ? "on" : "off");
@@ -961,7 +1027,7 @@ function renderDaev() {
       }).join("")}</div>
       <div class="dwrap">
         <div>
-          <div class="dg">${cells}</div>
+          <div class="dg" style="grid-template-columns:repeat(${C1 - C0 + 1},1fr)">${cells}</div>
           <div class="dlegend">
             ${ph === "mid" ? `<span><b style="color:var(--green)">✓</b> = early'de aldın, kalsın</span><span><b style="color:var(--red)">✕</b> = geri al</span><span><b>Numara</b> = ekleme sırası</span>` : `<span><b>Numara</b> = alma sırası</span>`}
             <span><b style="color:var(--purple)">Mor</b> = skill +1 seviye</span>
@@ -1056,8 +1122,19 @@ document.addEventListener("click", e => {
   if (bb) { board = +bb.dataset.board; renderDaev(); }
   const dp = e.target.closest("[data-dphase]");
   if (dp) { dphase = dp.dataset.dphase; board = 0; renderDaev(); }
+  const tbd = e.target.closest("[data-tboard]");
+  if (tbd) { tBoard = +tbd.dataset.tboard; tStep = null; renderTDaev(); }
+  const tst = e.target.closest("[data-tstep]");
+  if (tst) { tStep = +tst.dataset.tstep; tBoard = tSteps().find(x => x.s === tStep).bi; renderTDaev(); }
   const tb = e.target.closest("[data-tab]");
   if (tb) { tab = tb.dataset.tab; dphase = null; board = 0; history.replaceState(null, "", "#" + tab); render(); }
+});
+
+document.addEventListener("input", e => {
+  if (e.target.id !== "tpts") return;
+  tPts = Math.max(0, +e.target.value || 0);
+  try { localStorage.setItem("tpts", tPts); } catch (err) {}
+  renderTDaev();
 });
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
