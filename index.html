@@ -284,6 +284,40 @@ table.cmp td.w{white-space:normal}
   .order img{width:32px;height:32px}
 }
 .close{display:none;margin-left:auto;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:4px 10px;cursor:pointer}
+/* 45+ yol haritası */
+.layout.solo{grid-template-columns:minmax(0,1fr)}
+.layout.solo .detail{display:none}
+.gs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.gs .s{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;position:relative}
+.gs .s .v{font-size:22px;font-weight:800;color:var(--gold);line-height:1.1}
+.gs .s .v small{font-size:11px;color:var(--dim);font-weight:600;margin-left:3px}
+.gs .s ul{margin:6px 0 0;padding:0;list-style:none;font-size:12.5px;color:var(--muted)}
+.gs .s li{margin:2px 0}
+.gs .s.now{border-color:var(--gold);background:#2a2412}
+.gs .s.now:before{content:"ŞİMDİKİ HEDEF";display:inline-block;margin-bottom:4px;font-size:9.5px;font-weight:800;color:#1b1404;background:var(--gold);border-radius:4px;padding:1px 5px}
+.road{list-style:none;margin:0;padding:0}
+.road>li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:12px;padding:12px 14px;border-top:1px solid var(--line)}
+.road>li:first-child{border-top:0}
+.road .n{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#1b1404;font-weight:800;display:grid;place-items:center}
+.road .h{font-weight:700;font-size:14.5px}
+.road .h kbd{margin-left:6px}
+.road .g{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.road .g span{font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--greenbg);color:var(--green);border:1px solid #245c3c}
+.road .d{color:var(--muted);font-size:13px}
+.road .d b{color:var(--text)}
+.rt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rt .c{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.rt .c .h{font-weight:800;margin-bottom:6px}
+.rt .c ul{margin:0;padding-left:18px;color:var(--muted);font-size:12.5px}
+.rt .c li{margin:3px 0}
+.rt .c b{color:var(--text)}
+.donts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.donts div{background:#2a1718;border:1px solid #6a3a3a;border-radius:10px;padding:10px 12px;color:var(--muted);font-size:12.5px}
+.donts div b{color:var(--red);display:block;margin-bottom:3px;font-size:13px}
+@media (max-width:900px){
+  .gs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rt,.donts{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -297,14 +331,16 @@ table.cmp td.w{white-space:normal}
   <div class="tabs" role="tablist">
     <button data-tab="early" class="on">Early · Leveling</button>
     <button data-tab="mid">Mid · Level 45</button>
+    <button data-tab="g">45+ Yol haritası</button>
     <button data-tab="x">Ek bilgiler</button>
     <button data-tab="t">Tablo build</button>
     <button data-tab="me">Benim dizilimim</button>
   </div>
 </div></div>
 
-<div class="layout">
+<div class="layout" id="lay">
   <main>
+    <div id="g" hidden></div>
     <div id="me" hidden></div>
     <div id="x" hidden></div>
     <div id="t" hidden></div>
@@ -1050,8 +1086,70 @@ const icon = id => SK[id].icon;
 const typeTR = t => ({active:"Aktif", stigma:"Stigma", passive:"Pasif"}[t] || t);
 const specTxt = (id, slots) => slots.map(s => SK[id].specs.find(p => p.slot === s)?.txt).filter(Boolean);
 
+
+function renderG() {
+  const gates = [
+    ["700", "", ["45'lik seferler (Drapnir vb.)", "Günlük zindan"]],
+    ["1000", "now", ["Abyss'e giriş", "Nightmare dungeon", "Yükseliş sınavı"]],
+    ["1400", "", ["Üst seferler (54'lük eşya)"]],
+    ["1600", "", ["Taşkınlık (Transcendence)", "Arcana kartı kasma"]],
+    ["2100 · 2800", "", ["Üst seferler", "Raid (Avrupa'da henüz yok)"]],
+  ];
+  const road = [
+    ["Main görevi bitir, tüm TP'leri aç", "M", ["harita açılır", "sonraki görevlere hızlı ulaşım"],
+      "Main görev seni Abyss'e yollayacak; 1000 GS'ye kadar orada kalma. Haritadaki <b>~60 ışınlanma noktasını</b> şimdiden aç: yan görevler ve zindanlar hep uzak yerleri gösteriyor."],
+    ["Kemer ve kolye önce", "", ["kalıcı eşya", "her +1 = GS"],
+      "Oyunun başından sonuna seninle kalan iki eşya. <b>Kemer 1, kolye 2.</b> Önce bunları +10'a çıkar, sonra sarıya (bir üst kaliteye) yükselt. Mavi eşyaları ise +5'te bırak; geçici eşyaya taş harcama."],
+    ["Kaleler (~15 tane)", "M · Keşif", ["kemer artı basma taşı", "15K kinah"],
+      "Kampları temizle (ör. 5×5 yaratık), sonunda boss'u kes, kutuya tıkla. Her kale 1-2 <b>kemer taşı</b> veriyor."],
+    ["Tüy topla → Monolit", "", ["kolye artı basma taşı", "stat"],
+      "Haritadaki tüyleri topla, Elyos sığınağındaki Monolit'e ver. Monolit seviye atladıkça <b>kolye taşı</b> veriyor. Hepsini toplaman gerekmez."],
+    ["Bütün yan görevler", "J · Bölgesel", ["1 skill puanı", "1 Daevanion puanı", "40K kinah", "unvan", "mavi eşya"],
+      "~60-70 tane. Tek bir mavi eşya +5'le ~13 GS getiriyor; 10 eşyada 1000'i geçiyorsun. <b>Yarık</b> görevlerini şimdilik atla, onlar 3 saatte bir rastgele açılıyor."],
+    ["61 mühürlü zindan", "M · Keşif", ["1 skill + 1 Daevanion puanı", "tüy ve parça"],
+      "Her biri 30 saniye-birkaç dakika sürüyor. Tüyle <b>kanat</b> üretiyorsun: kanada sahip olmak bile stat veriyor, takmana gerek yok. Hepsini bitirince ~140 skill ve Daevanion puanı birikiyor."],
+    ["Abyss (1000 GS)", "", ["Abyss puanı", "kinah", "sarı eşya", "PvP"],
+      "Komuta tüccarından görev al, tüy topla, yaratık kes. Abyss puanıyla skill puanı, PvP kolyesi, Daevanion puanı ve kanat alınıyor. Karşı ırk geliyor; mümkünse lejyonla gir."],
+  ];
+  const rt = [
+    ["Her gün", ["<b>5 günlük görev</b> (mavileri seç, gerekirse yenile)", "Birikmiş <b>dungeon enerjisini</b> harca (3 saatte 15, günde 120)", "<b>Shugo Festival</b>: neredeyse her saat başı; günlük 1 anahtarla event", "Günlük zindan (haftada 14 hak)"]],
+    ["Her hafta", ["<b>Nightmare</b> dungeon (1000 GS)", "<b>Yükseliş sınavı</b>: haftada 3 giriş, süreli, sıralamalı", "<b>Arena</b> 1v1 / 5v5: 30 galibiyet + 10 katılım ödülü", "<b>Battlefield</b> 10v10 (akşam saatleri), haftalık 3 galibiyet", "Abyss'te haftada ~7 saat"]],
+    ["Puanlar nereye", ["Shugo puanı → Daevanion puanı, stigma puanı, kanat, pet", "Abyss puanı → skill puanı, PvP kolyesi", "Günlük zindanda <b>10K puan</b> yap: 10K güçlendirme taşı (2K yaparsan 2K taş)"]],
+  ];
+  const donts = [
+    ["Hikâye dungeon'larının sonundaki kutuyu açma", "Krav mağarası, Uruguru kanyonu ve tapınak görevlerinde kutu enerji yiyor (270 → ~200). Aynı eşyayı, hatta daha iyisini görev zaten veriyor."],
+    ["Taşı geçici eşyaya basma", "Mavi eşyalar +5'te kalsın. Taşları kemer ve kolyeye sakla; kalıcı olan onlar."],
+    ["Hepsini bir günde yapmaya çalışma", "Örnek akış: ilk 2 gün mühürlü zindanlar ve dungeon, 3. gün kaleler, sonra yan görevler. Videodaki karakter 5 günde 1500'e çıkmış."],
+    ["Alt karakter açıp enerji kasma", "Erken dönemde yaygın hata: GS'si düşük karakterle girilemeyen yerler için enerji biriktirmek işe yaramıyor."],
+  ];
+  $("g").innerHTML = `
+    <div class="card"><div class="summary">
+      <span class="pill"><b>Kaynak:</b> <a href="https://www.youtube.com/watch?v=TrMU8aBkEK0" target="_blank" rel="noopener">Eldarin Prince · 45 sonrası ne yapılır?</a></span>
+      <span class="pill"><b>Ana fikir:</b> 45'te oyunun %5'i bitti, asıl iş GS kasmak</span>
+      <span class="pill"><b>İlk hedef:</b> 1000 GS</span>
+    </div></div>
+
+    <div class="card"><h2>GS kapıları <span class="r">Önerilen eşya seviyesi</span></h2>
+      <div class="pad"><div class="gs">${gates.map(([v, c, l]) => `<div class="s ${c}"><div class="v">${v}<small>GS</small></div><ul>${l.map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</div>
+      <p style="color:var(--muted);margin:10px 0 0">45 olunca Abyss, Nightmare, yükseliş sınavı, arena, battlefield, pazar ve Daevanion'un son tahtası açılıyor; ama çoğuna <b style="color:var(--text)">1000 GS</b> olmadan girilmiyor. Sıra: 1000 → 2000 → 3000.</p></div></div>
+
+    <div class="card"><h2>1000 GS'ye giden yol <span class="r">Yukarıdan aşağı</span></h2>
+      <ol class="road">${road.map(([h, k, g, d], i) => `<li><span class="n">${i + 1}</span><div><div class="h">${h}${k ? `<kbd>${k}</kbd>` : ""}</div><div class="g">${g.map(x => `<span>${x}</span>`).join("")}</div><div class="d">${d}</div></div></li>`).join("")}</ol>
+      <div class="foot">Takıldığında: Menü → <b>Gezgin</b>, seviyene göre açılan her şeyi listeliyor ve tıklayınca ilgili menüye götürüyor.</div></div>
+
+    <div class="card"><h2>Rutin <span class="r">1000 GS'den sonra</span></h2>
+      <div class="pad"><div class="rt">${rt.map(([h, l]) => `<div class="c"><div class="h">${h}</div><ul>${l.map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</div></div></div>
+
+    <div class="card"><h2>Yapma</h2>
+      <div class="pad"><div class="donts">${donts.map(([b, d]) => `<div><b>${b}</b>${d}</div>`).join("")}</div></div></div>
+
+    <div class="card"><div class="foot" style="border-top:0">Otomatik Türkçe altyazıdan derlendi. "Taşkınlık", "yükseliş sınavı", "mühürlü zindan" gibi adlar oyunun Türkçe arayüzündekinden biraz farklı olabilir. GS eşikleri videodaki Avrupa sunucusuna ait.</div></div>`;
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  $("g").hidden = tab !== "g"; $("lay").classList.toggle("solo", tab === "g");
+  if (tab === "g") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderG(); return; }
   const own = {me: renderMe, x: renderX, t: renderT};
   Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own;
   if (tab in own) { own[tab](); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
@@ -1139,7 +1237,7 @@ document.addEventListener("input", e => {
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DV = dv;
-  if (["#mid", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
+  if (["#mid", "#g", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>
