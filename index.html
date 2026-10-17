@@ -332,6 +332,7 @@ table.cmp td.w{white-space:normal}
     <button data-tab="early" class="on">Early · Leveling</button>
     <button data-tab="mid">Mid · Level 45</button>
     <button data-tab="g">45+ Yol haritası</button>
+    <button data-tab="jb">45+ Kontrol listesi</button>
     <button data-tab="x">Ek bilgiler</button>
     <button data-tab="t">Tablo build</button>
     <button data-tab="me">Benim dizilimim</button>
@@ -341,6 +342,7 @@ table.cmp td.w{white-space:normal}
 <div class="layout" id="lay">
   <main>
     <div id="g" hidden></div>
+    <div id="jb" hidden></div>
     <div id="me" hidden></div>
     <div id="x" hidden></div>
     <div id="t" hidden></div>
@@ -1146,10 +1148,80 @@ function renderG() {
     <div class="card"><div class="foot" style="border-top:0">Otomatik Türkçe altyazıdan derlendi. "Taşkınlık", "yükseliş sınavı", "mühürlü zindan" gibi adlar oyunun Türkçe arayüzündekinden biraz farklı olabilir. GS eşikleri videodaki Avrupa sunucusuna ait.</div></div>`;
 }
 
+function renderJb() {
+  const steps = [
+    ["Ana hikâyeyi doğru bırakma noktasına kadar bitir", "Alt+1", ["1000 GS'e kadar 34 görev bekler", "sarı silah + sarı alt silah + bracer"],
+      "Hikâye 1000 GS olmadan yarıda durur, \"1000 GS ol, gel\" der. Üzerinde <b>sarı silah, sarı alt silah ve bracer</b> varsa hikâye tamamen bitmiştir; eksiği varsa daha 1000'i geçmemişsin demektir. 1000'i geçince Alt+1'e devam, hikâye Abyss'e yollar."],
+    ["M haritasını sıfıra indir", "M", ["seal dungeon (soru işareti)", "stronghold (kamp ateşi)", "kemer ve kolye taşları"],
+      "Haritada kalan her <b>soru işaretini (seal dungeon)</b> ve her <b>stronghold'u (kale)</b> tamamla. Bunlar kemer ve kolye artısının malzemesini veriyor; boş bırakma, o soru işaretlerinin her biri GS demek."],
+    ["Yan görevleri ilerlet", "J · Bölgesel", ["skill puanı", "Daevanion puanı", "1. ve 2. Clash Rune"],
+      "Regional görevleri boş bırakma. Özellikle <b>Hugo Mercs</b> zinciri: Nornir Assembly'deki ikinci part 1. <b>Clash Rune</b>, 3. Yükseliş'ten sonraki üçüncü part 2. rune veriyor. Rune tek seferde ~40 GS getiriyor."],
+    ["Tüyleri topla", "", ["kolye seviyesi", "Abyss'te hepsi: ~36 GS"],
+      "Normal dünyada gördüğün tüyleri al; hepsini kovalamaya çalışma, sonradan halledilir. Ama <b>Abyss'e geçtiğinde oradaki tüm tüyleri mutlaka topla</b>: aşağı yukarı +36 GS geliyor. Tüyler amuletini (kolyeni) seviye atlatıyor."],
+    ["Kemer ve kolyeye yatırım yap", "", ["yeşil +10 → Substance Morph → mavi", "mavi +10 → sarı"],
+      "Bu iki eşya oyunun başından sonuna seninle kalır; taşları onlara harca. Yeşili <b>+10</b>'a bas, Substance Morph (eşya menüsündeki dönüştürme) ile maviye çevir; mavi de +10'a gelince sarıya. Geçici eşyalara taş basma."],
+    ["Skill uzmanlıklarını boş bırakma", "K", ["önce 8. seviye delikleri", "sonra 12"],
+      "Skill seviyesi 8'e 12'ye geldiğinde <b>uzmanlık delikleri</b> açılıyor; içini doldur (hangi skill'e mi? en çok kullandığın skiller ona puan). Önce 8'lere bas, sonra 12'lere. Pasiflerde hasar verenleri öncelikle al. Build'i cilalamayı 80-90K combat'ta düşün."],
+    ["Kalıcı eşyaları +4/+5'e çek", "", ["her +1 = +1 GS", "mana stone → 43'lük eşyalara"],
+      "43'lük eşyalar 1400'e kadar değişmeyecek; onları +4/+5'e çek, her basış GS veriyor. <b>Mana stone</b>'ları da aynı yerlere bas: yeşil ve mavi taşlar az da olsa GS basıyor. Değişecek geçici eşyalara harcama."],
+    ["Ödül enerjisini sakla", "", ["sadece seçili dungeonlarda kullan", "premium varsa 1 açılış 2 kere sayar"],
+      "\"1610'a kadar enerjini harcama\" diye herkes tavsiye ediyor; gerçek: ufak işler için harcama, sakla. Hikâye sırasında özel bir sandıklı dungeon sebepli <b>3 kere</b> açacağı yer var (kutu, eşya seçtiresin: genelde pantolon ya da aksesuar); orada harca, 1400'e gidişi kolaylaştırır. Fire Temple gibi yerlerde harcama."],
+    ["1000 GS kapısını geç, Abyss'e gir", "", ["Abyss'te tüm tüyler", "command scroll", "supply görevleri"],
+      "<b>1000'i geçince</b> Abyss açılıyor: orada tüm tüyleri topla, NPC'den haftalık <b>command scroll</b> al (kinahsa satın al, ama şimdilik <b>kullanma</b>). Supply görevlerine bak: malzeme verip <b>Abyss puanı</b> kazan; haftalık 50 malzemelik görev 10K puan veriyor."],
+    ["Rift ve Siege: karşı tarafı gez", "Rift · 3 saatte bir", ["portal 10 dk açık", "içerde 1 saat", "kamp işaretlerinden uzak dur"],
+      "Rift her 3 saatte açılır (12 · 3 · 6 · 9). Karşı haritada da J görevleri, seal dungeon ve stronghold var; PvP modunu açmadığın sürece kimse sana dokunamaz. <b>Kamp işaretlerine</b> yaklaşma; otomatik yürüyüş kampın yakınından geçebilir. Abyss'teki Siege savaşında (5 saatte bir) kazanan taraf 5 dakikalık portal açar; içerisi düşük karaktere de güvenli, cesaret et."],
+    ["Nightmare ve etkinliklerle 1400'e ulaş", "", ["her boss ilk kesimde ~500 puan", "Hugo Fest → Daevanion crystal"],
+      "1300 küsürlerde tıkandın mı <b>Nightmare</b>'a gir: her bossu ilk kez kestiğinde puan (seviyesine göre ~500) veriyor; puanla Daevanion crystal al, pasif puanlarına ver, her puan +1 GS. Saatlik <b>Hugo Fest</b> etkinliğinden de crystal malzemesi geliyor. Buradan gelen clash rune'u da alabilirsin; puanlar 2000 GS'te lazım olacak."],
+    ["1400'de sırayla ilerle", "", ["Vakron kutusu + set", "sonra Uruguru'dan aksesuar", "1900'e dek rahat"],
+      "1400'e gelince önce <b>Vakron kutusunu</b> al, Vakron setini tamamla (eksikler Exploration'dan karşılıyor). Sonra Uruguru'dan aksesuarları tamamla. 1400 sonrasında Vakron spam ile 1900'e kadar rahat gidersin."],
+  ];
+  const rt = [
+    ["Her gün", ["<b>5 duty</b> (J → Duty): ödülü enerji olanları seç, listeye yenile ile bak", "Hikâye sırasında biriken enerjiyi sakla", "Seal dungeon ve stronghold kontrolleri"]],
+    ["Her hafta", ["<b>Command scroll</b> al (ana çar, Abyss NPC) ama kullanma", "Haftalık supply görevi: 50 malzeme → 10K Abyss puanı", "<b>Nightmare</b>'a gir, boss puanlarını biriktir", "Title'ları ve kanatları ihtiyaca göre değiş"]],
+    ["Her 3 saatte", ["<b>Rift</b> açılıyor: karşı haritada J görevleri + seal dungeon + stronghold", "PvP açık değilse sanma; kamp işaretlerine yaklaşma", "Abyss'te Siege (5 saatte bir): kazanırsan portal 5 dk"]],
+  ];
+  const donts = [
+    ["Clash Rune'u aceleyle +2/+3'e basma", "Rune basmaları patlıyor; piyango değil, kayıp. Önce yedeğini al, 3.'yü bulduktan sonra artı basmaya başla. Tek rune ~40 GS; kaybetme. Yakarsan Nightmare puanından alınabilir ama puanlar 2000 GS'te lazım."],
+    ["Ödül enerjisini küçük işlere harcama", "15-20-30 enerji zor sandıklara harcanıyor; boş atma. Sakladıkça değerli: ileride garanti eşya açacaksın."],
+    ["Mana stone'u geçici eşyaya harcama", "Değişecek mavi eşyalara basmak boşluk. 43'lük (1400'e kadar değişmeyecek) eşyaları bekla."],
+    ["Normal dünyada tüy avına girme", "Bu tüylerden gördükçe al, hepsini kovalamak vakit kaybı. Genel kural: M ve J tamamlanmalı, tüy ertelenir. İstisna: Abyss'te hepsi toplanacak."],
+    ["Hepsini bir günde bitireyim deme", "Liste 1-2 günlük iş; enerji bitmediği sürece ertesi gün de aynı kalır. Stres yok."],
+    ["Build cilalamaya girme", "Uzmanlık deliklerini doldur, o kadar. Hangi skill'in hangi uzmanlığı alacağı gibi ince işler 80-90K combat'tan sonra önemli."],
+  ];
+  $("jb").innerHTML = `
+    <div class="card"><div class="summary">
+      <span class="pill"><b>Kaynak:</b> <a href="https://www.youtube.com/watch?v=DqEfqeMVCn0" target="_blank" rel="noopener">jackzback · 45 sonrası yapmanız ve yapmamanız gereken her şey</a></span>
+      <span class="pill"><b>Ana fikir:</b> haritadaki ve menüdeki her boşluk GS demek</span>
+      <span class="pill"><b>İlk hedef:</b> 1000 GS</span>
+    </div></div>
+
+    <div class="card"><h2>45'ten sonra sırayla <span class="r">Yukarıdan aşağı</span></h2>
+      <ol class="road">${steps.map(([h, k, g, d], i) => `<li><span class="n">${i + 1}</span><div><div class="h">${h}${k ? `<kbd>${k}</kbd>` : ""}</div><div class="g">${g.map(x => `<span>${x}</span>`).join("")}</div><div class="d">${d}</div></div></li>`).join("")}</ol>
+      <div class="foot">Kısa yol: takıldığında menüdeki <b>Gezgin</b>'e bak; seviyene göre açılan içerikleri listeliyor.</div></div>
+
+    <div class="card"><h2>Rutin <span class="r">45'ten sonra sürekli</span></h2>
+      <div class="pad"><div class="rt">${rt.map(([h, l]) => `<div class="c"><div class="h">${h}</div><ul>${l.map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("")}</div></div></div>
+
+    <div class="card"><h2>Yapma</h2>
+      <div class="pad"><div class="donts">${donts.map(([b, d]) => `<div><b>${b}</b>${d}</div>`).join("")}</div></div></div>
+
+    <div class="card"><h2>Bonus: yeni karakter açacaksan</h2>
+      <div class="pad" style="color:var(--muted);font-size:13px">
+        1-45'i hızlı bitirmek isteyenler için videonun anlattığı iki kaynak:
+        <ul style="margin:8px 0 0;padding-left:18px">
+          <li><a href="https://docs.google.com/document/u/0/d/1zfmmmebLIZ9BxHTQbhBIT7VKMMqncVzADf1K8NEtamA/mobilebasic" target="_blank" rel="noopener">Failure Guild · 1-45 hızlı levelling yazısı</a> (fazlara bölünmüş rota; jackzback videoya bağlamış)</li>
+          <li><a href="https://www.youtube.com/watch?v=hY6ldyN2g3c" target="_blank" rel="noopener">jackzback · oyun başında yapılacaklar</a> (ilk güne özel; makro kurulumu da anlatılıyor)</li>
+        </ul>
+      </div></div>
+
+    <div class="card"><div class="foot" style="border-top:0">Otomatik Türkçe altyazıdan derlendi (2026-10-05 video). "Stronghold", "seal dungeon", "Substance Morph", "Hugo Fest" gibi adlar oyunun Türkçe arayüzünde biraz farklı yazılabilir. GS eşikleri videodaki Avrupa sunucusuna ait.</div></div>`;
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("g").hidden = tab !== "g"; $("lay").classList.toggle("solo", tab === "g");
+  $("g").hidden = tab !== "g"; $("jb").hidden = tab !== "jb"; $("lay").classList.toggle("solo", tab === "g" || tab === "jb");
   if (tab === "g") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderG(); return; }
+  if (tab === "jb") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderJb(); return; }
   const own = {me: renderMe, x: renderX, t: renderT};
   Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own;
   if (tab in own) { own[tab](); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
@@ -1237,7 +1309,7 @@ document.addEventListener("input", e => {
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DV = dv;
-  if (["#mid", "#g", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
+  if (["#mid", "#g", "#jb", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>
