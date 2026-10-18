@@ -1301,7 +1301,7 @@ const sbChain = list => `<div class="sbchain">${list.map(([n, d], i) => (i ? `<s
 function renderSb() {
   if (!SB) {
     $("sb").innerHTML = `<div class="card"><div class="pad">Yükleniyor…</div></div>`;
-    fetch("siniflar.json").then(r => r.json()).then(d => { SB = d; if (!SB[sbCls]) sbCls = "chanter"; renderSb(); });
+    fetch("siniflar.json?v=2").then(r => r.json()).then(d => { SB = d; if (!SB[sbCls]) sbCls = "chanter"; renderSb(); });
     return;
   }
   const C = SB[sbCls], P = sbPreset(), R = C.rot;
