@@ -215,6 +215,7 @@ table.cmp td.w{white-space:normal}
 #tdv .steps2 li.done{opacity:.55}
 #tdv .steps2 li.done .n{color:var(--green)}
 #tdv .steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
+@media (max-width:1100px){#sbdv .dwrap{grid-template-columns:1fr}#sbdv .steps2{max-height:360px}}
 .dg .nd.hl{animation:hl 1s ease-in-out infinite alternate;z-index:2}
 @keyframes hl{from{box-shadow:0 0 0 2px #fff,0 0 4px #fff8}to{box-shadow:0 0 0 3px #fff,0 0 16px #fffc}}
 .plan .pl{font-weight:800;margin:18px 0 8px;font-size:14px}
@@ -348,6 +349,11 @@ table.cmp td.w{white-space:normal}
 .sbul{margin:6px 0 0;padding-left:18px;color:var(--muted);font-size:12.5px}
 .sbul li{margin:3px 0}
 .sbbd{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px 0}
+#sbdv .steps2 li{cursor:pointer}
+#sbdv .steps2 li.done{opacity:.55}
+#sbdv .steps2 li.done .n{color:var(--green)}
+#sbdv .steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
+#sbdv .dg .nd[data-sbdvs]{cursor:pointer}
 @media (max-width:900px){.sbtiles{grid-template-columns:repeat(2,minmax(0,1fr))}.sbsel .lb{width:100%}.sbchain .st{width:64px}}
 </style>
 </head>
@@ -1256,10 +1262,16 @@ try { const v = JSON.parse(localStorage.getItem("sb") || "{}"); if (v.c) sbCls =
 const SB_STAGES = ["Yeni 45", "Endgame'e yakın", "Endgame"];
 const sbPreset = () => SB[sbCls].presets[sbStage * 2 + (sbMode === "pvp" ? 1 : 0)];
 const sbSlots = lv => lv >= 20 ? 3 : lv >= 12 ? 2 : lv >= 8 ? 1 : 0;
+function sbDvSkills(pts) {
+  // Daevanion skill +1 düğümleri: build'in puanına kadar açılanlar (kaynak sitedeki "Daevanion" sayacıyla aynı)
+  const C = SB[sbCls], out = {};
+  (sbMode === "pvp" ? C.dvPvp : C.dv).forEach(b => b.n.forEach(n => { if (n[3] === "k" && n[8] <= pts) out[n[6]] = (out[n[6]] || 0) + 1; }));
+  return out;
+}
 function sbLv(name) {
   const P = sbPreset(), s = SB[sbCls].skills[name];
   const base = s.cat === "stigma" ? (P.stigma[name] || 0) : (P.skills[name] || 1);
-  const ex = (P.extra || {})[name] || 0, ge = (P.gear || {})[name] || 0, ar = (P.arc || {})[name] || 0;
+  const ex = sbDvSkills(P.dv || 0)[name] || 0, ge = (P.gear || {})[name] || 0, ar = (P.arc || {})[name] || 0;
   return {base, ex, ge, ar, eff: base + (base ? ex + ge + ar : 0)};
 }
 function sbSpecs(name) {
@@ -1322,6 +1334,10 @@ function renderSb() {
     <div class="card"><h2>Pasifler</h2>
       <div class="pad"><div class="sbtiles">${sbGroup("passive").map(sbTile).join("")}</div></div></div>
 
+    <div class="card"><h2>Daevanion <span class="r">${sbMode === "pvp" ? "PvP planı · Azphel ayrı" : "PvE planı"} · U tuşu</span></h2>
+      <div class="pad"><div class="tipbox" style="margin-bottom:4px"><b>Bir panoyu baştan sona doldurma.</b> Puan dört panoda ortak; numaraları sırayla izle. Bir panoda sayı atlıyorsa aradaki düğüm başka panodadır. Listeden bir satıra tıklarsan pano açılır ve düğüm yanıp söner.</div>
+        <div id="sbdv"></div></div></div>
+
     <div class="card"><h2>Rotasyon <span class="r">${C.name}</span></h2>
       <div class="pad">
         <div class="sbtxt">${R.intro}</div>
@@ -1334,6 +1350,7 @@ function renderSb() {
       </div></div>
 
     <div class="card"><div class="foot" style="border-top:0">Kaynak: <a href="https://sensationalmmoworkshop.com/#${sbCls}" target="_blank" rel="noopener">Sensational · Aion 2 Build Atölyesi</a> (hazır build'ler ve rotasyon, 2026-10-18'de alındı). Kendi puanına göre ince ayar için kaynaktaki hesaplayıcıyı kullan.</div></div>`;
+  renderSbDv();
   sbDetail(sbSel, false);
 }
 function sbDetail(name, open = true) {
@@ -1342,7 +1359,7 @@ function sbDetail(name, open = true) {
   sbSel = name;
   document.querySelectorAll(".sbt").forEach(e => e.classList.toggle("sel", e.dataset.sb === name));
   const L = sbLv(name), sp = sbSpecs(name), on = new Set(sp.on.map(p => p.id)), later = new Set(sp.later.map(p => p.id));
-  const bd = [L.ex && `Daevanion +${L.ex}`, L.ge && `Ekipman +${L.ge}`, L.ar && `Arcana +${L.ar}`].filter(Boolean);
+  const bd = [L.ex && `Daevanion +${L.ex} (${sbPreset().dv} puan)`, L.ge && `Ekipman +${L.ge}`, L.ar && `Arcana +${L.ar}`].filter(Boolean);
   $("detail").innerHTML = `
     <div class="dh"><img src="${s.icon}" alt=""><div><div class="t">${name}</div>
       <div class="m"><span class="tag">${{active: "Aktif", passive: "Pasif", stigma: "Stigma"}[s.cat]}</span>${s.rating ? `<span class="tag">${s.rating}</span>` : ""}<span class="tag g">${s.cat === "stigma" && !L.base ? "Takılı değil" : "Seviye " + L.eff}</span></div></div>
@@ -1355,6 +1372,67 @@ function sbDetail(name, open = true) {
   if (open) $("detail").classList.add("open");
 }
 
+// Sınıf buildleri · Daevanion: düğüm = [satır, sütun, puan, tür, kısa, metin, skill, pano içi sıra, açıldığı toplam puan]
+let sbDvB = 0, sbDvPts = null, sbAzPts = 0, sbDvSel = null;
+const SB_DV_TR = {Atk: "SLD", Def: "SVN", HP: "HP", MP: "MP", Crit: "KRT", CRes: "KDİ", CS: "HIZ", CDR: "CD", DB: "HSR", DT: "HAZ", Acc: "İSB", Eva: "KAÇ", SEC: "DUR", SER: "DDİ"};
+function sbDvBoards() {
+  const C = SB[sbCls], B = (sbMode === "pvp" ? C.dvPvp : C.dv).slice();
+  if (sbMode === "pvp") B.push(Object.assign({az: true}, SB._az));
+  return B;
+}
+function sbDvSteps(az) {
+  const B = sbDvBoards(), S = [];
+  B.forEach((b, bi) => { if (!!b.az === az) b.n.forEach(n => { if (n[3] !== "s") S.push({bi, n, key: bi + "-" + n[0] + "-" + n[1]}); }); });
+  S.sort((a, b) => a.n[8] - b.n[8]);
+  S.forEach((x, i) => x.no = i + 1);
+  return S;
+}
+function sbDvInfo(n) {
+  const t = n[3];
+  if (t === "s") return {img: "icons/dv/Start.webp", lb: "", name: "Başlangıç", cls: "st"};
+  if (t === "k") { const s = SB[sbCls].skills[n[6]]; return {img: s ? s.icon : "icons/dv/Rare.webp", lb: "+1", name: n[5], cls: "sk"}; }
+  const lb = n[4].split("·").map(x => SB_DV_TR[x] || x).join("·");
+  return {img: "icons/dv/" + (t === "u" ? "Unique" : "Common") + ".webp", lb, name: n[5] + (t === "u" ? " (Unique)" : ""), cls: t === "u" ? "un" : "st"};
+}
+function renderSbDv(full = true) {
+  const el = $("sbdv"); if (!el) return;
+  const B = sbDvBoards(); if (sbDvB >= B.length) sbDvB = 0;
+  const b = B[sbDvB], az = !!b.az, P = sbPreset();
+  const pts = az ? sbAzPts : (sbDvPts == null ? (P.dv || 0) : sbDvPts), cap = az ? b.max : 416;
+  const steps = sbDvSteps(az), stepOf = {}; steps.forEach(x => stepOf[x.key] = x);
+  const done = steps.filter(x => x.n[8] <= pts).length, next = steps[done];
+  const map = {}; b.n.forEach(n => map[n[0] + "-" + n[1]] = n);
+  let cells = "";
+  for (let r = b.r0; r <= b.r1; r++) for (let c = b.c0; c <= b.c1; c++) {
+    const n = map[r + "-" + c];
+    if (!n) { cells += "<div></div>"; continue; }
+    const f = sbDvInfo(n), x = stepOf[sbDvB + "-" + r + "-" + c];
+    let st = n[3] === "s" ? "on" : x.n[8] > cap ? "off" : x.n[8] <= pts ? "on keep" : "on";
+    if (x && x.key === sbDvSel) st += " hl";
+    const badge = x && x.n[8] <= cap ? (x.n[8] <= pts ? "✓" : x.no) : "";
+    cells += `<div class="nd ${f.cls} ${st}" ${x ? `data-sbdvs="${x.key}"` : ""} title="${f.name}${n[2] ? " · " + n[2] + " puan" : ""}${x ? " · " + x.no + ". düğüm · " + x.n[8] + ". puanda" : ""}"><img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge ? `<span class="no">${badge}</span>` : ""}</div>`;
+  }
+  const bp = B.map((x, i) => steps.filter(s => s.bi === i && s.n[8] <= pts).reduce((a, s) => a + s.n[2], 0));
+  const sk = {}; steps.filter(x => x.n[3] === "k" && x.n[8] <= pts).forEach(x => sk[x.n[6]] = (sk[x.n[6]] || 0) + 1);
+  const shown = steps.filter(x => x.n[8] <= cap);
+  const ptsRow = `
+    <div class="ptsrow"><label for="sbdvpts"><b>${az ? "Azphel puanın" : "Daevanion puanın"}:</b></label><input id="sbdvpts" type="number" min="0" max="${cap}" value="${pts || ""}" placeholder="ör. 136">
+      <span>${az ? `PvP panosu, puanı ayrı. Aşamalar: ${b.edges.join(" · ")}.` : `Build'in önerisi: ${P.dv || "–"}. 45'te 136, kristallerle 316, Nightmare dükkânıyla 366, Shugo Festival ile 416.`}</span></div>`;
+  if (full || !$("sbdvr")) el.innerHTML = ptsRow + `<div id="sbdvr"></div>`;
+  $("sbdvr").innerHTML = `
+    <div class="btabs">${B.map((x, i) => `<button data-sbdvb="${i}" class="${i === sbDvB ? "on" : ""}">${x.name}<small>${x.az ? "PvP" : "Lv " + x.lvl} · ${bp[i]} p</small></button>`).join("")}</div>
+    <div class="keepnote">${done ? `✓ ${done} düğüm açık (${steps[done - 1].n[8]} puan).` : "Henüz düğüm açılmıyor."} ${next && next.n[8] <= cap ? `Sıradaki: <b>${next.no}.</b> ${B[next.bi].name} · ${sbDvInfo(next.n).name} (${next.n[2]} puan, toplam ${next.n[8]}).` : "Plan tamam."}</div>
+    ${Object.keys(sk).length ? `<div class="sbbd" style="padding:0 0 10px">${Object.entries(sk).sort((a, b) => b[1] - a[1]).map(([n, v]) => `<span class="pill" data-sb="${n}" style="cursor:pointer">${n} <b style="color:var(--purple)">+${v}</b></span>`).join("")}</div>` : ""}
+    <div class="dwrap">
+      <div><div class="dg" style="grid-template-columns:repeat(${b.c1 - b.c0 + 1},1fr)">${cells}</div>
+        <div class="dlegend"><span><b>Numara</b> = açma sırası (${az ? "Azphel'de kendi sırası" : "dört panoda ortak"})</span><span><b style="color:var(--green)">✓</b> = puanınla açık</span><span><b style="color:var(--purple)">Mor</b> = skill +1</span><span><b style="color:#ff9f5a">Turuncu</b> = Unique (4 puan)</span><span>Soluk = plan dışı</span></div></div>
+      <ol class="steps2">${shown.map(x => {
+        const f = sbDvInfo(x.n), ok = x.n[8] <= pts;
+        return `<li class="${ok ? "done" : ""} ${x.key === sbDvSel ? "sel" : ""} ${f.cls === "st" ? "" : f.cls}" data-sbdvs="${x.key}"><span class="n">${ok ? "✓" : x.no}</span><img src="${f.img}" alt=""><span>${f.name}<br><small style="color:var(--dim)">${B[x.bi].name}</small></span><span class="c">${x.n[2]} p<br>Σ ${x.n[8]}</span></li>`;
+      }).join("")}</ol>
+    </div>`;
+  const sel = el.querySelector(".steps2 li.sel"); if (sel) sel.scrollIntoView({block: "nearest"});
+}
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
   $("g").hidden = tab !== "g"; $("jb").hidden = tab !== "jb"; $("lay").classList.toggle("solo", tab === "g" || tab === "jb");
@@ -1429,7 +1507,11 @@ document.addEventListener("click", e => {
   const sbx = e.target.closest("[data-sb]");
   if (sbx) sbDetail(sbx.dataset.sb);
   const sbb = e.target.closest("[data-sbc],[data-sbs],[data-sbm]");
-  if (sbb) { const d = sbb.dataset; if (d.sbc) { sbCls = d.sbc; sbSel = null; } if (d.sbs) sbStage = +d.sbs; if (d.sbm) sbMode = d.sbm; renderSb(); }
+  if (sbb) { const d = sbb.dataset; if (d.sbc) { sbCls = d.sbc; sbSel = null; } if (d.sbs) sbStage = +d.sbs; if (d.sbm) sbMode = d.sbm; sbDvPts = null; sbDvSel = null; renderSb(); }
+  const sdb = e.target.closest("[data-sbdvb]");
+  if (sdb) { sbDvB = +sdb.dataset.sbdvb; sbDvSel = null; renderSbDv(); }
+  const sds = e.target.closest("[data-sbdvs]");
+  if (sds) { sbDvSel = sds.dataset.sbdvs; sbDvB = +sbDvSel.split("-")[0]; renderSbDv(); }
   const t = e.target.closest("[data-id]");
   if (t) showDetail(t.dataset.id);
   const bb = e.target.closest("[data-board]");
@@ -1445,6 +1527,11 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("input", e => {
+  if (e.target.id === "sbdvpts") {
+    const v = Math.max(0, +e.target.value || 0);
+    if (sbDvBoards()[sbDvB].az) sbAzPts = v; else sbDvPts = v;
+    renderSbDv(false); return;
+  }
   if (e.target.id !== "tpts") return;
   tPts = Math.max(0, +e.target.value || 0);
   try { localStorage.setItem("tpts", tPts); } catch (err) {}
