@@ -318,6 +318,37 @@ table.cmp td.w{white-space:normal}
   .gs{grid-template-columns:repeat(2,minmax(0,1fr))}
   .rt,.donts{grid-template-columns:1fr}
 }
+/* sınıf buildleri */
+.sbsel{display:flex;flex-direction:column;gap:10px;padding:12px 14px}
+.sbsel .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sbsel .lb{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;width:58px}
+.sbcls button{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.sbcls button img{width:24px;height:24px;border-radius:6px}
+.sbtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.sbt{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 8px 8px;text-align:center;cursor:pointer}
+.sbt:hover{border-color:var(--line2)}
+.sbt.sel{outline:2px solid var(--gold);outline-offset:1px}
+.sbt>img{width:48px;height:48px;border-radius:9px;border:1px solid var(--line2);display:block;margin:0 auto}
+.sbt .lv{position:absolute;right:6px;top:6px;color:var(--gold);font-weight:900;font-size:15px;line-height:1;text-align:right}
+.sbt .lv small{display:block;font-size:10px;color:var(--purple);font-weight:800;margin-top:2px}
+.sbt .nm{font-weight:700;font-size:12.5px;margin-top:6px}
+.sbt .rl{font-size:11px;color:var(--dim)}
+.sbt.lo{opacity:.5}
+.sbt.lo .lv{color:var(--muted)}
+.sbt.key{border-color:#5d4a1c;background:#2a2412}
+.sbt .pc.later{color:var(--purple)}
+.sbt .pc.later b{background:var(--purple)}
+.sbchain{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap}
+.sbchain .st{width:76px;text-align:center;cursor:pointer}
+.sbchain .st img{width:40px;height:40px;border-radius:7px;border:1px solid var(--line2);display:block;margin:0 auto}
+.sbchain .st b{display:block;font-size:11px;margin-top:3px;line-height:1.25}
+.sbchain .ar{color:var(--gold);font-weight:800;margin-top:10px}
+.sbtxt{color:var(--muted);font-size:13px}
+.sbtxt b{color:var(--text)}
+.sbul{margin:6px 0 0;padding-left:18px;color:var(--muted);font-size:12.5px}
+.sbul li{margin:3px 0}
+.sbbd{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px 0}
+@media (max-width:900px){.sbtiles{grid-template-columns:repeat(2,minmax(0,1fr))}.sbsel .lb{width:100%}.sbchain .st{width:64px}}
 </style>
 </head>
 <body>
@@ -333,6 +364,7 @@ table.cmp td.w{white-space:normal}
     <button data-tab="mid">Mid · Level 45</button>
     <button data-tab="g">45+ Yol haritası</button>
     <button data-tab="jb">45+ Kontrol listesi</button>
+    <button data-tab="sb">Sınıf buildleri</button>
     <button data-tab="x">Ek bilgiler</button>
     <button data-tab="t">Tablo build</button>
     <button data-tab="me">Benim dizilimim</button>
@@ -343,6 +375,7 @@ table.cmp td.w{white-space:normal}
   <main>
     <div id="g" hidden></div>
     <div id="jb" hidden></div>
+    <div id="sb" hidden></div>
     <div id="me" hidden></div>
     <div id="x" hidden></div>
     <div id="t" hidden></div>
@@ -1217,11 +1250,118 @@ function renderJb() {
     <div class="card"><div class="foot" style="border-top:0">Otomatik Türkçe altyazıdan derlendi (2026-10-05 video). "Stronghold", "seal dungeon", "Substance Morph", "Hugo Fest" gibi adlar oyunun Türkçe arayüzünde biraz farklı yazılabilir. GS eşikleri videodaki Avrupa sunucusuna ait.</div></div>`;
 }
 
+// Sınıf buildleri: Sensational · Aion 2 Build Atölyesi'nden (sensationalmmoworkshop.com) alınan hazır build'ler
+let SB = null, sbCls = "chanter", sbStage = 0, sbMode = "pve", sbSel = null;
+try { const v = JSON.parse(localStorage.getItem("sb") || "{}"); if (v.c) sbCls = v.c; if (v.s != null) sbStage = v.s; if (v.m) sbMode = v.m; } catch (err) {}
+const SB_STAGES = ["Yeni 45", "Endgame'e yakın", "Endgame"];
+const sbPreset = () => SB[sbCls].presets[sbStage * 2 + (sbMode === "pvp" ? 1 : 0)];
+const sbSlots = lv => lv >= 20 ? 3 : lv >= 12 ? 2 : lv >= 8 ? 1 : 0;
+function sbLv(name) {
+  const P = sbPreset(), s = SB[sbCls].skills[name];
+  const base = s.cat === "stigma" ? (P.stigma[name] || 0) : (P.skills[name] || 1);
+  const ex = (P.extra || {})[name] || 0, ge = (P.gear || {})[name] || 0, ar = (P.arc || {})[name] || 0;
+  return {base, ex, ge, ar, eff: base + (base ? ex + ge + ar : 0)};
+}
+function sbSpecs(name) {
+  const s = SB[sbCls].skills[name], ids = (sbPreset().specs || {})[name] || [], L = sbLv(name);
+  const all = ids.map(id => s.specs.find(p => p.id === id)).filter(Boolean);
+  const lvSort = arr => arr.slice().sort((x, y) => x.lvl - y.lvl);
+  const on = all.filter(p => p.lvl <= L.eff).slice(0, sbSlots(L.eff));
+  return {on: lvSort(on), later: lvSort(all.filter(p => !on.includes(p)))};
+}
+const sbIc = name => { const s = SB[sbCls].skills[name]; return s ? `<img src="${s.icon}" alt="${name}" title="${name}">` : ""; };
+function sbTile(name) {
+  const C = SB[sbCls], s = C.skills[name], L = sbLv(name), b = L.ex + L.ge + L.ar, sp = sbSpecs(name);
+  const off = s.cat === "stigma" ? !L.base : L.base <= 1;
+  return `<div class="sbt ${off ? "lo" : ""} ${name === C.keyStigma ? "key" : ""} ${sbSel === name ? "sel" : ""}" data-sb="${name}">
+    ${sbIc(name)}<span class="lv">${s.cat === "stigma" && !L.base ? "–" : L.base}${b && L.base ? `<small>+${b}</small>` : ""}</span>
+    <div class="nm">${name}</div><div class="rl">${s.role || ""}</div>
+    ${sp.on.length || sp.later.length ? `<div class="pcs">${sp.on.map(p => `<div class="pc"><b>${p.lvl}</b>${p.tr}</div>`).join("")}${sp.later.map(p => `<div class="pc later"><b>${p.lvl}</b>${p.tr}</div>`).join("")}</div>` : ""}
+  </div>`;
+}
+function sbGroup(cat) {
+  const C = SB[sbCls];
+  return Object.keys(C.skills).filter(n => C.skills[n].cat === cat)
+    .sort((a, b) => sbLv(b).eff - sbLv(a).eff || C.skills[a].unlock - C.skills[b].unlock);
+}
+const sbChain = list => `<div class="sbchain">${list.map(([n, d], i) => (i ? `<span class="ar">›</span>` : "") +
+  `<div class="st" data-sb="${n}" title="${d}">${sbIc(n)}<b>${n}</b></div>`).join("")}</div>`;
+function renderSb() {
+  if (!SB) {
+    $("sb").innerHTML = `<div class="card"><div class="pad">Yükleniyor…</div></div>`;
+    fetch("siniflar.json").then(r => r.json()).then(d => { SB = d; if (!SB[sbCls]) sbCls = "chanter"; renderSb(); });
+    return;
+  }
+  const C = SB[sbCls], P = sbPreset(), R = C.rot;
+  const clsIc = k => SB[k].skills[Object.keys(SB[k].skills)[0]].icon;
+  if (!sbSel || !C.skills[sbSel]) sbSel = Object.keys(P.skills)[0];
+  try { localStorage.setItem("sb", JSON.stringify({c: sbCls, s: sbStage, m: sbMode})); } catch (err) {}
+  const sec = (t, h) => `<div class="group-l" style="margin-top:14px">${t}</div>${h}`;
+  $("sb").innerHTML = `
+    <div class="card"><div class="sbsel">
+      <div class="row"><span class="lb">Sınıf</span><div class="btabs sbcls" style="margin:0">${["ranger", "chanter", "cleric"].map(k => `<button data-sbc="${k}" class="${k === sbCls ? "on" : ""}"><img src="${clsIc(k)}" alt="">${SB[k].name}</button>`).join("")}</div></div>
+      <div class="row"><span class="lb">Aşama</span><div class="btabs" style="margin:0">${SB_STAGES.map((t, i) => `<button data-sbs="${i}" class="${i === sbStage ? "on" : ""}">${t}</button>`).join("")}</div>
+        <div class="phase-sw" style="margin-left:0">${["pve", "pvp"].map(m => `<button data-sbm="${m}" class="${m === sbMode ? "on" : ""}">${m.toUpperCase()}</button>`).join("")}</div></div>
+    </div>
+    <div class="summary" style="border-top:1px solid var(--line)">
+      <span class="pill"><b>${C.name} · ${P.name}</b> · ${P.sub}</span>
+      ${P.wisdom ? `<span class="pill"><b>Wisdom Stone:</b> +${P.wisdom} skill puanı</span>` : ""}
+      ${P.shards ? `<span class="pill"><b>Stigma Shard:</b> +${P.shards}</span>` : ""}
+      ${P.dv ? `<span class="pill"><b>Daevanion:</b> ${P.dv} puan</span>` : ""}
+    </div></div>
+
+    ${C.keyTip ? `<div class="tipbox" style="margin-bottom:16px"><b>${C.keyStigma}:</b> ${C.keyTip.replace(/^.*?takılı değil\.\s*/, "")}</div>` : ""}
+
+    <div class="card"><h2>Aktif skill'ler <span class="r">Sarı: puanla seviye · mor: bonus</span></h2>
+      <div class="pad"><div class="sbtiles">${sbGroup("active").map(sbTile).join("")}</div></div>
+      <div class="foot">Mor sayı: Daevanion + ekipman + Arcana'dan gelen ek seviye. Yeşil uzmanlık bu seviyede açık; mor uzmanlık skill yükselince alınır. Slot: 8'de 1, 12'de 2, 20'de 3. Soluk kartlar 1. seviyede kalır.</div></div>
+
+    <div class="card"><h2>Stigmalar <span class="r">Takılı olanlar önde</span></h2>
+      <div class="pad"><div class="sbtiles">${sbGroup("stigma").map(sbTile).join("")}</div></div></div>
+
+    <div class="card"><h2>Pasifler</h2>
+      <div class="pad"><div class="sbtiles">${sbGroup("passive").map(sbTile).join("")}</div></div></div>
+
+    <div class="card"><h2>Rotasyon <span class="r">${C.name}</span></h2>
+      <div class="pad">
+        <div class="sbtxt">${R.intro}</div>
+        ${sec("Açılış", sbChain(R.opener))}
+        ${sec("Döngü · öncelik sırası", `<ol class="prio" style="border:1px solid var(--line);border-radius:10px">${R.loop.map(([n, d], i) => `<li data-sb="${n}"><span class="n">${i + 1}</span>${sbIc(n) || "<span></span>"}<div><b>${n}</b><div class="d">${d}</div></div></li>`).join("")}</ol>`)}
+        ${sec("Burst", `<div class="sbtxt">${R.burst}</div>`)}
+        ${sec("Bağlantılar", `<ul class="sbul">${R.links.map(x => `<li>${x}</li>`).join("")}</ul>`)}
+        ${sec("Makro", `<div class="sbtxt">${R.macro}</div>`)}
+        ${sbMode === "pvp" && R.pvp ? sec("PvP", `<ul class="sbul">${R.pvp.map(x => `<li>${x}</li>`).join("")}</ul>`) : ""}
+      </div></div>
+
+    <div class="card"><div class="foot" style="border-top:0">Kaynak: <a href="https://sensationalmmoworkshop.com/#${sbCls}" target="_blank" rel="noopener">Sensational · Aion 2 Build Atölyesi</a> (hazır build'ler ve rotasyon, 2026-10-18'de alındı). Kendi puanına göre ince ayar için kaynaktaki hesaplayıcıyı kullan.</div></div>`;
+  sbDetail(sbSel, false);
+}
+function sbDetail(name, open = true) {
+  const C = SB[sbCls], s = C.skills[name];
+  if (!s) return;
+  sbSel = name;
+  document.querySelectorAll(".sbt").forEach(e => e.classList.toggle("sel", e.dataset.sb === name));
+  const L = sbLv(name), sp = sbSpecs(name), on = new Set(sp.on.map(p => p.id)), later = new Set(sp.later.map(p => p.id));
+  const bd = [L.ex && `Daevanion +${L.ex}`, L.ge && `Ekipman +${L.ge}`, L.ar && `Arcana +${L.ar}`].filter(Boolean);
+  $("detail").innerHTML = `
+    <div class="dh"><img src="${s.icon}" alt=""><div><div class="t">${name}</div>
+      <div class="m"><span class="tag">${{active: "Aktif", passive: "Pasif", stigma: "Stigma"}[s.cat]}</span>${s.rating ? `<span class="tag">${s.rating}</span>` : ""}<span class="tag g">${s.cat === "stigma" && !L.base ? "Takılı değil" : "Seviye " + L.eff}</span></div></div>
+      <button class="close" onclick="document.getElementById('detail').classList.remove('open')">Kapat</button></div>
+    ${bd.length ? `<div class="sbbd"><span class="pill">Puanla ${L.base}</span>${bd.map(x => `<span class="pill">${x}</span>`).join("")}</div>` : ""}
+    <div class="ddesc">${s.role ? `<b style="color:var(--text)">${s.role}.</b> ` : ""}${s.tr || ""}</div>
+    <div class="dwhy" style="color:var(--dim);font-size:12px">${s.unlock ? `${s.unlock}. seviyede açılır` : ""}${s.cd ? ` · cooldown ${s.cd} sn` : ""}</div>
+    ${s.specs.length ? `<div class="hint">Uzmanlıklar: skill bu seviyeye gelince açılır.</div><div class="specs">${s.specs.map(p =>
+      `<div class="spec ${on.has(p.id) ? "on" : later.has(p.id) ? "new" : ""}"><span class="l">Lv ${p.lvl}</span><span>${p.tr}</span><span class="s">${on.has(p.id) ? "SEÇ" : later.has(p.id) ? "SONRA" : ""}</span></div>`).join("")}</div>` : ""}`;
+  if (open) $("detail").classList.add("open");
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
   $("g").hidden = tab !== "g"; $("jb").hidden = tab !== "jb"; $("lay").classList.toggle("solo", tab === "g" || tab === "jb");
   if (tab === "g") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderG(); return; }
   if (tab === "jb") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderJb(); return; }
+  $("sb").hidden = tab !== "sb";
+  if (tab === "sb") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderSb(); return; }
   const own = {me: renderMe, x: renderX, t: renderT};
   Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own;
   if (tab in own) { own[tab](); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
@@ -1286,6 +1426,10 @@ function showDetail(id, open = true) {
 }
 
 document.addEventListener("click", e => {
+  const sbx = e.target.closest("[data-sb]");
+  if (sbx) sbDetail(sbx.dataset.sb);
+  const sbb = e.target.closest("[data-sbc],[data-sbs],[data-sbm]");
+  if (sbb) { const d = sbb.dataset; if (d.sbc) { sbCls = d.sbc; sbSel = null; } if (d.sbs) sbStage = +d.sbs; if (d.sbm) sbMode = d.sbm; renderSb(); }
   const t = e.target.closest("[data-id]");
   if (t) showDetail(t.dataset.id);
   const bb = e.target.closest("[data-board]");
@@ -1309,7 +1453,7 @@ document.addEventListener("input", e => {
 
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DV = dv;
-  if (["#mid", "#g", "#jb", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
+  if (["#mid", "#g", "#jb", "#sb", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>
