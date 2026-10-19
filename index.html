@@ -1456,6 +1456,7 @@ let bossMapFilter = "all";
 let bossQuery = "";
 let bossLevelFilter = "high";
 let bossShowHidden = false;
+let bossFaction = (function(){ try { return localStorage.getItem("aion2BossFaction") || "asmodian"; } catch(e){ return "asmodian"; } })();
 function bossState() { try { return JSON.parse(localStorage.getItem("aion2BossKills") || "{}"); } catch (e) { return {}; } }
 function saveBossState(s) { try { localStorage.setItem("aion2BossKills", JSON.stringify(s)); } catch (e) {} }
 function customBosses() { try { return JSON.parse(localStorage.getItem("aion2BossCustom") || "[]"); } catch (e) { return []; } }
@@ -1577,6 +1578,8 @@ function renderBoss() {
   const maps = [...new Set(bosses.map(b => b.map))].sort((a, b) => a.localeCompare(b, "tr"));
   const filtered = bosses.filter(b => {
     if (bossMapFilter !== "all" && b.map !== bossMapFilter) return false;
+    if (bossFaction === "elyos" && b.map === "Altgard") return false;
+    if (bossFaction === "asmodian" && b.map === "Verteron") return false;
     if (bossLevelFilter === "high" && !b.custom && (b.lvl || 0) < 48) return false;
     if (!bossShowHidden && b.hidden) return false;
     if (bossQuery) {
@@ -1622,6 +1625,12 @@ function renderBoss() {
           <input id="bossSearch" type="search" placeholder="Boss veya harita ara…" value="${escAttr(bossQuery)}">
           <button data-bossmap="all" class="${bossMapFilter === "all" ? "on" : ""}">Tümü</button>
           ${maps.map(m => `<button data-bossmap="${escAttr(m)}" class="${bossMapFilter === m ? "on" : ""}">${escHtml(m)}</button>`).join("")}
+        </div>
+        <div class="boss-tools" style="margin-top:-6px">
+          <span style="color:var(--muted);font-size:12px">Irkm:</span>
+          <button data-bossfaction="elyos" class="${bossFaction === "elyos" ? "on" : ""}">Elyos (Verteron)</button>
+          <button data-bossfaction="asmodian" class="${bossFaction === "asmodian" ? "on" : ""}">Asmodian (Altgard)</button>
+          <button data-bossfaction="all" class="${bossFaction === "all" ? "on" : ""}">Hepsi</button>
         </div>
         <div class="boss-tools" style="margin-top:-6px">
           <span style="color:var(--muted);font-size:12px">Seviye:</span>
@@ -1758,6 +1767,8 @@ document.addEventListener("click", e => {
   if (bl) { bossLevelFilter = bl.dataset.bosslvl; renderBoss(); return; }
   const bsh = e.target.closest("[data-bossshowhidden]");
   if (bsh) { bossShowHidden = !bossShowHidden; renderBoss(); return; }
+  const bfa = e.target.closest("[data-bossfaction]");
+  if (bfa) { bossFaction = bfa.dataset.bossfaction; try { localStorage.setItem("aion2BossFaction", bossFaction); } catch(e){} renderBoss(); return; }
   const ba = e.target.closest("[data-bossact]");
   if (ba) {
     const id = ba.dataset.bid;
