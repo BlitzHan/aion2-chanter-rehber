@@ -1595,7 +1595,7 @@ function renderBoss() {
     if (bossFaction === "elyos" && b.map === "Altgard") return false;
     if (bossFaction === "asmodian" && b.map === "Verteron") return false;
     if (bossLevelFilter === "high" && !b.custom && (b.lvl || 0) < 48) return false;
-    if (!bossShowHidden && b.hidden) return false;
+    if (!bossShowHidden && b.hidden && !b.favorite) return false;
     if (bossFavOnly && !b.favorite) return false;
     if (bossQuery) {
       const q = bossQuery.toLowerCase();
