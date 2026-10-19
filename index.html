@@ -1457,6 +1457,7 @@ let bossQuery = "";
 let bossLevelFilter = "high";
 let bossShowHidden = false;
 let bossFaction = (function(){ try { return localStorage.getItem("aion2BossFaction") || "asmodian"; } catch(e){ return "asmodian"; } })();
+let bossFavOnly = false;
 function bossState() { try { return JSON.parse(localStorage.getItem("aion2BossKills") || "{}"); } catch (e) { return {}; } }
 function saveBossState(s) { try { localStorage.setItem("aion2BossKills", JSON.stringify(s)); } catch (e) {} }
 function customBosses() { try { return JSON.parse(localStorage.getItem("aion2BossCustom") || "[]"); } catch (e) { return []; } }
@@ -1465,18 +1466,23 @@ function bossNames() { try { return JSON.parse(localStorage.getItem("aion2BossNa
 function saveBossNames(o) { try { localStorage.setItem("aion2BossNames", JSON.stringify(o)); } catch (e) {} }
 function bossHidden() { try { return JSON.parse(localStorage.getItem("aion2BossHidden") || "{}"); } catch (e) { return {}; } }
 function saveBossHidden(o) { try { localStorage.setItem("aion2BossHidden", JSON.stringify(o)); } catch (e) {} }
+function bossFav() { try { return JSON.parse(localStorage.getItem("aion2BossFav") || "{}"); } catch (e) { return {}; } }
+function saveBossFav(o) { try { localStorage.setItem("aion2BossFav", JSON.stringify(o)); } catch (e) {} }
 function allBosses() {
   const names = bossNames();
   const hidden = bossHidden();
+  const fav = bossFav();
   return BOSS_DEFAULTS.map(b => {
     const o = { id: b.name, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: false };
     o.displayName = names[o.id] || o.name;
     o.hidden = !!hidden[o.id];
+    o.favorite = !!fav[o.id];
     return o;
   }).concat(customBosses().map(b => {
     const o = { id: b.id, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: true };
     o.displayName = names[o.id] || o.name;
     o.hidden = !!hidden[o.id];
+    o.favorite = !!fav[o.id];
     return o;
   }));
 }
@@ -1539,6 +1545,13 @@ function hideBoss(id, hide) {
   saveBossHidden(o);
   renderBoss();
 }
+function toggleFavorite(id) {
+  const o = bossFav();
+  const cur = !!o[id];
+  if (cur) delete o[id]; else { o[id] = true; const h = bossHidden(); delete h[id]; saveBossHidden(h); }
+  saveBossFav(o);
+  renderBoss();
+}
 function formatMs(ms) {
   const s = Math.ceil(ms / 1000);
   const h = Math.floor(s / 3600);
@@ -1582,6 +1595,7 @@ function renderBoss() {
     if (bossFaction === "asmodian" && b.map === "Verteron") return false;
     if (bossLevelFilter === "high" && !b.custom && (b.lvl || 0) < 48) return false;
     if (!bossShowHidden && b.hidden) return false;
+    if (bossFavOnly && !b.favorite) return false;
     if (bossQuery) {
       const q = bossQuery.toLowerCase();
       const nm = (b.displayName || b.name).toLowerCase();
@@ -1605,12 +1619,13 @@ function renderBoss() {
     const lvlTxt = b.lvl ? ` · Lv ${b.lvl}` : "";
     const shownName = b.displayName || b.name;
     return `<tr data-bossrow="${escAttr(b.id)}" ${b.hidden ? 'style="opacity:.45"' : ""}>
-      <td><div class="bossname">${escHtml(shownName)}${b.hidden ? ' <span style="color:var(--red);font-size:11px">(gizli)</span>' : ""}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}</div></td>
+      <td><div class="bossname">${b.favorite ? "★ " : ""}${escHtml(shownName)}${b.hidden ? ' <span style="color:var(--red);font-size:11px">(gizli)</span>' : ""}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}</div></td>
       <td>${respawnTxt}</td>
       <td><span class="boss-cd ${ready ? "boss-ready" : "boss-busy"}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
       <td class="boss-actions">
         ${b.manualOnly ? "" : `<button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>`}
         <button data-bossact="settime" data-bid="${escAttr(b.id)}">Süre ayarla</button>
+        <button data-bossact="fav" data-bid="${escAttr(b.id)}">${b.favorite ? "★ Önemli" : "☆ Önemli"}</button>
         <button data-bossact="rename" data-bid="${escAttr(b.id)}">Adı değiştir</button>
         <button data-bossact="hide" data-bid="${escAttr(b.id)}">${b.hidden ? "Göster" : "Gizle"}</button>
         ${state[b.id] ? `<button data-bossact="clear" data-bid="${escAttr(b.id)}">Sıfırla</button>` : ""}
@@ -1637,6 +1652,7 @@ function renderBoss() {
           <button data-bosslvl="high" class="${bossLevelFilter === "high" ? "on" : ""}">46+ item</button>
           <button data-bosslvl="all" class="${bossLevelFilter === "all" ? "on" : ""}">Tüm boss'lar</button>
           <button data-bossshowhidden="1" class="${bossShowHidden ? "on" : ""}">Gizlenenleri göster</button>
+          <button data-bossfavonly="1" class="${bossFavOnly ? "on" : ""}">Sadece önemli</button>
         </div>
         <table class="bosstable">
           <thead><tr><th>Boss</th><th>Yeniden doğma</th><th>Durum</th><th></th></tr></thead>
@@ -1767,6 +1783,8 @@ document.addEventListener("click", e => {
   if (bl) { bossLevelFilter = bl.dataset.bosslvl; renderBoss(); return; }
   const bsh = e.target.closest("[data-bossshowhidden]");
   if (bsh) { bossShowHidden = !bossShowHidden; renderBoss(); return; }
+  const bfo = e.target.closest("[data-bossfavonly]");
+  if (bfo) { bossFavOnly = !bossFavOnly; renderBoss(); return; }
   const bfa = e.target.closest("[data-bossfaction]");
   if (bfa) { bossFaction = bfa.dataset.bossfaction; try { localStorage.setItem("aion2BossFaction", bossFaction); } catch(e){} renderBoss(); return; }
   const ba = e.target.closest("[data-bossact]");
@@ -1774,6 +1792,7 @@ document.addEventListener("click", e => {
     const id = ba.dataset.bid;
     if (ba.dataset.bossact === "mark") markBoss(id);
     else if (ba.dataset.bossact === "settime") setBossRemaining(id);
+    else if (ba.dataset.bossact === "fav") toggleFavorite(id);
     else if (ba.dataset.bossact === "rename") renameBoss(id);
     else if (ba.dataset.bossact === "hide") { const bb = allBosses().find(x => x.id === id); hideBoss(id, !(bb && bb.hidden)); }
     else if (ba.dataset.bossact === "clear") clearBoss(id);
