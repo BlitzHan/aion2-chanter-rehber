@@ -1473,13 +1473,32 @@ function bossRemainingMs(b) {
   const rem = until - Date.now();
   return rem > 0 ? rem : 0;
 }
+function parseMinutesInput(str) {
+  const s = String(str).trim().toLowerCase();
+  let m = s.match(/(\d+)\s*[:.]\s*(\d+)/);
+  if (m) return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+  const h = s.match(/(\d+)\s*(s|sa|saat|h|hr|hour)/);
+  const mm = s.match(/(\d+)\s*(dk|dakika|m|min|minute)/);
+  if (h || mm) return (h ? parseInt(h[1], 10) * 60 : 0) + (mm ? parseInt(mm[1], 10) : 0);
+  const parts = s.split(/\s+/).filter(Boolean);
+  if (parts.length === 2 && /^\d+$/.test(parts[0]) && /^\d+$/.test(parts[1])) return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+  const n = parseInt(s, 10);
+  return isNaN(n) ? null : n;
+}
+function formatHMmin(ms) {
+  const mins = Math.ceil(ms / 60000);
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (h > 0) return h + ":" + String(m).padStart(2, "0");
+  return String(m);
+}
 function setBossRemaining(id) {
   const b = allBosses().find(x => x.id === id);
   const cur = b ? bossRemainingMs(b) : 0;
-  const def = cur > 0 ? Math.ceil(cur / 60000) : (b && b.min ? b.min : 30);
-  const input = prompt("Kalan süre (dakika) gir:", def);
+  const def = cur > 0 ? formatHMmin(cur) : (b && b.min ? formatHMmin(b.min * 60000) : "30");
+  const input = prompt("Kalan süre gir (örn: 4:15 veya 255):", def);
   if (input === null) return;
-  const mins = parseInt(input, 10);
+  const mins = parseMinutesInput(input);
   if (!mins || mins < 1) return;
   const s = bossState(); s[id] = { until: Date.now() + mins * 60 * 1000 }; saveBossState(s); renderBoss();
 }
