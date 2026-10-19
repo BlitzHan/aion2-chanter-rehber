@@ -355,6 +355,21 @@ table.cmp td.w{white-space:normal}
 #sbdv .steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
 #sbdv .dg .nd[data-sbdvs]{cursor:pointer}
 @media (max-width:900px){.sbtiles{grid-template-columns:repeat(2,minmax(0,1fr))}.sbsel .lb{width:100%}.sbchain .st{width:64px}}
+/* boss timer */
+.boss-tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.boss-tools input{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--text);min-width:160px}
+.boss-tools button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--muted);font-size:12px}
+.boss-tools button.on{border-color:var(--gold);color:var(--gold);background:#2a2412}
+.bosstable{width:100%;border-collapse:collapse}
+.bosstable th,.bosstable td{padding:8px 6px;border-top:1px solid var(--line);text-align:left;font-size:13px;vertical-align:middle}
+.bosstable th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.06em;border-top:0}
+.bossname{font-weight:600}
+.bossmap{color:var(--muted);font-size:12px}
+.boss-cd{font-variant-numeric:tabular-nums;font-weight:700}
+.boss-ready{color:var(--green)}
+.boss-busy{color:var(--gold)}
+.boss-actions button{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px;margin-left:4px}
+.boss-actions button.mark{border-color:#5d4a1c;color:var(--gold)}
 </style>
 </head>
 <body>
@@ -374,6 +389,7 @@ table.cmp td.w{white-space:normal}
     <button data-tab="x">Ek bilgiler</button>
     <button data-tab="t">Tablo build</button>
     <button data-tab="me">Benim dizilimim</button>
+    <button data-tab="boss">Boss sayacı</button>
   </div>
 </div></div>
 
@@ -383,6 +399,7 @@ table.cmp td.w{white-space:normal}
     <div id="jb" hidden></div>
     <div id="sb" hidden></div>
     <div id="me" hidden></div>
+    <div id="boss" hidden></div>
     <div id="x" hidden></div>
     <div id="t" hidden></div>
     <div id="std">
@@ -422,6 +439,7 @@ table.cmp td.w{white-space:normal}
 
 
 <script>
+const BOSS_DEFAULTS = [{"name": "Blooming Korin", "map": "Verteron", "min": 60}, {"name": "Heretic Layla", "map": "Verteron", "min": 180}, {"name": "Black Tentacle Lawa", "map": "Verteron", "min": 120}, {"name": "Phantasm Kasia", "map": "Verteron", "min": 360}, {"name": "Centurion Demiros", "map": "Verteron", "min": 120}, {"name": "Divine Ansas", "map": "Verteron", "min": 360}, {"name": "Harvest Manager Moshav", "map": "Verteron", "min": 180}, {"name": "Sentinel K'nash", "map": "Verteron", "min": 120}, {"name": "Scholar Aulla", "map": "Verteron", "min": 120}, {"name": "Forest Warrior Aullamu", "map": "Verteron", "min": 120}, {"name": "Chaser Taulo", "map": "Verteron", "min": 120}, {"name": "Neikel of the East", "map": "Verteron", "min": 30}, {"name": "Researcher Setram", "map": "Verteron", "min": 360}, {"name": "Eternal Gartua", "map": "Verteron", "min": 720}, {"name": "Silent Dartan (Verteron)", "map": "Verteron", "min": 360}, {"name": "Soul Ruler Kashapa (Verteron)", "map": "Verteron", "min": 360}, {"name": "High Commander Lagta (Verteron)", "map": "Verteron", "min": 720}, {"name": "Melted Danar", "map": "Altgard", "min": 30}, {"name": "Faithful Rajit", "map": "Altgard", "min": 30}, {"name": "Berserker Vargor", "map": "Altgard", "min": 60}, {"name": "Blood Warrior Lannar", "map": "Altgard", "min": 90}, {"name": "Advisor Resana", "map": "Altgard", "min": 180}, {"name": "Rotten Kutar", "map": "Verteron", "min": 30}, {"name": "Black Warrior Aed", "map": "Altgard", "min": 30}, {"name": "Predator Garsan", "map": "Altgard", "min": 120}, {"name": "Deceiver Trid", "map": "Altgard", "min": 120}, {"name": "Blue Wave Kelpina", "map": "Altgard", "min": 120}, {"name": "High Overseer Nutah", "map": "Altgard", "min": 120}, {"name": "Special Operations Leader Linx", "map": "Altgard", "min": 180}, {"name": "Desecrator Newbold", "map": "Altgard", "min": 240}, {"name": "Specter Archon Axios", "map": "Altgard", "min": 240}, {"name": "Addicted Hardirun", "map": "Altgard", "min": 180}, {"name": "Executioner Barthien", "map": "Altgard", "min": 240}, {"name": "Kernon of the West", "map": "Verteron", "min": 30}, {"name": "Drakan Battalion Weapon Guruta", "map": "Altgard", "min": 360}, {"name": "Veteran Shujakan", "map": "Altgard", "min": 180}, {"name": "Visionary Karuka", "map": "Altgard", "min": 240}, {"name": "Dark Shadow Vishwada", "map": "Altgard", "min": 360}, {"name": "Sharp Shylak", "map": "Altgard", "min": 360}, {"name": "Immortal Gartua", "map": "Altgard", "min": 720}, {"name": "High Commander Lagta (Altgard)", "map": "Altgard", "min": 720}, {"name": "Soul Ruler Kashapa (Altgard)", "map": "Altgard", "min": 360}, {"name": "Silent Dartan (Altgard)", "map": "Altgard", "min": 360}, {"name": "Kusan the Mad Gladiator", "map": "Verteron", "min": 120}, {"name": "Ritualist Garshim", "map": "Verteron", "min": 120}, {"name": "Bodyguard Teegant", "map": "Verteron", "min": 90}, {"name": "Furious Saursus", "map": "Verteron", "min": 180}, {"name": "Bloodfang Pnyn", "map": "Verteron", "min": 180}];
 const BUILDS = {
   early: {
     questlog: "https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz?build-id=11948",
@@ -1433,15 +1451,140 @@ function renderSbDv(full = true) {
     </div>`;
   const sel = el.querySelector(".steps2 li.sel"); if (sel) sel.scrollIntoView({block: "nearest"});
 }
+// ---------- Boss sayacı ----------
+let bossMapFilter = "all";
+let bossQuery = "";
+function bossState() { try { return JSON.parse(localStorage.getItem("aion2BossKills") || "{}"); } catch (e) { return {}; } }
+function saveBossState(s) { try { localStorage.setItem("aion2BossKills", JSON.stringify(s)); } catch (e) {} }
+function customBosses() { try { return JSON.parse(localStorage.getItem("aion2BossCustom") || "[]"); } catch (e) { return []; } }
+function saveCustomBosses(list) { try { localStorage.setItem("aion2BossCustom", JSON.stringify(list)); } catch (e) {} }
+function allBosses() { return BOSS_DEFAULTS.map(b => ({ id: b.name, name: b.name, map: b.map, min: b.min })).concat(customBosses().map(b => ({ id: b.id, name: b.name, map: b.map, min: b.min }))); }
+function bossRemainingMs(b) {
+  const ts = bossState()[b.id];
+  if (!ts) return 0;
+  const rem = b.min * 60 * 1000 - (Date.now() - ts);
+  return rem > 0 ? rem : 0;
+}
+function formatMs(ms) {
+  const s = Math.ceil(ms / 1000);
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  if (h > 0) return h + ":" + String(m).padStart(2, "0") + ":" + String(sec).padStart(2, "0");
+  return m + ":" + String(sec).padStart(2, "0");
+}
+function escHtml(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function escAttr(s) { return escHtml(s).replace(/"/g, "&quot;"); }
+function markBoss(id) {
+  const s = bossState(); s[id] = Date.now(); saveBossState(s); renderBoss();
+}
+function clearBoss(id) {
+  const s = bossState(); delete s[id]; saveBossState(s); renderBoss();
+}
+function clearAllBosses() {
+  if (!confirm("Tüm boss işaretleri sıfırlansın mı?")) return;
+  saveBossState({}); renderBoss();
+}
+function addBoss() {
+  const nameEl = $("bossNewName"), mapEl = $("bossNewMap"), minEl = $("bossNewMin");
+  const name = (nameEl.value || "").trim();
+  const map = (mapEl.value || "").trim() || "Özel";
+  const min = parseInt(minEl.value, 10);
+  if (!name || !min || min < 1) return;
+  const custom = customBosses();
+  let id = name;
+  if (allBosses().some(b => b.id === id)) id = name + " (" + Date.now() + ")";
+  custom.push({ id, name, map, min });
+  saveCustomBosses(custom);
+  nameEl.value = ""; mapEl.value = ""; minEl.value = "";
+  renderBoss();
+}
+function renderBoss() {
+  const bosses = allBosses();
+  const maps = [...new Set(bosses.map(b => b.map))].sort((a, b) => a.localeCompare(b, "tr"));
+  const filtered = bosses.filter(b => {
+    if (bossMapFilter !== "all" && b.map !== bossMapFilter) return false;
+    if (bossQuery) {
+      const q = bossQuery.toLowerCase();
+      if (!b.name.toLowerCase().includes(q) && !b.map.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+  filtered.sort((a, b) => {
+    const ra = bossRemainingMs(a), rb = bossRemainingMs(b);
+    if (ra > 0 && rb === 0) return -1;
+    if (rb > 0 && ra === 0) return 1;
+    if (ra > 0 && rb > 0) return ra - rb;
+    return a.name.localeCompare(b.name, "tr");
+  });
+  const state = bossState();
+  const rows = filtered.map(b => {
+    const rem = bossRemainingMs(b);
+    const ready = rem <= 0;
+    const cdText = ready ? "Hazır" : formatMs(rem);
+    const respawnTxt = b.min >= 60 ? (Math.floor(b.min / 60) + (b.min % 60 ? " sa " + (b.min % 60) + " dk" : " sa")) : (b.min + " dk");
+    return `<tr data-bossrow="${escAttr(b.id)}">
+      <td><div class="bossname">${escHtml(b.name)}</div><div class="bossmap">${escHtml(b.map)}</div></td>
+      <td>${respawnTxt}</td>
+      <td><span class="boss-cd ${ready ? "boss-ready" : "boss-busy"}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
+      <td class="boss-actions">
+        <button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>
+        ${state[b.id] ? `<button data-bossact="clear" data-bid="${escAttr(b.id)}">Sıfırla</button>` : ""}
+      </td>
+    </tr>`;
+  }).join("");
+  $("boss").innerHTML = `
+    <div class="card">
+      <h2>Boss sayacı <span class="r">Manuel işaretle · otomatik geri sayım</span></h2>
+      <div class="pad">
+        <div class="boss-tools">
+          <input id="bossSearch" type="search" placeholder="Boss veya harita ara…" value="${escAttr(bossQuery)}">
+          <button data-bossmap="all" class="${bossMapFilter === "all" ? "on" : ""}">Tümü</button>
+          ${maps.map(m => `<button data-bossmap="${escAttr(m)}" class="${bossMapFilter === m ? "on" : ""}">${escHtml(m)}</button>`).join("")}
+        </div>
+        <table class="bosstable">
+          <thead><tr><th>Boss</th><th>Yeniden doğma</th><th>Durum</th><th></th></tr></thead>
+          <tbody>${rows || `<tr><td colspan="4" style="color:var(--muted)">Sonuç yok.</td></tr>`}</tbody>
+        </table>
+        <div style="margin-top:12px;color:var(--muted);font-size:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <span>İşaretleme tarayıcıda saklanır (localStorage). Sayfa kapansa da sayaç kaldığı yerden devam eder.</span>
+          <button data-bossact="clearall" style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px">Tümünü sıfırla</button>
+        </div>
+        <details style="margin-top:10px">
+          <summary>Boss ekle</summary>
+          <div class="pad" style="display:flex;gap:8px;flex-wrap:wrap">
+            <input id="bossNewName" placeholder="Boss adı">
+            <input id="bossNewMap" placeholder="Harita">
+            <input id="bossNewMin" type="number" min="1" placeholder="Dk" style="width:80px">
+            <button id="bossAddBtn">Ekle</button>
+          </div>
+        </details>
+      </div>
+    </div>`;
+}
+function tickBoss() {
+  document.querySelectorAll(".boss-cd").forEach(el => {
+    const id = el.dataset.bid;
+    const b = allBosses().find(x => x.id === id);
+    if (!b) return;
+    const rem = bossRemainingMs(b);
+    const ready = rem <= 0;
+    el.textContent = ready ? "Hazır" : formatMs(rem);
+    el.classList.toggle("boss-ready", ready);
+    el.classList.toggle("boss-busy", !ready);
+  });
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("g").hidden = tab !== "g"; $("jb").hidden = tab !== "jb"; $("lay").classList.toggle("solo", tab === "g" || tab === "jb");
-  if (tab === "g") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderG(); return; }
-  if (tab === "jb") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderJb(); return; }
+  $("g").hidden = tab !== "g"; $("jb").hidden = tab !== "jb"; $("boss").hidden = tab !== "boss"; $("lay").classList.toggle("solo", tab === "g" || tab === "jb" || tab === "boss");
+  if (tab === "g") { ["me", "x", "t", "std", "boss"].forEach(k => $(k).hidden = true); renderG(); return; }
+  if (tab === "jb") { ["me", "x", "t", "std", "boss"].forEach(k => $(k).hidden = true); renderJb(); return; }
+  if (tab === "boss") { ["me", "x", "t", "std", "g", "jb", "sb"].forEach(k => $(k).hidden = true); $("boss").hidden = false; renderBoss(); return; }
   $("sb").hidden = tab !== "sb";
-  if (tab === "sb") { ["me", "x", "t", "std"].forEach(k => $(k).hidden = true); renderSb(); return; }
+  if (tab === "sb") { ["me", "x", "t", "std", "boss"].forEach(k => $(k).hidden = true); renderSb(); return; }
   const own = {me: renderMe, x: renderX, t: renderT};
-  Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own;
+  Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own; $("boss").hidden = true;
   if (tab in own) { own[tab](); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
   const B = BUILDS[tab];
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
@@ -1522,11 +1665,34 @@ document.addEventListener("click", e => {
   if (tbd) { tBoard = +tbd.dataset.tboard; tStep = null; renderTDaev(); }
   const tst = e.target.closest("[data-tstep]");
   if (tst) { tStep = +tst.dataset.tstep; tBoard = tSteps().find(x => x.s === tStep).bi; renderTDaev(); }
+  const bm = e.target.closest("[data-bossmap]");
+  if (bm) { bossMapFilter = bm.dataset.bossmap; renderBoss(); return; }
+  const ba = e.target.closest("[data-bossact]");
+  if (ba) {
+    const id = ba.dataset.bid;
+    if (ba.dataset.bossact === "mark") markBoss(id);
+    else if (ba.dataset.bossact === "clear") clearBoss(id);
+    else if (ba.dataset.bossact === "clearall") clearAllBosses();
+    return;
+  }
+  if (e.target.id === "bossAddBtn") { addBoss(); return; }
   const tb = e.target.closest("[data-tab]");
   if (tb) { tab = tb.dataset.tab; dphase = null; board = 0; history.replaceState(null, "", "#" + tab); render(); }
 });
 
 document.addEventListener("input", e => {
+  if (e.target.id === "bossSearch") {
+    bossQuery = e.target.value;
+    document.querySelectorAll("[data-bossrow]").forEach(row => {
+      const id = row.dataset.bossrow;
+      const b = allBosses().find(x => x.id === id);
+      if (!b) return;
+      const q = bossQuery.toLowerCase();
+      const show = !q || b.name.toLowerCase().includes(q) || b.map.toLowerCase().includes(q);
+      row.style.display = show ? "" : "none";
+    });
+    return;
+  }
   if (e.target.id === "sbdvpts") {
     const v = Math.max(0, +e.target.value || 0);
     if (sbDvBoards()[sbDvB].az) sbAzPts = v; else sbDvPts = v;
@@ -1538,9 +1704,10 @@ document.addEventListener("input", e => {
   renderTDaev();
 });
 
+setInterval(tickBoss, 1000);
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DV = dv;
-  if (["#mid", "#g", "#jb", "#sb", "#me", "#x", "#t"].includes(location.hash)) tab = location.hash.slice(1);
+  if (["#mid", "#g", "#jb", "#sb", "#me", "#x", "#t", "#boss"].includes(location.hash)) tab = location.hash.slice(1);
   render();
 });
 </script>
