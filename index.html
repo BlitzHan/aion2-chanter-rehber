@@ -1455,11 +1455,30 @@ function renderSbDv(full = true) {
 let bossMapFilter = "all";
 let bossQuery = "";
 let bossLevelFilter = "high";
+let bossShowHidden = false;
 function bossState() { try { return JSON.parse(localStorage.getItem("aion2BossKills") || "{}"); } catch (e) { return {}; } }
 function saveBossState(s) { try { localStorage.setItem("aion2BossKills", JSON.stringify(s)); } catch (e) {} }
 function customBosses() { try { return JSON.parse(localStorage.getItem("aion2BossCustom") || "[]"); } catch (e) { return []; } }
 function saveCustomBosses(list) { try { localStorage.setItem("aion2BossCustom", JSON.stringify(list)); } catch (e) {} }
-function allBosses() { return BOSS_DEFAULTS.map(b => ({ id: b.name, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: false })).concat(customBosses().map(b => ({ id: b.id, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: true }))); }
+function bossNames() { try { return JSON.parse(localStorage.getItem("aion2BossNames") || "{}"); } catch (e) { return {}; } }
+function saveBossNames(o) { try { localStorage.setItem("aion2BossNames", JSON.stringify(o)); } catch (e) {} }
+function bossHidden() { try { return JSON.parse(localStorage.getItem("aion2BossHidden") || "{}"); } catch (e) { return {}; } }
+function saveBossHidden(o) { try { localStorage.setItem("aion2BossHidden", JSON.stringify(o)); } catch (e) {} }
+function allBosses() {
+  const names = bossNames();
+  const hidden = bossHidden();
+  return BOSS_DEFAULTS.map(b => {
+    const o = { id: b.name, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: false };
+    o.displayName = names[o.id] || o.name;
+    o.hidden = !!hidden[o.id];
+    return o;
+  }).concat(customBosses().map(b => {
+    const o = { id: b.id, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: true };
+    o.displayName = names[o.id] || o.name;
+    o.hidden = !!hidden[o.id];
+    return o;
+  }));
+}
 function bossUntil(b) {
   const v = bossState()[b.id];
   if (v == null) return 0;
@@ -1502,6 +1521,23 @@ function setBossRemaining(id) {
   if (!mins || mins < 1) return;
   const s = bossState(); s[id] = { until: Date.now() + mins * 60 * 1000 }; saveBossState(s); renderBoss();
 }
+function renameBoss(id) {
+  const b = allBosses().find(x => x.id === id);
+  const cur = b ? (b.displayName || b.name) : id;
+  const input = prompt("Boss adı (oyun içi isim):", cur);
+  if (input === null) return;
+  const v = input.trim();
+  const o = bossNames();
+  if (v && v !== b.name) o[id] = v; else delete o[id];
+  saveBossNames(o);
+  renderBoss();
+}
+function hideBoss(id, hide) {
+  const o = bossHidden();
+  if (hide) o[id] = true; else delete o[id];
+  saveBossHidden(o);
+  renderBoss();
+}
 function formatMs(ms) {
   const s = Math.ceil(ms / 1000);
   const h = Math.floor(s / 3600);
@@ -1542,9 +1578,11 @@ function renderBoss() {
   const filtered = bosses.filter(b => {
     if (bossMapFilter !== "all" && b.map !== bossMapFilter) return false;
     if (bossLevelFilter === "high" && !b.custom && (b.lvl || 0) < 48) return false;
+    if (!bossShowHidden && b.hidden) return false;
     if (bossQuery) {
       const q = bossQuery.toLowerCase();
-      if (!b.name.toLowerCase().includes(q) && !b.map.toLowerCase().includes(q)) return false;
+      const nm = (b.displayName || b.name).toLowerCase();
+      if (!nm.includes(q) && !b.map.toLowerCase().includes(q)) return false;
     }
     return true;
   });
@@ -1562,13 +1600,16 @@ function renderBoss() {
     const cdText = ready ? "Hazır" : formatMs(rem);
     const respawnTxt = b.manualOnly ? "Manuel" : (b.min >= 60 ? (Math.floor(b.min / 60) + (b.min % 60 ? " sa " + (b.min % 60) + " dk" : " sa")) : (b.min + " dk"));
     const lvlTxt = b.lvl ? ` · Lv ${b.lvl}` : "";
-    return `<tr data-bossrow="${escAttr(b.id)}">
-      <td><div class="bossname">${escHtml(b.name)}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}</div></td>
+    const shownName = b.displayName || b.name;
+    return `<tr data-bossrow="${escAttr(b.id)}" ${b.hidden ? 'style="opacity:.45"' : ""}>
+      <td><div class="bossname">${escHtml(shownName)}${b.hidden ? ' <span style="color:var(--red);font-size:11px">(gizli)</span>' : ""}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}</div></td>
       <td>${respawnTxt}</td>
       <td><span class="boss-cd ${ready ? "boss-ready" : "boss-busy"}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
       <td class="boss-actions">
         ${b.manualOnly ? "" : `<button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>`}
         <button data-bossact="settime" data-bid="${escAttr(b.id)}">Süre ayarla</button>
+        <button data-bossact="rename" data-bid="${escAttr(b.id)}">Adı değiştir</button>
+        <button data-bossact="hide" data-bid="${escAttr(b.id)}">${b.hidden ? "Göster" : "Gizle"}</button>
         ${state[b.id] ? `<button data-bossact="clear" data-bid="${escAttr(b.id)}">Sıfırla</button>` : ""}
       </td>
     </tr>`;
@@ -1586,6 +1627,7 @@ function renderBoss() {
           <span style="color:var(--muted);font-size:12px">Seviye:</span>
           <button data-bosslvl="high" class="${bossLevelFilter === "high" ? "on" : ""}">46+ item</button>
           <button data-bosslvl="all" class="${bossLevelFilter === "all" ? "on" : ""}">Tüm boss'lar</button>
+          <button data-bossshowhidden="1" class="${bossShowHidden ? "on" : ""}">Gizlenenleri göster</button>
         </div>
         <table class="bosstable">
           <thead><tr><th>Boss</th><th>Yeniden doğma</th><th>Durum</th><th></th></tr></thead>
@@ -1714,11 +1756,15 @@ document.addEventListener("click", e => {
   if (bm) { bossMapFilter = bm.dataset.bossmap; renderBoss(); return; }
   const bl = e.target.closest("[data-bosslvl]");
   if (bl) { bossLevelFilter = bl.dataset.bosslvl; renderBoss(); return; }
+  const bsh = e.target.closest("[data-bossshowhidden]");
+  if (bsh) { bossShowHidden = !bossShowHidden; renderBoss(); return; }
   const ba = e.target.closest("[data-bossact]");
   if (ba) {
     const id = ba.dataset.bid;
     if (ba.dataset.bossact === "mark") markBoss(id);
     else if (ba.dataset.bossact === "settime") setBossRemaining(id);
+    else if (ba.dataset.bossact === "rename") renameBoss(id);
+    else if (ba.dataset.bossact === "hide") { const bb = allBosses().find(x => x.id === id); hideBoss(id, !(bb && bb.hidden)); }
     else if (ba.dataset.bossact === "clear") clearBoss(id);
     else if (ba.dataset.bossact === "clearall") clearAllBosses();
     return;
