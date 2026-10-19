@@ -439,7 +439,7 @@ table.cmp td.w{white-space:normal}
 
 
 <script>
-const BOSS_DEFAULTS = [{"name": "Blooming Korin", "map": "Verteron", "min": 60}, {"name": "Heretic Layla", "map": "Verteron", "min": 180}, {"name": "Black Tentacle Lawa", "map": "Verteron", "min": 120}, {"name": "Phantasm Kasia", "map": "Verteron", "min": 360}, {"name": "Centurion Demiros", "map": "Verteron", "min": 120}, {"name": "Divine Ansas", "map": "Verteron", "min": 360}, {"name": "Harvest Manager Moshav", "map": "Verteron", "min": 180}, {"name": "Sentinel K'nash", "map": "Verteron", "min": 120}, {"name": "Scholar Aulla", "map": "Verteron", "min": 120}, {"name": "Forest Warrior Aullamu", "map": "Verteron", "min": 120}, {"name": "Chaser Taulo", "map": "Verteron", "min": 120}, {"name": "Neikel of the East", "map": "Verteron", "min": 30}, {"name": "Researcher Setram", "map": "Verteron", "min": 360}, {"name": "Eternal Gartua", "map": "Verteron", "min": 720}, {"name": "Silent Dartan (Verteron)", "map": "Verteron", "min": 360}, {"name": "Soul Ruler Kashapa (Verteron)", "map": "Verteron", "min": 360}, {"name": "High Commander Lagta (Verteron)", "map": "Verteron", "min": 720}, {"name": "Melted Danar", "map": "Altgard", "min": 30}, {"name": "Faithful Rajit", "map": "Altgard", "min": 30}, {"name": "Berserker Vargor", "map": "Altgard", "min": 60}, {"name": "Blood Warrior Lannar", "map": "Altgard", "min": 90}, {"name": "Advisor Resana", "map": "Altgard", "min": 180}, {"name": "Rotten Kutar", "map": "Verteron", "min": 30}, {"name": "Black Warrior Aed", "map": "Altgard", "min": 30}, {"name": "Predator Garsan", "map": "Altgard", "min": 120}, {"name": "Deceiver Trid", "map": "Altgard", "min": 120}, {"name": "Blue Wave Kelpina", "map": "Altgard", "min": 120}, {"name": "High Overseer Nutah", "map": "Altgard", "min": 120}, {"name": "Special Operations Leader Linx", "map": "Altgard", "min": 180}, {"name": "Desecrator Newbold", "map": "Altgard", "min": 240}, {"name": "Specter Archon Axios", "map": "Altgard", "min": 240}, {"name": "Addicted Hardirun", "map": "Altgard", "min": 180}, {"name": "Executioner Barthien", "map": "Altgard", "min": 240}, {"name": "Kernon of the West", "map": "Verteron", "min": 30}, {"name": "Drakan Battalion Weapon Guruta", "map": "Altgard", "min": 360}, {"name": "Veteran Shujakan", "map": "Altgard", "min": 180}, {"name": "Visionary Karuka", "map": "Altgard", "min": 240}, {"name": "Dark Shadow Vishwada", "map": "Altgard", "min": 360}, {"name": "Sharp Shylak", "map": "Altgard", "min": 360}, {"name": "Immortal Gartua", "map": "Altgard", "min": 720}, {"name": "High Commander Lagta (Altgard)", "map": "Altgard", "min": 720}, {"name": "Soul Ruler Kashapa (Altgard)", "map": "Altgard", "min": 360}, {"name": "Silent Dartan (Altgard)", "map": "Altgard", "min": 360}, {"name": "Kusan the Mad Gladiator", "map": "Verteron", "min": 120}, {"name": "Ritualist Garshim", "map": "Verteron", "min": 120}, {"name": "Bodyguard Teegant", "map": "Verteron", "min": 90}, {"name": "Furious Saursus", "map": "Verteron", "min": 180}, {"name": "Bloodfang Pnyn", "map": "Verteron", "min": 180}];
+const BOSS_DEFAULTS = [{"name": "Blooming Korin", "map": "Verteron", "min": 60, "lvl": 45}, {"name": "Heretic Layla", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Black Tentacle Lawa", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Phantasm Kasia", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Centurion Demiros", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Divine Ansas", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Harvest Manager Moshav", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Sentinel K'nash", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Scholar Aulla", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Forest Warrior Aullamu", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Chaser Taulo", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Neikel of the East", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Researcher Setram", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Eternal Gartua", "map": "Verteron", "min": 720, "lvl": 51}, {"name": "Silent Dartan (Verteron)", "map": "Verteron", "min": 360, "lvl": 48}, {"name": "Soul Ruler Kashapa (Verteron)", "map": "Verteron", "min": 360, "lvl": 48}, {"name": "High Commander Lagta (Verteron)", "map": "Verteron", "min": 720, "lvl": 48}, {"name": "Melted Danar", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Faithful Rajit", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Berserker Vargor", "map": "Altgard", "min": 60, "lvl": 45}, {"name": "Blood Warrior Lannar", "map": "Altgard", "min": 90, "lvl": 45}, {"name": "Advisor Resana", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Rotten Kutar", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Black Warrior Aed", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Predator Garsan", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Deceiver Trid", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Blue Wave Kelpina", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "High Overseer Nutah", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Special Operations Leader Linx", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Desecrator Newbold", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Specter Archon Axios", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Addicted Hardirun", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Executioner Barthien", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Kernon of the West", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Drakan Battalion Weapon Guruta", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Veteran Shujakan", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Visionary Karuka", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Dark Shadow Vishwada", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Sharp Shylak", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Immortal Gartua", "map": "Altgard", "min": 720, "lvl": 51}, {"name": "High Commander Lagta (Altgard)", "map": "Altgard", "min": 720, "lvl": 48}, {"name": "Soul Ruler Kashapa (Altgard)", "map": "Altgard", "min": 360, "lvl": 48}, {"name": "Silent Dartan (Altgard)", "map": "Altgard", "min": 360, "lvl": 48}, {"name": "Kusan the Mad Gladiator", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Ritualist Garshim", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Bodyguard Teegant", "map": "Verteron", "min": 90, "lvl": 45}, {"name": "Furious Saursus", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Bloodfang Pnyn", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Argo, the Spirit King", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Watcher Kaira", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Reshanta's Root)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Shade Island)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Lonely Island)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Tamasa", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Argo", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Kaira", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}];
 const BUILDS = {
   early: {
     questlog: "https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz?build-id=11948",
@@ -1454,16 +1454,34 @@ function renderSbDv(full = true) {
 // ---------- Boss sayacı ----------
 let bossMapFilter = "all";
 let bossQuery = "";
+let bossLevelFilter = "high";
 function bossState() { try { return JSON.parse(localStorage.getItem("aion2BossKills") || "{}"); } catch (e) { return {}; } }
 function saveBossState(s) { try { localStorage.setItem("aion2BossKills", JSON.stringify(s)); } catch (e) {} }
 function customBosses() { try { return JSON.parse(localStorage.getItem("aion2BossCustom") || "[]"); } catch (e) { return []; } }
 function saveCustomBosses(list) { try { localStorage.setItem("aion2BossCustom", JSON.stringify(list)); } catch (e) {} }
-function allBosses() { return BOSS_DEFAULTS.map(b => ({ id: b.name, name: b.name, map: b.map, min: b.min })).concat(customBosses().map(b => ({ id: b.id, name: b.name, map: b.map, min: b.min }))); }
+function allBosses() { return BOSS_DEFAULTS.map(b => ({ id: b.name, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: false })).concat(customBosses().map(b => ({ id: b.id, name: b.name, map: b.map, min: b.min, lvl: b.lvl || 0, manualOnly: !!b.manualOnly, custom: true }))); }
+function bossUntil(b) {
+  const v = bossState()[b.id];
+  if (v == null) return 0;
+  if (typeof v === "number") return v + (b.min || 0) * 60 * 1000;
+  if (typeof v === "object" && v.until) return v.until;
+  return 0;
+}
 function bossRemainingMs(b) {
-  const ts = bossState()[b.id];
-  if (!ts) return 0;
-  const rem = b.min * 60 * 1000 - (Date.now() - ts);
+  const until = bossUntil(b);
+  if (!until) return 0;
+  const rem = until - Date.now();
   return rem > 0 ? rem : 0;
+}
+function setBossRemaining(id) {
+  const b = allBosses().find(x => x.id === id);
+  const cur = b ? bossRemainingMs(b) : 0;
+  const def = cur > 0 ? Math.ceil(cur / 60000) : (b && b.min ? b.min : 30);
+  const input = prompt("Kalan süre (dakika) gir:", def);
+  if (input === null) return;
+  const mins = parseInt(input, 10);
+  if (!mins || mins < 1) return;
+  const s = bossState(); s[id] = { until: Date.now() + mins * 60 * 1000 }; saveBossState(s); renderBoss();
 }
 function formatMs(ms) {
   const s = Math.ceil(ms / 1000);
@@ -1504,6 +1522,7 @@ function renderBoss() {
   const maps = [...new Set(bosses.map(b => b.map))].sort((a, b) => a.localeCompare(b, "tr"));
   const filtered = bosses.filter(b => {
     if (bossMapFilter !== "all" && b.map !== bossMapFilter) return false;
+    if (bossLevelFilter === "high" && !b.custom && (b.lvl || 0) < 48) return false;
     if (bossQuery) {
       const q = bossQuery.toLowerCase();
       if (!b.name.toLowerCase().includes(q) && !b.map.toLowerCase().includes(q)) return false;
@@ -1522,13 +1541,15 @@ function renderBoss() {
     const rem = bossRemainingMs(b);
     const ready = rem <= 0;
     const cdText = ready ? "Hazır" : formatMs(rem);
-    const respawnTxt = b.min >= 60 ? (Math.floor(b.min / 60) + (b.min % 60 ? " sa " + (b.min % 60) + " dk" : " sa")) : (b.min + " dk");
+    const respawnTxt = b.manualOnly ? "Manuel" : (b.min >= 60 ? (Math.floor(b.min / 60) + (b.min % 60 ? " sa " + (b.min % 60) + " dk" : " sa")) : (b.min + " dk"));
+    const lvlTxt = b.lvl ? ` · Lv ${b.lvl}` : "";
     return `<tr data-bossrow="${escAttr(b.id)}">
-      <td><div class="bossname">${escHtml(b.name)}</div><div class="bossmap">${escHtml(b.map)}</div></td>
+      <td><div class="bossname">${escHtml(b.name)}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}</div></td>
       <td>${respawnTxt}</td>
       <td><span class="boss-cd ${ready ? "boss-ready" : "boss-busy"}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
       <td class="boss-actions">
-        <button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>
+        ${b.manualOnly ? "" : `<button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>`}
+        <button data-bossact="settime" data-bid="${escAttr(b.id)}">Süre ayarla</button>
         ${state[b.id] ? `<button data-bossact="clear" data-bid="${escAttr(b.id)}">Sıfırla</button>` : ""}
       </td>
     </tr>`;
@@ -1541,6 +1562,11 @@ function renderBoss() {
           <input id="bossSearch" type="search" placeholder="Boss veya harita ara…" value="${escAttr(bossQuery)}">
           <button data-bossmap="all" class="${bossMapFilter === "all" ? "on" : ""}">Tümü</button>
           ${maps.map(m => `<button data-bossmap="${escAttr(m)}" class="${bossMapFilter === m ? "on" : ""}">${escHtml(m)}</button>`).join("")}
+        </div>
+        <div class="boss-tools" style="margin-top:-6px">
+          <span style="color:var(--muted);font-size:12px">Seviye:</span>
+          <button data-bosslvl="high" class="${bossLevelFilter === "high" ? "on" : ""}">46+ item</button>
+          <button data-bosslvl="all" class="${bossLevelFilter === "all" ? "on" : ""}">Tüm boss'lar</button>
         </div>
         <table class="bosstable">
           <thead><tr><th>Boss</th><th>Yeniden doğma</th><th>Durum</th><th></th></tr></thead>
@@ -1667,10 +1693,13 @@ document.addEventListener("click", e => {
   if (tst) { tStep = +tst.dataset.tstep; tBoard = tSteps().find(x => x.s === tStep).bi; renderTDaev(); }
   const bm = e.target.closest("[data-bossmap]");
   if (bm) { bossMapFilter = bm.dataset.bossmap; renderBoss(); return; }
+  const bl = e.target.closest("[data-bosslvl]");
+  if (bl) { bossLevelFilter = bl.dataset.bosslvl; renderBoss(); return; }
   const ba = e.target.closest("[data-bossact]");
   if (ba) {
     const id = ba.dataset.bid;
     if (ba.dataset.bossact === "mark") markBoss(id);
+    else if (ba.dataset.bossact === "settime") setBossRemaining(id);
     else if (ba.dataset.bossact === "clear") clearBoss(id);
     else if (ba.dataset.bossact === "clearall") clearAllBosses();
     return;
