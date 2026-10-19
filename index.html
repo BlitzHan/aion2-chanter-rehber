@@ -1457,7 +1457,7 @@ let bossQuery = "";
 let bossLevelFilter = "high";
 let bossShowHidden = false;
 let bossFaction = (function(){ try { return localStorage.getItem("aion2BossFaction") || "asmodian"; } catch(e){ return "asmodian"; } })();
-let bossFavOnly = false;
+let bossFavOnly = true;
 function bossState() { try { return JSON.parse(localStorage.getItem("aion2BossKills") || "{}"); } catch (e) { return {}; } }
 function saveBossState(s) { try { localStorage.setItem("aion2BossKills", JSON.stringify(s)); } catch (e) {} }
 function customBosses() { try { return JSON.parse(localStorage.getItem("aion2BossCustom") || "[]"); } catch (e) { return []; } }
