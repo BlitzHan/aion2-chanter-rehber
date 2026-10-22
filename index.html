@@ -4,15 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aion 2 Chanter Build</title>
-<meta name="description" content="Aion 2 Chanter PvE build: skill puan sırası, uzmanlıklar, stigma, pasif ve macro. Early game ve mid game (Grobs).">
+<meta name="description" content="Aion 2 Chanter build (Mour4SB): skill ve uzmanlık sırası (PvE/PvP), stigma, pasif, macro, Daevanion 315/386, Arcana, Genus Insight, Pantheon, mana taşı ve ekipman.">
 <link rel="icon" href="icons/ICON_CH_SKILL_019.webp">
 <style>
 :root{
   --bg:#0b0d12; --panel:#141822; --panel2:#1a1f2c; --line:#262d3f; --line2:#343d55;
   --text:#e7e9ef; --muted:#8e97ad; --dim:#5d667c;
-  --gold:#e8c06a; --green:#5fd39a; --greenbg:#15281e; --purple:#b48cff; --purplebg:#231b3a; --red:#ff8080;
+  --gold:#e8c06a; --green:#5fd39a; --greenbg:#15281e; --purple:#b48cff; --purplebg:#231b3a; --red:#ff8080; --orange:#ff9f5a; --blue:#6aa8ff;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 a{color:var(--gold)}
 button{font:inherit;color:inherit}
@@ -24,270 +25,206 @@ button{font:inherit;color:inherit}
 .tabs{margin-left:auto;display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px}
 .tabs button{border:0;background:none;padding:7px 14px;border-radius:7px;cursor:pointer;color:var(--muted);font-weight:600}
 .tabs button.on{background:var(--gold);color:#1b1404}
-.layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:16px}
-.card>h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0;padding:10px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.layout{max-width:1240px;margin:0 auto;padding:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:16px;scroll-margin-top:56px}
+.card>h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0;padding:10px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .card>h2 .r{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px;color:var(--dim)}
 .pad{padding:12px 14px}
 .summary{display:flex;gap:10px;flex-wrap:wrap;padding:12px 14px;color:var(--muted)}
 .summary b{color:var(--text)}
 .pill{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12px}
-/* skill bar */
-.bar{display:flex;flex-wrap:wrap;gap:8px}
-.slot{position:relative;width:52px;height:52px;border-radius:9px;border:1px solid var(--line2);background:#000;cursor:pointer;padding:0;overflow:visible}
-.slot img{width:100%;height:100%;border-radius:8px;display:block}
-.slot .lv{position:absolute;right:-4px;bottom:-4px;background:#0b0d12;border:1px solid var(--gold);color:var(--gold);font-size:11px;font-weight:800;border-radius:6px;padding:0 4px;line-height:16px}
-.slot .ch{position:absolute;left:-4px;top:-4px;background:var(--purple);color:#14092a;font-size:10px;font-weight:800;border-radius:5px;padding:0 4px;line-height:15px}
-.slot.sel{outline:2px solid var(--gold);outline-offset:2px}
-.group-l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 6px}
-.group-l:first-child{margin-top:0}
-/* order table */
-.order{list-style:none;margin:0;padding:0}
-.order li{display:grid;grid-template-columns:28px 36px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 14px;border-top:1px solid var(--line);cursor:pointer}
-.order li:first-child{border-top:0}
-.order li:hover{background:#181d29}
-.order .n{width:24px;height:24px;border-radius:50%;background:var(--panel2);border:1px solid var(--line2);display:grid;place-items:center;font-weight:800;font-size:12px;color:var(--gold)}
-.order li.key .n{background:var(--gold);color:#1b1404;border-color:var(--gold)}
-.order img{width:36px;height:36px;border-radius:7px;border:1px solid var(--line2)}
-.order .nm{font-weight:600}
-.order .nm .to{color:var(--gold);font-weight:800;margin-left:6px}
-.order .sp{color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis}
-.order .sp .new{color:var(--purple);font-weight:600}
-.order .sp .ok{color:var(--green);font-weight:600}
-.order .badge{font-size:11px;padding:2px 7px;border-radius:5px;background:var(--panel2);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
-.order .badge.k{background:#3a2f12;color:var(--gold);border-color:#5d4a1c}
 .foot{padding:8px 14px;color:var(--dim);font-size:12px;border-top:1px solid var(--line)}
-/* macro */
-.macro{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-.macro .ln{font-size:11px;color:var(--dim);width:48px}
-.macro img{width:36px;height:36px;border-radius:7px;border:1px solid var(--line2)}
-.macro .ar{color:var(--gold)}
-kbd{background:#232a3c;border:1px solid var(--line2);border-bottom-width:3px;border-radius:5px;padding:0 6px;font:600 12px ui-monospace,monospace}
-.steps{margin:8px 0 0;padding-left:18px;color:var(--muted)}
-.steps li{margin:3px 0}
-.steps b{color:var(--text)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-/* detail */
-.detail{position:sticky;top:16px}
-.dh{display:flex;gap:12px;align-items:center;padding:14px;border-bottom:1px solid var(--line)}
-.dh img{width:56px;height:56px;border-radius:10px;border:1px solid var(--line2)}
-.dh .t{font-size:17px;font-weight:700}
-.dh .m{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}
-.tag{font-size:11px;padding:1px 7px;border-radius:5px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
-.tag.g{background:#3a2f12;color:var(--gold);border-color:#5d4a1c}
-.ddesc{color:var(--muted);font-size:12.5px;padding:10px 14px 0}
-.dwhy{padding:10px 14px}
-.dwhy b{color:var(--gold)}
-.specs{padding:0 14px 14px;display:flex;flex-direction:column;gap:6px}
-.spec{display:grid;grid-template-columns:44px 1fr auto;gap:8px;align-items:center;font-size:12.5px;padding:7px 9px;border-radius:8px;border:1px solid var(--line);background:#10131b;color:var(--dim)}
-.spec .l{font-size:11px;font-weight:700}
-.spec .s{font-size:11px;font-weight:800}
-.spec.on{background:var(--greenbg);border-color:#357050;color:var(--text)}
-.spec.on .s{color:var(--green)}
-.spec.new{background:var(--purplebg);border-color:#5f48a0;color:var(--text)}
-.spec.new .s{color:var(--purple)}
-.spec.drop{color:#8a6a6a}
-.spec.drop span:nth-child(2){text-decoration:line-through}
-.spec.drop .s{color:var(--red)}
-.hint{color:var(--dim);font-size:12px;padding:0 14px 12px}
-details{border-top:1px solid var(--line)}
-details summary{cursor:pointer;padding:10px 14px;font-weight:600}
-details .pad{padding-top:0;color:var(--muted)}
-details .pad b{color:var(--text)}
+kbd{background:#232a3c;border:1px solid var(--line2);border-bottom-width:3px;border-radius:5px;padding:0 6px;font:600 12px ui-monospace,monospace;white-space:nowrap}
 footer{max-width:1240px;margin:0 auto;padding:4px 16px 32px;color:var(--dim);font-size:12px}
+.muted{color:var(--muted)}
+.tipbox{background:#2a2412;border:1px solid #5d4a1c;border-radius:10px;padding:10px 12px;color:var(--muted);font-size:13px}
+.tipbox b{color:var(--gold)}
+.seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px;text-transform:none;letter-spacing:0}
+.seg button{border:0;background:none;padding:3px 12px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px}
+.seg button.on{background:var(--gold);color:#1b1404}
+.seg button.pvp.on{background:var(--red);color:#2a0606}
+.ic{width:36px;height:36px;border-radius:7px;border:1px solid var(--line2);display:block}
+
+/* build: gezinme */
+.jump{position:sticky;top:0;z-index:5;background:#0b0d12e6;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin:-16px -16px 16px;padding:8px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;text-decoration:none;color:var(--muted);background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 11px;font-size:12.5px;font-weight:600}
+.jump a:hover{color:var(--gold);border-color:#5d4a1c}
+
+/* build: özet */
+.hero{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.hs{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.hs .h{display:flex;align-items:center;gap:8px;font-weight:800}
+.hs .h .n{width:24px;height:24px;flex:none;border-radius:50%;background:var(--gold);color:#1b1404;display:grid;place-items:center;font-size:12px}
+.hs .icons{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.hs .icons img{width:30px;height:30px;border-radius:6px;border:1px solid var(--line2)}
+.hs .icons .ar{color:var(--gold);font-weight:800}
+.hs .d{color:var(--muted);font-size:12.5px}
+.hs .d b{color:var(--text)}
+.who{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+
+/* build: skill listesi */
+.skl{list-style:none;margin:0;padding:0}
+.skl>li{display:grid;grid-template-columns:26px 40px minmax(0,1fr);gap:10px;padding:10px 14px;border-top:1px solid var(--line);align-items:start}
+.skl>li:first-child{border-top:0}
+.skl>li.key{background:linear-gradient(90deg,#2a241255,transparent 60%)}
+.skl .n{font-weight:900;color:var(--gold);text-align:right;padding-top:9px}
+.skl .ic{width:40px;height:40px}
+.skl .nm{font-weight:700;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.skl .to{color:var(--gold);font-weight:800}
+.skl .tag{font-size:10.5px;font-weight:800;border-radius:5px;padding:0 6px;line-height:17px}
+.tag.key{background:#3a2f12;color:var(--gold);border:1px solid #5d4a1c}
+.tag.pvp{background:#2a1718;color:var(--red);border:1px solid #6a3a3a}
+.tag.dim{background:var(--panel2);color:var(--dim);border:1px solid var(--line)}
+.pips{display:flex;gap:4px;margin:5px 0 4px}
+.pip{width:22px;height:22px;border-radius:6px;border:1px solid var(--line2);background:#10131b;display:grid;place-items:center;font-size:11px;font-weight:900;color:var(--dim)}
+.pip.on{color:#111}
+.pip.s1.on{background:var(--green);border-color:var(--green)}
+.pip.s2.on{background:var(--blue);border-color:var(--blue)}
+.pip.s3.on{background:var(--gold);border-color:var(--gold)}
+.pip.s4.on{background:var(--orange);border-color:var(--orange)}
+.pip.s5.on{background:#ff6b6b;border-color:#ff6b6b}
+.chosen{list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--muted)}
+.chosen li{margin:2px 0}
+.chosen b{display:inline-block;min-width:17px;text-align:center;border-radius:4px;background:var(--panel2);color:var(--gold);margin-right:6px;font-size:11px}
+.chosen .lv{color:var(--dim);font-size:11px;margin-right:4px}
+.skl .why{font-size:12.5px;color:var(--dim);margin-top:3px}
+.skl .ql{font-size:11.5px;color:var(--dim);margin-top:3px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--dim);font-size:12px;padding:8px 14px;border-top:1px solid var(--line)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend .pip{width:16px;height:16px;font-size:9px}
+
+/* build: stigma / pasif kartları */
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.tiles.five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tl{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center}
+.tl>img{width:48px;height:48px;border-radius:9px;border:1px solid var(--line2);display:block;margin:0 auto}
+.tl .pn{position:absolute;left:6px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1b1404;font-weight:800;font-size:12px;display:grid;place-items:center}
+.tl .pto{position:absolute;right:7px;top:6px;color:var(--gold);font-weight:800;font-size:12.5px}
+.tl .tn{font-weight:700;font-size:12.5px;margin-top:6px}
+.tl .td{font-size:11.5px;color:var(--muted);margin-top:4px}
+.tl.pvp{border-color:#6a3a3a;background:#2a1718}
+.tl.pvp .pn{background:var(--red);color:#2a0606}
+.sub-l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 8px;display:flex;gap:8px;align-items:center}
+.sub-l:first-child{margin-top:0}
+
+/* build: tuş dizilimi */
+.hb-wrap{overflow-x:auto}
+.hb{display:grid;grid-template-columns:repeat(10,minmax(46px,1fr));gap:6px;min-width:520px;align-items:end}
+.hb .col{display:flex;flex-direction:column-reverse;gap:4px;padding:4px;border-radius:8px;border:1px solid transparent}
+.hb .col.mac{border-color:#5d4a1c;background:#2a2412}
+.hb .k{text-align:center;font-weight:800;font-size:12px;color:var(--gold);order:-1}
+.hb .cell{position:relative;aspect-ratio:1;border-radius:7px;border:1px solid var(--line);background:#10131b}
+.hb .cell img{width:100%;height:100%;border-radius:6px;display:block}
+.hb .cell .lv{position:absolute;right:-3px;bottom:-3px;background:#0b0d12;border:1px solid var(--line2);color:var(--text);font-size:10px;font-weight:800;border-radius:5px;padding:0 3px;line-height:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.steps{margin:0;padding-left:20px;color:var(--muted)}
+.steps li{margin:5px 0}
+.steps b{color:var(--text)}
+.chain{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.chain img{width:36px;height:36px;border-radius:7px;border:1px solid var(--line2)}
+.chain .ar{color:var(--gold);font-weight:800}
+
 /* daevanion */
+.dvtop{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .btabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .btabs button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--muted)}
 .btabs button.on{border-color:var(--gold);color:var(--gold);background:#2a2412}
 .btabs button small{color:var(--dim);margin-left:4px}
-.dwrap{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
-.dg{display:grid;grid-template-columns:repeat(11,1fr);gap:3px;background:#0c0f16;border:1px solid var(--line);border-radius:10px;padding:8px}
+.btabs button .dr{color:var(--red);margin-left:4px;font-size:11px}
+.dwrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.dg{display:grid;gap:3px;background:#0c0f16;border:1px solid var(--line);border-radius:10px;padding:8px}
 .dg .nd{position:relative;aspect-ratio:1;border-radius:6px;display:grid;place-items:center}
 .dg .nd img{width:100%;height:100%;object-fit:cover;border-radius:5px;display:block}
-.dg .nd.off img{opacity:.28;filter:grayscale(.7)}
-.dg .nd.off .lb{opacity:.45}
+.dg .nd.off img{opacity:.25;filter:grayscale(.7)}
+.dg .nd.off .lb{opacity:.4}
 .dg .nd.on{box-shadow:0 0 0 2px var(--gold),0 0 10px #e8c06a55}
-.dg .nd.sk.on{box-shadow:0 0 0 2px #b48cff,0 0 10px #b48cff66}
-.dg .nd.un.on{box-shadow:0 0 0 2px #ff9f5a,0 0 10px #ff9f5a66}
-.dg .lb{position:absolute;left:0;right:0;bottom:1px;text-align:center;font-size:9px;font-weight:800;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000;letter-spacing:.02em;pointer-events:none}
-.dg .no{position:absolute;top:-5px;left:-5px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--gold);color:#1b1404;font-size:10px;font-weight:900;display:grid;place-items:center;z-index:1}
-.dg .nd.sk .no{background:var(--purple);color:#14092a}
-.dg .nd.un .no{background:#ff9f5a}
+.dg .nd.sk.on{box-shadow:0 0 0 2px var(--purple),0 0 10px #b48cff66}
+.dg .nd.un.on{box-shadow:0 0 0 2px var(--orange),0 0 10px #ff9f5a66}
 .dg .nd.keep{box-shadow:0 0 0 2px #357050}
 .dg .nd.keep .no{background:var(--green);color:#06210f}
 .dg .nd.drop{box-shadow:0 0 0 2px var(--red),0 0 10px #ff808066}
 .dg .nd.drop img{opacity:.45}
 .dg .nd.drop .no{background:var(--red);color:#2a0606}
-.phase-sw{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:2px;margin-left:8px;text-transform:none;letter-spacing:0}
-.phase-sw button{border:0;background:none;padding:3px 10px;border-radius:6px;cursor:pointer;color:var(--muted);font-weight:700;font-size:12px}
-.phase-sw button.on{background:var(--gold);color:#1b1404}
-.btabs button .dr{color:var(--red);margin-left:4px;font-size:11px}
-.steps2 li.hd{display:block;background:#0f1219;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
-.steps2 li.drop{background:#2a1416}
-.steps2 li.drop .n{color:var(--red)}
-.keepnote{background:var(--greenbg);border:1px solid #357050;border-radius:8px;padding:6px 10px;font-size:12.5px;margin-bottom:8px}
-.steps2{list-style:none;margin:0;padding:0;max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:10px}
-.steps2 li{display:grid;grid-template-columns:26px 26px 1fr auto;gap:8px;align-items:center;padding:5px 10px;border-top:1px solid var(--line);font-size:12.5px}
-.steps2 li:first-child{border-top:0}
-.steps2 .n{font-weight:900;color:var(--gold);text-align:right}
-.steps2 img{width:26px;height:26px;border-radius:5px}
-.steps2 .c{color:var(--dim);font-size:11px}
-.steps2 li.sk{background:#1c1730}
-.steps2 li.un{background:#2a1d12}
-.dlegend{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:12px;margin-top:10px}
-.dlegend b{color:var(--text)}
-/* kişisel dizilim */
-.hb-wrap{overflow-x:auto}
-.hb{display:grid;grid-template-columns:repeat(12,minmax(46px,1fr));gap:6px;min-width:620px;align-items:end}
-.hb .col{display:flex;flex-direction:column-reverse;gap:4px;padding:4px;border-radius:8px;border:1px solid transparent}
-.hb .col.chg{border-color:#5f48a0;background:var(--purplebg)}
-.hb .col.rm{border-color:#6a3a3a;background:#2a1718}
-.hb .key{text-align:center;font-weight:800;font-size:12px;color:var(--gold);order:-1}
-.hb .cell{position:relative;aspect-ratio:1;border-radius:7px;border:1px solid var(--line);background:#10131b;cursor:pointer}
-.hb .cell img{width:100%;height:100%;border-radius:6px;display:block}
-.hb .cell .lv{position:absolute;right:-3px;bottom:-3px;background:#0b0d12;border:1px solid var(--line2);color:var(--text);font-size:10px;font-weight:800;border-radius:5px;padding:0 3px;line-height:14px}
-.hb .cell.empty{cursor:default;border-style:dashed}
-.hb .cell.x img{opacity:.35;filter:grayscale(1)}
-.hb .cell.x::after{content:"✕";position:absolute;inset:0;display:grid;place-items:center;color:var(--red);font-weight:900;font-size:20px}
-.hb .cell.try{outline:2px dashed var(--purple);outline-offset:1px}
-.hb-l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:4px 0 6px}
-.chg-list{list-style:none;margin:0;padding:0}
-.chg-list li{display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:start;padding:9px 14px;border-top:1px solid var(--line)}
-.chg-list li:first-child{border-top:0}
-.chg-list .k{font-weight:800;color:var(--gold);background:var(--panel2);border:1px solid var(--line2);border-radius:7px;text-align:center;padding:4px 0}
-.chg-list b{color:var(--text)}
-.chg-list .d{color:var(--muted)}
-.lvls{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:4px 10px;align-items:center}
-.lvls img{width:32px;height:32px;border-radius:6px;border:1px solid var(--line2)}
-.lvls .now{font-weight:800;white-space:nowrap}
-.lvls .now em{font-style:normal;color:var(--gold)}
-.lvls .now.stop em{color:var(--red)}
-.lvls .note{color:var(--muted);font-size:12.5px}
-/* ek bilgiler */
-.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.path .p{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
-.path .p .v{font-size:22px;font-weight:900;color:var(--gold)}
-.path .p .t{font-weight:700;margin:2px 0}
-.path .p .d{color:var(--muted);font-size:12.5px}
-.path .p.end{border-color:#5f48a0;background:var(--purplebg)}
-.path .p.end .v{color:var(--purple)}
-.prio{list-style:none;margin:0;padding:0}
-.prio li{display:grid;grid-template-columns:26px 36px minmax(0,1fr);gap:10px;align-items:center;padding:8px 14px;border-top:1px solid var(--line);cursor:pointer}
-.prio li:first-child{border-top:0}
-.prio li:hover{background:#181d29}
-.prio .n{font-weight:900;color:var(--gold);text-align:right}
-.prio img{width:36px;height:36px;border-radius:7px;border:1px solid var(--line2)}
-.prio .d{color:var(--muted);font-size:12.5px}
-.prio li.no .n{color:var(--red)}
-.prio li.no img{filter:grayscale(1);opacity:.6}
-.loads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.load{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
-.load .h{font-weight:700;margin-bottom:6px}
-.load .ic{display:flex;gap:6px;flex-wrap:wrap}
-.load .ic img{width:40px;height:40px;border-radius:7px;border:1px solid var(--line2);cursor:pointer}
-.load .d{color:var(--muted);font-size:12.5px;margin-top:6px}
-.dvp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.dvp .b{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center}
-.dvp .b img{width:40px;height:40px}
-.dvp .b .nm{font-weight:700}
-.dvp .b .st{color:#ff9f5a;font-weight:700;font-size:13px}
-.dvp .b .sk{display:flex;gap:4px;justify-content:center;margin-top:6px}
-.dvp .b .sk img{width:24px;height:24px;border-radius:5px}
-table.cmp{width:100%;border-collapse:collapse;font-size:13px}
-table.cmp th,table.cmp td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
-table.cmp th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-top:0}
-table.cmp td:first-child{font-weight:700;white-space:nowrap}
-table.cmp td{color:var(--muted)}
-.tipbox{background:#2a2412;border:1px solid #5d4a1c;border-radius:10px;padding:10px 12px}
-.tipbox b{color:var(--gold)}
-.prio .lvt{color:var(--gold);font-weight:800;margin-left:6px}
-.prio .spx{font-size:12px;color:var(--green);margin-top:2px}
-.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
-.shots figure{margin:0}
-.shots img{width:100%;border-radius:8px;border:1px solid var(--line2);display:block}
-.shots figcaption{color:var(--muted);font-size:12px;margin-top:4px}
-.shot1 img{max-width:100%;border-radius:8px;border:1px solid var(--line2);display:block}
-table.cmp td.w{white-space:normal}
-.ptsrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
-.ptsrow input{width:110px;background:var(--panel2);border:1px solid var(--line2);border-radius:8px;color:var(--text);font:inherit;font-weight:700;padding:6px 10px}
-.ptsrow span{color:var(--dim);font-size:12px}
-#tdv .steps2 li{cursor:pointer}
-#tdv .steps2 li.done{opacity:.55}
-#tdv .steps2 li.done .n{color:var(--green)}
-#tdv .steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
-@media (max-width:1100px){#sbdv .dwrap{grid-template-columns:1fr}#sbdv .steps2{max-height:360px}}
+.dg .nd.done img{opacity:.5}
+.dg .nd.done .no{background:var(--green);color:#06210f}
+.dg .lb{position:absolute;left:0;right:0;bottom:1px;text-align:center;font-size:9px;font-weight:800;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000;pointer-events:none}
+.dg .no{position:absolute;top:-5px;left:-5px;min-width:17px;height:17px;padding:0 3px;border-radius:9px;background:var(--gold);color:#1b1404;font-size:10px;font-weight:900;display:grid;place-items:center;z-index:1}
+.dg .nd.sk .no{background:var(--purple);color:#14092a}
+.dg .nd.un .no{background:var(--orange)}
 .dg .nd.hl{animation:hl 1s ease-in-out infinite alternate;z-index:2}
 @keyframes hl{from{box-shadow:0 0 0 2px #fff,0 0 4px #fff8}to{box-shadow:0 0 0 3px #fff,0 0 16px #fffc}}
-.plan .pl{font-weight:800;margin:18px 0 8px;font-size:14px}
-.plan .pl:first-child{margin-top:0}
-.plan .pl span{font-weight:400;color:var(--dim);font-size:12px;margin-left:6px}
-.lvbar{display:grid;grid-template-columns:repeat(10,minmax(0,1fr)) minmax(0,2fr);gap:4px}
-.lvbar .lb{border-radius:7px;padding:6px 2px;text-align:center;border:1px solid var(--line);background:var(--panel2)}
-.lvbar .lb span{display:block;font-size:10.5px;color:var(--muted)}
-.lvbar .lb b{display:block;font-size:13px;min-height:18px}
-.lvbar .c1{background:#15281e;border-color:#245c3c}.lvbar .c1 b{color:var(--green)}
-.lvbar .c2{background:#2a2412;border-color:#5d4a1c}.lvbar .c2 b{color:var(--gold)}
-.lvbar .c4{background:#2a1718;border-color:#6a3a3a}.lvbar .c4 b{color:var(--red)}
-.lvbar .ext{background:var(--purplebg);border-color:#5f48a0}.lvbar .ext b{color:var(--purple);font-size:11px}
-.lvnote{color:var(--muted);font-size:12.5px;margin:6px 0 10px}
-.lvnote b{color:var(--text)}
-.stack{display:flex;gap:3px;border-radius:8px;overflow:hidden;font-size:11.5px;font-weight:700;text-align:center}
-.stack div{padding:7px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.stack .s1{background:#3a2f12;color:var(--gold)}.stack .s2{background:var(--purplebg);color:var(--purple)}.stack .s3{background:#16263a;color:#7fb6ff}
-.ptiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.ptiles.sm{grid-template-columns:repeat(5,minmax(0,1fr))}
-.pt{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 8px;text-align:center;cursor:pointer}
-.pt:hover{border-color:var(--line2)}
-.pt>img{width:52px;height:52px;border-radius:9px;border:1px solid var(--line2);display:block;margin:0 auto}
-.pt .pn{position:absolute;left:6px;top:6px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#1b1404;font-weight:800;font-size:12px;display:grid;place-items:center}
-.pt .pto{position:absolute;right:6px;top:6px;color:var(--gold);font-weight:800;font-size:13px}
-.pt .pnm{font-weight:700;font-size:12.5px;margin-top:6px}
-.pt.dim{opacity:.6}
-.pcs{display:flex;flex-direction:column;gap:3px;margin-top:6px}
-.pc{font-size:11px;background:#10131b;border:1px solid var(--line);border-radius:6px;padding:2px 5px;color:var(--green);text-align:left}
-.pc b{display:inline-block;min-width:16px;color:#14092a;background:var(--green);border-radius:4px;text-align:center;margin-right:5px}
-.pd{font-size:11.5px;color:var(--muted);margin-top:5px}
-.prow{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
-.pbox{flex:1;min-width:180px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
-.pbox .ph{font-weight:700;font-size:12.5px;margin-bottom:6px}
-.pbox .pi{display:flex;gap:6px;flex-wrap:wrap}
-.pbox .pi img{width:40px;height:40px;border-radius:7px;border:1px solid var(--line2);cursor:pointer}
-.pbox.no{border-color:#6a3a3a;background:#2a1718;flex:0 0 auto}
-.pbox.no .pi img{filter:grayscale(1);opacity:.7}
-.tri img{width:170px;border-radius:8px;border:1px solid var(--line2);display:block}
-@media (max-width:900px){
-  .ptiles{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .ptiles.sm{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .lvbar{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .lvbar .ext{grid-column:span 5}
-  .tri img{width:100%}
-}
-@media (max-width:900px){
-  .path,.dvp{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .loads{grid-template-columns:1fr}
-  .tabs{display:grid;grid-template-columns:1fr 1fr}
-}
-@media (max-width:900px){
-  .dwrap{grid-template-columns:1fr}
-  .steps2{max-height:none}
-  .dg{gap:2px;padding:5px}
-  .dg .lb{font-size:7.5px}
-  .layout{grid-template-columns:minmax(0,1fr)}
-  .tabs button{padding:7px 6px;font-size:13px}
-  .detail{position:fixed;left:0;right:0;bottom:0;top:auto;margin:0;max-height:70vh;overflow:auto;border-radius:14px 14px 0 0;transform:translateY(105%);transition:transform .2s;z-index:20;box-shadow:0 -10px 30px #000a}
-  .detail.open{transform:none}
-  .detail .close{display:block}
-  .two{grid-template-columns:1fr}
-  .tabs{margin-left:0;width:100%}
-  .tabs button{flex:1}
-  .order li{grid-template-columns:24px 32px minmax(0,1fr);padding:8px 12px}
-  .order .badge{display:none}
-  .order img{width:32px;height:32px}
-}
-.close{display:none;margin-left:auto;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:4px 10px;cursor:pointer}
+.dlegend{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:12px;margin-top:10px}
+.dlegend b{color:var(--text)}
+.ptsrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ptsrow input{width:96px;background:var(--panel2);border:1px solid var(--line2);border-radius:8px;color:var(--text);font:inherit;font-weight:700;padding:5px 10px}
+.ptsrow span{color:var(--dim);font-size:12px}
+.steps2{list-style:none;margin:0;padding:0;max-height:620px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.steps2 li{display:grid;grid-template-columns:26px 28px minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);font-size:12.5px;cursor:pointer}
+.steps2 li:first-child{border-top:0}
+.steps2 li.hd{display:block;background:#0f1219;color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;cursor:default}
+.steps2 li.drop{background:#2a1416;cursor:default}
+.steps2 li.drop .n{color:var(--red)}
+.steps2 li.done{opacity:.5}
+.steps2 li.done .n{color:var(--green)}
+.steps2 li.next{outline:2px solid var(--green);outline-offset:-2px}
+.steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
+.steps2 .n{font-weight:900;color:var(--gold);text-align:right}
+.steps2 img{width:28px;height:28px;border-radius:5px}
+.steps2 .b{color:var(--dim);font-size:11px}
+.steps2 .c{color:var(--dim);font-size:11px;text-align:right;white-space:nowrap}
+.steps2 li.sk{background:#1c1730}
+.steps2 li.un{background:#2a1d12}
+.prio3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:12px}
+.prio3>div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:12.5px;color:var(--muted)}
+.prio3 .h{font-weight:800;color:var(--text);margin-bottom:4px}
+.prio3 .icons{display:flex;gap:4px}
+.prio3 img{width:28px;height:28px;border-radius:5px;border:1px solid var(--line2)}
+
+/* arcana, genus, pantheon, taş, ekipman */
+.arc{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.ac{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
+.ac.vig{border-color:#5d4a1c;background:#2a2412}
+.ac .h{font-weight:800}
+.ac .t{font-size:11.5px;color:var(--dim);margin-bottom:6px}
+.ac .ss{display:flex;flex-direction:column;gap:4px}
+.ac .s{display:grid;grid-template-columns:26px 1fr auto;gap:6px;align-items:center;font-size:12px}
+.ac .s img{width:26px;height:26px;border-radius:5px}
+.ac .s b{color:var(--gold);font-size:11.5px}
+.ac .s.empty{color:var(--dim)}
+.ac .alt{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line2);font-size:11.5px;color:var(--dim)}
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+table.tb th,table.tb td{text-align:left;padding:7px 10px;border-top:1px solid var(--line);vertical-align:top}
+table.tb th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-top:0;white-space:nowrap}
+table.tb td{color:var(--muted)}
+table.tb td:first-child{font-weight:700;color:var(--text);white-space:nowrap}
+table.tb td.hi{color:var(--gold);font-weight:700}
+.tbw{overflow-x:auto}
+.ord{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.ord span{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:12.5px}
+.ord span b{color:var(--gold);margin-right:4px}
+.ord .ar{background:none;border:0;padding:0;color:var(--gold);font-weight:800}
+.pan{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pan>div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px}
+.pan .v{font-size:12px;color:var(--gold);font-weight:800}
+.pan .h{font-weight:800;margin:2px 0}
+.pan .d{font-size:12.5px;color:var(--muted)}
+.cmp2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp2>div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.cmp2 .h{font-weight:800;margin-bottom:4px}
+.cmp2 ul{margin:0;padding-left:18px;color:var(--muted);font-size:12.5px}
+.cmp2 li{margin:2px 0}
+.cmp2 .new{color:var(--green)}
+.eqsel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.eqsel button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer;color:var(--muted);text-align:left}
+.eqsel button b{display:block;color:var(--text);font-size:13px}
+.eqsel button small{color:var(--dim)}
+.eqsel button.on{border-color:var(--gold);background:#2a2412}
+.eqsel button.on b{color:var(--gold)}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chips span{font-size:11.5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--muted)}
+
 /* 45+ yol haritası */
-.layout.solo{grid-template-columns:minmax(0,1fr)}
-.layout.solo .detail{display:none}
 .gs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
 .gs .s{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;position:relative}
 .gs .s .v{font-size:22px;font-weight:800;color:var(--gold);line-height:1.1}
@@ -315,47 +252,8 @@ table.cmp td.w{white-space:normal}
 .donts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .donts div{background:#2a1718;border:1px solid #6a3a3a;border-radius:10px;padding:10px 12px;color:var(--muted);font-size:12.5px}
 .donts div b{color:var(--red);display:block;margin-bottom:3px;font-size:13px}
-@media (max-width:900px){
-  .gs{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .rt,.donts{grid-template-columns:1fr}
-}
-/* sınıf buildleri */
-.sbsel{display:flex;flex-direction:column;gap:10px;padding:12px 14px}
-.sbsel .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.sbsel .lb{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;width:58px}
-.sbcls button{display:inline-flex;align-items:center;gap:8px;font-weight:700}
-.sbcls button img{width:24px;height:24px;border-radius:6px}
-.sbtiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
-.sbt{position:relative;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 8px 8px;text-align:center;cursor:pointer}
-.sbt:hover{border-color:var(--line2)}
-.sbt.sel{outline:2px solid var(--gold);outline-offset:1px}
-.sbt>img{width:48px;height:48px;border-radius:9px;border:1px solid var(--line2);display:block;margin:0 auto}
-.sbt .lv{position:absolute;right:6px;top:6px;color:var(--gold);font-weight:900;font-size:15px;line-height:1;text-align:right}
-.sbt .lv small{display:block;font-size:10px;color:var(--purple);font-weight:800;margin-top:2px}
-.sbt .nm{font-weight:700;font-size:12.5px;margin-top:6px}
-.sbt .rl{font-size:11px;color:var(--dim)}
-.sbt.lo{opacity:.5}
-.sbt.lo .lv{color:var(--muted)}
-.sbt.key{border-color:#5d4a1c;background:#2a2412}
-.sbt .pc.later{color:var(--purple)}
-.sbt .pc.later b{background:var(--purple)}
-.sbchain{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap}
-.sbchain .st{width:76px;text-align:center;cursor:pointer}
-.sbchain .st img{width:40px;height:40px;border-radius:7px;border:1px solid var(--line2);display:block;margin:0 auto}
-.sbchain .st b{display:block;font-size:11px;margin-top:3px;line-height:1.25}
-.sbchain .ar{color:var(--gold);font-weight:800;margin-top:10px}
-.sbtxt{color:var(--muted);font-size:13px}
-.sbtxt b{color:var(--text)}
-.sbul{margin:6px 0 0;padding-left:18px;color:var(--muted);font-size:12.5px}
-.sbul li{margin:3px 0}
-.sbbd{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px 0}
-#sbdv .steps2 li{cursor:pointer}
-#sbdv .steps2 li.done{opacity:.55}
-#sbdv .steps2 li.done .n{color:var(--green)}
-#sbdv .steps2 li.sel{outline:2px solid var(--gold);outline-offset:-2px}
-#sbdv .dg .nd[data-sbdvs]{cursor:pointer}
-@media (max-width:900px){.sbtiles{grid-template-columns:repeat(2,minmax(0,1fr))}.sbsel .lb{width:100%}.sbchain .st{width:64px}}
-/* boss timer */
+
+/* boss sayacı */
 .boss-tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .boss-tools input{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--text);min-width:160px}
 .boss-tools button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--muted);font-size:12px}
@@ -370,6 +268,34 @@ table.cmp td.w{white-space:normal}
 .boss-busy{color:var(--gold)}
 .boss-actions button{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px;margin-left:4px}
 .boss-actions button.mark{border-color:#5d4a1c;color:var(--gold)}
+
+@media (max-width:1100px){
+  .hero{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .arc{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .dwrap{grid-template-columns:1fr}
+  .steps2{max-height:420px}
+}
+@media (max-width:900px){
+  .layout{padding:12px 16px}
+  .jump{margin:-12px -16px 12px}
+  .tabs{margin-left:0;width:100%;display:grid;grid-template-columns:1fr 1fr}
+  .tabs button{padding:7px 6px;font-size:13px}
+  .hero,.two,.cmp2,.prio3{grid-template-columns:1fr}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tiles.five{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .arc,.pan{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .skl>li{grid-template-columns:22px 36px minmax(0,1fr);padding:10px 12px}
+  .skl .ic{width:36px;height:36px}
+  .dg{gap:2px;padding:5px}
+  .dg .lb{font-size:7px}
+  .dg .no{min-width:14px;height:14px;font-size:8.5px;top:-4px;left:-4px}
+  .gs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rt,.donts{grid-template-columns:1fr}
+}
+@media (max-width:480px){
+  .arc,.pan{grid-template-columns:1fr}
+  .tiles.five{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
@@ -377,774 +303,471 @@ table.cmp td.w{white-space:normal}
 <div class="top"><div class="in">
   <img class="cls" src="icons/ICON_CH_SKILL_019.webp" alt="">
   <div>
-    <h1>Chanter · PvE Build</h1>
-    <div class="sub">Aion 2 · Kişisel build</div>
+    <h1>Chanter · Mour4SB Build</h1>
+    <div class="sub">Aion 2 · PvE ve PvP</div>
   </div>
   <div class="tabs" role="tablist">
-    <button data-tab="early" class="on">Early · Leveling</button>
-    <button data-tab="mid">Mid · Level 45</button>
+    <button data-tab="mb" class="on">Build</button>
     <button data-tab="g">45+ Yol haritası</button>
     <button data-tab="jb">45+ Kontrol listesi</button>
-    <button data-tab="sb">Sınıf buildleri</button>
-    <button data-tab="x">Ek bilgiler</button>
-    <button data-tab="t">Tablo build</button>
-    <button data-tab="me">Benim dizilimim</button>
     <button data-tab="boss">Boss sayacı</button>
   </div>
 </div></div>
 
 <div class="layout" id="lay">
   <main>
+    <div id="mb"></div>
     <div id="g" hidden></div>
     <div id="jb" hidden></div>
-    <div id="sb" hidden></div>
-    <div id="me" hidden></div>
     <div id="boss" hidden></div>
-    <div id="x" hidden></div>
-    <div id="t" hidden></div>
-    <div id="std">
-    <div class="card">
-      <div class="summary" id="summary"></div>
-    </div>
-
-    <div class="card">
-      <h2>Build <span class="r">Skille tıkla → detay</span></h2>
-      <div class="pad" id="bars"></div>
-    </div>
-
-    <div class="card">
-      <h2>Puan sırası <span class="r" id="ordhint"></span></h2>
-      <ol class="order" id="order"></ol>
-      <div class="foot" id="ordfoot"></div>
-    </div>
-
-    <div class="two">
-      <div class="card">
-        <h2>Macro</h2>
-        <div class="pad" id="macro"></div>
-      </div>
-      <div class="card">
-        <h2>Rotasyon</h2>
-        <div class="pad"><ol class="steps" id="rot"></ol></div>
-      </div>
-    </div>
-
-    <div class="card" id="notes"></div>
-    <div class="card" id="daev"></div>
-    </div>
   </main>
-
-  <aside class="card detail" id="detail"></aside>
 </div>
 
+<footer>Resmi değildir. Skill isimleri ve ikonları NCSOFT'a aittir. Build: <a href="https://www.twitch.tv/mour4sb" target="_blank" rel="noopener">Mour4SB</a>.</footer>
 
 <script>
 const BOSS_DEFAULTS = [{"name": "Blooming Korin", "map": "Verteron", "min": 60, "lvl": 45}, {"name": "Heretic Layla", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Black Tentacle Lawa", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Phantasm Kasia", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Centurion Demiros", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Divine Ansas", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Harvest Manager Moshav", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Sentinel K'nash", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Scholar Aulla", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Forest Warrior Aullamu", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Chaser Taulo", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Neikel of the East", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Researcher Setram", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Eternal Gartua", "map": "Verteron", "min": 720, "lvl": 51, "fav": true}, {"name": "Silent Dartan (Verteron)", "map": "Verteron", "min": 360, "lvl": 48, "fav": true}, {"name": "Soul Ruler Kashapa (Verteron)", "map": "Verteron", "min": 360, "lvl": 48, "fav": true}, {"name": "High Commander Lagta (Verteron)", "map": "Verteron", "min": 720, "lvl": 48, "fav": true}, {"name": "Melted Danar", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Faithful Rajit", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Berserker Vargor", "map": "Altgard", "min": 60, "lvl": 45}, {"name": "Blood Warrior Lannar", "map": "Altgard", "min": 90, "lvl": 45}, {"name": "Advisor Resana", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Rotten Kutar", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Black Warrior Aed", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Predator Garsan", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Deceiver Trid", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Blue Wave Kelpina", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "High Overseer Nutah", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Special Operations Leader Linx", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Desecrator Newbold", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Specter Archon Axios", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Addicted Hardirun", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Executioner Barthien", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Kernon of the West", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Drakan Battalion Weapon Guruta", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Veteran Shujakan", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Visionary Karuka", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Dark Shadow Vishwada", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Sharp Shylak", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Immortal Gartua", "map": "Altgard", "min": 720, "lvl": 51, "fav": true}, {"name": "High Commander Lagta (Altgard)", "map": "Altgard", "min": 720, "lvl": 48, "fav": true}, {"name": "Soul Ruler Kashapa (Altgard)", "map": "Altgard", "min": 360, "lvl": 48, "fav": true}, {"name": "Silent Dartan (Altgard)", "map": "Altgard", "min": 360, "lvl": 48, "fav": true}, {"name": "Kusan the Mad Gladiator", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Ritualist Garshim", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Bodyguard Teegant", "map": "Verteron", "min": 90, "lvl": 45}, {"name": "Furious Saursus", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Bloodfang Pnyn", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Argo, the Spirit King", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Watcher Kaira", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Reshanta's Root)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Shade Island)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Lonely Island)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Tamasa", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Argo", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Kaira", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}];
-const BUILDS = {
-  early: {
-    questlog: "https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz?build-id=11948",
-    summary: [
-      "<b>Rol:</b> hasar vuran support, heal'i az",
-      "<b>Ana hasar:</b> Onslaught + Incandescent Blow spam'i",
-      "<b>Kilit:</b> Dark Crush 12 (Piercing Strike), Rushing Smash 12",
-      "<b>Stigma:</b> Undefeated · Sprint · Power of the Storm"
-    ],
-    // lvl: hedef skill seviyesi, pick: seçilecek uzmanlık slotları
-    skills: {
-      "18010000": {lvl:20, pick:[2,3], why:"Sol tık. Cooldown'u yok ve <b>MP doldurur</b>. Can çalma leveling'i kolaylaştırır, multi-hit biraz daha hasar ekler."},
-      "18040000": {lvl:12, pick:[2,3], why:"Sağ tık. Cooldown'u yok, <b>MP harcar</b>. Önemli olan 3. uzmanlık: az hedefe vurunca %12 daha fazla hasar verir (boss'ta işe yarar). İkinci seçim önemsiz."},
-      "18100000": {lvl:12, pick:[3,4], why:"İleride ana hasar skilin olacak. Kendi başına basılamaz; önce bir tetikleyiciyle açılması gerekir. <b>Piercing Strike</b> zinciri Dark Crush'tan bile fazla vurur, olabildiğince erken al."},
-      "18290000": {lvl:12, pick:[1,3], why:"Ağır vurur, isabet başına %15 kritik hasar buff'ı verir (2 kez birikir). <b>Dark Crush'ı 2 sn açar</b>; ilk tetikleyicin bu."},
-      "18060000": {lvl:8, pick:[3], why:"3 sn stun. Asıl işi <b>Dark Crush'ı 2 sn açmak</b>. Sadece 8'e çıkar ve hemen mobile skill yap; daha akıcı kullanılır."},
-      "18300000": {lvl:8, pick:[1], why:"Yalnızca <b>stagger olmuş boss</b>'a vurur ama o sırada spam'lenebilir. Uzmanlıklar önemsiz; can çalma işe yarar."},
-      "18090000": {lvl:12, pick:[4], why:"Hedefe atılır. <b>12'de “öldürünce cooldown sıfırlanır”</b>: atıl, öldür, sonrakine atıl. Öldürmeyi bu skille yapman gerekmez. Diğer uzmanlıklar PvE'de işe yaramaz."},
-      "18210000": {lvl:8, pick:[2], why:"İkinci atılma skili, önce <b>Shift (dodge)</b> yapman gerekir. 8'de bırak, +10 m menzil al; böylece Rushing Smash ile aynı menzile gelir."},
-      "18120000": {lvl:12, pick:[1,4], why:"Tek aktif heal'in, tüm partiyi iyileştirir. 8'de <b>art arda 2 kullanım</b> ve zamana yayılan heal gelir, 12'de +%5 heal eklenir."},
-      "18190000": {lvl:1, pick:[], why:"Tüm partiye <b>PvE hasar artışı ve hasar direnci</b>. Hep açık kalsın."},
-      "18160000": {lvl:1, pick:[], why:"Partiye hareket hızı ve vurdukça %15 ihtimalle heal. Hızlı parti, saldırılardan daha kolay kaçar."},
-      "18250000": {lvl:1, pick:[], why:"2 dk cooldown'lu parti buff'ı: <b>savaş hızı ve cooldown azaltma</b>. Bastığında partinin hasarı büyük artar."},
-      "18750000": {lvl:"Max", pick:[], why:"PvE hasar artışı, savunma ve isabet. <b>Her zaman maksimuma çıkar.</b>"},
-      "18800000": {lvl:"Max", pick:[], why:"Kritik hasar artışı ve kritikte ek hasar ihtimali."}
-    },
-    bars: [
-      ["Ana hasar", ["18010000","18040000","18100000","18290000"]],
-      ["Tetikleyici · hareket · heal", ["18060000","18300000","18090000","18210000","18120000"]],
-      ["Stigma", ["18190000","18160000","18250000"]],
-      ["Pasif", ["18750000","18800000"]]
-    ],
-    // [skill, hedef seviye, açılan uzmanlık slotları, not, önemli mi]
-    order: [
-      ["18100000", 8, [3], "Kritik vuruş", false],
-      ["18290000", 8, [1], "Tetikleyiciyi sık kullan", false],
-      ["18060000", 8, [3], "Hemen mobile yap, sonra puan verme", true],
-      ["18120000", 8, [1], "2 kullanım ve zamana yayılan heal", false],
-      ["18100000", 12, [4], "Olabildiğince erken", true],
-      ["18090000", 12, [4], "Farm motoru", true],
-      ["18010000", 8, [2,3], "", false],
-      ["18040000", 8, [3], "", false],
-      ["18290000", 12, [3], "", false],
-      ["18120000", 12, [4], "", false],
-      ["18040000", 12, [2], "Önemsiz seçim", false],
-      ["18210000", 8, [2], "Sonra puan verme", false],
-      ["18300000", 8, [1], "Sonra puan verme", false],
-      ["18010000", 20, [], "Kalan puanlar", false]
-    ],
-    orderFoot: "Pasif puanları: Attack Preparation ve Wind's Promise'i maksimuma çıkar. Skill seviyesi karakter level'ına bağlı tavana takılırsa puanı listede bir sonrakine ver.",
-    macro: [["18100000","18290000","18040000"]],
-    macroNote: "Hepsi <b>aynı satırda</b>. <kbd>Sol tık</kbd> + <kbd>Macro</kbd> ikisini birlikte basılı tut.",
-    rot: [
-      "Mantra'ları açık tut, <b>Rushing Smash</b> ile gir.",
-      "<kbd>Sol tık</kbd> + <kbd>Macro</kbd>: macro önce Dark Crush'ı dener; tetiklenmemişse <b>Spinning Strike</b>'a geçer, sonra açılan <b>Dark Crush</b>'ı basar.",
-      "İkisi de cooldown'dayken <b>Onslaught + Incandescent Blow</b> döner.",
-      "<b>İsteğe bağlı:</b> Dark Crush hazır olunca <b>Impactful Crush</b>'a bas; Spinning Strike'ı beklemeden Dark Crush'ı yeniden açar.",
-      "Can azalınca <b>Recuperation</b>."
-    ],
-    notes: [
-      ["Chanter ne iş yapar?", "Oyun Chanter'ı support sayıyor ama Chanter partiye heal'le değil, <b>buff'la</b> destek olur. Cleric yoksa ana destek sensin, ama heal'in az. Şu anki dengede hasarı çok yüksek. Kısacası: iyi vuran bir support'sun, ne tam healer ne saf DPS."],
-      ["Dark Crush nasıl çalışır?", "Dark Crush'ı istediğin an basamazsın, önce bir tetikleyiciyle açılması gerekir: <b>Spinning Strike</b> (2 sn), <b>Impactful Crush</b> (2 sn) ve mid game'de <b>Marchutan's Wrath</b> (3 sn). Early game'de Dark Crush'ın cooldown'u yüzünden ana hasar Onslaught ve Incandescent Blow'dan gelir."],
-      ["Cleric ile çakışma", "Undefeated Mantra ve Power of the Storm, Cleric'in bazı buff'larıyla üst üste binmiyor. Cleric'in ne kullandığını bilmiyorsan yine de bu ikisini tak; çok güçlüler."],
-      ["Stigma sırası", "Yuva açıldıkça: Undefeated Mantra → Sprint Mantra → Power of the Storm → Marchutan's Wrath. Grobs Marchutan's Wrath'ı mid game'de ekliyor, ama 4. yuva açıldığında hemen takabilirsin."]
-    ]
-  },
-  mid: {
-    questlog: "https://questlog.gg/aion-2/en/skill-builder/1axQ0wzhiYGz?build-id=13893",
-    summary: [
-      "<b>1. hedef:</b> Dark Crush 16, cooldown tamamen kalkar",
-      "<b>Stigma:</b> Power of the Storm 5 → Undefeated Mantra 20",
-      "<b>4. stigma:</b> Marchutan's Wrath",
-      "<b>Pasif odağı:</b> Attack Prep · Wind's Promise · Impact Hit"
-    ],
-    skills: {
-      "18100000": {lvl:16, pick:[3], add:[5], drop:[4], why:"<b>16'da cooldown kalkar.</b> Tetikleyici Dark Crush'ı 2–3 sn açtığında o süre boyunca durmadan basarsın. En büyük güç artışı bu. Piercing Strike'ın yerine 5. uzmanlığı al."},
-      "18010000": {lvl:16, pick:[], add:[4,5], drop:[2,3], why:"16'da <b>Storm Chain</b> gelir: zincir 4 vuruşa çıkar ve 4. vuruş çok güçlüdür. Sol tıkla animasyon iptal ettiğin için büyük hasar artışı demek. Ayrıca <b>isabette Spinning Strike −1 sn</b> uzmanlığını al (Spinning Strike bir tetikleyici)."},
-      "18120000": {lvl:16, pick:[1], add:[5], drop:[4], why:"16'da cooldown 3 sn kısalır. Karşılığında +%5 heal'i bırakırsın; ideal değil ama yine daha iyi."},
-      "18290000": {lvl:16, pick:[3], add:[5], drop:[1], why:"16'da blok ve kaçınmayı yok sayar, <b>her vuruşu kritik</b> olur. −5 sn cooldown'un yerine alırsın."},
-      "18040000": {lvl:12, pick:[2,3], why:"Early'deki gibi. Macro'nun 2. satırında durur."},
-      "18060000": {lvl:8, pick:[3], why:"Macro'nun 1. satırında Dark Crush tetikleyicisi olarak durur."},
-      "18300000": {lvl:8, pick:[1], why:"Stagger olmuş boss'a spam'le."},
-      "18090000": {lvl:12, pick:[4], why:"Öldürünce cooldown sıfırlanır. Boss'a açılış bununla."},
-      "18210000": {lvl:8, pick:[2], why:"+10 m menzil. Yedek atılma skili."},
-      "18330000": {lvl:5, pick:[1], why:"Uzaktan iyi vurur ve <b>Dark Crush'ı 3 sn açar</b>. Dark Crush'ın cooldown'u kalkınca çok güçlü bir tetikleyici olur."},
-      "18190000": {lvl:20, pick:[1,2,3,4], why:"Power of the Storm 5'ten sonra <b>bütün puanı buraya</b> ver. Kritik hasar ve <b>double chance</b> uzmanlıkları tüm partinin hasarını ciddi artırır. 20 olunca diğer stigmalara geç."},
-      "18160000": {lvl:1, pick:[], why:"Takılı kalır. Mantra 20 olunca puan buraya da gidebilir."},
-      "18250000": {lvl:5, pick:[1], why:"<b>Önce bunu 5 yap:</b> cooldown 30 sn kısalır (%25)."},
-      "18750000": {lvl:"Max", pick:[], why:"PvE hasar artışı. Odak pasif."},
-      "18800000": {lvl:"Max", pick:[], why:"Kritik hasar. Odak pasif."},
-      "18760000": {lvl:"Max", pick:[], why:"Impact şansı pek önemli değil; asıl değeri <b>double chance</b>, yani çift hasar ihtimali. Çok güçlü."},
-      "18730000": {lvl:"–", pick:[], why:"Her vuruşta yığın kazanırsın, 10 yığında partiye kalkan verirsin. Boss'a vurdukça takım sürekli kalkan alır. İyi ama öncelik verme."},
-      "18130000": {lvl:"Alt.", pick:[], why:"<b>Hazır partide</b>, Cleric buff'ları seninkilerle çakışıyorsa alternatif. Düşmanın savunmasını düşürür; savunma sabit bir azaltma olduğu için oyunun başında (Season 1) çok etkili."},
-      "18170000": {lvl:"Önerilmez", pick:[], why:"Ek heal için alanlar var. Grobs'a göre heal'i az, 30 sn cooldown'u var. Tek healer olsan bile daha çok vurmak ve buff vermek daha değerli."}
-    },
-    bars: [
-      ["Ana hasar", ["18100000","18010000","18290000","18040000"]],
-      ["Tetikleyici · hareket · heal", ["18060000","18300000","18090000","18210000","18120000"]],
-      ["Stigma", ["18330000","18190000","18160000","18250000"]],
-      ["Pasif", ["18750000","18800000","18760000","18730000"]],
-      ["Alternatif stigma", ["18130000","18170000"]]
-    ],
-    order: [
-      ["18100000", 16, [5], "Cooldown kalkar · en önemli", true],
-      ["18250000", 5, [1], "−30 sn cooldown", true],
-      ["18010000", 16, [4,5], "4. zincir vuruşu", true],
-      ["18190000", 20, [1,2,3,4], "Stigma puanının hepsi buraya", true],
-      ["18330000", 5, [1], "", false],
-      ["18290000", 16, [5], "Her vuruş kritik", false],
-      ["18120000", 16, [5], "", false],
-      ["18760000", "Max", [], "Double chance", false]
-    ],
-    orderFoot: "Aktif skill puanı ile stigma puanı ayrı havuzlarda olabilir; her havuzda kendi sırasını izle. Pasiflerde önce Attack Preparation, Wind's Promise ve Impact Hit, sonra diğerlerini maksimuma çıkar.",
-    macro: [["18100000","18290000","18330000","18060000"],["18040000"]],
-    macroNote: "Dark Crush ve 3 tetikleyicisi <b>mutlaka aynı satırda</b> olsun, Incandescent Blow ayrı satırda. <kbd>Sol tık</kbd> + <kbd>Macro</kbd>.",
-    rot: [
-      "<b>Power of the Storm</b> ile partiyi buff'la.",
-      "<b>Rushing Smash</b> ile boss'a atla.",
-      "Hemen <kbd>Sol tık</kbd> + <kbd>Macro</kbd>: Spinning Strike → Dark Crush spam'i → Marchutan's Wrath → Dark Crush spam'i → Impactful Crush → … Hepsi cooldown'dayken Onslaught ve Incandescent Blow döner.",
-      "Can azalınca <b>Recuperation</b>. Hasarın tamamı macro'dan gelir."
-    ],
-    notes: [
-      ["Neden Dark Crush 16?", "Tetikleyici Dark Crush'ı 2 sn açıyordu, ama Dark Crush'ın kendi 5 sn cooldown'u yüzünden ancak bir kez basabiliyordun. 16'da cooldown kalkınca açık kaldığı süre boyunca <b>durmadan</b> basarsın. Üç tetikleyicin olduğu için Dark Crush neredeyse sürekli akar."],
-      ["Tek healer olursam?", "Grobs build'i değiştirmiyor: Marchutan's Wrath, Undefeated Mantra, Sprint Mantra ve Power of the Storm. Healing Touch'ı almıyor. Ölen olursa olur; daha çok vurmak ve buff vermek daha değerli. Yine de kendin deneyebilirsin."],
-      ["Fracturing Blow ne zaman?", "Hazır bir partideysen ve Cleric'in buff'ları Undefeated Mantra veya Power of the Storm ile çakışıyorsa bunun yerine alınabilir. Savunma düşürmenin etkisi oyunun başında daha büyük."]
-    ]
-  }
-};
+const $ = id => document.getElementById(id);
+let SK = {}, DVJ = null, tab = "mb";
 
-// Kişisel dizilim: [skillId, seviye] — sütun içinde 0. sıra en altta (oyundaki gibi)
-const R = id => id; // okunurluk
-BUILDS.me = {
-  skills: Object.assign({}, BUILDS.early.skills, {
-    "18330000": BUILDS.mid.skills["18330000"],
-    "18130000": {lvl:5, pick:[], why:"Senin <b>ikinci atılman</b> (E). 20 m'den hedefe atılır, savunmasını %30 düşürür. Dodge gerektirmediği için Tremor Crush'tan rahat. Grobs bu yuvada Power of the Storm kullanıyor; dungeon'a girerken onunla değiştirmeyi düşün."},
-    "18080000": {lvl:"Bırak", pick:[], why:"Sadece <b>stun yemiş</b> hedefe vurur. R zincirindeki Impactful Crush mobları %100 stun'ladığı için tam bu anda açılır. 2. tuşun “kendiliğinden” çıkmasının muhtemel sebebi bu. Build'de yok, puan verme."},
-    "18150000": {lvl:"Bırak", pick:[], why:"Build'de yok. E sütununda Fracturing Blow'un arkasında duruyordu: Fracturing cooldown'dayken E'ye basınca atılmak yerine bu çıkar. Çubuktan kaldır."},
-    "18250000": {lvl:5, pick:[1], why:"Sende yok, ama iki video da her zaman takıyor. 2 dakikada bir 10 sn boyunca savaş hızı ve cooldown azaltma verir. <b>3'e koy</b> ve her boss/pack başında bas. Sprint Mantra'nın yuvasına gelir; 5'e çıkınca cooldown 30 sn kısalır."},
-    "18210000": {lvl:8, pick:[2], why:"Önce dodge (Shift) gerektiriyor ve sen E ile atılıyorsun. Çubuktan kaldırabilirsin. 9'a çıkmış, daha fazla puan verme."}
-  }),
-  // Questlog "Chanter - Leveling": sütun 9 = Q, 10 = E, 11 = sol tık, 12 = sağ tık
-  grobs: {
-    "1":[["18300000",8]], "2":[], "3":[["18160000",1]], "4":[["18190000",1]], "5":[["18250000",1]], "6":[["18120000",12]],
-    "7":[["18090000",12],["18210000",8]], "8":[["18060000",8]], "Q":[], "E":[],
-    "Sol":[["18010000",20]], "Sağ":[["18100000",12],["18290000",12],["18330000",1],["18040000",12]]
-  },
-  cur: {
-    "1":[["18120000",10]], "2":[["18210000",9],["18080000",11]], "3":[["18300000",12]],
-    "4":[["18100000",13],["18060000",9],["18290000",12],["18330000",5]],
-    "5":[], "6":[], "7":[["18190000",10]], "8":[["18160000",5]],
-    "Q":[["18090000",12]], "E":[["18130000",5],["18150000",12]],
-    "Sol":[["18010000",12]], "Sağ":[["18040000",12]]
-  },
-  next: {
-    "1":[["18120000",10]], "2":[["18060000",9]], "3":[["18250000",1]],
-    "4":[["18100000",13],["18290000",12],["18330000",5]],
-    "5":[], "6":[], "7":[["18190000",10]], "8":[],
-    "Q":[["18090000",12]], "E":[["18130000",5]],
-    "Sol":[["18300000",12,"try"],["18010000",12]], "Sağ":[["18040000",12]]
-  },
-  changes: [
-    ["R", "<b>Zincir:</b> Dark Crush › Spinning Strike › Marchutan's Wrath. <b>Impactful Crush'ı çıkar</b> (notXeon): Dark Crush 16 olana kadar zincirde Dark Crush'ın açık kalma süresini boşa harcıyor. Dark Crush 16 olunca zincirin sonuna geri koy."],
-    ["2", "<b>Impactful Crush buraya.</b> Dark Crush'ın cooldown'u bitince bas, Dark Crush'ı yeniden açar. Wave Blow ve Tremor Crush çıkıyor; ikisi de build'de yok. Wave Blow stun yemiş hedefe açıldığı için R'deyken kendiliğinden çıkan skill büyük ihtimalle oydu."],
-    ["3 · 8", "<b>Sprint Mantra yerine Power of the Storm.</b> İki video da Power of the Storm'u her zaman takıyor; sende hiç yok. 2 dakikada bir basılır, bu yüzden elinin yakınında 3'e koy. Sprint Mantra'yı dungeon'da veya mob farmında geri tak."],
-    ["E", "<b>Sadece Fracturing Blow kalsın.</b> Arkasındaki Heat Wave Blow'u kaldır; yoksa Fracturing cooldown'dayken E'ye basınca atılmak yerine Heat Wave Blow çıkar."],
-    ["Sol", "<b>Dene:</b> Gust Rampage'i sol tık sütununda Onslaught'un önüne koy. Gust Rampage yalnızca stagger olmuş boss'ta açıldığı için o an kendiliğinden onu spam'lersin, diğer her an Onslaught vurur. Çalışmazsa 3'e geri al."],
-    ["7", "<b>Undefeated Mantra aura gibi çalışır:</b> bir kez açınca kalır, bu yüzden 7'ye hiç basmaman normal. Buff çubuğunda simgesinin göründüğünden emin ol."],
-    ["E", "<b>Fracturing Blow kalsın:</b> notXeon'un DPS setinde de var. Dungeon'da Sprint Mantra ile değiştirmek bir seçenek."]
-  ],
-  // [skill, şimdi, hedef, not, dur?]
-  lvls: [
-    ["18100000", 13, 16, "En önemlisi: 16'da cooldown kalkar", false],
-    ["18120000", 10, 12, "+%5 heal uzmanlığı", false],
-    ["18010000", 12, 16, "Storm Chain (4. vuruş)", false],
-    ["18290000", 12, 16, "Her vuruş kritik", false],
-    ["18190000", 10, 20, "Stigma puanının hepsi buraya", false],
-    ["18250000", "–", 5, "Yeni stigma; 5'te −30 sn cooldown", false],
-    ["18330000", 5, 5, "Tamam", false],
-    ["18060000", 9, 8, "Yeterli, puan verme", true],
-    ["18300000", 12, 8, "Fazlası var; notXeon hiç almıyor", true],
-    ["18210000", 9, 8, "Puan verme", true],
-    ["18080000", 11, "–", "Build'de yok, puan verme", true],
-    ["18150000", 12, "–", "Build'de yok, puan verme", true]
-  ]
-};
-BUILDS.x = {
-  skills: {
-    "18100000": {lvl:16, pick:[3], add:[5], why:"Sınıfın kimliği bu skill: PvE'de de PvP'de de ana hasarın. 16'da cooldown'u kalkar ve tetikleyici açtığı sürece durmadan basarsın. Yol: 10 skill puanı + 4 Daevanion düğümü + 2 silah/yüzük eki ya da Arcana kartı."},
-    "18040000": {lvl:16, pick:[3], add:[5], why:"İkinci en büyük hasar kaynağın (sağ tık). 16'da <b>blok ve kaçınmayı yok sayar, multi-hit vurur</b>. Dark Crush'tan sonra 16'ya çıkarılacak ilk skill."},
-    "18010000": {lvl:16, pick:[], add:[4,5], why:"16'da <b>Storm Chain</b> gelir ve zincire bir vuruş ekler. <b>Vuruşta Spinning Strike −1 sn</b> uzmanlığıyla birlikte her turda Spinning Strike'ı ve onunla birlikte Dark Crush'ı daha sık basarsın."},
-    "18290000": {lvl:12, pick:[1,3], why:"En büyük tek vuruşun ama cooldown'u uzun. Cooldown'u kısaldıkça Dark Crush'ı daha sık açarsın."},
-    "18090000": {lvl:16, pick:[4], why:"notXeon Incandescent Blow ve Onslaught'tan sonra bunu 16'ya çıkarıyor; Spinning Strike 16 da aynı seviyede bir seçenek."},
-    "18120000": {lvl:12, pick:[1,4], why:"<b>16'ya gerek yok:</b> 16'daki cooldown azaltma iyi değil. 2 kullanım ve +%5 heal uzmanlıkları kalsın."},
-    "18300000": {lvl:"Alma", pick:[], why:"notXeon kullanmıyor: Dark Crush 16 olunca macro rotasyonu bu spam skilinden daha iyi, başta da buna verecek skill puanı yok. “Puanım olsa bile almam” diyor."},
-    "18060000": {lvl:8, pick:[3], why:"<b>Dark Crush 16 değilken macro zincirine koyma.</b> Dark Crush'ın cooldown'u varken Impactful Crush'ın açtığı 2 saniye boşa gider. Ayrı bir tuşa koy; Dark Crush'ın cooldown'u bitince elle bas."},
-    "18750000": {lvl:"1.", pick:[], why:"En önemli pasif: düz hasar artışı. Seviyesi karakter level'ına bağlı kilitli (yaklaşık 17, 22, 34…), kilit açıldıkça hemen yükselt."},
-    "18740000": {lvl:"2.", pick:[], why:"Kritik şansı ve <b>perfect</b> şansı verir."},
-    "18760000": {lvl:"3.", pick:[], why:"<b>Double chance</b> verir; PvE'de en etkili hasar statı. Bu sürümde zayıflatıldı ama hâlâ çok iyi."},
-    "18780000": {lvl:"4.", pick:[], why:"Vurdukça hedefin hasar direncini düşürür."},
-    "18800000": {lvl:"5.", pick:[], why:"Hikâyede geç açılır ama <b>level kilidi yok</b>: açılınca bütün pasif puanlarını verip hemen 10 yap. Kritik hasar artışı büyük bir hasar artışı demek."},
-    "18730000": {lvl:"Sonra", pick:[], why:"En iyi savunma pasifi: can %50'nin altına inince kalkan verir. Hasar pasifleri bitince ilk buna geç."},
-    "18710000": {lvl:"Başta değil", pick:[], why:"İyi bir pasif ama sadece savunma statı verir; başta gerek yok."},
-    "18770000": {lvl:"Alma", pick:[], why:"notXeon test etmiş: sadece stun veya knockdown yemiş hedefe ek hasar veriyor. PvE'de, özellikle boss'ta, bu neredeyse hiç olmuyor."},
-    "18720000": {lvl:"Alma", pick:[], why:"Başta yeterli blok statın olmuyor; heal'i de geç oyunda bile önemsiz."},
-    "18790000": {lvl:"PvP", pick:[], why:"Durum etkisi direnci verir; PvP pasifi, PvE'de önemsiz."},
-    "18190000": {lvl:20, pick:[1,2,3,4], why:"<b>Her içerikte takılı.</b> Çok stat verir; ilk maksimuma çıkarılacak stigma."},
-    "18250000": {lvl:5, pick:[1], why:"<b>Her içerikte takılı.</b> 12 sn boyunca ~%20 hasar artışı. Şu an herkesin savaş hızı düşük olduğu için çok değerli."},
-    "18160000": {lvl:1, pick:[], why:"Dungeon'da ve mob farmında 3. veya 4. yuvaya: hareket hızı mekaniklerden kaçmayı kolaylaştırır. PvP'de (Abyss'te çoğu zaman uçuyorsun) işe yaramaz."},
-    "18330000": {lvl:5, pick:[1], why:"DPS setinde. Dark Crush'ı tetikler."},
-    "18130000": {lvl:5, pick:[], why:"Hedefin savunmasını 5 sn düşürür. PvP'de çok güçlü, PvE'de orta. Dungeon'da Sprint Mantra ile değiştirilebilir."},
-    "18230000": {lvl:1, pick:[], why:"DPS rotasyonu için bir seçenek."},
-    "18240000": {lvl:1, pick:[], why:"Healer setinde: partiye kalkan."},
-    "18170000": {lvl:1, pick:[], why:"Healer setinde: parti heal'i."}
-  },
-  path: [
-    ["10", "Skill puanı", "Normal skill puanlarıyla 10'a çıkar."],
-    ["+4", "Daevanion", "4 tahtanın her birinde bir Dark Crush düğümü var (mavi skill düğümü). Hepsini al → 14."],
-    ["+2", "Silah / yüzük eki", "Dark Crush eki yalnızca silahta veya yüzükte çıkar: iki yüzük ya da yüzük + silah."],
-    ["16", "Arcana kartı", "En garantili yol: Transcendence dungeon'larından çıkan aktif skill kartları. 1600 gear score ister."]
-  ],
-  dvp: [
-    ["Nezekan", "Savaş hızı", "Cooldown azaltma bu kadar önemli değil", ["18100000"]],
-    ["Zikel", "Hasar artışı", "", ["18290000"]],
-    ["Vaizel", "Kritik hasar artışı", "", []],
-    ["Triniel", "Multi-Hit şansı", "", []]
-  ],
-  dvSkills: ["18100000","18040000","18290000","18010000"],
-  to16: ["18100000","18040000","18010000","18090000","18120000","18300000"],
-  passives: ["18750000","18740000","18760000","18780000","18800000","18730000"],
-  passivesNo: ["18710000","18770000","18720000","18790000"],
-  loads: [
-    ["DPS (genel)", ["18190000","18250000","18330000","18130000"], "notXeon'un “ikisini seç” dediği DPS seti."],
-    ["PvE dungeon · mob farmı", ["18190000","18250000","18330000","18160000"], "Fracturing Blow yerine Sprint Mantra: mekaniklerden kaçmak ve farm hızı için."],
-    ["PvP · Abyss", ["18190000","18250000","18330000","18130000"], "Sprint Mantra çıkar (uçarken işe yaramaz), Fracturing Blow kesin."],
-    ["Healer", ["18190000","18250000","18240000","18170000"], "Kalkan + heal + mantra. Seçenek: Ensnaring Mark."]
-  ],
-  cmp: [
-    ["Gust Rampage", "Leveling'de alıyor (8)", "Almıyor, puanı başka yere ver"],
-    ["16'ya ikinci skill", "Onslaught", "Incandescent Blow, sonra Onslaught"],
-    ["Recuperation 16", "Opsiyonel, alıyor", "Gerek yok"],
-    ["Impactful Crush", "Macro zincirinde", "Dark Crush 16 olana kadar ayrı tuşta"],
-    ["Pasifler", "Attack Prep · Wind's Promise · Impact Hit", "Attack Prep → Inspiring Spell → Impact Hit → Earth's Promise → Wind's Promise"],
-    ["Stigma", "Undefeated · Sprint · Power of the Storm · Marchutan", "Undefeated + Power of the Storm her zaman; 3–4. yuva içeriğe göre"],
-    ["Ortak", "Dark Crush 16 en büyük hedef · Undefeated Mantra'yı önce maksimuma çıkar · Power of the Storm takılı", ""]
-  ]
-};
-
-// "Personal Aion 2 Class Info" tablosunun Chanter sekmesi (endgame PvE)
-BUILDS.t = {
-  src: "https://docs.google.com/spreadsheets/d/1lbHaVairHaz26M8XGNF9CBWqiiHHBM6CylTwNKnlOug/htmlview?gid=1832734703",
-  skills: {
-    "18010000": {lvl:20, pick:[3,4,5], why:"Leveling'de önce <b>20 işaretli</b> skillere puan ver. Multi-hit, <b>vuruşta Spinning Strike −1 sn</b> ve Storm Chain; üçü birden."},
-    "18040000": {lvl:16, pick:[3,5], why:"Az hedefte +%12 hasar ve 16'da blok/kaçınmayı yok sayıp multi-hit. notXeon ile aynı seçim."},
-    "18090000": {lvl:12, pick:[1,4], why:"Öldürünce cooldown sıfırlanır (4). Yanında hedefin Impact direncini %20 düşüren 1. uzmanlık; Dark Crush'ın Impact bonusuyla uyumlu."},
-    "18060000": {lvl:12, pick:[3,4], why:"Mobile skill (3) ve 12'de +%30 skill hızı (4). Bu build'de Dark Crush zincirinde üçüncü sırada."},
-    "18100000": {lvl:20, pick:[3,4,5], why:"Tabloda <b>“Dark Rush”</b> diye yazılmış, kastedilen Dark Crush. Kritik, Piercing Strike ve cooldown kaldırma; üçü birden. Grobs/notXeon 16'da Piercing Strike'ı bırakıyordu, burada 20'de üçü de tutuluyor."},
-    "18300000": {lvl:"Alma", pick:[], why:"Tabloda “N/A”: puan verilmiyor. notXeon da almıyordu."},
-    "18150000": {lvl:12, pick:[3,4], why:"Çok hedefte +%20 hasar ve 12'de blok/kaçınmayı yok sayıp multi-hit. Senin dizilimde çıkarmıştık; bu build kullanıyor ama örnek tuş diziliminde yok."},
-    "18120000": {lvl:"16–20", pick:[1,4], why:"İki kullanım + zamana yayılan heal (1) ve +%5 heal (4). Örnek dizilimde 14'te, 2 tuşunda."},
-    "18210000": {lvl:12, pick:[2,3], why:"+10 m menzil ve multi-hit. Örnek dizilimde Q'da, Wave Blow'un altında."},
-    "18080000": {lvl:12, pick:[1,4], why:"Multi-hit ve 12'de hedefin PvE hasar artışını %15 düşüren debuff. Q sütununda Tremor Crush'ın üstünde: yalnızca stun yemiş hedefe açıldığı için o an kendiliğinden çıkar."},
-    "18290000": {lvl:20, pick:[1,2,3], why:"−5 sn cooldown, +%10 heal artışı, az hedefte +%20 hasar. Spinning Strike Dark Crush'ı açan tetikleyici; 20 işaretli."},
-    "18200000": {lvl:16, pick:[3,5], why:"<b>Yeni skill:</b> stun, knockdown, havaya kaldırma, fear gibi kontrolleri temizler ve 5 sn kontrol bağışıklığı verir. Kullanınca %10 HP (3) ve bağışıklık süresince büyük hasar direnci (5). Örnek dizilimde yok, ayrı bir tuşa koy."},
-    "18800000": {lvl:"1.", pick:[], why:"Pasif sırasında ilk. Kritik hasar artışı."},
-    "18760000": {lvl:"2.", pick:[], why:"Double chance verir."},
-    "18750000": {lvl:"3.", pick:[], why:"Düz PvE hasar artışı; seviyesi karakter level'ına bağlı."},
-    "18780000": {lvl:"4.", pick:[], why:"Vurdukça hedefin hasar direncini düşürür."},
-    "18740000": {lvl:"5.", pick:[], why:"Kritik ve perfect şansı."},
-    "18190000": {lvl:20, pick:[1,2,3,4], why:"Stigma sırasında ilk, 20'ye çıkar. Örnek dizilimde 5'te."},
-    "18250000": {lvl:"5+", pick:[1], why:"En az 5 (−30 sn cooldown). Örnek dizilimde 13'te, 3 tuşunda."},
-    "18160000": {lvl:"1+", pick:[], why:"Takılı kalsın, 1 yeter. Örnek dizilimde 10'da, 6 tuşunda."},
-    "18140000": {lvl:5, pick:[1], why:"<b>Yeni stigma:</b> kısa süre bloğu garantiler, blok hasar azaltmasını %100 artırır, blokta MP ve stamina verir. 5'te <b>iki kullanım</b>. Marchutan's Wrath'ın yerine 4. yuvada; örnek dizilimde E'de."},
-    "18420000": {lvl:"Alt.", pick:[], why:"Alternatif stigma: 120 sn boyunca maks HP +%5,4 ve anında heal."},
-    "18240000": {lvl:"Alt.", pick:[], why:"Alternatif stigma: kendine ve partiye kalkan."},
-    "18330000": {lvl:"Alt.", pick:[], why:"Bu build'de alternatif. Grobs ve notXeon 4. yuvaya takıyordu; burada yerini Focused Defense alıyor."}
-  },
-  order: ["18010000","18040000","18090000","18060000","18100000","18150000","18120000","18210000","18080000","18290000","18200000"],
-  no: ["18300000"],
-  passives: ["18800000","18760000","18750000","18780000","18740000"],
-  stigmas: ["18190000","18250000","18160000","18140000"],
-  stigAlt: ["18420000","18240000","18330000"],
-  // Tablodaki ekran görüntüsünden; sütunda 0. sıra en altta
-  layout: {
-    "1":[["18090000",12]], "2":[["18120000",14]], "3":[["18250000",13]], "4":[], "5":[["18190000",20]], "6":[["18160000",10]],
-    "7":[], "8":[], "Q":[["18210000",12],["18080000",12]], "E":[["18140000",5]],
-    "Sol":[["18010000",15]], "Sağ":[["18100000",17],["18290000",17],["18060000",12],["18040000",16]]
-  },
-  cmp: [
-    ["Dark Crush", "16'da cooldown kalkar, Piercing Strike bırakılır", "20, uzmanlık 3/4/5: Piercing Strike da kalır"],
-    ["Onslaught", "16, uzmanlık 4/5", "20, uzmanlık 3/4/5 (multi-hit de eklenir)"],
-    ["Spinning Strike", "Grobs 16 (3/5), notXeon 12 (1/3)", "20, uzmanlık 1/2/3"],
-    ["4. stigma", "Marchutan's Wrath", "Focused Defense 5 (Marchutan alternatif)"],
-    ["Pasif", "notXeon: Attack Prep önce", "Wind's Promise önce, Attack Prep 3."],
-    ["Heat Wave Blow", "Senin dizilimden çıkarmıştık", "12, uzmanlık 3/4"],
-    ["Defiance", "Hiç geçmiyordu", "16, uzmanlık 3/5"],
-    ["Ortak", "Gust Rampage alınmaz · Undefeated Mantra 20 · Power of the Storm takılı · Incandescent Blow 3/5", ""]
-  ],
-  arcana: [
-    ["Chalice (Vigor)", "Time", "Dark Crush › Wind's Promise › Impact Hit › Onslaught"],
-    ["Parchment (Vigor)", "Life / Destiny", "Dark Crush › Onslaught › Spinning Strike"],
-    ["Compass (Magic)", "Death / Freedom", "Incandescent Blow › Recuperation"],
-    ["Bell (Magic)", "Destruction", "Attack Preparation"],
-    ["Mirror (Magic)", "Illusion / Wisdom", "Wind's Promise = Impact Hit › Inspiring Spell › Earth's Promise"],
-    ["Scales", "Destruction", "Spinning Strike › Wind's Promise › Impact Hit › Attack Preparation"],
-    ["Key", "Attack", "Boss hasarı › Kritik hasar"],
-    ["Hourglass", "Defense", "Maks saldırı › Boss saldırısı › Kritik saldırı"],
-    ["Dice", "Accuracy", "Double Chance"],
-    ["Lantern", "Evasion", "Endurance"]
-  ],
-  genus: [
-    ["1 · 5", "Max Attack › Attack Bonus", "aynı", "aynı", "aynı", "aynı"],
-    ["2 · 8", "HP % artışı", "aynı", "aynı", "aynı", "aynı"],
-    ["3 · 6 · 9", "Kritik, isabet › tavan dolmadıysa Power Shard", "aynı", "aynı", "aynı", "aynı"],
-    ["4", "Kritik hasar artışı › Hasar artışı", "Multi-Hit / Perfect şansı (4 ve 7)", "Double Chance", "Silah hasarı artışı › Hasar artışı", "Ön/arka hasar artışı"],
-    ["7", "Hasar direnci, PvE hasar direnci › Endurance", "Hasar direnci, PvE hasar direnci › Endurance", "Hasar direnci › Endurance", "Hasar direnci, PvE hasar direnci › Endurance", "Hasar direnci, PvE hasar direnci › Endurance"]
-  ],
-  soul: [
-    ["Silah", "Silah hasarı artışı › Savaş hızı › Might › Precision › Hasar artışı › Multi-Hit şansı › Saldırı"],
-    ["Guard", "Silah hasarı artışı › Savaş hızı › Hasar artışı › Might › Precision › Multi-Hit şansı › Saldırı"],
-    ["Kask", "Gelen heal › Wind's Promise › Impact Hit › Double Chance › Saldırı artışı › Kritik › Saldırı"],
-    ["Omuz", "Kritik hasar artışı › Wind's Promise › Impact Hit › İsabet › Kritik › Saldırı › Savunma artışı"],
-    ["Göğüs", "Hasar artışı › Wind's Promise › Impact Hit › Kritik › İsabet › Saldırı › Savunma artışı"],
-    ["Bacak", "Hasar direnci › Wind's Promise › Impact Hit › Perfect artışı › Saldırı artışı › Kritik › Saldırı"],
-    ["Eldiven · Bot", "Hız › Wind's Promise › Impact Hit › Perfect şansı › Kritik › Saldırı › Savunma artışı"],
-    ["Pelerin", "Wind's Promise › Impact Hit › Smite › Double Chance › Saldırı artışı › Kritik › Saldırı"],
-    ["Küpe · Kolye", "Wind's Promise › Impact Hit › Attack Preparation › Might › Precision › İsabet › Kritik › Saldırı"],
-    ["Yüzük", "Dark Crush › Onslaught › Might › Precision › Spinning Strike › Recuperation › Incandescent Blow › Saldırı"],
-    ["Bileklik", "Wisdom › Destruction › Time › Illusion › Death › Justice › Life › Space › Freedom › Destiny"],
-    ["Broş", "Might › Precision › İsabet › Kritik › Constitution"],
-    ["Mühür", "Saldırı › Boss saldırısı › Maks saldırı › Kritik saldırı › PvE saldırısı › Power Shard hasar bonusu"]
-  ],
-  misc: [
-    ["Mana stone", "Ön hasar artışı (önden vuruyorsan) › Silah hasarı artışı ≈ Kritik hasar artışı › Hasar artışı › Saldırı"],
-    ["Yükseltme (enhance)", "Double Chance bonusları › Silah hasarı artışı › Hasar artışı › Saldırı › İsabet bonusu ve kritik"],
-    ["Kanat (giyilen)", "Eroded Wings (%45) / Talisra Wings (%23) / Awaken Pride Wings (%12,5)"],
-    ["Kanat (yükseltilecek)", "Azure Flash, Awaken Pride, Blue Wave, Brawler, Dramata Nest, Eroded, Forest Spirit, Illusory Echo, Nightmare, Salvation, Talisra, Ultimate Daeva"],
-    ["Unvan · saldırı", "Playing God › Unbound Genus › Guardian of Verteron"],
-    ["Unvan · savunma", "Saint of Verteron / Rule All Creation / Dominator of All Dimensions"],
-    ["Unvan · özel", "Empty Closet › Through Hell and Back"],
-    ["Theostone", "Başta Poison ve Beast en iyisi; ileride hepsi aşağı yukarı aynı"],
-    ["Pantheon · Colossus", "Önce Zikel / Kromede, Season 2'de Kaisinel"],
-    ["Pantheon · heykel", "Freedom, Death ve Space"],
-    ["Pantheon · tablo", "Önce Illusion ve Wisdom, sonra Life"]
-  ],
-  dv: [["Nezekan","dv-nezekan"],["Zikel","dv-zikel"],["Vaizel","dv-vaizel"],["Triniel","dv-triniel"],["Azphel","dv-azphel"]]
-};
-
-// 40. level puan planı (tablo build'e göre, görsel)
-const PLAN40 = {
-  // [skill, hedef, [uzmanlık slotu, kısa ad]...]
+// ---------- Build: Mour4SB ----------
+// Kaynak: "O guia definitivo do Chanter" videosu + build'in Questlog sayfası ve Excalidraw ilerleme rehberi (2026-10-21)
+const MB = {
+  video: "https://www.youtube.com/watch?v=uzvtZ1ZeERc",
+  questlog: "https://questlog.gg/aion-2/en/character-builder/GrandStonesOfTheFlame?build-id=10657",
+  guide: "https://excalidraw.com/#json=2sEBFiQX586XxQ7aj6ZEP,uLex4jq3WrkHCUDQ36zgkQ",
+  // [skill, hedef seviye, PvE uzmanlık sırası (slot), PvP uzmanlık sırası, not, Questlog'daki karakteri: [lv, slotlar]]
   skills: [
-    ["18100000", 10, [[3,"Kritik"],[4,"Piercing Strike"]]],
-    ["18010000", 10, [[3,"Multi-hit"],[4,"Spinning −1 sn"]]],
-    ["18290000", 10, [[1,"−5 sn CD"],[3,"Az hedef hasar"]]],
-    ["18040000", 10, [[3,"Az hedef +%12"]]],
-    ["18090000", 10, [[1,"Impact direnci −%20"],[4,"Öldürünce sıfırla"]]],
-    ["18060000", 10, [[3,"Mobile"],[4,"Skill hızı"]]],
-    ["18120000", 10, [[1,"2 kullanım"],[4,"+%5 heal"]]],
-    ["18200000", 10, [[3,"Kullanınca %10 HP"]]]
+    ["18100000", 20, [3,5,4], [3,5,4], "Ana hasar. 16'da cooldown'u kalkar; tetikleyici açtığı sürece durmadan basarsın.", [20,[3,4,5]]],
+    ["18010000", 20, [4,5,3], [4,5,3], "Sol tık. Her vuruşu Spinning Strike'ın cooldown'unu 1 sn kısaltır, yani Dark Crush daha sık açılır.", [20,[3,4,5]]],
+    ["18290000", 20, [1,3,5], [1,3,5], "Dark Crush'ı 2 sn açar. Vuruşta kritik hasar buff'ı verir, 2 kez yığılır.", [20,[1,3,5]]],
+    ["18040000", 16, [3,5], [3,5], "Sağ tık zincirinin son halkası; diğerleri cooldown'dayken bu vurur.", [20,[3,4,5]]],
+    ["18120000", 16, [1,2], [1,2], "Tek aktif heal'in, partiyi de iyileştirir.", [14,[1,2]]],
+    ["18090000", 12, [2,4], [1,3], "Atılma. PvE'de şarjlı vuruş ve öldürünce sıfırlanan cooldown, PvP'de Impact direnci düşürme.", [14,[3,4]]],
+    ["18060000", 12, [3,4], [4,2], "Dark Crush'ı 2 sn açar. PvE'de koşarken basılır, PvP'de stun'ı uzar.", [14,[3,4]]],
+    ["18150000", 12, [4,3], [1,2], "PvE'de çok hedefe hasar, PvP'de stun ve seal.", [12,[3,4]]],
+    ["18210000", 12, [2,3], [2,1], "Dodge'dan ya da uçarken atılma. Menzil 10 m daha uzun olur.", [12,[2,4]]],
+    ["18080000", 12, [4,1], [4,3], "Stun yemiş hedefe vurur. PvE'de hedefin hasarını %15 düşürür.", [12,[2,4]]],
+    ["18200000", 8, [2], [2], "Kontrol kırıcı: stun, knockdown, korku gibi etkileri temizler. PvP'de elinin altında olsun.", [16,[4,5]]],
+    ["18300000", 1, [], [], "1'de bırak, puan verme.", [1,[]]]
   ],
-  later: ["18150000","18210000","18080000"],
-  no: "18300000",
-  stig: [["18250000", 5, "Toplam 5 puan · −30 sn CD"], ["18190000", 20, "16–20 arası seviye başına 8 puan"], ["18140000", 5, "5'te iki kullanım"], ["18160000", 1, "1'de kalsın"]],
-  pas: ["18800000","18760000","18750000","18780000","18740000"],
-  trin: ["18100000","18010000","18290000","18040000","18800000","18760000"],
-  cost: ["—",1,1,1,2,2,2,4,4,4]
+  specTR: {
+    "18100030": "Her vuruş kritik", "18100040": "Piercing Strike zinciri eklenir", "18100050": "Cooldown tamamen kalkar",
+    "18010030": "Vuruşta +%50 multi-hit", "18010040": "Vuruşta Spinning Strike cooldown'u −1 sn", "18010050": "Storm Chain zinciri eklenir",
+    "18290010": "Cooldown −5 sn", "18290030": "Az hedefte +%20'ye kadar hasar", "18290050": "Blok ve kaçınmayı yok sayar, kritik vurur",
+    "18040030": "Az hedefte +%12'ye kadar hasar", "18040050": "Blok ve kaçınmayı yok sayar, multi-hit vurur",
+    "18120010": "+1 art arda kullanım, zamana yayılan heal 2 kez yığılır", "18120020": "2 debuff'a kadar temizler",
+    "18090010": "Hedefin Impact direnci 5 sn −%20", "18090020": "Şarjlı skill olur, %200'e kadar fazla hasar", "18090030": "Vuruşta %50 ihtimalle Heat Wave Blow tetikler", "18090040": "Düşman ölünce cooldown sıfırlanır",
+    "18060020": "Stun süresi +1 sn", "18060030": "Koşarken kullanılır (mobile)", "18060040": "Skill hızı +%30",
+    "18150010": "%40 ihtimalle 3 sn stun", "18150020": "Seal ihtimali +%20", "18150030": "Çok hedefte +%20'ye kadar hasar", "18150040": "Blok ve kaçınmayı yok sayar, multi-hit vurur",
+    "18210010": "Vuruşta 300 stamina", "18210020": "Menzil +10 m", "18210030": "Vuruşta +%50 multi-hit",
+    "18080010": "Vuruşta multi-hit", "18080030": "Knockdown süresi +1 sn", "18080040": "Hedefin PvE hasar artışı −%15, PvP −%7,5 (10 sn)",
+    "18200020": "Kullanınca 1.000 stamina"
+  },
+  key: ["18100000", "18010000", "18290000"],
+  // [skill, PvE/PvP, kısa açıklama, 4 uzmanlık]
+  stigPve: [
+    ["18190000", "Parti aurası: PvE hasar ve hasar toleransı +%10,5 (PvP +%5,25).", "Kritik +100 · İsabet +100 · Kritik hasar +%5 · Double +%5"],
+    ["18330000", "4 hedefe vurur ve Dark Crush'ı 3 sn açar.", "Az hedefte +%20 · %50 stun · Gelen heal −%70 · +%25 stun"],
+    ["18250000", "10 sn savaş hızı +%20, cooldown −%20; partiye de.", "Cooldown −30 sn · İsabet +200 · Kritik +200 · Saldırı +%20"],
+    ["18130000", "20 m'den atılır, hedefin savunması 5 sn −%30.", "Cooldown −15 sn · Exposed · Her vuruş kritik · Impact'teki hedefe +%30"]
+  ],
+  stigPvp: [
+    ["18190000", "Aynı kalır.", ""],
+    ["18330000", "Aynı kalır; PvP'de gelen heal −%70 çok değerli.", ""],
+    ["18170000", "Power of the Storm yerine: kendine ve partiye heal.", "HP %50 altında +%20 · 1.000 stamina · 5 debuff temizler · +%5 heal"],
+    ["18140000", "Fracturing Blow yerine: kısa süre blok garanti, blokta MP ve stamina.", "+1 kullanım · Koşarken · Blokta +%20 hız · Parry'de %5 HP"]
+  ],
+  // [pasif, açıklama]
+  passives: [
+    ["18800000", "Kritik hasar +%5,7; kritikte %50 ihtimalle ek hasar"],
+    ["18760000", "Impact şansı ve Double Chance"],
+    ["18750000", "PvE hasar +%5,5, isabet +100"],
+    ["18740000", "Kritik +100, Perfect şansı"],
+    ["18780000", "Vurdukça hedefin hasar toleransı −%5,4"]
+  ],
+  // Questlog tuş dizilimi: sütun içinde 0. sıra en altta. Sol = sol tık, Sağ = sağ tık (macro)
+  bar: {
+    "1":[["18090000",14]], "2":[["18120000",14]], "3":[["18210000",12],["18080000",12]], "4":[["18150000",12]],
+    "5":[["18190000",20]], "6":[["18250000",20]], "7":[["18330000",20]], "8":[["18130000",20]],
+    "Sol":[["18010000",20]], "Sağ":[["18100000",20],["18290000",20],["18060000",14],["18040000",20]]
+  },
+  // Arcana: rehberdeki dizilim; alt = Questlog "End" setindeki hali
+  arcana: [
+    ["Chalice of Vigor", "Kâse · Vigor", true, [["18100000",2],["18010000",2],["18290000",2],["18800000",3]], "Dark Crush 3 · Onslaught 2 · Spinning 2 · Incandescent 2"],
+    ["Parchment of Vigor", "Parşömen · Vigor", true, [["18100000",2],["18010000",2],["18290000",2]], "Dark Crush 4 · Onslaught 2 · Spinning 2 · Rushing Smash 1"],
+    ["Compass of Magic", "Pusula · Magic", false, [["18040000",2],["18120000",4]], "Incandescent 3 · Recuperation 2 · Defiance 2 · Impactful 1"],
+    ["Bell of Magic", "Çan · Magic", false, [["18750000",4]], "Attack Prep 4 · Protection Circle 2 · Blessing of Life 1 · Survival Willpower 1"],
+    ["Mirror of Magic", "Ayna · Magic", false, [["18800000",4],["18760000",3],["18740000",1],["18780000",1]], "Wind's Promise 4 · Impact Hit 2 · Inspiring 1 · Earth's 1"]
+  ],
+  // Genus Insight: [tür, Questlog'daki adı, 4. satır, pet sayısı]
+  genus: [
+    ["Natura", "Natura Analysis", "PvE hasar artışı +400", 48],
+    ["Varian", "Varian Analysis", "PvE hasar artışı +400", 46],
+    ["Fera", "Fera Analysis", "Silah hasarı artışı +300", 65],
+    ["Cogni", "Cogni Analysis", "Hasar artışı +300", 41],
+    ["Özel", "Special Analysis", "Hasar artışı +300", 9]
+  ],
+  // Ekipman: Questlog'daki 4 set. Satır: [yuva, eşya, ana satırlar, felsefe taşı / theostone]
+  eq: [
+    {k:"Early", gs:"→ 1.4K GS", d:"Başlangıç seti: Liberator +5, Spiritforged silah. Questlog'da “Beginner Friendly”.", rows:[
+      ["Silah","Spiritforged Staff +10","Hasar artışı · Savaş hızı · Might","Theostone: Zikel's Vestige"],
+      ["Guard","Spiritforged Guard +5","Savaş hızı · Hasar artışı · Might · Multi-hit","Theostone: Feruk's Instinct"],
+      ["Kask · Pelerin","Liberator +5","Double Chance",""],
+      ["Omuz","Liberator +5","Kritik hasar artışı",""],
+      ["Göğüs","Liberator +5","Hasar artışı",""],
+      ["Bacak","Liberator +5","Hasar toleransı",""],
+      ["Eldiven","Liberator +5","Savaş hızı",""],
+      ["Bot","Liberator +5","Hareket hızı",""],
+      ["Kolye · Küpe","Liberator +5","Wind's Promise · Attack Preparation · Protection Circle",""],
+      ["Yüzük ×2","Liberator +5","Onslaught · Dark Crush · Spinning Strike · Incandescent Blow",""],
+      ["Bileklik ×2","Ascension +10 · Liberator +10","Death · Destruction · Destiny · Time",""],
+      ["Kemer · Amulet","Noble · Revelation","",""],
+      ["Rune ×2","Clash Rune +2","",""],
+      ["Taşlar","Lesser Manastone / Soulstone","Saldırı · İsabet · Kritik",""]]},
+    {k:"Mid", gs:"→ 2.3K GS", d:"Vakron zırh +10, Aulamus silah ve takılar +10.", rows:[
+      ["Silah","Aulamus Staff +10","Silah hasarı artışı · Savaş hızı · Might","Theostone: Orissan's Blood"],
+      ["Guard","Vakron Guard +10","Savaş hızı · Hasar artışı · Might · Silah hasarı","Theostone: Freyr's Wisdom"],
+      ["Kask · Pelerin","Vakron +10","Double Chance",""],
+      ["Omuz","Vakron +10","Kritik hasar artışı",""],
+      ["Göğüs","Vakron +10","Hasar artışı",""],
+      ["Bacak","Vakron +10","Hasar toleransı",""],
+      ["Eldiven","Vakron +10","Savaş hızı",""],
+      ["Bot","Vakron +10","Hareket hızı",""],
+      ["Kolye · Küpe","Aulamus +10","Attack Preparation · Wind's Promise",""],
+      ["Yüzük ×2","Aulamus +10","Dark Crush · Onslaught",""],
+      ["Bileklik ×2","Ascension +10 · Liberator +10","Death · Destruction · Destiny · Time",""],
+      ["Kemer · Amulet","Noble +5 · Revelation +5","",""],
+      ["Rune ×2","Clash Rune +7","",""],
+      ["Taşlar","Lesser Manastone / Soulstone","Saldırı (silah ve guard'da + isabet, kritik)",""]]},
+    {k:"End", gs:"→ 2.8K GS", d:"Nuakum zırh +15, Enraged Kromede silah ve takılar +15. Mour4SB'nin şu anki seti.", rows:[
+      ["Silah","Enraged Kromede Rod +15","Silah hasarı artışı · Savaş hızı · Might","Felsefe taşı: Hasar artışı · Theostone: Zikel's Arrogance"],
+      ["Guard","Nuakum Guard +15","Savaş hızı · Silah hasarı · Might · Hasar artışı","Felsefe taşı: Saldırı · Theostone: Fregion's Strategy"],
+      ["Kask","Nuakum +15","Gelen heal · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Double Chance"],
+      ["Omuz","Nuakum +15","Double Chance · Kritik hasar · Wind's Promise · Attack Prep","Felsefe taşı: Saldırı"],
+      ["Göğüs","Nuakum +15","Hasar artışı · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Saldırı"],
+      ["Bacak","Nuakum +15","Saldırı artışı · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Hasar toleransı"],
+      ["Eldiven","Nuakum +15","Savaş hızı · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Saldırı"],
+      ["Bot","Nuakum +15","Hareket hızı · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Saldırı"],
+      ["Pelerin","Nuakum +15","Double Chance · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Saldırı artışı"],
+      ["Kolye","Enraged Kromede +15","Savaş hızı · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Might"],
+      ["Küpe ×2","Enraged Kromede +15","Hareket hızı · Wind's Promise · Attack Prep · Impact Hit","Felsefe taşı: Might"],
+      ["Yüzük ×2","Enraged Kromede +15","Dark Crush · Onslaught · Spinning Strike · Recuperation","Felsefe taşı: Might"],
+      ["Bileklik ×2","Ascension +15 · Liberator +10","Death · Destruction · Destiny · Time",""],
+      ["Kemer · Amulet","Noble +10 · Revelation +10","",""],
+      ["Rune ×2","Clash Rune +7","",""],
+      ["Taşlar","Superior Manastone / Soulstone","Arka saldırı · Silah hasarı · Hasar artışı · Kritik hasar (zırhta 4. satır Savunma)",""]]},
+    {k:"Crafter", gs:"Craft · en iyisi", d:"Her şey Splendent Dark Dragon Lord +15 (craft). Craft eşya 5 satır, 5. satır genelde Saldırı/Might.", rows:[
+      ["Silah","Splendent Dark Dragon Lord Staff +15","Silah hasarı · Savaş hızı · Might · Hasar artışı · Saldırı","Felsefe taşı: İsabet · Theostone: Zikel's Arrogance"],
+      ["Guard","Splendent Dark Dragon Lord Guard +15","Savaş hızı · Silah hasarı · Might · Hasar artışı · Saldırı","Felsefe taşı: İsabet · Theostone: Fregion's Strategy"],
+      ["Kask","+15","Gelen heal · Wind's Promise · Attack Prep · Impact Hit · Double Chance","Felsefe taşı: Saldırı artışı"],
+      ["Omuz","+15","Double Chance · Kritik hasar · Wind's Promise · Attack Prep · Saldırı","Felsefe taşı: İsabet"],
+      ["Göğüs","+15","Hasar artışı · Wind's Promise · Attack Prep · Impact Hit · Saldırı","Felsefe taşı: İsabet"],
+      ["Bacak","+15","Saldırı artışı · Wind's Promise · Attack Prep · Impact Hit · Endurance","Felsefe taşı: Hasar toleransı"],
+      ["Eldiven","+15","Savaş hızı · Wind's Promise · Attack Prep · Impact Hit · Saldırı","Felsefe taşı: İsabet"],
+      ["Bot","+15","Hareket hızı · Wind's Promise · Attack Prep · Impact Hit · Savunma artışı","Felsefe taşı: Saldırı"],
+      ["Pelerin","+15","Double Chance · Wind's Promise · Attack Prep · Impact Hit · Saldırı artışı","Felsefe taşı: Saldırı"],
+      ["Kolye","+15","Savaş hızı · Wind's Promise · Attack Prep · Impact Hit · Might","Felsefe taşı: Saldırı"],
+      ["Küpe ×2","+15","Hareket hızı · Wind's Promise · Attack Prep · Impact Hit · Might","Felsefe taşı: Saldırı"],
+      ["Yüzük ×2","+15","Dark Crush · Onslaught · Spinning Strike · Recuperation · Might","Felsefe taşı: Saldırı"],
+      ["Bileklik ×2","Ascension +15 · Liberator +10","Death · Destruction · Destiny · Time",""],
+      ["Kemer · Amulet","Noble +10 · Revelation +10","",""],
+      ["Rune ×2","Clash Rune +7","",""],
+      ["Taşlar","Superior Manastone / Soulstone","Arka saldırı · Silah hasarı · Hasar artışı · Kritik hasar (zırhta 4. satır Savunma)",""]]}
+  ]
 };
-function renderPlan40() {
-  const P = PLAN40, im = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" data-id="${id}">`;
-  const tile = (id, n, to, chips, cls = "") => `<div class="pt ${cls}" data-id="${id}">
-      <span class="pn">${n}</span>${im(id)}<span class="pto">${to}</span>
-      <div class="pnm">${SK[id].name}</div>${chips || ""}</div>`;
-  const chip = (s, t) => `<span class="pc"><b>${s}</b>${t}</span>`;
-  return `
-    <div class="card plan"><h2>40. level planı <span class="r">Puanı soldan sağa ver</span></h2>
+const MB_SLOTCOL = ["", "yeşil", "mavi", "sarı", "turuncu", "kırmızı"];
+let mbMode = "pve", eqStage = 2;
+let dvMode = "315", dvBoard = 0, dvSel = null, dvPts = {"315": 0, "386": 0, "az": 0};
+try { const v = JSON.parse(localStorage.getItem("mbdv") || "{}"); Object.assign(dvPts, v.pts || {}); if (v.mode) dvMode = v.mode; if (v.mb) mbMode = v.mb; } catch (e) {}
+try { const q = +new URLSearchParams(location.search).get("p"); if (q) dvPts[dvMode] = q; } catch (e) {}
+function saveMb() { try { localStorage.setItem("mbdv", JSON.stringify({pts: dvPts, mode: dvMode, mb: mbMode})); } catch (e) {} }
+
+const img = (id, cls = "") => `<img class="${cls}" src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}">`;
+const nm = id => SK[id].name;
+
+function renderMb() {
+  const key = MB.key.map(id => img(id)).join("");
+  const pas3 = MB.passives.slice(0, 3).map(([id]) => img(id)).join('<span class="ar">›</span>');
+  $("mb").innerHTML = `
+    <nav class="jump">
+      <a href="#mb-ozet">Özet</a><a href="#mb-skill">Skill</a><a href="#mb-stig">Stigma · Pasif</a><a href="#mb-tus">Tuş · Macro</a>
+      <a href="#mb-dv">Daevanion</a><a href="#mb-arc">Arcana</a><a href="#mb-genus">Genus · Pet</a><a href="#mb-pan">Pantheon</a>
+      <a href="#mb-tas">Mana taşı</a><a href="#mb-eq">Ekipman</a>
+    </nav>
+
+    <div class="card" id="mb-ozet"><h2>Ne yapacağım? <span class="r">Yukarıdan aşağı</span></h2>
       <div class="pad">
-        <div class="pl">1 · Puan nasıl işler?</div>
-        <div class="lvbar">${P.cost.map((c, i) => `<div class="lb c${c === "—" ? 0 : c}"><span>Lv ${i + 1}</span><b>${c === "—" ? "" : c + " p"}</b></div>`).join("")}
-          <div class="lb ext"><span>11 +</span><b>Daevanion · ekipman</b></div></div>
-        <div class="lvnote">Skill puanıyla en fazla <b>10</b>. 1 → 10 = <b>21 puan</b>. Üstü Daevanion ve ekipmandan gelir.</div>
-        <div class="stack"><div class="s1" style="flex:10">10 · skill puanı</div><div class="s2" style="flex:4">+4 · Daevanion</div><div class="s3" style="flex:6">+6 · ekipman / Arcana</div></div>
-        <div class="lvnote">Dark Crush 20'nin yolu: Nezekan, Zikel, Vaizel ve Triniel'de birer +1 düğüm, kalanı yüzük, silah, Chalice ve Parchment.</div>
-
-        <div class="pl">2 · Skill puanı <span>her birini 10'a çıkar, sonra sıradakine geç</span></div>
-        <div class="ptiles">${P.skills.map(([id, to, sp], i) => tile(id, i + 1, "→ " + to, `<div class="pcs">${sp.map(([s, t]) => chip(s, t)).join("")}</div>`)).join("")}</div>
-        <div class="prow">
-          <div class="pbox"><div class="ph">Sonra (hedef 12)</div><div class="pi">${P.later.map(im).join("")}</div></div>
-          <div class="pbox no"><div class="ph">Puan verme</div><div class="pi">${im(P.no)}</div><div class="pd">45'te sıfırlarken geri al</div></div>
+        <div class="who">
+          <span class="pill"><b>Build:</b> Mour4SB (Asmodian, 2.337 GS, 128K combat power)</span>
+          <span class="pill"><b>Kaynak:</b> <a href="${MB.video}" target="_blank" rel="noopener">video</a> · <a href="${MB.questlog}" target="_blank" rel="noopener">Questlog</a> · <a href="${MB.guide}" target="_blank" rel="noopener">ilerleme rehberi</a></span>
         </div>
-
-        <div class="pl">3 · Stigma puanı <span>ayrı havuz</span></div>
-        <div class="ptiles">${P.stig.map(([id, to, d], i) => tile(id, i + 1, "→ " + to, `<div class="pd">${d}</div>`, i === 3 ? "dim" : "")).join("")}</div>
-
-        <div class="pl">4 · Pasif <span>en fazla 10</span></div>
-        <div class="ptiles sm">${P.pas.map((id, i) => tile(id, i + 1, "")).join("")}</div>
-
-        <div class="pl">5 · Daevanion <span>aşağıdaki yol haritasında, adım adım</span></div>
-      </div></div>`;
-}
-
-// Daevanion yol haritası: tablodaki tahta görsellerinden okunan düğümler, global adım sırasıyla (daevanion.json "tablo")
-let tBoard = 0, tStep = null, tPts = 0;
-try { tPts = +new URLSearchParams(location.search).get("p") || +localStorage.getItem("tpts") || 0; } catch (e) {}
-function tSteps() {
-  const S = {};
-  DV.forEach((b, bi) => (b.tablo || []).forEach(([id, s]) => {
-    const n = b.nodes.find(x => x.id === id);
-    (S[s] = S[s] || {s, bi, ids: [], cost: 0}).ids.push(id); S[s].cost += n.cost;
-  }));
-  let cum = 0;
-  return Object.values(S).sort((a, b) => a.s - b.s).map(x => {
-    cum += x.cost; const b = DV[x.bi], last = b.nodes.find(n => n.id === x.ids[x.ids.length - 1]);
-    const big = x.ids.map(id => b.nodes.find(n => n.id === id)).filter(n => n.t === "skilllevel" || n.g >= 41);
-    return Object.assign(x, {cum, target: big.length ? big[big.length - 1] : last, rest: !big.length});
-  });
-}
-function renderTDaev() {
-  const el = $("tdvb"); if (!el || !DV) return;
-  const steps = tSteps(), b = DV[tBoard], stepOf = {};
-  (b.tablo || []).forEach(([id, s]) => stepOf[id] = s);
-  const doneS = steps.filter(x => x.cum <= tPts).length;
-  const rs = b.nodes.map(n => n.r), cs = b.nodes.map(n => n.c);
-  const r0 = Math.min(...rs), r1 = Math.max(...rs), c0 = Math.min(...cs), c1 = Math.max(...cs);
-  const map = {}; b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
-  let cells = "";
-  for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
-    const n = map[r + "-" + c];
-    if (!n) { cells += "<div></div>"; continue; }
-    const f = nodeInfo(n), s = stepOf[n.id];
-    let st = n.t === "start" ? "on" : s ? (s <= doneS ? "on keep" : "on") : "off";
-    if (s && s === tStep) st += " hl";
-    const badge = s ? (s <= doneS ? "✓" : s) : "";
-    cells += `<div class="nd ${f.cls} ${st}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}${s ? " · adım " + s : ""}"><img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge ? `<span class="no">${badge}</span>` : ""}</div>`;
-  }
-  const bp = DV.map((x, i) => steps.filter(s => s.bi === i).reduce((a, s) => a + s.cost, 0));
-  const next = steps[doneS];
-  el.innerHTML = `
-    <div class="btabs">${DV.map((x, i) => `<button data-tboard="${i}" class="${i === tBoard ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${bp[i]} p</small></button>`).join("")}</div>
-    ${tPts ? `<div class="keepnote">${doneS ? `✓ ${doneS} adım bitti (${steps[doneS - 1].cum} puan).` : "Henüz bir adım bitmiyor."} ${next ? `Sıradaki: <b>${next.s}. adım</b>, ${DV[next.bi].name} · ${next.rest ? "kalan düğümler" : nodeInfo(next.target).name} (${next.cost} puan, ${next.cum - tPts} puan eksik).` : "Plan tamam."}</div>` : ""}
-    <div class="dwrap">
-      <div><div class="dg" style="grid-template-columns:repeat(${c1 - c0 + 1},1fr)">${cells}</div>
-        <div class="dlegend"><span><b>Numara</b> = adım (bütün tahtalarda ortak sıra)</span><span><b style="color:var(--green)">✓</b> = puanınla alınmış</span><span><b style="color:var(--purple)">Mor</b> = skill +1</span><span><b style="color:#ff9f5a">Turuncu</b> = büyük stat</span><span>Soluk = bu build'de alınmıyor</span></div></div>
-      <ol class="steps2">${steps.map(x => {
-        const f = nodeInfo(x.target);
-        return `<li class="${x.s <= doneS ? "done" : ""} ${x.s === tStep ? "sel" : ""} ${x.rest ? "" : f.cls}" data-tstep="${x.s}"><span class="n">${x.s <= doneS ? "✓" : x.s}</span><img src="${f.img}" alt=""><span>${x.rest ? "Kalan düğümler" : f.name}<br><small style="color:var(--dim)">${DV[x.bi].name}</small></span><span class="c">${x.cost} p<br>Σ ${x.cum}</span></li>`;
-      }).join("")}</ol>
-    </div>`;
-  const sel = el.querySelector(".steps2 li.sel"); if (sel) sel.scrollIntoView({block: "nearest"});
-}
-function tDaevCard() {
-  return `<div class="card" id="tdv"><h2>Daevanion yol haritası <span class="r">U tuşu · tablodaki tahtalar</span></h2>
-    <div class="pad">
-      <div class="tipbox"><b>Bir tahtayı baştan sona doldurma.</b> Puan bütün tahtalarda ortak. Önce dört tahtadaki <b>Dark Crush +1</b> düğümlerine git (ilk 84 puan), sonra Onslaught, Spinning Strike, Wind's Promise ve Impact Hit düğümlerine, en son büyük statlara. Numaraları sırayla takip et; listeden bir adıma tıklarsan tahtada yanıp söner.</div>
-      <div class="ptsrow"><label for="tpts"><b>Daevanion puanın:</b></label><input id="tpts" type="number" min="0" max="400" value="${tPts || ""}" placeholder="ör. 120"><span>Yazınca alacağın adımlar ✓ olur.</span></div>
-      <div id="tdvb"></div>
-      <details style="margin-top:12px"><summary>Tablodaki orijinal görseller</summary><div class="shots" style="margin-top:8px">${BUILDS.t.dv.map(([n, f]) => `<figure><a href="icons/tablo/${f}.png" target="_blank"><img src="icons/tablo/${f}.png" alt="${n}" loading="lazy"></a><figcaption>${n}</figcaption></figure>`).join("")}</div></details>
-    </div></div>`;
-}
-
-function renderT() {
-  const T = BUILDS.t, ic = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}" data-id="${id}">`;
-  const row = (id, i, no) => {
-    const c = T.skills[id], sp = specTxt(id, c.pick);
-    return `<li class="${no ? "no" : ""}" data-id="${id}"><span class="n">${no ? "✕" : i + 1}</span><img src="${SK[id].icon}" alt="">
-      <div><b>${SK[id].name}</b>${no ? "" : `<span class="lvt">→ ${c.lvl}</span>`}${sp.length ? `<div class="spx">Uzmanlık ${c.pick.join("/")}: ${sp.join(" · ")}</div>` : ""}<div class="d">${c.why}</div></div></li>`;
-  };
-  const tbl = (head, rows) => `<div class="pad" style="overflow-x:auto"><table class="cmp"><tr>${head.map(h => `<th>${h}</th>`).join("")}</tr>
-    ${rows.map(r => `<tr>${r.map((v, i) => `<td class="${i ? "w" : ""}">${v}</td>`).join("")}</tr>`).join("")}</table></div>`;
-  $("t").innerHTML = `
-    <div class="card"><div class="summary">
-      <span class="pill"><b>Kaynak:</b> <a href="${T.src}" target="_blank" rel="noopener">Personal Aion 2 Class Info</a> · Chanter sekmesi</span>
-      <span class="pill"><b>Odak:</b> Dark Crush, Onslaught, Spinning Strike 20</span>
-      <span class="pill"><b>Yeni:</b> Defiance · Focused Defense</span>
-      <span class="pill"><b>Pasif:</b> Wind's Promise önce</span>
-    </div></div>
-
-    ${renderPlan40()}
-
-    ${tDaevCard()}
-
-    <div class="card"><h2>Skill puanı <span class="r">Leveling'de önce 20 işaretlileri yükselt</span></h2>
-      <ol class="prio">${T.order.map((id, i) => row(id, i)).join("")}${T.no.map(id => row(id, 0, true)).join("")}</ol>
-      <div class="foot" style="padding:8px 14px;color:var(--dim);border-top:1px solid var(--line)">Tablo bir öncelik sırası vermiyor, skilleri hedef seviye ve uzmanlıkla listeliyor. Sıra tablodaki gibi.</div></div>
-
-    <div class="two">
-      <div class="card"><h2>Pasif sırası</h2><ol class="prio">${T.passives.map((id, i) => row(id, i)).join("")}</ol></div>
-      <div class="card"><h2>Stigma sırası</h2><ol class="prio">${T.stigmas.map((id, i) => row(id, i)).join("")}</ol>
-        <div class="pad"><div class="load"><div class="h">Alternatif</div><div class="ic">${T.stigAlt.map(ic).join("")}</div><div class="d">Guardian Blessing · Impeding Authority · Marchutan's Wrath</div></div></div></div>
+        <div class="hero">
+          <div class="hs"><div class="h"><span class="n">1</span>Skill puanı</div>
+            <div class="icons">${key}</div>
+            <div class="d">Önce <b>Dark Crush, Onslaught ve Spinning Strike</b>'ı 20'ye çıkar. Diğerleri sonra; seviye ve uzmanlıklar aşağıda.</div></div>
+          <div class="hs"><div class="h"><span class="n">2</span>Pasif</div>
+            <div class="icons">${pas3}</div>
+            <div class="d"><b>Wind's Promise › Impact Hit › Attack Preparation</b> 10'a. Sonra Inspiring Spell ve Earth's Promise. PvE ve PvP'de aynı.</div></div>
+          <div class="hs"><div class="h"><span class="n">3</span>Stigma</div>
+            <div class="icons">${MB.stigPve.map(([id]) => img(id)).join("")}</div>
+            <div class="d">Dördü de 20. <b>PvP'de</b> Power of the Storm ve Fracturing Blow yerine Healing Touch ve Focused Defense.</div></div>
+          <div class="hs"><div class="h"><span class="n">4</span>Oynanış</div>
+            <div class="d"><kbd>Sol tık</kbd> Onslaught ve <kbd>Sağ tık</kbd> macro'yu <b>birlikte basılı tut</b>. Spinning Strike 2 yığın olunca <b>Power of the Storm + Fracturing Blow</b>. PvP'de macro yok.</div></div>
+          <div class="hs"><div class="h"><span class="n">5</span>Daevanion</div>
+            <div class="d">Önce <b>315 puanlık</b> planı bitir, sonra <b>386</b>'ya geç. Sıra: öncelikli skill düğümleri › öncelikli pasifler › turuncu düğümler.</div></div>
+          <div class="hs"><div class="h"><span class="n">6</span>Uzun vade</div>
+            <div class="d"><b>Arcana:</b> 2 Vigor + 3 Magic. <b>Genus:</b> önce 4. satır. <b>Pantheon:</b> Destruction, Time, Wisdom, Illusion. <b>Taş:</b> arka saldırı › silah hasarı › hasar › kritik hasar.</div></div>
+        </div>
+      </div>
     </div>
 
-    <div class="card"><h2>Tuş dizilimi <span class="r">Tablodaki örnek · seviyeler ekipman dahil</span></h2>
-      <div class="pad">${hotbar(T.layout, false, true)}
-      <p style="color:var(--muted);margin:10px 0 0">Sütunda en alttaki skill önce denenir. Sağ tık sütunu Dark Crush › Spinning Strike › Impactful Crush › Incandescent Blow: Dark Crush açıksa onu, değilse tetikleyicileri, hepsi cooldown'daysa Incandescent Blow'u basar. Q'da Wave Blow, Tremor Crush'ın önünde.</p>
-      <details style="margin-top:10px"><summary>Ekran görüntüsü</summary><div class="shot1" style="margin-top:8px"><img src="icons/tablo/dizilim.png" alt="Tablodaki tuş dizilimi"></div></details></div></div>
+    <div class="card" id="mb-skill"><h2>Skill ve uzmanlık <span class="seg" id="mbseg"><button data-mbmode="pve">PvE</button><button data-mbmode="pvp" class="pvp">PvP</button></span><span class="r">Yukarıdan aşağı puan ver</span></h2>
+      <ol class="skl" id="mbskl"></ol>
+      <div class="legend">
+        <span><span class="pip s1 on">1</span><span class="pip s2 on">2</span><span class="pip s3 on">3</span><span class="pip s4 on">4</span><span class="pip s5 on">5</span> uzmanlık yuvası (oyundaki renkler), içindeki sayı = açma sırası</span>
+        <span>Yuva 1–3 Lv 8'de, 4 Lv 12'de, 5 Lv 16'da açılır</span>
+      </div>
+      <div class="foot" id="mbsklfoot"></div>
+    </div>
 
-    <div class="card"><h2>Macro</h2>
+    <div class="card" id="mb-stig"><h2>Stigma ve pasif</h2>
       <div class="pad">
-        <div class="macro"><span class="ln">Satır 1</span>${ic("18100000")}<span style="color:var(--muted)">Dark Crush · gecikme 10 ms</span></div>
-        <ol class="steps">
-          <li>Macro'da <b>yalnızca Dark Crush</b> var.</li>
-          <li><kbd>Sol tık</kbd> + macro tuşunu birlikte basılı tut; macro tuşu için <b>sağ tık</b> öneriliyor.</li>
-          <li>Ayarlar › Gameplay › <b>Macro</b> = fare tuşu. <b>Skill Quickslot: Quick Use 1</b> = fare + <kbd>R</kbd>. <b>Separate Special Skill Hotkey</b> = OFF.</li>
-        </ol>
-        <details style="margin-top:10px"><summary>Ekran görüntüleri</summary>
-          <div class="shot1" style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
-            <img src="icons/tablo/macro.png" alt="Macro penceresi" style="width:360px">
-            <img src="icons/tablo/ayar-macro.png" alt="Gameplay › Macro">
-            <img src="icons/tablo/ayar-quickslot.png" alt="Quick Use 1 ve Special Skill Hotkey">
-          </div></details></div></div>
+        <div class="sub-l">Stigma · PvE <span class="tag dim">hepsi 20</span></div>
+        <div class="tiles">${MB.stigPve.map(([id, d, sp], i) => `<div class="tl"><span class="pn">${i + 1}</span><span class="pto">20</span>${img(id)}<div class="tn">${nm(id)}</div><div class="td">${d}</div>${sp ? `<div class="td" style="color:var(--green)">${sp}</div>` : ""}</div>`).join("")}</div>
+        <div class="sub-l">Stigma · PvP <span class="tag pvp">son ikisi değişir</span></div>
+        <div class="tiles">${MB.stigPvp.map(([id, d, sp], i) => `<div class="tl ${i > 1 ? "pvp" : ""}"><span class="pn">${i + 1}</span><span class="pto">20</span>${img(id)}<div class="tn">${nm(id)}</div><div class="td">${d}</div>${sp ? `<div class="td" style="color:var(--green)">${sp}</div>` : ""}</div>`).join("")}</div>
+        <div class="sub-l">Pasif · sırayla 10'a <span class="tag dim">PvE = PvP</span></div>
+        <div class="tiles five">${MB.passives.map(([id, d], i) => `<div class="tl"><span class="pn">${i + 1}</span><span class="pto">10</span>${img(id)}<div class="tn">${nm(id)}</div><div class="td">${d}</div></div>`).join("")}</div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Stigmanın 4 uzmanlığı 5, 10, 15 ve 20'de kendiliğinden açılır; 20'de dördü de aktif. Pasif sırası Daevanion'da ve Arcana'da da aynı: Wind's Promise, Impact Hit, Attack Preparation önce.</p>
+      </div>
+    </div>
 
-    <div class="card"><h2>Grobs ve notXeon ile farkları</h2>
-      <div class="pad" style="overflow-x:auto"><table class="cmp"><tr><th>Konu</th><th>Grobs / notXeon</th><th>Bu tablo</th></tr>
-        ${T.cmp.map(([a, b, c]) => c ? `<tr><td>${a}</td><td class="w">${b}</td><td class="w">${c}</td></tr>` : `<tr><td>${a}</td><td colspan="2" class="w" style="color:var(--green)">${b}</td></tr>`).join("")}</table></div></div>
+    <div class="card" id="mb-tus"><h2>Tuş dizilimi, macro ve kombo <span class="r">Questlog'daki çubuk</span></h2>
+      <div class="pad">
+        <div class="hb-wrap"><div class="hb" id="mbbar"></div></div>
+        <p class="muted" style="font-size:12.5px;margin:8px 0 0">Sütunda alttaki önce denenir; cooldown'daysa bir üstteki çıkar. <b style="color:var(--gold)">Sağ tık</b> sütunu macro'nun zinciri. Defiance çubukta yok, ayrı bir tuşa koy.</p>
+      </div>
+      <div class="two pad" style="padding-top:0">
+        <div>
+          <div class="sub-l">Macro kurulumu</div>
+          <ol class="steps">
+            <li>Ayarlardan <kbd>Sol tık</kbd> = temel saldırı (<b>Onslaught</b>), <kbd>Sağ tık</kbd> = <b>macro</b>.</li>
+            <li>Sağ tık sütununa alttan üste:</li>
+          </ol>
+          <div class="chain" style="padding-left:20px">${MB.bar["Sağ"].map(([id]) => img(id)).join('<span class="ar">›</span>')}</div>
+          <ol class="steps" start="3">
+            <li>Macro'ya tek satır: <b>Dark Crush</b>, gecikme <b>10 ms</b>.</li>
+            <li>Macro'ya başka skill doldurma. Mour4SB: “Macro elle oynanır”; sol elin de iş görecek (Power of the Storm, Fracturing Blow, Recuperation, atılma).</li>
+          </ol>
+        </div>
+        <div>
+          <div class="sub-l">Kombo (PvE)</div>
+          <ol class="steps">
+            <li><kbd>Sol tık</kbd> ve <kbd>Sağ tık</kbd>'ı <b>birlikte basılı tut</b>.</li>
+            <li>Ekranın altında <b>Spinning Strike</b> buff'ını izle; <b>2 yığın</b> olunca:</li>
+            <li><b>Power of the Storm + Fracturing Blow</b> bas (videoda ikisi <kbd>Q</kbd>'da). En yüksek hasar o pencerede.</li>
+            <li>Can azalınca <b>Recuperation</b>. Hepsi bu: Chanter oyunun en kolay sınıflarından.</li>
+          </ol>
+          <div class="tipbox" style="margin-top:10px"><b>PvP:</b> macro kullanma, skillleri elle bas. Uzmanlıkları PvP sütunundan seç; rotasyonu kendi oyun tarzına göre kur.</div>
+        </div>
+      </div>
+    </div>
 
-    <div class="card"><h2>Arcana <span class="r">Ekipman etkisi hedefleri örnek, her zaman birebir çıkmaz</span></h2>
-      ${tbl(["Kart", "God stat", "Ekipman etkisi hedefi"], T.arcana)}</div>
+    <div class="card" id="mb-dv"><h2>Daevanion <span class="seg" id="dvseg"><button data-dvmode="315">315 puan</button><button data-dvmode="386">386 puan</button><button data-dvmode="az">Azphel · PvP</button></span><span class="r">U tuşu</span></h2>
+      <div class="pad">
+        <div class="prio3">
+          <div><div class="h">1 · Öncelikli skill</div><div class="icons">${MB.key.map(id => img(id)).join("")}</div></div>
+          <div><div class="h">2 · Öncelikli pasif</div><div class="icons">${MB.passives.slice(0, 3).map(([id]) => img(id)).join("")}</div></div>
+          <div><div class="h">3 · Turuncu düğümler</div>Savaş hızı, hasar, kritik hasar, multi-hit gibi büyük statlar.</div>
+        </div>
+        <div id="dvbody"></div>
+        <p class="muted" style="font-size:12.5px;margin:12px 0 0">Mour4SB: “Birebir kopyalamak zorunda değilsin.” Kural basit: önce yukarıdaki üç grup; yolda <b style="color:var(--text)">MP</b> gibi işine yaramayan düğümleri atla, <b style="color:var(--text)">Saldırı</b> ve <b style="color:var(--text)">Kritik</b>'i tercih et. Adımlar bu kurala göre sıralandı; her adım bir hedefe giden en ucuz yol.</p>
+      </div>
+    </div>
 
-    <div class="card"><h2>Genus Insight tahtaları</h2>
-      ${tbl(["Satır", "Cogni", "Natura", "Special", "Fera", "Varian"], T.genus)}</div>
+    <div class="card" id="mb-arc"><h2>Arcana <span class="r">2 Vigor + 3 Magic · hepsi +5</span></h2>
+      <div class="pad">
+        <div class="arc">${MB.arcana.map(([n, t, vig, ss, alt]) => `<div class="ac ${vig ? "vig" : ""}"><div class="h">${n}</div><div class="t">${t}${vig ? " · en önemli" : ""}</div>
+          <div class="ss">${ss.map(([id, lv]) => `<div class="s"><img src="${SK[id].icon}" alt="">${nm(id)}<b>Lv ${lv}</b></div>`).join("")}${ss.length < 4 ? `<div class="s empty"><span></span>boş yuva<span></span></div>` : ""}</div>
+          <div class="alt">End setinde: ${alt}</div></div>`).join("")}</div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Oyunun asıl kasması burada; uykusuz geceler buraya gidecek. Season 1'de 2 Vigor + 3 Magic ile oynanıyor, yeni Arcana'lar açılınca bu dağılım değişir. <b style="color:var(--text)">Kâse ve Parşömen</b> en önemlileri: ikisinde de çekirdek skillerin (Dark Crush, Onslaught, Spinning Strike) olmalı.</p>
+      </div>
+    </div>
 
-    <div class="card"><h2>Soul binding <span class="r">Ekipman başına stat önceliği</span></h2>
-      ${tbl(["Yuva", "Öncelik"], T.soul)}</div>
+    <div class="card" id="mb-genus"><h2>Genus Insight ve pet</h2>
+      <div class="pad">
+        <div class="sub-l">Satır önceliği (5 türde de aynı)</div>
+        <div class="ord"><span><b>1.</b>4. satır (türe özel)</span><span class="ar">›</span><span><b>2.</b>1 ve 5 · Maks saldırı</span><span class="ar">›</span><span><b>3.</b>3 ve 6 · İsabet</span><span class="ar">›</span><span><b>4.</b>2, 7, 8, 9 · HP, Endurance, İsabet</span></div>
+        <div class="tbw" style="margin-top:12px"><table class="tb"><tr><th>Tür</th><th>4. satır</th><th>Pet sayısı</th></tr>
+          ${MB.genus.map(([n, q, l4, c]) => `<tr><td>${n} <span class="muted" style="font-weight:400;font-size:11.5px">${q}</span></td><td class="hi">${l4}</td><td>${c}</td></tr>`).join("")}
+          <tr><td>Diğer satırlar</td><td colspan="2">1, 5: Maks saldırı +20 · 2, 8: HP +160 · 3, 6, 9: İsabet bonusu +40 · 7: Endurance +300</td></tr></table></div>
+        <div class="two" style="margin-top:12px">
+          <div class="tipbox"><b>Taktik:</b> önce her şeyi <b>10. seviyeye</b> çıkar, sonra satırları yenileyip mükemmel statları kovala. Zor değil ama pahalı ve uzun sürüyor; bir gecede bitmez. Videoda Natura'nın 4. satırı PvE için; sadece hasar istiyorsan oraya hasar satırı da koyabilirsin.</div>
+          <div class="tipbox"><b>Hangi pet önce?</b> Petler Genus seviyesini besliyor. Questlog verisine göre bir peti <b>1. seviyeye</b> çıkarmak 25 ruhla 500 exp, 2. seviye 75 ruhla 250 exp veriyor. Yani önce <b>bütün petleri 1. seviyeye</b> çıkar, sonra 2'ye. Tür olarak PvE için 4. satırı PvE hasarı olan <b>Natura ve Varian</b> önce. <span class="muted">(Bu kısım videoda yok, veriden çıkarım.)</span></div>
+        </div>
+      </div>
+    </div>
 
-    <div class="card"><h2>Diğer öncelikler</h2>
-      ${tbl(["Konu", "Öncelik"], T.misc)}</div>`;
-  renderTDaev();
+    <div class="card" id="mb-pan"><h2>Pantheon <span class="r">Season 1</span></h2>
+      <div class="pad">
+        <div class="pan">
+          <div><div class="v">1</div><div class="h">Destruction · Zikel</div><div class="d">Saldırı (ve Perfect direnci)</div></div>
+          <div><div class="v">2</div><div class="h">Time · Siel</div><div class="d">Savaş hızı (ve Double direnci)</div></div>
+          <div><div class="v">3</div><div class="h">Wisdom · Lumiel</div><div class="d">Double Chance (ve az MP tüketimi)</div></div>
+          <div><div class="v">4</div><div class="h">Illusion · Kaisinel</div><div class="d">Cooldown azaltma (ve Endurance delme)</div></div>
+        </div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Bu dört statı veren tablo (artwork), heykel ve colossus'ları topla. Örnek: Shugo'dan alınan <b style="color:var(--text)">Cantas Valley</b> tablosu Wisdom + Illusion verir. Hepsi zaman alıyor; en uzunu Colossus. Bileklikte de aynı aile var: Mour4SB'nin iki bilekliği <b style="color:var(--text)">Death, Destruction, Destiny, Time</b>.</p>
+        <div class="sub-l">Mour4SB'nin End setindeki Pantheon (17/17)</div>
+        <div class="chips">${["Draupnir","Abyssal Ludra","Watcher Kaira","Black Tentacle Lawa","Vakron Sky Island","Ferocious Horn Den","Sharp Shylak","Phantasm Kasia","Eternal Gartua","Cantas Valley ×2","Immortal Gartua"].map(x => `<span>Tablo: ${x}</span>`).join("")}${["Transcendent Bakarma","Fortress Guardian Notun","Artifact of Eternity","Asahr's Mirror"].map(x => `<span>Heykel: ${x}</span>`).join("")}<span>Colossus: Zikel's Apparition</span></div>
+      </div>
+    </div>
+
+    <div class="card" id="mb-tas"><h2>Mana taşı ve Soulstone <span class="r">Stat önceliği</span></h2>
+      <div class="pad">
+        <div class="ord"><span><b>1.</b>Arka saldırı hasarı (PvE) · Ön saldırı hasarı (PvP)</span><span class="ar">›</span><span><b>2.</b>Silah hasarı artışı</span><span class="ar">›</span><span><b>3.</b>Hasar artışı</span><span class="ar">›</span><span><b>4.</b>Kritik hasar artışı</span></div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Bazı yuvalarda Hasar artışı yerine Kritik hasar artışı koy; ikisini karıştırmak daha çok hasar verir. Mour4SB'nin End setinde silah, guard ve takılarda dördü birden; zırhta son satır Savunma.</p>
+      </div>
+    </div>
+
+    <div class="card" id="mb-eq"><h2>Ekipman</h2>
+      <div class="pad">
+        <div class="cmp2">
+          <div><div class="h">Conquest (drop)</div><ul><li>3 satır. Eşyanın ruhu bu ilk 3 satırda.</li><li>Silah: <b style="color:var(--text)">Silah hasarı artışı · Savaş hızı · Might</b></li><li>Yüzük: öncelikli skill satırları</li><li>Silahın menzili daha uzun</li></ul></div>
+          <div><div class="h">Craft</div><ul><li class="new">+2 satır: silahta Hasar artışı ve Saldırı</li><li class="new">Takılarda ek Might satırı</li><li>Felsefe taşı (Philosopher's Stone) Ludra açılınca; Season 1'de zor. Koyacaksan <b style="color:var(--text)">Hasar artışı</b>.</li><li>Fark: yaklaşık %10–15 hasar</li></ul></div>
+        </div>
+        <div class="tipbox" style="margin:10px 0 14px"><b>Öneri:</b> balina değilsen silahı Conquest'ten al (menzili daha uzun), <b>yüzük ve küpeleri craft'la</b>; takılar gücü en çok değiştiren yer. Balinaysan her şeyi craft'la.</div>
+        <div class="eqsel" id="eqsel"></div>
+        <div id="eqbody"></div>
+        <div class="chips" style="margin-top:10px"><span>Unvan · saldırı: Unbound by Genus</span><span>Unvan · savunma: Saint of Altgard</span><span>Unvan · yardımcı: Through Hell and Back</span><span>Kanat: Dark Veil Wings +10</span><span>Monolit: Asmodian 30 · Reshanta 16</span></div>
+      </div>
+    </div>
+
+    <div class="card"><div class="foot" style="border-top:0">Kaynaklar: Mour4SB'nin <a href="${MB.video}" target="_blank" rel="noopener">Chanter rehberi videosu</a> (Portekizce otomatik altyazı), <a href="${MB.questlog}" target="_blank" rel="noopener">Questlog karakter sayfası</a> (4 set, iki Daevanion planı, skill build'i) ve build'e bağlı <a href="${MB.guide}" target="_blank" rel="noopener">Excalidraw rehberi</a>. Veriler 2026-10-22'de çekildi.</div></div>`;
+  renderMbSkills(); renderMbBar(); renderDv(); renderEq();
 }
 
-function renderX() {
-  const X = BUILDS.x, ic = id => `<img src="${SK[id].icon}" alt="${SK[id].name}" title="${SK[id].name}" data-id="${id}">`;
-  const prioList = (ids, no) => ids.map((id, i) => `<li class="${no ? "no" : ""}" data-id="${id}"><span class="n">${no ? "✕" : i + 1}</span><img src="${SK[id].icon}" alt=""><div><b>${SK[id].name}</b><div class="d">${X.skills[id].why}</div></div></li>`).join("");
-  $("x").innerHTML = `
-    <div class="card"><div class="summary">
-      <span class="pill"><b>Kaynak:</b> notXeon · erken oyun Chanter rehberi</span>
-      <span class="pill"><b>Ana fikir:</b> her şey Dark Crush 16 için</span>
-      <span class="pill"><b>Odile enerjisi:</b> Transcendence dungeon'ına sakla</span>
-    </div></div>
-
-    <div class="card"><h2>Dark Crush'ı 16'ya çıkarmanın yolu</h2>
-      <div class="pad">
-        <div class="path">${X.path.map(([v, t, d], i) => `<div class="p ${i === 3 ? "end" : ""}"><div class="v">${v}</div><div class="t">${t}</div><div class="d">${d}</div></div>`).join("")}</div>
-        <p style="color:var(--muted);margin:10px 0 0">Arcana kartları 45'ten sonra ana önceliğin: dungeon'lar, sealed dungeon'lar, kolye ve kemer yükseltme derken 1600 gear score'a ulaşınca Odile enerjisinin hepsini Transcendence dungeon'ına harca.</p>
-      </div></div>
-
-    <div class="card"><h2>Dark Crush 16 değilken macro <span class="r">Sende şu an 13</span></h2>
-      <div class="pad">
-        <div class="tipbox"><b>Impactful Crush'ı macro zincirinden çıkar.</b> Dark Crush'ın cooldown'u varken macro Spinning Strike → Dark Crush → Impactful Crush sırasıyla akar. Ama Dark Crush cooldown'dayken Impactful Crush'ın açtığı 2 saniye boşa gider. Sonuçta bütün tetikleyiciler cooldown'a girer ve Dark Crush'ı bir kez basmış olursun.</div>
-        <ol class="steps"><li>Macro'da Dark Crush ve Spinning Strike kalsın.</li><li><b>Impactful Crush'ı ayrı bir tuşa</b> koy.</li><li>Dark Crush'ın cooldown'u (birkaç saniye) bitince Impactful Crush'a bas, açılan Dark Crush'ı macro basar.</li><li>Dark Crush 16 olunca Impactful Crush zincire geri döner; cooldown olmadığı için artık hiçbir pencere boşa gitmez.</li></ol>
-      </div></div>
-
-    <div class="card"><h2>Daevanion önceliği <span class="r">Önce hasar düğümleri</span></h2>
-      <div class="pad">
-        <div class="dvp">${X.dvp.map(([b, st, n]) => `<div class="b"><img src="icons/dv/Unique.webp" alt=""><div class="nm">${b}</div><div class="st">${st}</div>${n ? `<div class="d" style="color:var(--dim);font-size:11.5px">${n}</div>` : ""}</div>`).join("")}</div>
-        <p style="color:var(--muted);margin:10px 0 6px">Bu büyük hasar düğümlerine giden yolda skill düğümleri de var. Önce şu skillerin düğümlerini al:</p>
-        <div class="load"><div class="ic">${X.dvSkills.map(ic).join("")}</div><div class="d">Dark Crush → Incandescent Blow → Spinning Strike → Onslaught (Onslaught 16'daki Spinning Strike −1 sn uzmanlığı için).</div></div>
-      </div></div>
-
-    <div class="card"><h2>Skill puanı: 16'ya sırası</h2>
-      <ol class="prio">${X.to16.slice(0, 4).map((id, i) => `<li data-id="${id}"><span class="n">${i + 1}</span><img src="${SK[id].icon}" alt=""><div><b>${SK[id].name} → 16</b><div class="d">${X.skills[id].why}</div></div></li>`).join("")}
-        ${prioList(["18120000","18300000"], true)}</ol></div>
-
-    <div class="card"><h2>Pasif sırası <span class="r">Savunma pasiflerini başta umursama</span></h2>
-      <ol class="prio">${prioList(X.passives)}</ol>
-      <div class="foot" style="padding:8px 14px;color:var(--dim);border-top:1px solid var(--line)">Alma / başta gerek yok:</div>
-      <ol class="prio">${prioList(X.passivesNo, true)}</ol></div>
-
-    <div class="card"><h2>Stigma setleri <span class="r">Şu an 4 yuva</span></h2>
-      <div class="pad">
-        <div class="loads">${X.loads.map(([h, ids, d]) => `<div class="load"><div class="h">${h}</div><div class="ic">${ids.map(ic).join("")}</div><div class="d">${d}</div></div>`).join("")}</div>
-        <p style="color:var(--muted);margin:10px 0 0">Undefeated Mantra her içerikte takılı ve ilk maksimuma çıkarılacak stigma. Power of the Storm da her zaman takılı. Stigmalar düşük seviyede zayıf; seviye atladıkça güçlenirler.</p>
-      </div></div>
-
-    <div class="card"><h2>Grobs ile farkları</h2>
-      <div class="pad" style="overflow-x:auto"><table class="cmp"><tr><th>Konu</th><th>Grobs</th><th>notXeon</th></tr>
-        ${X.cmp.map(([a, b, c]) => c ? `<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>` : `<tr><td>${a}</td><td colspan="2" style="color:var(--green)">${b}</td></tr>`).join("")}</table></div></div>`;
+function renderMbSkills() {
+  document.querySelectorAll("#mbseg button").forEach(b => b.classList.toggle("on", b.dataset.mbmode === mbMode));
+  const pvp = mbMode === "pvp";
+  $("mbskl").innerHTML = MB.skills.map(([id, lv, pve, pvpS, why, ql], i) => {
+    const pick = pvp ? pvpS : pve, diff = pve.join() !== pvpS.join();
+    const ord = {}; pick.forEach((s, j) => ord[s] = j + 1);
+    const specs = SK[id].specs;
+    const pips = specs.map(p => `<span class="pip s${p.slot} ${ord[p.slot] ? "on" : ""}" title="Yuva ${p.slot} (${MB_SLOTCOL[p.slot]}) · Lv ${p.lvl}: ${p.txt}">${ord[p.slot] || ""}</span>`).join("");
+    const chosen = pick.map((s, j) => { const p = specs.find(x => x.slot === s); return `<li><b>${j + 1}</b><span class="lv">Yuva ${s} · Lv ${p.lvl}</span>${MB.specTR[p.id] || p.txt}</li>`; }).join("");
+    const qlTxt = ql ? `Questlog'daki karakterinde: Lv ${ql[0]}${ql[1].length ? ", yuva " + ql[1].join(", ") : ""} (Daevanion ve ekipmanla)` : "";
+    return `<li class="${MB.key.includes(id) ? "key" : ""}"><span class="n">${i + 1}</span>${img(id, "ic")}
+      <div><div class="nm">${nm(id)}<span class="to">→ ${lv}</span>${MB.key.includes(id) ? `<span class="tag key">Öncelikli</span>` : ""}${diff ? `<span class="tag pvp">PvE ≠ PvP</span>` : ""}</div>
+        ${specs.length && pick.length ? `<div class="pips">${pips}</div><ol class="chosen">${chosen}</ol>` : ""}
+        <div class="why">${why}</div><div class="ql">${qlTxt}</div></div></li>`;
+  }).join("");
+  $("mbsklfoot").innerHTML = pvp
+    ? "PvP'de ilk 5 skill ve Defiance aynı; Rushing Smash, Impactful Crush, Heat Wave Blow, Tremor Crush ve Wave Blow değişir. Mour4SB PvP'de rotasyonu kendi tarzına göre kurmanı öneriyor."
+    : "Seviye hedefleri skill puanıyla; 20'ye Daevanion ve ekipman (yüzük, Arcana) katkısıyla ulaşılır. Puan biterse sıradakine geç.";
 }
 
-const KEYS = ["1","2","3","4","5","6","7","8","Q","E","Sol","Sağ"];
-const KEYLBL = k => k === "4" ? "4 · R" : k;
-
-function hotbar(layout, diff, plain) {
-  return `<div class="hb-wrap"><div class="hb">${KEYS.map(k => {
-    const col = layout[k] || [];
-    let cls = "col";
-    if (diff) {
-      const a = JSON.stringify((BUILDS.me.cur[k]||[]).map(x=>x[0])), b = JSON.stringify(col.map(x=>x[0]));
-      if (a !== b) cls += col.length < (BUILDS.me.cur[k]||[]).length && !col.some(x=>x[2]) ? " rm" : " chg";
-    }
-    const cells = col.length ? col.map(([id, lv, f]) => {
-      const gone = !diff && !plain && !Object.values(BUILDS.me.next).flat().some(x => x[0] === id);
-      return `<div class="cell ${gone ? "x" : ""} ${f === "try" ? "try" : ""}" data-id="${id}" title="${SK[id].name}"><img src="${SK[id].icon}" alt="${SK[id].name}"><span class="lv">${lv}</span></div>`;
-    }).join("") : `<div class="cell empty"></div>`;
-    return `<div class="${cls}">${cells}<div class="key">${plain ? k : KEYLBL(k)}</div></div>`;
-  }).join("")}</div></div>`;
+function renderMbBar() {
+  const keys = ["1","2","3","4","5","6","7","8","Sol","Sağ"];
+  $("mbbar").innerHTML = keys.map(k => `<div class="col ${k === "Sağ" ? "mac" : ""}"><div class="k">${k === "Sol" ? "Sol tık" : k === "Sağ" ? "Sağ tık" : k}</div>${
+    (MB.bar[k] || []).map(([id, lv]) => `<div class="cell" title="${nm(id)}"><img src="${SK[id].icon}" alt="${nm(id)}"><span class="lv">${lv}</span></div>`).join("") || `<div class="cell" style="border-style:dashed"></div>`}</div>`).join("");
 }
 
-function renderMe() {
-  const M = BUILDS.me;
-  $("me").innerHTML = `
-    <div class="card"><div class="summary">
-      <span class="pill"><b>Oynayış:</b> Sol · Sağ · R macro · Q/E atılma · 1 heal</span>
-      <span class="pill"><b>Amaç:</b> R'deyken yanlış skill çıkmasın · Dark Crush boşa gitmesin</span>
-      <span class="pill"><b>Seviye:</b> 35</span>
-    </div></div>
-    <div class="card"><h2>Grobs'un dizilimi <span class="r">Questlog · Early</span></h2>
-      <div class="pad">${hotbar(M.grobs, false, true)}
-      <div class="hb-l" style="margin-top:10px">Grobs Dark Crush zincirini sağ tıka koyuyor, Incandescent Blow zincirin sonunda. Sen R kullandığın için zincir 4 · R'de kalıyor.</div></div></div>
-    <div class="card"><h2>Sana önerilen <span class="r">Mor = değişti · kesikli = dene</span></h2>
-      <div class="pad">${hotbar(M.next, true)}
-      <div class="hb-l" style="margin-top:10px">Sütunda en alttaki skill önce denenir (oyundaki gibi)</div></div></div>
-    <div class="card"><h2>Şimdiki dizilimin <span class="r">✕ = kaldır</span></h2>
-      <div class="pad">${hotbar(M.cur, false)}</div></div>
-    <div class="card"><h2>Ne değişti, neden?</h2>
-      <ul class="chg-list">${M.changes.map(([k, t]) => `<li><span class="k">${k}</span><div class="d">${t}</div></li>`).join("")}</ul></div>
-    <div class="card"><h2>Puanı nereye vereceksin? <span class="r">şimdi → hedef</span></h2>
-      <div class="pad lvls">${M.lvls.map(([id, a, b, n, stop]) =>
-        `<img src="${SK[id].icon}" alt="" data-id="${id}" style="cursor:pointer"><div><b>${SK[id].name}</b><div class="note">${n}</div></div><span class="now ${stop ? "stop" : ""}">${a} <em>→ ${b}</em></span>`).join("")}</div></div>`;
+// Daevanion: questlog'daki iki plan; adımlar gen_dv.py ile öncelik sırasına göre (her hedefe en ucuz yol)
+const DV_IMG = {11: "Common", 21: "Rare", 31: "Legend", 41: "Unique"};
+function dvNode(n) {
+  if (n.t === "start") return {img: "icons/dv/Start.webp", lb: "", name: "Başlangıç", cls: "st"};
+  if (n.t === "skill") return {img: SK[n.skill].icon, lb: "+1", name: n.name, cls: "sk"};
+  return {img: "icons/dv/" + (DV_IMG[n.g] || "Common") + ".webp", lb: n.lb, name: n.name, cls: n.g >= 41 ? "un" : "st"};
 }
-
-let DV = null, board = 0;
-const ST = {
-  fixingdamage:["SLD","Saldırı"], hpmax:["HP","Maks HP"], mpmax:["MP","Maks MP"], defense:["SVN","Savunma"],
-  critical:["KRT","Kritik"], criticalresist:["KDİ","Kritik direnci"],
-  combatspeed:["HIZ","Savaş hızı"], amplifyalldamage:["HSR","Hasar artışı"], amplifycriticaldamage:["KHA","Kritik hasar artışı"],
-  cooltimedecrease:["CD","Cooldown azaltma"], additionalhitrate:["ÇVR","Multi-Hit (çoklu vuruş)"], additionalhitresistrate:["ÇVD","Multi-Hit direnci"], decreasecriticaldamage:["KHD","Kritik hasar direnci"], decreasedamage:["HAZ","Hasar azaltma"]
-};
-function nodeInfo(n) {
-  if (n.t === "start") return {img:"icons/dv/Start.webp", lb:"", name:"Başlangıç", cls:"st"};
-  if (n.t === "skilllevel") return {img:n.icon, lb:"+1", name:n.name + " +1 seviye", cls:"sk"};
-  const st = ST[n.stat] || [n.name.slice(0,3).toUpperCase(), n.name];
-  const un = n.g >= 41;
-  return {img:"icons/dv/" + (un ? "Unique" : "Common") + ".webp", lb:st[0], name:st[1] + (un ? " (büyük)" : ""), cls:un ? "un" : "st"};
+function dvView() {
+  const boards = DVJ.boards.filter(b => dvMode === "az" ? b.cur === "battle" : b.cur === "daevanion");
+  const steps = dvMode === "315" ? DVJ.p315 : dvMode === "386" ? DVJ.p386 : DVJ.azphel;
+  const cost = {}, nodeOf = {};
+  DVJ.boards.forEach(b => b.nodes.forEach(n => { cost[n.id] = n.cost; nodeOf[n.id] = [b, n]; }));
+  const drop = new Set(dvMode === "386" ? DVJ.drop : []);
+  const keep = new Set();
+  if (dvMode === "386") DVJ.p315.forEach(s => s.ids.forEach(id => { if (!drop.has(id)) keep.add(id); }));
+  let cum = [...keep].reduce((a, id) => a + cost[id], 0);
+  const base = cum, stepOf = {}, list = steps.map((s, i) => {
+    const c = s.ids.reduce((a, id) => a + cost[id], 0); cum += c;
+    s.ids.forEach(id => stepOf[id] = i);
+    const [b, t] = nodeOf[s.ids[s.ids.length - 1]];
+    return {i, b: b.id, ids: s.ids, cost: c, cum, target: t};
+  });
+  return {boards, list, base, total: cum, keep, drop, stepOf, cost};
 }
-let dphase = null;
-function renderDaev() {
-  const el = $("daev");
-  if (tab === "me" || !DV) { el.hidden = true; return; }
-  el.hidden = false;
-  const ph = dphase || tab;
-  const boards = DV.filter(x => ph === "early" ? x.early.length : (x.keep.length + x.add.length));
-  if (board >= boards.length) board = 0;
-  const b = boards[board];
-  const byId = {}; b.nodes.forEach(n => byId[n.id] = n);
-  const cost = L => L.reduce((a, id) => a + byId[id].cost, 0);
-  const num = {}, state = {};
-  if (ph === "early") b.early.forEach((id, i) => { num[id] = i + 1; state[id] = "on"; });
-  else {
-    b.keep.forEach(id => state[id] = "keep");
-    b.add.forEach((id, i) => { num[id] = i + 1; state[id] = "on"; });
-    b.drop.forEach(id => state[id] = "drop");
-  }
+function renderDv() {
+  const el = $("dvbody"); if (!el || !DVJ) return;
+  document.querySelectorAll("#dvseg button").forEach(b => b.classList.toggle("on", b.dataset.dvmode === dvMode));
+  const V = dvView(), pts = dvPts[dvMode] || 0;
+  if (dvBoard >= V.boards.length) dvBoard = 0;
+  const b = V.boards[dvBoard];
+  const done = i => V.list[i].cum <= pts;
+  const next = V.list.findIndex(s => s.cum > pts);
+  const selIds = new Set(dvSel != null && V.list[dvSel] ? V.list[dvSel].ids : []);
   const map = {}; b.nodes.forEach(n => map[n.r + "-" + n.c] = n);
+  const R0 = Math.min(...b.nodes.map(n => n.r)), R1 = Math.max(...b.nodes.map(n => n.r));
+  const C0 = Math.min(...b.nodes.map(n => n.c)), C1 = Math.max(...b.nodes.map(n => n.c));
   let cells = "";
-  const R0 = Math.min(...b.nodes.map(n => n.r)), R1 = Math.max(...b.nodes.map(n => n.r)), C0 = Math.min(...b.nodes.map(n => n.c)), C1 = Math.max(...b.nodes.map(n => n.c));
   for (let r = R0; r <= R1; r++) for (let c = C0; c <= C1; c++) {
     const n = map[r + "-" + c];
     if (!n) { cells += "<div></div>"; continue; }
-    const f = nodeInfo(n), st = state[n.id] || (n.t === "start" ? "on" : "off");
-    const badge = st === "keep" ? "✓" : st === "drop" ? "✕" : (num[n.id] || "");
-    cells += `<div class="nd ${f.cls} ${st === "on" || st === "off" ? st : "on " + st}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}${st === "drop" ? " · GERİ AL" : ""}">
-      <img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge ? `<span class="no">${badge}</span>` : ""}</div>`;
+    const f = dvNode(n), si = V.stepOf[n.id];
+    let st = "off", badge = "";
+    if (n.t === "start") st = "on";
+    else if (V.drop.has(n.id)) { st = "on drop"; badge = "✕"; }
+    else if (V.keep.has(n.id)) { st = "on keep"; badge = "✓"; }
+    else if (si != null) { st = "on" + (done(si) ? " done" : ""); badge = si + 1; }
+    cells += `<div class="nd ${f.cls} ${st}${selIds.has(n.id) ? " hl" : ""}" title="${f.name}${n.cost ? " · " + n.cost + " puan" : ""}${si != null ? " · adım " + (si + 1) : ""}"${si != null ? ` data-dvstep="${si}"` : ""}>
+      <img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge !== "" ? `<span class="no">${badge}</span>` : ""}</div>`;
   }
-  const row = (id, n, cls) => { const x = byId[id], f = nodeInfo(x); return `<li class="${f.cls} ${cls || ""}"><span class="n">${n}</span><img src="${f.img}" alt=""><span>${f.name}</span><span class="c">${x.cost} p</span></li>`; };
-  let list = "", info = "";
-  if (ph === "early") {
-    info = `${b.name} · ${b.early.length} düğüm · ${cost(b.early)} puan`;
-    list = b.early.map((id, i) => row(id, i + 1)).join("");
-  } else {
-    info = `${b.name} · mid toplam ${cost(b.keep) + cost(b.add)} puan`;
-    if (b.drop.length) list += `<li class="hd">1 · Önce geri al (${cost(b.drop)} puan geri gelir)</li>` + b.drop.map(id => row(id, "✕", "drop")).join("");
-    list += `<li class="hd">${b.drop.length ? "2 · " : ""}Sonra sırayla ekle (${cost(b.add)} puan)</li>` + b.add.map((id, i) => row(id, i + 1)).join("");
+  const bName = id => DVJ.boards.find(x => x.id === id).name;
+  let rows = "";
+  if (dvMode === "386") {
+    const per = {}; DVJ.drop.forEach(id => { const bb = DVJ.boards.find(x => x.nodes.some(n => n.id === id)); per[bb.name] = (per[bb.name] || 0) + 1; });
+    const dp = DVJ.drop.reduce((a, id) => a + V.cost[id], 0);
+    rows += `<li class="hd">1 · 315'ten geri al: ${DVJ.drop.length} düğüm, ${dp} puan geri gelir</li><li class="drop"><span class="n">✕</span><span></span><span>${Object.entries(per).map(([k, v]) => `${k} ${v}`).join(" · ")}<div class="b">Tahtada kırmızı ✕ olanlar. Yeşil ✓ olanlar (${V.base} puan) kalıyor.</div></span><span class="c"></span></li>`;
+    rows += `<li class="hd">2 · Sırayla ekle</li>`;
   }
-  const totalP = ph === "early" ? 85 : 325;
-  el.innerHTML = `<h2>Daevanion <span class="phase-sw"><button data-dphase="early" class="${ph === "early" ? "on" : ""}">Early</button><button data-dphase="mid" class="${ph === "mid" ? "on" : ""}">Mid · 45</button></span><span class="r">U tuşu · toplam ${totalP} puan</span></h2>
-    <div class="pad">
-      <div class="btabs">${boards.map((x, i) => {
-        const bi = {}; x.nodes.forEach(n => bi[n.id] = n);
-        const p = (ph === "early" ? x.early : x.add).reduce((a, id) => a + bi[id].cost, 0);
-        return `<button data-board="${i}" class="${i === board ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${ph === "mid" ? "+" : ""}${p} p</small>${ph === "mid" && x.drop.length ? `<span class="dr">✕${x.drop.length}</span>` : ""}</button>`;
-      }).join("")}</div>
-      <div class="dwrap">
-        <div>
-          <div class="dg" style="grid-template-columns:repeat(${C1 - C0 + 1},1fr)">${cells}</div>
-          <div class="dlegend">
-            ${ph === "mid" ? `<span><b style="color:var(--green)">✓</b> = early'de aldın, kalsın</span><span><b style="color:var(--red)">✕</b> = geri al</span><span><b>Numara</b> = ekleme sırası</span>` : `<span><b>Numara</b> = alma sırası</span>`}
-            <span><b style="color:var(--purple)">Mor</b> = skill +1 seviye</span>
-            <span><b style="color:#ff9f5a">Turuncu</b> = büyük stat</span>
-            <span>SLD saldırı · HP · MP · SVN savunma · KRT kritik · KDİ kritik direnci · ÇVR multi-hit · HIZ savaş hızı · HSR hasar artışı · CD cooldown</span>
-          </div>
-        </div>
-        <div>
-          <div class="hb-l">${info}</div>
-          ${ph === "mid" && b.keep.length ? `<div class="keepnote">✓ Early'den ${b.keep.length} düğüm (${cost(b.keep)} p) aynen kalıyor.</div>` : ""}
-          <ol class="steps2">${list}</ol>
+  rows += V.list.map(s => {
+    const f = dvNode(s.target);
+    return `<li class="${f.cls} ${done(s.i) ? "done" : ""} ${s.i === next ? "next" : ""} ${s.i === dvSel ? "sel" : ""}" data-dvstep="${s.i}"><span class="n">${done(s.i) ? "✓" : s.i + 1}</span><img src="${f.img}" alt="">
+      <span>${f.name}<div class="b">${bName(s.b)} · ${s.ids.length} düğüm</div></span><span class="c">+${s.cost} p<br>${s.cum}</span></li>`;
+  }).join("");
+  const label = dvMode === "az" ? "Azphel puanın (battle crystal)" : "Daevanion puanın";
+  const info = dvMode === "315" ? "Nezekan, Zikel, Vaizel, Triniel · leveling bitince elindeki puan."
+    : dvMode === "386" ? "315'ten sonra: 350 Daevanion + 36 Azphel. Mour4SB'nin şu anki planı."
+    : "Azphel 45'te açılır, PvP tahtası; ayrı para birimi (battle crystal). 386 planındaki 36 puanlık kısım.";
+  const bp = bb => V.list.filter(s => s.b === bb.id).reduce((a, s) => a + s.cost, 0);
+  el.innerHTML = `
+    <div class="dvtop"><div class="ptsrow"><span>${label}:</span><input id="dvpts" type="number" min="0" inputmode="numeric" value="${pts || ""}" placeholder="0"><span>toplam ${V.total} · ${next < 0 ? "plan tamam" : "sıradaki adım " + (next + 1)}</span></div></div>
+    <div class="muted" style="font-size:12.5px;margin:-4px 0 10px">${info}</div>
+    <div class="btabs">${V.boards.map((x, i) => {
+      const dr = dvMode === "386" ? DVJ.drop.filter(id => x.nodes.some(n => n.id === id)).length : 0;
+      return `<button data-dvboard="${i}" class="${i === dvBoard ? "on" : ""}">${x.name}<small>Lv ${x.need} · ${dvMode === "386" ? "+" : ""}${bp(x)} p</small>${dr ? `<span class="dr">✕${dr}</span>` : ""}</button>`;
+    }).join("")}</div>
+    <div class="dwrap">
+      <div>
+        <div class="dg" style="grid-template-columns:repeat(${C1 - C0 + 1},1fr)">${cells}</div>
+        <div class="dlegend">
+          <span><b>Numara</b> = adım (sağdaki liste)</span>
+          ${dvMode === "386" ? `<span><b style="color:var(--green)">✓</b> 315'ten kalıyor</span><span><b style="color:var(--red)">✕</b> geri al</span>` : ""}
+          <span><b style="color:var(--purple)">Mor</b> skill +1</span><span><b style="color:var(--orange)">Turuncu</b> büyük stat</span>
+          <span>SLD saldırı · KRT kritik · KDİ kritik direnci · SVN savunma · HIZ savaş hızı · HSR hasar artışı · KHA kritik hasar · ÇVR multi-hit · CD cooldown · DEŞ/DED durum etkisi şansı/direnci${dvMode === "az" ? " · P… = PvP statları" : ""}</span>
         </div>
       </div>
+      <ol class="steps2">${rows}</ol>
     </div>`;
 }
 
-let SK = {}, tab = "early", selected = null;
-const $ = id => document.getElementById(id);
-const icon = id => SK[id].icon;
-const typeTR = t => ({active:"Aktif", stigma:"Stigma", passive:"Pasif"}[t] || t);
-const specTxt = (id, slots) => slots.map(s => SK[id].specs.find(p => p.slot === s)?.txt).filter(Boolean);
-
+function renderEq() {
+  const E = MB.eq[eqStage];
+  $("eqsel").innerHTML = MB.eq.map((x, i) => `<button data-eq="${i}" class="${i === eqStage ? "on" : ""}"><b>${x.k}</b><small>${x.gs}</small></button>`).join("");
+  $("eqbody").innerHTML = `<div class="muted" style="font-size:12.5px;margin-bottom:8px">${E.d}</div>
+    <div class="tbw"><table class="tb"><tr><th>Yuva</th><th>Eşya</th><th>Satırlar</th><th>Ek</th></tr>
+    ${E.rows.map(([s, it, st, ex]) => `<tr><td>${s}</td><td>${it}</td><td>${st || "—"}</td><td>${ex || ""}</td></tr>`).join("")}</table></div>`;
+}
 
 function renderG() {
   const gates = [
@@ -1274,183 +897,6 @@ function renderJb() {
     <div class="card"><div class="foot" style="border-top:0">Otomatik Türkçe altyazıdan derlendi (2026-10-05 video). "Stronghold", "seal dungeon", "Substance Morph", "Hugo Fest" gibi adlar oyunun Türkçe arayüzünde biraz farklı yazılabilir. GS eşikleri videodaki Avrupa sunucusuna ait.</div></div>`;
 }
 
-// Sınıf buildleri: Sensational · Aion 2 Build Atölyesi'nden (sensationalmmoworkshop.com) alınan hazır build'ler
-let SB = null, sbCls = "chanter", sbStage = 0, sbMode = "pve", sbSel = null;
-try { const v = JSON.parse(localStorage.getItem("sb") || "{}"); if (v.c) sbCls = v.c; if (v.s != null) sbStage = v.s; if (v.m) sbMode = v.m; } catch (err) {}
-const SB_STAGES = ["Yeni 45", "Endgame'e yakın", "Endgame"];
-const sbPreset = () => SB[sbCls].presets[sbStage * 2 + (sbMode === "pvp" ? 1 : 0)];
-const sbSlots = lv => lv >= 20 ? 3 : lv >= 12 ? 2 : lv >= 8 ? 1 : 0;
-function sbDvSkills(pts) {
-  // Daevanion skill +1 düğümleri: build'in puanına kadar açılanlar (kaynak sitedeki "Daevanion" sayacıyla aynı)
-  const C = SB[sbCls], out = {};
-  (sbMode === "pvp" ? C.dvPvp : C.dv).forEach(b => b.n.forEach(n => { if (n[3] === "k" && n[8] <= pts) out[n[6]] = (out[n[6]] || 0) + 1; }));
-  return out;
-}
-function sbLv(name) {
-  const P = sbPreset(), s = SB[sbCls].skills[name];
-  const base = s.cat === "stigma" ? (P.stigma[name] || 0) : (P.skills[name] || 1);
-  const ex = sbDvSkills(P.dv || 0)[name] || 0, ge = (P.gear || {})[name] || 0, ar = (P.arc || {})[name] || 0;
-  return {base, ex, ge, ar, eff: base + (base ? ex + ge + ar : 0)};
-}
-function sbSpecs(name) {
-  const s = SB[sbCls].skills[name], ids = (sbPreset().specs || {})[name] || [], L = sbLv(name);
-  const all = ids.map(id => s.specs.find(p => p.id === id)).filter(Boolean);
-  const lvSort = arr => arr.slice().sort((x, y) => x.lvl - y.lvl);
-  const on = all.filter(p => p.lvl <= L.eff).slice(0, sbSlots(L.eff));
-  return {on: lvSort(on), later: lvSort(all.filter(p => !on.includes(p)))};
-}
-const sbIc = name => { const s = SB[sbCls].skills[name]; return s ? `<img src="${s.icon}" alt="${name}" title="${name}">` : ""; };
-function sbTile(name) {
-  const C = SB[sbCls], s = C.skills[name], L = sbLv(name), b = L.ex + L.ge + L.ar, sp = sbSpecs(name);
-  const off = s.cat === "stigma" ? !L.base : L.base <= 1;
-  return `<div class="sbt ${off ? "lo" : ""} ${name === C.keyStigma ? "key" : ""} ${sbSel === name ? "sel" : ""}" data-sb="${name}">
-    ${sbIc(name)}<span class="lv">${s.cat === "stigma" && !L.base ? "–" : L.base}${b && L.base ? `<small>+${b}</small>` : ""}</span>
-    <div class="nm">${name}</div><div class="rl">${s.role || ""}</div>
-    ${sp.on.length || sp.later.length ? `<div class="pcs">${sp.on.map(p => `<div class="pc"><b>${p.lvl}</b>${p.tr}</div>`).join("")}${sp.later.map(p => `<div class="pc later"><b>${p.lvl}</b>${p.tr}</div>`).join("")}</div>` : ""}
-  </div>`;
-}
-function sbGroup(cat) {
-  const C = SB[sbCls];
-  return Object.keys(C.skills).filter(n => C.skills[n].cat === cat)
-    .sort((a, b) => sbLv(b).eff - sbLv(a).eff || C.skills[a].unlock - C.skills[b].unlock);
-}
-const sbChain = list => `<div class="sbchain">${list.map(([n, d], i) => (i ? `<span class="ar">›</span>` : "") +
-  `<div class="st" data-sb="${n}" title="${d}">${sbIc(n)}<b>${n}</b></div>`).join("")}</div>`;
-function renderSb() {
-  if (!SB) {
-    $("sb").innerHTML = `<div class="card"><div class="pad">Yükleniyor…</div></div>`;
-    fetch("siniflar.json?v=2").then(r => r.json()).then(d => { SB = d; if (!SB[sbCls]) sbCls = "chanter"; renderSb(); });
-    return;
-  }
-  const C = SB[sbCls], P = sbPreset(), R = C.rot;
-  const clsIc = k => SB[k].skills[Object.keys(SB[k].skills)[0]].icon;
-  if (!sbSel || !C.skills[sbSel]) sbSel = Object.keys(P.skills)[0];
-  try { localStorage.setItem("sb", JSON.stringify({c: sbCls, s: sbStage, m: sbMode})); } catch (err) {}
-  const sec = (t, h) => `<div class="group-l" style="margin-top:14px">${t}</div>${h}`;
-  $("sb").innerHTML = `
-    <div class="card"><div class="sbsel">
-      <div class="row"><span class="lb">Sınıf</span><div class="btabs sbcls" style="margin:0">${["ranger", "chanter", "cleric"].map(k => `<button data-sbc="${k}" class="${k === sbCls ? "on" : ""}"><img src="${clsIc(k)}" alt="">${SB[k].name}</button>`).join("")}</div></div>
-      <div class="row"><span class="lb">Aşama</span><div class="btabs" style="margin:0">${SB_STAGES.map((t, i) => `<button data-sbs="${i}" class="${i === sbStage ? "on" : ""}">${t}</button>`).join("")}</div>
-        <div class="phase-sw" style="margin-left:0">${["pve", "pvp"].map(m => `<button data-sbm="${m}" class="${m === sbMode ? "on" : ""}">${m.toUpperCase()}</button>`).join("")}</div></div>
-    </div>
-    <div class="summary" style="border-top:1px solid var(--line)">
-      <span class="pill"><b>${C.name} · ${P.name}</b> · ${P.sub}</span>
-      ${P.wisdom ? `<span class="pill"><b>Wisdom Stone:</b> +${P.wisdom} skill puanı</span>` : ""}
-      ${P.shards ? `<span class="pill"><b>Stigma Shard:</b> +${P.shards}</span>` : ""}
-      ${P.dv ? `<span class="pill"><b>Daevanion:</b> ${P.dv} puan</span>` : ""}
-    </div></div>
-
-    ${C.keyTip ? `<div class="tipbox" style="margin-bottom:16px"><b>${C.keyStigma}:</b> ${C.keyTip.replace(/^.*?takılı değil\.\s*/, "")}</div>` : ""}
-
-    <div class="card"><h2>Aktif skill'ler <span class="r">Sarı: puanla seviye · mor: bonus</span></h2>
-      <div class="pad"><div class="sbtiles">${sbGroup("active").map(sbTile).join("")}</div></div>
-      <div class="foot">Mor sayı: Daevanion + ekipman + Arcana'dan gelen ek seviye. Yeşil uzmanlık bu seviyede açık; mor uzmanlık skill yükselince alınır. Slot: 8'de 1, 12'de 2, 20'de 3. Soluk kartlar 1. seviyede kalır.</div></div>
-
-    <div class="card"><h2>Stigmalar <span class="r">Takılı olanlar önde</span></h2>
-      <div class="pad"><div class="sbtiles">${sbGroup("stigma").map(sbTile).join("")}</div></div></div>
-
-    <div class="card"><h2>Pasifler</h2>
-      <div class="pad"><div class="sbtiles">${sbGroup("passive").map(sbTile).join("")}</div></div></div>
-
-    <div class="card"><h2>Daevanion <span class="r">${sbMode === "pvp" ? "PvP planı · Azphel ayrı" : "PvE planı"} · U tuşu</span></h2>
-      <div class="pad"><div class="tipbox" style="margin-bottom:4px"><b>Bir panoyu baştan sona doldurma.</b> Puan dört panoda ortak; numaraları sırayla izle. Bir panoda sayı atlıyorsa aradaki düğüm başka panodadır. Listeden bir satıra tıklarsan pano açılır ve düğüm yanıp söner.</div>
-        <div id="sbdv"></div></div></div>
-
-    <div class="card"><h2>Rotasyon <span class="r">${C.name}</span></h2>
-      <div class="pad">
-        <div class="sbtxt">${R.intro}</div>
-        ${sec("Açılış", sbChain(R.opener))}
-        ${sec("Döngü · öncelik sırası", `<ol class="prio" style="border:1px solid var(--line);border-radius:10px">${R.loop.map(([n, d], i) => `<li data-sb="${n}"><span class="n">${i + 1}</span>${sbIc(n) || "<span></span>"}<div><b>${n}</b><div class="d">${d}</div></div></li>`).join("")}</ol>`)}
-        ${sec("Burst", `<div class="sbtxt">${R.burst}</div>`)}
-        ${sec("Bağlantılar", `<ul class="sbul">${R.links.map(x => `<li>${x}</li>`).join("")}</ul>`)}
-        ${sec("Makro", `<div class="sbtxt">${R.macro}</div>`)}
-        ${sbMode === "pvp" && R.pvp ? sec("PvP", `<ul class="sbul">${R.pvp.map(x => `<li>${x}</li>`).join("")}</ul>`) : ""}
-      </div></div>
-
-    <div class="card"><div class="foot" style="border-top:0">Kaynak: <a href="https://sensationalmmoworkshop.com/#${sbCls}" target="_blank" rel="noopener">Sensational · Aion 2 Build Atölyesi</a> (hazır build'ler ve rotasyon, 2026-10-18'de alındı). Kendi puanına göre ince ayar için kaynaktaki hesaplayıcıyı kullan.</div></div>`;
-  renderSbDv();
-  sbDetail(sbSel, false);
-}
-function sbDetail(name, open = true) {
-  const C = SB[sbCls], s = C.skills[name];
-  if (!s) return;
-  sbSel = name;
-  document.querySelectorAll(".sbt").forEach(e => e.classList.toggle("sel", e.dataset.sb === name));
-  const L = sbLv(name), sp = sbSpecs(name), on = new Set(sp.on.map(p => p.id)), later = new Set(sp.later.map(p => p.id));
-  const bd = [L.ex && `Daevanion +${L.ex} (${sbPreset().dv} puan)`, L.ge && `Ekipman +${L.ge}`, L.ar && `Arcana +${L.ar}`].filter(Boolean);
-  $("detail").innerHTML = `
-    <div class="dh"><img src="${s.icon}" alt=""><div><div class="t">${name}</div>
-      <div class="m"><span class="tag">${{active: "Aktif", passive: "Pasif", stigma: "Stigma"}[s.cat]}</span>${s.rating ? `<span class="tag">${s.rating}</span>` : ""}<span class="tag g">${s.cat === "stigma" && !L.base ? "Takılı değil" : "Seviye " + L.eff}</span></div></div>
-      <button class="close" onclick="document.getElementById('detail').classList.remove('open')">Kapat</button></div>
-    ${bd.length ? `<div class="sbbd"><span class="pill">Puanla ${L.base}</span>${bd.map(x => `<span class="pill">${x}</span>`).join("")}</div>` : ""}
-    <div class="ddesc">${s.role ? `<b style="color:var(--text)">${s.role}.</b> ` : ""}${s.tr || ""}</div>
-    <div class="dwhy" style="color:var(--dim);font-size:12px">${s.unlock ? `${s.unlock}. seviyede açılır` : ""}${s.cd ? ` · cooldown ${s.cd} sn` : ""}</div>
-    ${s.specs.length ? `<div class="hint">Uzmanlıklar: skill bu seviyeye gelince açılır.</div><div class="specs">${s.specs.map(p =>
-      `<div class="spec ${on.has(p.id) ? "on" : later.has(p.id) ? "new" : ""}"><span class="l">Lv ${p.lvl}</span><span>${p.tr}</span><span class="s">${on.has(p.id) ? "SEÇ" : later.has(p.id) ? "SONRA" : ""}</span></div>`).join("")}</div>` : ""}`;
-  if (open) $("detail").classList.add("open");
-}
-
-// Sınıf buildleri · Daevanion: düğüm = [satır, sütun, puan, tür, kısa, metin, skill, pano içi sıra, açıldığı toplam puan]
-let sbDvB = 0, sbDvPts = null, sbAzPts = 0, sbDvSel = null;
-const SB_DV_TR = {Atk: "SLD", Def: "SVN", HP: "HP", MP: "MP", Crit: "KRT", CRes: "KDİ", CS: "HIZ", CDR: "CD", DB: "HSR", DT: "HAZ", Acc: "İSB", Eva: "KAÇ", SEC: "DUR", SER: "DDİ"};
-function sbDvBoards() {
-  const C = SB[sbCls], B = (sbMode === "pvp" ? C.dvPvp : C.dv).slice();
-  if (sbMode === "pvp") B.push(Object.assign({az: true}, SB._az));
-  return B;
-}
-function sbDvSteps(az) {
-  const B = sbDvBoards(), S = [];
-  B.forEach((b, bi) => { if (!!b.az === az) b.n.forEach(n => { if (n[3] !== "s") S.push({bi, n, key: bi + "-" + n[0] + "-" + n[1]}); }); });
-  S.sort((a, b) => a.n[8] - b.n[8]);
-  S.forEach((x, i) => x.no = i + 1);
-  return S;
-}
-function sbDvInfo(n) {
-  const t = n[3];
-  if (t === "s") return {img: "icons/dv/Start.webp", lb: "", name: "Başlangıç", cls: "st"};
-  if (t === "k") { const s = SB[sbCls].skills[n[6]]; return {img: s ? s.icon : "icons/dv/Rare.webp", lb: "+1", name: n[5], cls: "sk"}; }
-  const lb = n[4].split("·").map(x => SB_DV_TR[x] || x).join("·");
-  return {img: "icons/dv/" + (t === "u" ? "Unique" : "Common") + ".webp", lb, name: n[5] + (t === "u" ? " (Unique)" : ""), cls: t === "u" ? "un" : "st"};
-}
-function renderSbDv(full = true) {
-  const el = $("sbdv"); if (!el) return;
-  const B = sbDvBoards(); if (sbDvB >= B.length) sbDvB = 0;
-  const b = B[sbDvB], az = !!b.az, P = sbPreset();
-  const pts = az ? sbAzPts : (sbDvPts == null ? (P.dv || 0) : sbDvPts), cap = az ? b.max : 416;
-  const steps = sbDvSteps(az), stepOf = {}; steps.forEach(x => stepOf[x.key] = x);
-  const done = steps.filter(x => x.n[8] <= pts).length, next = steps[done];
-  const map = {}; b.n.forEach(n => map[n[0] + "-" + n[1]] = n);
-  let cells = "";
-  for (let r = b.r0; r <= b.r1; r++) for (let c = b.c0; c <= b.c1; c++) {
-    const n = map[r + "-" + c];
-    if (!n) { cells += "<div></div>"; continue; }
-    const f = sbDvInfo(n), x = stepOf[sbDvB + "-" + r + "-" + c];
-    let st = n[3] === "s" ? "on" : x.n[8] > cap ? "off" : x.n[8] <= pts ? "on keep" : "on";
-    if (x && x.key === sbDvSel) st += " hl";
-    const badge = x && x.n[8] <= cap ? (x.n[8] <= pts ? "✓" : x.no) : "";
-    cells += `<div class="nd ${f.cls} ${st}" ${x ? `data-sbdvs="${x.key}"` : ""} title="${f.name}${n[2] ? " · " + n[2] + " puan" : ""}${x ? " · " + x.no + ". düğüm · " + x.n[8] + ". puanda" : ""}"><img src="${f.img}" alt="">${f.lb ? `<span class="lb">${f.lb}</span>` : ""}${badge ? `<span class="no">${badge}</span>` : ""}</div>`;
-  }
-  const bp = B.map((x, i) => steps.filter(s => s.bi === i && s.n[8] <= pts).reduce((a, s) => a + s.n[2], 0));
-  const sk = {}; steps.filter(x => x.n[3] === "k" && x.n[8] <= pts).forEach(x => sk[x.n[6]] = (sk[x.n[6]] || 0) + 1);
-  const shown = steps.filter(x => x.n[8] <= cap);
-  const ptsRow = `
-    <div class="ptsrow"><label for="sbdvpts"><b>${az ? "Azphel puanın" : "Daevanion puanın"}:</b></label><input id="sbdvpts" type="number" min="0" max="${cap}" value="${pts || ""}" placeholder="ör. 136">
-      <span>${az ? `PvP panosu, puanı ayrı. Aşamalar: ${b.edges.join(" · ")}.` : `Build'in önerisi: ${P.dv || "–"}. 45'te 136, kristallerle 316, Nightmare dükkânıyla 366, Shugo Festival ile 416.`}</span></div>`;
-  if (full || !$("sbdvr")) el.innerHTML = ptsRow + `<div id="sbdvr"></div>`;
-  $("sbdvr").innerHTML = `
-    <div class="btabs">${B.map((x, i) => `<button data-sbdvb="${i}" class="${i === sbDvB ? "on" : ""}">${x.name}<small>${x.az ? "PvP" : "Lv " + x.lvl} · ${bp[i]} p</small></button>`).join("")}</div>
-    <div class="keepnote">${done ? `✓ ${done} düğüm açık (${steps[done - 1].n[8]} puan).` : "Henüz düğüm açılmıyor."} ${next && next.n[8] <= cap ? `Sıradaki: <b>${next.no}.</b> ${B[next.bi].name} · ${sbDvInfo(next.n).name} (${next.n[2]} puan, toplam ${next.n[8]}).` : "Plan tamam."}</div>
-    ${Object.keys(sk).length ? `<div class="sbbd" style="padding:0 0 10px">${Object.entries(sk).sort((a, b) => b[1] - a[1]).map(([n, v]) => `<span class="pill" data-sb="${n}" style="cursor:pointer">${n} <b style="color:var(--purple)">+${v}</b></span>`).join("")}</div>` : ""}
-    <div class="dwrap">
-      <div><div class="dg" style="grid-template-columns:repeat(${b.c1 - b.c0 + 1},1fr)">${cells}</div>
-        <div class="dlegend"><span><b>Numara</b> = açma sırası (${az ? "Azphel'de kendi sırası" : "dört panoda ortak"})</span><span><b style="color:var(--green)">✓</b> = puanınla açık</span><span><b style="color:var(--purple)">Mor</b> = skill +1</span><span><b style="color:#ff9f5a">Turuncu</b> = Unique (4 puan)</span><span>Soluk = plan dışı</span></div></div>
-      <ol class="steps2">${shown.map(x => {
-        const f = sbDvInfo(x.n), ok = x.n[8] <= pts;
-        return `<li class="${ok ? "done" : ""} ${x.key === sbDvSel ? "sel" : ""} ${f.cls === "st" ? "" : f.cls}" data-sbdvs="${x.key}"><span class="n">${ok ? "✓" : x.no}</span><img src="${f.img}" alt=""><span>${f.name}<br><small style="color:var(--dim)">${B[x.bi].name}</small></span><span class="c">${x.n[2]} p<br>Σ ${x.n[8]}</span></li>`;
-      }).join("")}</ol>
-    </div>`;
-  const sel = el.querySelector(".steps2 li.sel"); if (sel) sel.scrollIntoView({block: "nearest"});
-}
 // ---------- Boss sayacı ----------
 let bossMapFilter = "all";
 let bossQuery = "";
@@ -1690,94 +1136,29 @@ function tickBoss() {
 
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("g").hidden = tab !== "g"; $("jb").hidden = tab !== "jb"; $("boss").hidden = tab !== "boss"; $("lay").classList.toggle("solo", tab === "g" || tab === "jb" || tab === "boss");
-  if (tab === "g") { ["me", "x", "t", "std", "boss"].forEach(k => $(k).hidden = true); renderG(); return; }
-  if (tab === "jb") { ["me", "x", "t", "std", "boss"].forEach(k => $(k).hidden = true); renderJb(); return; }
-  if (tab === "boss") { ["me", "x", "t", "std", "g", "jb", "sb"].forEach(k => $(k).hidden = true); $("boss").hidden = false; renderBoss(); return; }
-  $("sb").hidden = tab !== "sb";
-  if (tab === "sb") { ["me", "x", "t", "std", "boss"].forEach(k => $(k).hidden = true); renderSb(); return; }
-  const own = {me: renderMe, x: renderX, t: renderT};
-  Object.keys(own).forEach(k => $(k).hidden = tab !== k); $("std").hidden = tab in own; $("boss").hidden = true;
-  if (tab in own) { own[tab](); showDetail(selected && BUILDS[tab].skills[selected] ? selected : "18100000", false); return; }
-  const B = BUILDS[tab];
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  $("summary").innerHTML = B.summary.map(s => `<span class="pill">${s}</span>`).join("");
-
-  $("bars").innerHTML = B.bars.map(([label, ids]) =>
-    `<div class="group-l">${label}</div><div class="bar">${ids.map(id => {
-      const c = B.skills[id];
-      const ch = (c.add && c.add.length) ? `<span class="ch">YENİ</span>` : "";
-      return `<button class="slot" data-id="${id}" title="${SK[id].name}"><img src="${icon(id)}" alt="${SK[id].name}">${ch}<span class="lv">${c.lvl}</span></button>`;
-    }).join("")}</div>`).join("");
-
-  $("ordhint").textContent = tab === "early" ? "Yukarıdan aşağı puan ver" : "45 sonrası öncelik";
-  $("order").innerHTML = B.order.map(([id, lvl, slots, note, key], i) => {
-    const c = B.skills[id], isNew = c.add && slots.some(s => c.add.includes(s));
-    const sp = specTxt(id, slots);
-    const spHtml = sp.length ? `<span class="${isNew ? "new" : "ok"}">${isNew ? "Yeni uzmanlık" : "Uzmanlık"}:</span> ${sp.join(" · ")}` : (note || "");
-    return `<li class="${key ? "key" : ""}" data-id="${id}">
-      <span class="n">${i + 1}</span><img src="${icon(id)}" alt="">
-      <div><div class="nm">${SK[id].name}<span class="to">→ ${lvl}</span></div><div class="sp">${spHtml}</div></div>
-      ${note && sp.length ? `<span class="badge ${key ? "k" : ""}">${note}</span>` : (key ? `<span class="badge k">Kilit</span>` : "")}
-    </li>`;
-  }).join("");
-  $("ordfoot").textContent = B.orderFoot;
-
-  $("macro").innerHTML = B.macro.map((line, i) =>
-    `<div class="macro"><span class="ln">Satır ${i + 1}</span>${line.map((id, j) => (j ? `<span class="ar">›</span>` : "") + `<img src="${icon(id)}" title="${SK[id].name}" alt="${SK[id].name}" data-id="${id}" style="cursor:pointer">`).join("")}</div>`
-  ).join("") + `<div style="color:var(--muted)">${B.macroNote}</div>`;
-  $("rot").innerHTML = B.rot.map(r => `<li>${r}</li>`).join("");
-
-  $("notes").innerHTML = `<h2>Bilmen gerekenler</h2>` + B.notes.map(([t, b], i) =>
-    `<details ${i === 0 && tab === "mid" ? "open" : ""}><summary>${t}</summary><div class="pad">${b}</div></details>`).join("");
-
-  renderDaev();
-  if (!selected || !B.skills[selected]) selected = B.bars[0][1][0];
-  showDetail(selected, false);
-}
-
-function showDetail(id, open = true) {
-  selected = id;
-  const B = BUILDS[tab], c = B.skills[id], s = SK[id];
-  if (!c) return;
-  document.querySelectorAll(".slot").forEach(e => e.classList.toggle("sel", e.dataset.id === id));
-  const pick = new Set(c.pick), add = new Set(c.add || []), drop = new Set(c.drop || []);
-  const specs = s.specs.map(p => {
-    let cls = "spec", st = "";
-    if (add.has(p.slot)) { cls += " new"; st = "YENİ"; }
-    else if (pick.has(p.slot)) { cls += " on"; st = "SEÇ"; }
-    else if (drop.has(p.slot)) { cls += " drop"; st = "BIRAK"; }
-    return `<div class="${cls}"><span class="l">Lv ${p.lvl}</span><span>${p.txt}</span><span class="s">${st}</span></div>`;
-  }).join("");
-  $("detail").innerHTML = `
-    <div class="dh"><img src="${s.icon}" alt=""><div><div class="t">${s.name}</div>
-      <div class="m"><span class="tag">${typeTR(s.type)}</span><span class="tag g">Hedef: ${c.lvl}</span></div></div>
-      <button class="close" onclick="document.getElementById('detail').classList.remove('open')">Kapat</button></div>
-    <div class="ddesc">${s.desc}</div>
-    <div class="dwhy">${c.why}</div>
-    ${s.specs.length ? `<div class="hint">Uzmanlıklar: skill bu seviyeye gelince açılır.</div><div class="specs">${specs}</div>` : ""}`;
-  if (open) $("detail").classList.add("open");
+  ["mb", "g", "jb", "boss"].forEach(k => $(k).hidden = tab !== k);
+  if (tab === "mb") renderMb();
+  else if (tab === "g") renderG();
+  else if (tab === "jb") renderJb();
+  else renderBoss();
 }
 
 document.addEventListener("click", e => {
-  const sbx = e.target.closest("[data-sb]");
-  if (sbx) sbDetail(sbx.dataset.sb);
-  const sbb = e.target.closest("[data-sbc],[data-sbs],[data-sbm]");
-  if (sbb) { const d = sbb.dataset; if (d.sbc) { sbCls = d.sbc; sbSel = null; } if (d.sbs) sbStage = +d.sbs; if (d.sbm) sbMode = d.sbm; sbDvPts = null; sbDvSel = null; renderSb(); }
-  const sdb = e.target.closest("[data-sbdvb]");
-  if (sdb) { sbDvB = +sdb.dataset.sbdvb; sbDvSel = null; renderSbDv(); }
-  const sds = e.target.closest("[data-sbdvs]");
-  if (sds) { sbDvSel = sds.dataset.sbdvs; sbDvB = +sbDvSel.split("-")[0]; renderSbDv(); }
-  const t = e.target.closest("[data-id]");
-  if (t) showDetail(t.dataset.id);
-  const bb = e.target.closest("[data-board]");
-  if (bb) { board = +bb.dataset.board; renderDaev(); }
-  const dp = e.target.closest("[data-dphase]");
-  if (dp) { dphase = dp.dataset.dphase; board = 0; renderDaev(); }
-  const tbd = e.target.closest("[data-tboard]");
-  if (tbd) { tBoard = +tbd.dataset.tboard; tStep = null; renderTDaev(); }
-  const tst = e.target.closest("[data-tstep]");
-  if (tst) { tStep = +tst.dataset.tstep; tBoard = tSteps().find(x => x.s === tStep).bi; renderTDaev(); }
+  const mm = e.target.closest("[data-mbmode]");
+  if (mm) { mbMode = mm.dataset.mbmode; saveMb(); renderMbSkills(); return; }
+  const dm = e.target.closest("[data-dvmode]");
+  if (dm) { dvMode = dm.dataset.dvmode; dvBoard = 0; dvSel = null; saveMb(); renderDv(); return; }
+  const db = e.target.closest("[data-dvboard]");
+  if (db) { dvBoard = +db.dataset.dvboard; dvSel = null; renderDv(); return; }
+  const ds = e.target.closest("[data-dvstep]");
+  if (ds) {
+    dvSel = +ds.dataset.dvstep;
+    const V = dvView(), s = V.list[dvSel];
+    dvBoard = V.boards.findIndex(x => x.id === s.b);
+    renderDv(); return;
+  }
+  const eq = e.target.closest("[data-eq]");
+  if (eq) { eqStage = +eq.dataset.eq; renderEq(); return; }
   const bm = e.target.closest("[data-bossmap]");
   if (bm) { bossMapFilter = bm.dataset.bossmap; renderBoss(); return; }
   const bl = e.target.closest("[data-bosslvl]");
@@ -1802,7 +1183,7 @@ document.addEventListener("click", e => {
   }
   if (e.target.id === "bossAddBtn") { addBoss(); return; }
   const tb = e.target.closest("[data-tab]");
-  if (tb) { tab = tb.dataset.tab; dphase = null; board = 0; history.replaceState(null, "", "#" + tab); render(); }
+  if (tb) { tab = tb.dataset.tab; history.replaceState(null, "", "#" + tab); render(); window.scrollTo(0, 0); }
 });
 
 document.addEventListener("input", e => {
@@ -1818,22 +1199,20 @@ document.addEventListener("input", e => {
     });
     return;
   }
-  if (e.target.id === "sbdvpts") {
-    const v = Math.max(0, +e.target.value || 0);
-    if (sbDvBoards()[sbDvB].az) sbAzPts = v; else sbDvPts = v;
-    renderSbDv(false); return;
+  if (e.target.id === "dvpts") {
+    dvPts[dvMode] = Math.max(0, +e.target.value || 0); saveMb();
+    const pos = e.target.selectionStart; renderDv();
+    const inp = $("dvpts"); inp.focus(); try { inp.setSelectionRange(pos, pos); } catch (err) {}
   }
-  if (e.target.id !== "tpts") return;
-  tPts = Math.max(0, +e.target.value || 0);
-  try { localStorage.setItem("tpts", tPts); } catch (err) {}
-  renderTDaev();
 });
 
 setInterval(tickBoss, 1000);
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
-  SK = d; DV = dv;
-  if (["#mid", "#g", "#jb", "#sb", "#me", "#x", "#t", "#boss"].includes(location.hash)) tab = location.hash.slice(1);
+  SK = d; DVJ = dv;
+  const h = location.hash.slice(1);
+  if (["g", "jb", "boss"].includes(h)) tab = h;
   render();
+  if (h.startsWith("mb-")) { const t = $(h); if (t) t.scrollIntoView(); }
 });
 </script>
 </body>

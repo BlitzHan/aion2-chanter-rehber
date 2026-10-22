@@ -1,11 +1,15 @@
 # Aion 2 Chanter Rehberi
 
-Aion 2 Chanter için early game ve mid game PvE rehberi (Türkçe). Skill, stigma, pasif, uzmanlık seçimleri ve macro, ikonlarıyla.
+Aion 2 Chanter için Türkçe build sayfası: https://blitzhan.github.io/aion2-chanter-rehber/
 
-- Kaynak video: Grobs, [The Only Chanter PVE Guide You Need](https://www.youtube.com/watch?v=2qTjfkuzdj4)
-- "45+ Yol haritası" sekmesi: Eldarin Prince, [Aion 2'de level 45 sonrası ne yapılır?](https://www.youtube.com/watch?v=TrMU8aBkEK0) (otomatik Türkçe altyazıdan)
-- "Sınıf buildleri" sekmesi: Ranger, Chanter ve Cleric hazır build'leri (Yeni 45 / Endgame'e yakın / Endgame, PvE ve PvP), uzmanlıklar, Daevanion planı (4 pano + PvP Azphel, puan girişiyle) ve rotasyon: [Sensational · Aion 2 Build Atölyesi](https://sensationalmmoworkshop.com/) (2026-10-18)
-- "Tablo build" sekmesi: [Personal Aion 2 Class Info](https://docs.google.com/spreadsheets/d/1lbHaVairHaz26M8XGNF9CBWqiiHHBM6CylTwNKnlOug/htmlview?gid=1832734703) (Chanter sekmesi). Eksik skill verisi: metabot.gg
+- **Build** sekmesi: Mour4SB'nin Chanter build'i. Skill ve uzmanlık sırası (PvE/PvP), stigma, pasif, tuş dizilimi ve macro, Daevanion 315 ve 386 puan planları (adım adım, puan girişli) ve Azphel, Arcana, Genus Insight ve pet, Pantheon, mana taşı, 4 aşamalı ekipman (Early / Mid / End / Crafter).
+  - Video: [O guia definitivo do Chanter no Aion 2](https://www.youtube.com/watch?v=uzvtZ1ZeERc) (Portekizce otomatik altyazıdan)
+  - Questlog: [Mour4SB karakter sayfası](https://questlog.gg/aion-2/en/character-builder/GrandStonesOfTheFlame?build-id=10657) (ekipman setleri, Daevanion planları, skill build'i)
+  - Build'e bağlı [Excalidraw ilerleme rehberi](https://excalidraw.com/#json=2sEBFiQX586XxQ7aj6ZEP,uLex4jq3WrkHCUDQ36zgkQ) (PvE/PvP uzmanlık tabloları, stigma, pasif, Arcana)
+- **45+ Yol haritası**: Eldarin Prince, [Aion 2'de level 45 sonrası ne yapılır?](https://www.youtube.com/watch?v=TrMU8aBkEK0)
+- **45+ Kontrol listesi**: jackzback, [45 sonrası yapmanız ve yapmamanız gerekenler](https://www.youtube.com/watch?v=DqEfqeMVCn0)
+- **Boss sayacı**: alan boss'ları için yeniden doğma sayacı (tarayıcıda saklanır).
 
+`daevanion.json`, Questlog'daki iki Daevanion planından üretildi; adımlar "öncelikli skill → öncelikli pasif → saldırı yönlü turuncu düğüm" kuralıyla, her hedefe en ucuz yoldan sıralandı.
 
 Resmi değildir. Skill isimleri ve ikonları NCSOFT'a aittir.
