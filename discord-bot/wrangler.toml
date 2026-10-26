@@ -8,6 +8,8 @@ workers_dev = true
 crons = ["* * * * *"]
 
 [vars]
+# Doğuştan kaç dakika sonra boss ölmüş sayılıp sayaç yeni tura kurulsun.
+AUTO_KILL_MIN = "6"
 # Discord Developer Portal > General Information > Application ID
 DISCORD_APP_ID = "1564211805168083024"
 # Boş bırakırsan komutlar global kaydedilir; doluysa sadece o sunucuya (anında görünür).
