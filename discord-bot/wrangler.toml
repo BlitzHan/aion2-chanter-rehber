@@ -1,0 +1,28 @@
+name = "aion2-boss-timer"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+# Her dakika çalışır; süresi dolan boss için Discord kanalına "hazır" duyurusu atar.
+[triggers]
+crons = ["* * * * *"]
+
+[vars]
+# Discord Developer Portal > General Information > Application ID
+DISCORD_APP_ID = "1564211805168083024"
+# Boş bırakırsan komutlar global kaydedilir; doluysa sadece o sunucuya (anında görünür).
+DISCORD_GUILD_ID = "1085639784908738601"
+SITE_URL = "https://blitzhan.github.io/aion2-chanter-rehber/#boss"
+# Boş bırakırsan sadece sunucu yöneticileri komutları kullanabilir.
+DISCORD_ADMIN_ROLE_ID = ""
+# Boş bırakırsan "hazır" duyurusu kapalı olur.
+DISCORD_CHANNEL_ID = ""
+# İsteğe bağlı: hazır duyurusunda etiketlenecek rol.
+DISCORD_PING_ROLE_ID = ""
+# İsteğe bağlı: bot sahibinin Discord kullanıcı ID'si (rol olmasa da komutları kullanır).
+DISCORD_OWNER_ID = ""
+
+# `npx wrangler kv namespace create TIMERS` çıktısındaki id'yi buraya yaz.
+[[kv_namespaces]]
+binding = "TIMERS"
+id = "02f7c617376240fc8b4a8cb91e6c782d"

@@ -1,0 +1,21 @@
+{
+  "name": "aion2-boss-timer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aion 2 boss timer API + Discord bot (Cloudflare Worker + KV)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "register": "node scripts/register-commands.mjs",
+    "test": "node --test test/",
+    "tail": "wrangler tail",
+    "check": "node --check src/index.js && node --check src/commands.js && node --check src/bosses.js && node --check scripts/register-commands.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.152.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

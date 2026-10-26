@@ -268,6 +268,15 @@ table.tb td.hi{color:var(--gold);font-weight:700}
 .boss-busy{color:var(--gold)}
 .boss-actions button{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px;margin-left:4px}
 .boss-actions button.mark{border-color:#5d4a1c;color:var(--gold)}
+.boss-globalbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin:0 0 10px;color:var(--muted);font-size:12px}
+.boss-globalbar b{color:var(--gold)}
+.boss-globalbar.err{border-color:#6a3a3a;background:#2a1718}
+.boss-global-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px #15281e;display:inline-block;flex:0 0 auto}
+.boss-globalbar.err .boss-global-dot{background:var(--red);box-shadow:0 0 0 3px #2a1718}
+.boss-global-badge{display:inline-block;background:#2a2412;border:1px solid #5d4a1c;color:var(--gold);border-radius:999px;padding:0 6px;font-size:10px;font-weight:700;letter-spacing:.05em;vertical-align:1px}
+.boss-unknown{color:var(--muted)}
+.boss-discord{display:inline-block;color:var(--muted);font-size:12px;margin-left:4px;text-decoration:none;border-bottom:1px dotted var(--dim)}
+a.boss-discord:hover{color:var(--gold)}
 
 @media (max-width:1100px){
   .hero{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -914,6 +923,88 @@ function bossHidden() { try { return JSON.parse(localStorage.getItem("aion2BossH
 function saveBossHidden(o) { try { localStorage.setItem("aion2BossHidden", JSON.stringify(o)); } catch (e) {} }
 function bossFav() { try { return JSON.parse(localStorage.getItem("aion2BossFav") || "{}"); } catch (e) { return {}; } }
 function saveBossFav(o) { try { localStorage.setItem("aion2BossFav", JSON.stringify(o)); } catch (e) {} }
+
+// ---------- Global sayaç (Cloudflare Worker + Discord bot) ----------
+// Deploy sonrası worker URL'sini buraya yaz: "https://aion2-boss-timer.xxxx.workers.dev"
+const BOSS_API = "https://aion2-boss-timer.aion2-boss-timer.workers.dev";
+// İsteğe bağlı Discord davet linki: "https://discord.gg/xxxx"
+const BOSS_DISCORD_INVITE = "";
+const BOSS_GLOBAL_POLL_MS = 30000;
+let bossGlobal = null;
+
+function bossGlobalConfigured() { return /^https?:\/\//i.test(BOSS_API); }
+function bossGlobalFor(id) {
+  return bossGlobal && bossGlobal.bosses && Object.prototype.hasOwnProperty.call(bossGlobal.bosses, id)
+    ? bossGlobal.bosses[id] : null;
+}
+function bossIsGlobal(id) { return !!bossGlobalFor(id); }
+function bossGlobalUnknown(id) {
+  const g = bossGlobalFor(id);
+  return !!(g && !(Number(g.until) || 0));
+}
+function formatRelativeTime(ts) {
+  const diff = Date.now() - ts;
+  if (diff < 45000) return "az önce";
+  const m = Math.floor(diff / 60000);
+  if (m < 60) return m + " dk önce";
+  const h = Math.floor(m / 60);
+  if (h < 24) return h + " sa önce";
+  return Math.floor(h / 24) + " gün önce";
+}
+function updateBossGlobalBar() {
+  const bar = document.querySelector("[data-bossglobal]");
+  if (!bar) return;
+  bar.className = "boss-globalbar";
+  if (!bossGlobalConfigured()) {
+    bar.innerHTML = `<span class="boss-global-dot"></span><span><b>Yerel mod</b> · işaretlemeler sadece bu tarayıcıda saklanır.</span>`;
+    return;
+  }
+  if (!bossGlobal || bossGlobal.status === "loading") {
+    bar.innerHTML = `<span class="boss-global-dot"></span><span><b>Global sayaç</b> · bağlanıyor…</span>`;
+    return;
+  }
+  if (bossGlobal.status === "error") {
+    bar.className = "boss-globalbar err";
+    bar.innerHTML = `<span class="boss-global-dot"></span><span><b>Global sayaç kapalı</b> · ${escHtml(bossGlobal.error || "API'ye ulaşılamadı")}. Yerel kayıt veya son bilinen süreler gösteriliyor.</span>`;
+    return;
+  }
+  const last = bossGlobal.updatedAt ? formatRelativeTime(bossGlobal.updatedAt) : "henüz güncellenmedi";
+  bar.innerHTML = `<span class="boss-global-dot"></span><span><b>Global sayaç</b> · Discord'dan güncellenir · son değişiklik: <span data-bossglobaltime>${escHtml(last)}</span></span>`;
+}
+async function loadBossGlobal(force) {
+  if (!bossGlobalConfigured()) return;
+  if (bossGlobal && bossGlobal.inFlight) return;
+  const now = Date.now();
+  if (!force && bossGlobal && now - (bossGlobal.lastFetch || 0) < BOSS_GLOBAL_POLL_MS - 5000) return;
+  if (!bossGlobal) bossGlobal = { bosses: {}, updatedAt: 0, status: "loading", lastFetch: 0, error: "", sig: "", inFlight: false };
+  bossGlobal.lastFetch = now;
+  bossGlobal.inFlight = true;
+  try {
+    const bust = force ? "?fresh=1&t=" + Date.now() : "";
+    const res = await fetch(BOSS_API.replace(/\/+$/, "") + "/api/timers" + bust);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!data || data.ok === false) throw new Error("API hatası");
+    const bosses = {};
+    (data.bosses || []).forEach(b => { if (b && b.id) bosses[b.id] = b; });
+    const sig = JSON.stringify(Object.keys(bosses).sort().map(k => [k, bosses[k].until || 0]));
+    const changed = sig !== bossGlobal.sig;
+    bossGlobal.bosses = bosses;
+    bossGlobal.updatedAt = Number(data.updatedAt) || 0;
+    bossGlobal.status = "ok";
+    bossGlobal.error = "";
+    bossGlobal.sig = sig;
+    if (changed && tab === "boss") renderBoss();
+    else updateBossGlobalBar();
+  } catch (err) {
+    bossGlobal.status = "error";
+    bossGlobal.error = err && err.message ? err.message : "bağlantı hatası";
+    updateBossGlobalBar();
+  } finally {
+    bossGlobal.inFlight = false;
+  }
+}
+
 function allBosses() {
   const names = bossNames();
   const hidden = bossHidden();
@@ -933,6 +1024,8 @@ function allBosses() {
   }));
 }
 function bossUntil(b) {
+  const g = bossGlobalFor(b.id);
+  if (g) return Number(g.until) || 0;
   const v = bossState()[b.id];
   if (v == null) return 0;
   if (typeof v === "number") return v + (b.min || 0) * 60 * 1000;
@@ -964,7 +1057,13 @@ function formatHMmin(ms) {
   if (h > 0) return h + ":" + String(m).padStart(2, "0");
   return String(m);
 }
+function bossGlobalGuard(id) {
+  if (!bossIsGlobal(id)) return false;
+  alert("Bu boss global sayaçtan yönetiliyor. Discord'da /kes veya /sure komutunu kullan.");
+  return true;
+}
 function setBossRemaining(id) {
+  if (bossGlobalGuard(id)) return;
   const b = allBosses().find(x => x.id === id);
   const cur = b ? bossRemainingMs(b) : 0;
   const def = cur > 0 ? formatHMmin(cur) : (b && b.min ? formatHMmin(b.min * 60000) : "30");
@@ -1010,13 +1109,18 @@ function formatMs(ms) {
 function escHtml(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 function escAttr(s) { return escHtml(s).replace(/"/g, "&quot;"); }
 function markBoss(id) {
+  if (bossGlobalGuard(id)) return;
   const s = bossState(); s[id] = Date.now(); saveBossState(s); renderBoss();
 }
 function clearBoss(id) {
+  if (bossGlobalGuard(id)) return;
   const s = bossState(); delete s[id]; saveBossState(s); renderBoss();
 }
 function clearAllBosses() {
-  if (!confirm("Tüm boss işaretleri sıfırlansın mı?")) return;
+  const msg = bossGlobalConfigured()
+    ? "Sadece bu tarayıcıdaki yerel işaretler silinsin mi? Global sayaç etkilenmez."
+    : "Tüm boss işaretleri sıfırlansın mı?";
+  if (!confirm(msg)) return;
   saveBossState({}); renderBoss();
 }
 function addBoss() {
@@ -1059,30 +1163,43 @@ function renderBoss() {
   });
   const state = bossState();
   const rows = filtered.map(b => {
+    const g = bossGlobalFor(b.id);
+    const gUntil = g ? (Number(g.until) || 0) : 0;
+    const unknown = !!(g && !gUntil);
     const rem = bossRemainingMs(b);
-    const ready = rem <= 0;
-    const cdText = ready ? "Hazır" : formatMs(rem);
-    const respawnTxt = b.manualOnly ? "Manuel" : (b.min >= 60 ? (Math.floor(b.min / 60) + (b.min % 60 ? " sa " + (b.min % 60) + " dk" : " sa")) : (b.min + " dk"));
+    const ready = !unknown && rem <= 0;
+    const cdText = unknown ? "Bilinmiyor" : (ready ? "Hazır" : formatMs(rem));
+    const cdClass = unknown ? "boss-unknown" : (ready ? "boss-ready" : "boss-busy");
+    const respawnMin = g && Number(g.respawnMin) ? Number(g.respawnMin) : b.min;
+    const respawnTxt = b.manualOnly ? "Manuel" : (respawnMin >= 60 ? (Math.floor(respawnMin / 60) + (respawnMin % 60 ? " sa " + (respawnMin % 60) + " dk" : " sa")) : (respawnMin + " dk"));
     const lvlTxt = b.lvl ? ` · Lv ${b.lvl}` : "";
     const shownName = b.displayName || b.name;
+    const globalBadge = g ? ' <span class="boss-global-badge" title="Discord botundan güncellenir">GLOBAL</span>' : "";
+    const srcTxt = g && gUntil && g.updatedBy ? ` · son: ${escHtml(g.updatedBy)}` : "";
+    const actions = g
+      ? `${BOSS_DISCORD_INVITE
+            ? `<a class="boss-discord" href="${escAttr(BOSS_DISCORD_INVITE)}" target="_blank" rel="noopener">Discord'dan güncelle</a>`
+            : `<span class="boss-discord">Discord'dan güncelle</span>`}
+         <button data-bossact="fav" data-bid="${escAttr(b.id)}">${b.favorite ? "★ Önemli" : "☆ Önemli"}</button>
+         <button data-bossact="hide" data-bid="${escAttr(b.id)}">${b.hidden ? "Göster" : "Gizle"}</button>`
+      : `${b.manualOnly ? "" : `<button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>`}
+         <button data-bossact="settime" data-bid="${escAttr(b.id)}">Süre ayarla</button>
+         <button data-bossact="fav" data-bid="${escAttr(b.id)}">${b.favorite ? "★ Önemli" : "☆ Önemli"}</button>
+         <button data-bossact="rename" data-bid="${escAttr(b.id)}">Adı değiştir</button>
+         <button data-bossact="hide" data-bid="${escAttr(b.id)}">${b.hidden ? "Göster" : "Gizle"}</button>
+         ${state[b.id] ? `<button data-bossact="clear" data-bid="${escAttr(b.id)}">Sıfırla</button>` : ""}`;
     return `<tr data-bossrow="${escAttr(b.id)}" ${b.hidden ? 'style="opacity:.45"' : ""}>
-      <td><div class="bossname">${b.favorite ? "★ " : ""}${escHtml(shownName)}${b.hidden ? ' <span style="color:var(--red);font-size:11px">(gizli)</span>' : ""}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}</div></td>
+      <td><div class="bossname">${b.favorite ? "★ " : ""}${escHtml(shownName)}${globalBadge}${b.hidden ? ' <span style="color:var(--red);font-size:11px">(gizli)</span>' : ""}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}${srcTxt}</div></td>
       <td>${respawnTxt}</td>
-      <td><span class="boss-cd ${ready ? "boss-ready" : "boss-busy"}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
-      <td class="boss-actions">
-        ${b.manualOnly ? "" : `<button class="mark" data-bossact="mark" data-bid="${escAttr(b.id)}">Öldürdüm</button>`}
-        <button data-bossact="settime" data-bid="${escAttr(b.id)}">Süre ayarla</button>
-        <button data-bossact="fav" data-bid="${escAttr(b.id)}">${b.favorite ? "★ Önemli" : "☆ Önemli"}</button>
-        <button data-bossact="rename" data-bid="${escAttr(b.id)}">Adı değiştir</button>
-        <button data-bossact="hide" data-bid="${escAttr(b.id)}">${b.hidden ? "Göster" : "Gizle"}</button>
-        ${state[b.id] ? `<button data-bossact="clear" data-bid="${escAttr(b.id)}">Sıfırla</button>` : ""}
-      </td>
+      <td><span class="boss-cd ${cdClass}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
+      <td class="boss-actions">${actions}</td>
     </tr>`;
   }).join("");
   $("boss").innerHTML = `
     <div class="card">
-      <h2>Boss sayacı <span class="r">Manuel işaretle · otomatik geri sayım</span></h2>
+      <h2>Boss sayacı <span class="r">${bossGlobalConfigured() ? "Discord'dan güncelle · otomatik geri sayım" : "Manuel işaretle · otomatik geri sayım"}</span></h2>
       <div class="pad">
+        <div class="boss-globalbar" data-bossglobal></div>
         <div class="boss-tools">
           <input id="bossSearch" type="search" placeholder="Boss veya harita ara…" value="${escAttr(bossQuery)}">
           <button data-bossmap="all" class="${bossMapFilter === "all" ? "on" : ""}">Tümü</button>
@@ -1106,8 +1223,8 @@ function renderBoss() {
           <tbody>${rows || `<tr><td colspan="4" style="color:var(--muted)">Sonuç yok.</td></tr>`}</tbody>
         </table>
         <div style="margin-top:12px;color:var(--muted);font-size:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-          <span>İşaretleme tarayıcıda saklanır (localStorage). Sayfa kapansa da sayaç kaldığı yerden devam eder.</span>
-          <button data-bossact="clearall" style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px">Tümünü sıfırla</button>
+          <span>${bossGlobalConfigured() ? "Global takip edilen bosslar Discord'dan güncellenir; diğer işaretlemeler bu tarayıcıda saklanır." : "İşaretleme tarayıcıda saklanır (localStorage). Sayfa kapansa da sayaç kaldığı yerden devam eder."}</span>
+          <button data-bossact="clearall" style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px">${bossGlobalConfigured() ? "Yerel işaretleri sıfırla" : "Tümünü sıfırla"}</button>
         </div>
         <details style="margin-top:10px">
           <summary>Boss ekle</summary>
@@ -1120,18 +1237,26 @@ function renderBoss() {
         </details>
       </div>
     </div>`;
+  updateBossGlobalBar();
 }
 function tickBoss() {
   document.querySelectorAll(".boss-cd").forEach(el => {
     const id = el.dataset.bid;
     const b = allBosses().find(x => x.id === id);
     if (!b) return;
+    const unknown = bossGlobalUnknown(id);
     const rem = bossRemainingMs(b);
-    const ready = rem <= 0;
-    el.textContent = ready ? "Hazır" : formatMs(rem);
-    el.classList.toggle("boss-ready", ready);
-    el.classList.toggle("boss-busy", !ready);
+    const ready = !unknown && rem <= 0;
+    el.textContent = unknown ? "Bilinmiyor" : (ready ? "Hazır" : formatMs(rem));
+    el.classList.toggle("boss-ready", !unknown && ready);
+    el.classList.toggle("boss-busy", !unknown && !ready);
+    el.classList.toggle("boss-unknown", unknown);
   });
+  const barTime = document.querySelector("[data-bossglobaltime]");
+  if (barTime && bossGlobal && bossGlobal.updatedAt) {
+    const txt = formatRelativeTime(bossGlobal.updatedAt);
+    if (barTime.textContent !== txt) barTime.textContent = txt;
+  }
 }
 
 function render() {
@@ -1207,6 +1332,12 @@ document.addEventListener("input", e => {
 });
 
 setInterval(tickBoss, 1000);
+if (bossGlobalConfigured()) {
+  loadBossGlobal(true);
+  setInterval(() => { if (!document.hidden) loadBossGlobal(false); }, BOSS_GLOBAL_POLL_MS);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) loadBossGlobal(true); });
+  window.addEventListener("focus", () => loadBossGlobal(true));
+}
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DVJ = dv;
   const h = location.hash.slice(1);

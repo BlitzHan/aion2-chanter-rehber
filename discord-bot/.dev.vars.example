@@ -1,0 +1,9 @@
+# Discord Developer Portal > General Information
+DISCORD_APP_ID=123456789012345678
+DISCORD_PUBLIC_KEY=abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789
+
+# Discord Developer Portal > Bot > Reset Token
+DISCORD_BOT_TOKEN=your-bot-token
+
+# Komutların kaydedileceği sunucu (sağ tık > Sunucu ID'sini kopyala)
+DISCORD_GUILD_ID=123456789012345678
