@@ -24,18 +24,18 @@ async function runCron(env) {
 
 const stateOf = (env) => JSON.parse(env.TIMERS.m.get("state")).bosses;
 
-test("döngü: doğuştan 6 dk geçince boss kesilmiş sayılır, sayaç yeni tura kurulur", async () => {
+test("döngü: doğuştan 1 dk geçince boss kesilmiş sayılır, sayaç yeni tura kurulur", async () => {
   const until = Date.now() - 7 * MIN;
   const env = { TIMERS: fakeKV({ bosses: { "Immortal Gartua": { until, announced: true } }, updatedAt: 1 }) };
   await runCron(env);
   const g = stateOf(env)["Immortal Gartua"];
-  assert.equal(g.until, until + 6 * MIN + 720 * MIN);
+  assert.equal(g.until, until + 1 * MIN + 720 * MIN);
   assert.equal(g.announced, false);
   assert.match(g.updatedBy, /otomatik/);
 });
 
-test("döngü: doğuştan 6 dk geçmeden dokunmaz", async () => {
-  const until = Date.now() - 3 * MIN;
+test("döngü: doğuştan 1 dk geçmeden dokunmaz", async () => {
+  const until = Date.now() - 30_000;
   const env = { TIMERS: fakeKV({ bosses: { "Silent Dartan (Altgard)": { until } }, updatedAt: 1 }) };
   await runCron(env);
   assert.equal(stateOf(env)["Silent Dartan (Altgard)"].until, until);
@@ -46,9 +46,9 @@ test("döngü: uzun süre bakılmasa da turları atlayıp geleceğe kurar", asyn
   const env = { TIMERS: fakeKV({ bosses: { "Soul Ruler Kashapa (Altgard)": { until } }, updatedAt: 1 }) };
   await runCron(env);
   const next = stateOf(env)["Soul Ruler Kashapa (Altgard)"].until;
-  const cycle = 6 * MIN + 360 * MIN;
-  assert.ok(next + 6 * MIN > Date.now(), "yeni sayaç güncel turda olmalı");
-  assert.ok(next - cycle + 6 * MIN <= Date.now(), "bir tur fazla atlanmamalı");
+  const cycle = 1 * MIN + 360 * MIN;
+  assert.ok(next + 1 * MIN > Date.now(), "yeni sayaç güncel turda olmalı");
+  assert.ok(next - cycle + 1 * MIN <= Date.now(), "bir tur fazla atlanmamalı");
   assert.equal((next - until) % cycle, 0);
 });
 

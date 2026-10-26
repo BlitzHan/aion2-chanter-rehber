@@ -10,7 +10,7 @@ const EVENT_LEAD_MS = 60_000;
 const EVENT_LENGTH_MS = 2 * 60 * 60_000;
 // Doğuştan bu kadar dakika sonra boss ölmüş sayılır ve sayaç yeni tura kurulur.
 // wrangler.toml'daki AUTO_KILL_MIN ile değiştirilebilir.
-const DEFAULT_AUTO_KILL_MIN = 6;
+const DEFAULT_AUTO_KILL_MIN = 1;
 const DISCORD_API = "https://discord.com/api/v10";
 
 const CORS = {

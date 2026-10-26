@@ -192,7 +192,7 @@ Kanal ID'si boşsa duyuru kapalıdır; bot yine çalışır.
 
 ## 9a. Otomatik döngü
 
-Boss doğduktan `AUTO_KILL_MIN` dakika sonra (varsayılan 6) kesilmiş sayılır ve
+Boss doğduktan `AUTO_KILL_MIN` dakika sonra (varsayılan 1) kesilmiş sayılır ve
 sayaç kendiliğinden bir sonraki doğuşa kurulur: Gartua/Lagta 12 saat,
 Dartan/Kashapa 6 saat sonra. Kimse bakmasa da döngü sürer.
 
