@@ -51,7 +51,7 @@ npx wrangler kv namespace create TIMERS
 3. **Bot** → **Reset Token** → tokeni `.dev.vars` içine `DISCORD_BOT_TOKEN`
 4. **OAuth2 → URL Generator**:
    - Scopes: `bot`, `applications.commands`
-   - Bot Permissions: `Send Messages`, `Embed Links`
+   - Bot Permissions: `Send Messages`, `Embed Links`, `Manage Events`
    - (Rol etiketlemesi kullanacaksan `Mention Everyone` da ekle.)
    - Oluşan URL ile botu sunucuna davet et.
 5. Sunucuda:
@@ -189,6 +189,17 @@ Süre değiştirdikten sonra `npm run deploy` ve `npm run register` çalıştır
 Aynı boss tekrar kesilene kadar tekrar duyuru gitmez.
 
 Kanal ID'si boşsa duyuru kapalıdır; bot yine çalışır.
+
+## 9b. Discord etkinlikleri
+
+`DISCORD_GUILD_ID` doluysa bot her boss için sunucuda bir **etkinlik** açar
+(sol üstte "Etkinlikler"). Etkinlik doğuş anında başlar; Discord kendi geri
+sayımını gösterir ve isteyen "İlgileniyorum" deyip bildirim alır.
+
+- `/kes` ya da `/sure` sonrası en geç 1 dakikada etkinlik açılır veya güncellenir.
+- Doğuş anı gelince etkinlik "şimdi oluyor" olur, 2 saat açık kalır.
+- `/sifirla` etkinliği siler.
+- Bota `Manage Events` (Etkinlikleri Yönet) izni gerekir.
 
 ## 10. Maliyet ve sınırlar
 

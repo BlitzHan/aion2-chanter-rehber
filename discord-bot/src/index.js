@@ -3,6 +3,11 @@ import { COMMANDS } from "./commands.js";
 
 const STATE_KEY = "state";
 const COMMANDS_SYNC_KEY = "commands_sync";
+const EVENTS_KEY = "events";
+// Discord etkinliği geçmişte başlayamaz; bu kadar yakın doğuşlar için etkinlik açılmaz.
+const EVENT_LEAD_MS = 60_000;
+// Doğuştan sonra etkinlik "şimdi oluyor" olarak bu kadar açık kalır.
+const EVENT_LENGTH_MS = 2 * 60 * 60_000;
 const DISCORD_API = "https://discord.com/api/v10";
 
 const CORS = {
@@ -38,6 +43,7 @@ export default {
   async scheduled(controller, env, ctx) {
     ctx.waitUntil(syncCommands(env).catch((err) => console.error("syncCommands failed", err)));
     ctx.waitUntil(announceReady(env));
+    ctx.waitUntil(syncEvents(env).catch((err) => console.error("syncEvents failed", err)));
   },
 };
 
@@ -482,6 +488,99 @@ async function syncCommands(env) {
   }
 
   await env.TIMERS.put(COMMANDS_SYNC_KEY, fingerprint);
+}
+
+// ---------------------------------------------------------------------------
+// Sunucu etkinlikleri (Discord'da "Etkinlikler" altında geri sayım)
+// ---------------------------------------------------------------------------
+
+// Cron her dakika çağırır. Her boss için doğuş anında başlayan bir etkinlik tutar:
+// sayaç değişince eskisini silip yenisini açar, doğuş gelince etkinliği başlatır.
+// Etkinlik bilgisi ayrı KV anahtarında durur, komutların yazdığı state'e dokunmaz.
+async function syncEvents(env) {
+  if (!env.TIMERS || !env.DISCORD_BOT_TOKEN || !env.DISCORD_GUILD_ID) return;
+
+  const state = await readState(env);
+  const events = (await env.TIMERS.get(EVENTS_KEY, "json")) || {};
+  const now = Date.now();
+  let changed = false;
+
+  for (const boss of BOSSES) {
+    const s = state.bosses[boss.id] || {};
+    const until = Number(s.until) || 0;
+    const ev = events[boss.id];
+
+    if (!ev || ev.until !== until) {
+      if (ev && ev.id) await deleteEvent(env, ev.id);
+
+      let id = null;
+      let recorded = until;
+      if (until > now + EVENT_LEAD_MS) {
+        id = await createEvent(env, boss, until, s);
+        // Açılamadıysa kaydetme; sonraki dakika yeniden denensin.
+        if (!id) recorded = null;
+      }
+      events[boss.id] = { until: recorded, id, active: false };
+      changed = true;
+      continue;
+    }
+
+    if (ev.id && !ev.active && until <= now) {
+      const res = await discordApi(env, "PATCH", `/guilds/${env.DISCORD_GUILD_ID}/scheduled-events/${ev.id}`, {
+        status: 2,
+      });
+      // Geçici hatada (429/5xx) sonraki dakika tekrar dene; kalıcı hatada bırak.
+      if (res.ok || (res.status < 500 && res.status !== 429)) {
+        if (!res.ok) console.error("event start failed", boss.id, res.status, await res.text());
+        ev.active = true;
+        changed = true;
+      }
+    }
+  }
+
+  if (changed) await env.TIMERS.put(EVENTS_KEY, JSON.stringify(events));
+}
+
+async function createEvent(env, boss, until, s) {
+  const lines = [`${boss.name} · ${boss.map}`];
+  if (s.updatedBy) lines.push(`Son güncelleyen: ${s.updatedBy}`);
+  if (env.SITE_URL) lines.push(env.SITE_URL);
+
+  const res = await discordApi(env, "POST", `/guilds/${env.DISCORD_GUILD_ID}/scheduled-events`, {
+    name: `⚔️ ${boss.short} doğuyor`,
+    description: lines.join("\n"),
+    privacy_level: 2,
+    entity_type: 3,
+    entity_metadata: { location: boss.map },
+    scheduled_start_time: new Date(until).toISOString(),
+    scheduled_end_time: new Date(until + EVENT_LENGTH_MS).toISOString(),
+  });
+
+  if (!res.ok) {
+    console.error("event create failed", boss.id, res.status, await res.text());
+    return null;
+  }
+  const data = await res.json();
+  return data.id || null;
+}
+
+async function deleteEvent(env, id) {
+  const res = await discordApi(env, "DELETE", `/guilds/${env.DISCORD_GUILD_ID}/scheduled-events/${id}`);
+  // 404: etkinlik zaten bitmiş ya da elle silinmiş.
+  if (!res.ok && res.status !== 404) {
+    console.error("event delete failed", id, res.status, await res.text());
+  }
+}
+
+function discordApi(env, method, path, body) {
+  return fetch(DISCORD_API + path, {
+    method,
+    headers: {
+      Authorization: `Bot ${env.DISCORD_BOT_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
 }
 
 // ---------------------------------------------------------------------------
