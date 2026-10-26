@@ -990,6 +990,7 @@ async function loadBossGlobal(force) {
     const sig = JSON.stringify(Object.keys(bosses).sort().map(k => [k, bosses[k].until || 0]));
     const changed = sig !== bossGlobal.sig;
     bossGlobal.bosses = bosses;
+    bossGlobal.order = (data.bosses || []).map(b => b && b.id).filter(Boolean);
     bossGlobal.updatedAt = Number(data.updatedAt) || 0;
     bossGlobal.status = "ok";
     bossGlobal.error = "";
@@ -1154,7 +1155,12 @@ function renderBoss() {
     }
     return true;
   });
+  // Global bosslar botun belirlediği sırayla en üstte durur.
+  const globalOrder = (bossGlobal && bossGlobal.order) || [];
+  const globalRank = b => { const i = globalOrder.indexOf(b.id); return i === -1 ? Infinity : i; };
   filtered.sort((a, b) => {
+    const ga = globalRank(a), gb = globalRank(b);
+    if (ga !== gb) return ga - gb;
     const ra = bossRemainingMs(a), rb = bossRemainingMs(b);
     if (ra > 0 && rb === 0) return -1;
     if (rb > 0 && ra === 0) return 1;
