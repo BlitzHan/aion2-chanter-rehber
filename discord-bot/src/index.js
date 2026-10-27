@@ -4,6 +4,9 @@ import { COMMANDS } from "./commands.js";
 const STATE_KEY = "state";
 const COMMANDS_SYNC_KEY = "commands_sync";
 const EVENTS_KEY = "events";
+const BOARD_KEY = "board";
+// Doğuştan kaç dakika önce kanala hatırlatma gitsin (REMIND_MIN ile değişir, 0 kapatır).
+const DEFAULT_REMIND_MIN = 5;
 // Discord etkinliği geçmişte başlayamaz; bu kadar yakın doğuşlar için etkinlik açılmaz.
 const EVENT_LEAD_MS = 60_000;
 // Doğuştan sonra etkinlik "şimdi oluyor" olarak bu kadar açık kalır.
@@ -33,7 +36,7 @@ export default {
     }
 
     if (url.pathname === "/discord" && request.method === "POST") {
-      return handleDiscord(request, env);
+      return handleDiscord(request, env, ctx);
     }
 
     if ((url.pathname === "/" || url.pathname === "/health") && request.method === "GET") {
@@ -45,12 +48,13 @@ export default {
 
   async scheduled(controller, env, ctx) {
     ctx.waitUntil(syncCommands(env).catch((err) => console.error("syncCommands failed", err)));
-    // Sırayla: üçü de aynı state'i okuyup yazdığı için paralel çalışmamalı.
+    // Sırayla: hepsi aynı state'i okuyup yazdığı için paralel çalışmamalı.
     ctx.waitUntil(
       (async () => {
         await announceReady(env).catch((err) => console.error("announceReady failed", err));
         await autoAdvance(env).catch((err) => console.error("autoAdvance failed", err));
         await syncEvents(env).catch((err) => console.error("syncEvents failed", err));
+        await syncBoard(env).catch((err) => console.error("syncBoard failed", err));
       })(),
     );
   },
@@ -130,7 +134,7 @@ async function writeState(env, state) {
 // Discord interactions
 // ---------------------------------------------------------------------------
 
-async function handleDiscord(request, env) {
+async function handleDiscord(request, env, ctx) {
   const rawBody = await request.text();
   const valid = await verifyDiscordRequest(request, rawBody, env.DISCORD_PUBLIC_KEY);
   if (!valid) return new Response("invalid request signature", { status: 401 });
@@ -145,6 +149,16 @@ async function handleDiscord(request, env) {
   // Discord, endpoint'i kaydederken PING atar.
   if (interaction.type === 1) return json({ type: 1 });
 
+  // Tablodaki "kesildi" butonları.
+  if (interaction.type === 3) {
+    try {
+      return await handleButton(interaction, env);
+    } catch (err) {
+      console.error("button failed", err);
+      return ephemeral("Bir hata oluştu. Biraz sonra tekrar dene.");
+    }
+  }
+
   if (interaction.type !== 2) {
     return ephemeral("Bu bot sadece slash komutlarını destekliyor.");
   }
@@ -152,15 +166,37 @@ async function handleDiscord(request, env) {
   const name = interaction.data && interaction.data.name;
 
   try {
+    let res;
     if (name === "durum") return await cmdStatus(env);
-    if (name === "kes") return await cmdKill(interaction, env);
-    if (name === "sure") return await cmdSet(interaction, env);
-    if (name === "sifirla") return await cmdClear(interaction, env);
-    return ephemeral("Bilinmeyen komut.");
+    else if (name === "kes") res = await cmdKill(interaction, env);
+    else if (name === "sure") res = await cmdSet(interaction, env);
+    else if (name === "sifirla") res = await cmdClear(interaction, env);
+    else return ephemeral("Bilinmeyen komut.");
+
+    // Sabit tabloyu hemen güncelle; cron'u beklemesin.
+    if (ctx) {
+      ctx.waitUntil(syncBoard(env, { fromCommand: true }).catch((err) => console.error("syncBoard failed", err)));
+    }
+    return res;
   } catch (err) {
     console.error("command failed", name, err);
     return ephemeral("Bir hata oluştu. Biraz sonra tekrar dene.");
   }
+}
+
+async function handleButton(interaction, env) {
+  const customId = (interaction.data && interaction.data.custom_id) || "";
+  if (!customId.startsWith("kill:")) return ephemeral("Bilinmeyen buton.");
+  if (!isAdmin(interaction, env)) return adminDenied();
+
+  const boss = BOSS_MAP[customId.slice(5)];
+  if (!boss || !boss.respawnMin) return ephemeral("Boss bulunamadı.");
+
+  await killBoss(env, boss, actorName(interaction));
+
+  // Butonun bağlı olduğu mesajı (tabloyu) yerinde güncelle.
+  const state = await readState(env);
+  return json({ type: 7, data: renderBoard(state, Date.now(), env) });
 }
 
 async function verifyDiscordRequest(request, rawBody, publicKeyHex) {
@@ -246,6 +282,15 @@ async function cmdKill(interaction, env) {
     return ephemeral("Bu boss için yeniden doğma süresi tanımlı değil. `/sure` ile elle ayarla.");
   }
 
+  const until = await killBoss(env, boss, actorName(interaction));
+  const unix = Math.floor(until / 1000);
+  return ephemeral(
+    `✅ **${boss.short}** kesildi.\nYeniden doğma: <t:${unix}:R> · <t:${unix}:t>`,
+  );
+}
+
+// Bossu şu an kesilmiş sayar; yeni doğuş zamanını döner.
+async function killBoss(env, boss, actor) {
   const now = Date.now();
   const until = now + boss.respawnMin * 60_000;
   const state = await readState(env);
@@ -253,16 +298,12 @@ async function cmdKill(interaction, env) {
   state.bosses[boss.id] = {
     until,
     updatedAt: now,
-    updatedBy: actorName(interaction),
+    updatedBy: actor,
     announced: false,
   };
   state.updatedAt = now;
   await writeState(env, state);
-
-  const unix = Math.floor(until / 1000);
-  return ephemeral(
-    `✅ **${boss.short}** kesildi.\nYeniden doğma: <t:${unix}:R> · <t:${unix}:t>`,
-  );
+  return until;
 }
 
 async function cmdSet(interaction, env) {
@@ -635,6 +676,149 @@ function discordApi(env, method, path, body) {
     },
     body: body === undefined ? undefined : JSON.stringify(body),
   });
+}
+
+// ---------------------------------------------------------------------------
+// Sabit tablo ve hatırlatmalar (BOARD_CHANNEL_ID kanalında)
+// ---------------------------------------------------------------------------
+
+function bossStatus(until, now) {
+  if (!until) return "unknown";
+  return until <= now ? "ready" : "counting";
+}
+
+// Tablo mesajının gövdesi: geri sayımı Discord'un <t:..:R> etiketi kendisi yürütür,
+// bu yüzden mesaj yalnızca durum değişince düzenlenir.
+function renderBoard(state, now, env) {
+  const lines = BOSSES.map((boss) => {
+    const s = state.bosses[boss.id] || {};
+    const until = Number(s.until) || 0;
+    const status = bossStatus(until, now);
+    const unix = Math.floor(until / 1000);
+    let line;
+    if (status === "unknown") line = "❔ bilinmiyor";
+    else if (status === "ready") line = "🟢 **hazır!**";
+    else line = `⏳ <t:${unix}:R> · **<t:${unix}:t>**`;
+    const by = s.updatedBy ? ` · _${s.updatedBy}_` : "";
+    return `**${boss.short}** · ${boss.map}\n${line}${status === "unknown" ? "" : by}`;
+  });
+
+  const embed = {
+    title: "⚔️ Boss Sayacı",
+    description: lines.join("\n\n"),
+    color: 0xf5c542,
+    footer: { text: "Butona basınca boss şu an kesilmiş sayılır · düzeltmek için /sure" },
+  };
+  if (env.SITE_URL) embed.url = env.SITE_URL;
+
+  const buttons = BOSSES.map((boss) => {
+    const status = bossStatus(Number((state.bosses[boss.id] || {}).until) || 0, now);
+    return {
+      type: 2,
+      style: status === "ready" ? 3 : 2,
+      label: `${boss.short} kesildi`,
+      emoji: { name: "⚔️" },
+      custom_id: `kill:${boss.id}`,
+    };
+  });
+  const components = [{ type: 1, components: buttons }];
+  if (env.SITE_URL) {
+    components.push({ type: 1, components: [{ type: 2, style: 5, label: "Siteyi aç", url: env.SITE_URL }] });
+  }
+
+  return { content: "", embeds: [embed], components, allowed_mentions: { parse: [] } };
+}
+
+function boardSignature(state, now) {
+  return JSON.stringify(
+    BOSSES.map((boss) => {
+      const s = state.bosses[boss.id] || {};
+      const until = Number(s.until) || 0;
+      return [boss.id, until, s.updatedBy || "", bossStatus(until, now)];
+    }),
+  );
+}
+
+// Cron her dakika çağırır: tablo mesajını açar ya da durum değiştiyse düzenler,
+// doğuşa REMIND_MIN dakika kala hatırlatma atar ve tur bitince hatırlatmayı siler.
+// Komutlardan çağrılınca (fromCommand) yalnızca var olan tabloyu düzenler.
+async function syncBoard(env, { fromCommand = false } = {}) {
+  const channel = env.BOARD_CHANNEL_ID;
+  if (!env.TIMERS || !env.DISCORD_BOT_TOKEN || !channel) return;
+
+  const state = await readState(env);
+  const stored = (await env.TIMERS.get(BOARD_KEY, "json")) || {};
+  // Kanal değiştiyse eski kayıtları bırak, yeni kanalda baştan başla.
+  const board = stored.channelId === channel ? stored : { channelId: channel, reminders: {} };
+  board.reminders = board.reminders || {};
+  const now = Date.now();
+  let changed = board !== stored;
+
+  if (!fromCommand) changed = (await syncReminders(env, state, board, now)) || changed;
+
+  const sig = boardSignature(state, now);
+  if (!board.messageId || board.sig !== sig) {
+    const body = renderBoard(state, now, env);
+    let res = null;
+    if (board.messageId) {
+      res = await discordApi(env, "PATCH", `/channels/${channel}/messages/${board.messageId}`, body);
+    }
+    // Mesaj yoksa ya da elle silindiyse (404) yenisini at.
+    if (!fromCommand && (!res || res.status === 404)) {
+      res = await discordApi(env, "POST", `/channels/${channel}/messages`, body);
+      if (res.ok) board.messageId = (await res.json()).id;
+    }
+    if (res && res.ok) {
+      board.sig = sig;
+      changed = true;
+    } else if (res) {
+      console.error("board update failed", res.status, await res.text());
+    }
+  }
+
+  if (changed) await env.TIMERS.put(BOARD_KEY, JSON.stringify(board));
+}
+
+async function syncReminders(env, state, board, now) {
+  const raw = Number(env.REMIND_MIN);
+  const remindMin = env.REMIND_MIN !== undefined && env.REMIND_MIN !== "" && Number.isFinite(raw)
+    ? raw
+    : DEFAULT_REMIND_MIN;
+  const channel = env.BOARD_CHANNEL_ID;
+  let changed = false;
+
+  for (const boss of BOSSES) {
+    const until = Number((state.bosses[boss.id] || {}).until) || 0;
+    const r = board.reminders[boss.id];
+
+    // Tur değişti (kesildi ya da otomatik ilerledi): eski hatırlatmayı kaldır.
+    if (r && r.until !== until) {
+      if (r.messageId) {
+        const res = await discordApi(env, "DELETE", `/channels/${channel}/messages/${r.messageId}`);
+        if (!res.ok && res.status !== 404) console.error("reminder delete failed", res.status);
+      }
+      delete board.reminders[boss.id];
+      changed = true;
+    }
+
+    if (remindMin <= 0 || !until || until <= now || until - now > remindMin * 60_000) continue;
+    if (board.reminders[boss.id]) continue;
+
+    const unix = Math.floor(until / 1000);
+    const ping = env.DISCORD_PING_ROLE_ID ? `<@&${env.DISCORD_PING_ROLE_ID}> ` : "";
+    const res = await discordApi(env, "POST", `/channels/${channel}/messages`, {
+      content: `${ping}⏰ **${boss.short}** <t:${unix}:R> doğuyor · <t:${unix}:t>`,
+      allowed_mentions: { parse: [], roles: env.DISCORD_PING_ROLE_ID ? [env.DISCORD_PING_ROLE_ID] : [] },
+    });
+    if (!res.ok) {
+      console.error("reminder failed", boss.id, res.status, await res.text());
+      continue;
+    }
+    board.reminders[boss.id] = { until, messageId: (await res.json()).id };
+    changed = true;
+  }
+
+  return changed;
 }
 
 // ---------------------------------------------------------------------------

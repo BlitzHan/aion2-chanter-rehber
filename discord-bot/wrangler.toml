@@ -17,6 +17,10 @@ DISCORD_GUILD_ID = "1085639784908738601"
 SITE_URL = "https://blitzhan.github.io/aion2-chanter-rehber/#boss"
 # Boş bırakırsan sadece sunucu yöneticileri komutları kullanabilir.
 DISCORD_ADMIN_ROLE_ID = ""
+# Sabit boss tablosu + "kesildi" butonlarının ve hatırlatmaların gideceği kanal (boşsa kapalı).
+BOARD_CHANNEL_ID = "1564229966227308634"
+# Doğuştan kaç dakika önce bu kanala hatırlatma gitsin (0 kapatır).
+REMIND_MIN = "5"
 # Boş bırakırsan "hazır" duyurusu kapalı olur.
 DISCORD_CHANNEL_ID = ""
 # İsteğe bağlı: hazır duyurusunda etiketlenecek rol.

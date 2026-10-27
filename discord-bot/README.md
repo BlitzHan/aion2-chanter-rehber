@@ -190,6 +190,20 @@ Aynı boss tekrar kesilene kadar tekrar duyuru gitmez.
 
 Kanal ID'si boşsa duyuru kapalıdır; bot yine çalışır.
 
+## 9c. Sabit tablo, "kesildi" butonları ve hatırlatma
+
+`BOARD_CHANNEL_ID` doluysa bot o kanala tek bir **Boss Sayacı** mesajı atar
+(sabitle). Geri sayımı Discord kendisi yürütür; mesaj yalnızca durum değişince
+düzenlenir. Altındaki **"⚔️ Gartua kesildi"** gibi butonlar `/kes` ile aynı işi
+yapar (sadece yetkililer basabilir) ve tabloyu anında günceller.
+
+- `/kes`, `/sure`, `/sifirla` ve otomatik döngü de tabloyu günceller.
+- Tablo mesajı silinirse bot bir dakika içinde yenisini atar (yeniden sabitle).
+- `REMIND_MIN` (varsayılan 5): doğuşa bu kadar dakika kala kanala
+  "⏰ Gartua 5 dk sonra doğuyor" atılır; tur bitince mesaj silinir. `0` kapatır.
+  `DISCORD_PING_ROLE_ID` doluysa hatırlatma o rolü etiketler.
+- Kapatmak için `BOARD_CHANNEL_ID`'yi boşaltıp deploy et.
+
 ## 9a. Otomatik döngü
 
 Boss doğduktan `AUTO_KILL_SEC` saniye sonra (varsayılan 40) kesilmiş sayılır ve
