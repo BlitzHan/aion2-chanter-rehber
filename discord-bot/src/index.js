@@ -8,9 +8,9 @@ const EVENTS_KEY = "events";
 const EVENT_LEAD_MS = 60_000;
 // Doğuştan sonra etkinlik "şimdi oluyor" olarak bu kadar açık kalır.
 const EVENT_LENGTH_MS = 2 * 60 * 60_000;
-// Doğuştan bu kadar dakika sonra boss ölmüş sayılır ve sayaç yeni tura kurulur.
-// wrangler.toml'daki AUTO_KILL_MIN ile değiştirilebilir.
-const DEFAULT_AUTO_KILL_MIN = 1;
+// Doğuştan bu kadar saniye sonra boss ölmüş sayılır ve sayaç yeni tura kurulur.
+// wrangler.toml'daki AUTO_KILL_SEC ile değiştirilebilir.
+const DEFAULT_AUTO_KILL_SEC = 40;
 const DISCORD_API = "https://discord.com/api/v10";
 
 const CORS = {
@@ -48,8 +48,8 @@ export default {
     // Sırayla: üçü de aynı state'i okuyup yazdığı için paralel çalışmamalı.
     ctx.waitUntil(
       (async () => {
-        await autoAdvance(env).catch((err) => console.error("autoAdvance failed", err));
         await announceReady(env).catch((err) => console.error("announceReady failed", err));
+        await autoAdvance(env).catch((err) => console.error("autoAdvance failed", err));
         await syncEvents(env).catch((err) => console.error("syncEvents failed", err));
       })(),
     );
@@ -503,17 +503,17 @@ async function syncCommands(env) {
 // Otomatik döngü
 // ---------------------------------------------------------------------------
 
-// Doğuşun üzerinden AUTO_KILL_MIN dakika geçen bossu kesilmiş sayar ve sayacı
+// Doğuşun üzerinden AUTO_KILL_SEC saniye geçen bossu kesilmiş sayar ve sayacı
 // bir sonraki doğuşa kurar. Uzun süre kimse bakmasa da döngü kaldığı yerden
 // tutarlı devam eder. /kes ve /sure ile yapılan düzeltmeler döngüyü kaydırır.
 async function autoAdvance(env) {
   if (!env.TIMERS) return;
 
-  const raw = Number(env.AUTO_KILL_MIN);
-  const killMin = env.AUTO_KILL_MIN !== undefined && env.AUTO_KILL_MIN !== "" && Number.isFinite(raw) && raw >= 0
+  const raw = Number(env.AUTO_KILL_SEC);
+  const killSec = env.AUTO_KILL_SEC !== undefined && env.AUTO_KILL_SEC !== "" && Number.isFinite(raw) && raw >= 0
     ? raw
-    : DEFAULT_AUTO_KILL_MIN;
-  const killMs = killMin * 60_000;
+    : DEFAULT_AUTO_KILL_SEC;
+  const killMs = killSec * 1000;
 
   const state = await readState(env);
   const now = Date.now();
@@ -532,7 +532,7 @@ async function autoAdvance(env) {
     state.bosses[boss.id] = {
       until,
       updatedAt: now,
-      updatedBy: `otomatik (${killMin} dk)`,
+      updatedBy: `otomatik (${killSec} sn)`,
       announced: false,
     };
     changed = true;

@@ -104,8 +104,8 @@ test("etkinlik: sıfırlanınca silinir ve yenisi açılmaz", async () => {
 
 test("etkinlik: doğuş anı gelince bir kez başlatılır (status 2)", async () => {
   const calls = mockDiscord();
-  // Otomatik döngü 1 dk sonra devreye girer; doğuşun üzerinden daha az geçmiş olsun.
-  const until = Date.now() - 30_000;
+  // Otomatik döngü 40 sn sonra devreye girer; doğuşun üzerinden daha az geçmiş olsun.
+  const until = Date.now() - 20_000;
   const env = envWith({ "Immortal Gartua": { until } });
   env.TIMERS.m.set("events", JSON.stringify({ "Immortal Gartua": { until, id: "ev9", active: false } }));
 
@@ -122,7 +122,7 @@ test("etkinlik: çok yakın ya da geçmiş doğuş için etkinlik açılmaz", as
   const calls = mockDiscord();
   const env = envWith({
     "Immortal Gartua": { until: Date.now() + 10_000 },
-    "Silent Dartan (Altgard)": { until: Date.now() - 30_000 },
+    "Silent Dartan (Altgard)": { until: Date.now() - 20_000 },
   });
   await runCron(env);
   assert.equal(calls.length, 0);

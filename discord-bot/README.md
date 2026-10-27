@@ -192,13 +192,15 @@ Kanal ID'si boşsa duyuru kapalıdır; bot yine çalışır.
 
 ## 9a. Otomatik döngü
 
-Boss doğduktan `AUTO_KILL_MIN` dakika sonra (varsayılan 1) kesilmiş sayılır ve
+Boss doğduktan `AUTO_KILL_SEC` saniye sonra (varsayılan 40) kesilmiş sayılır ve
 sayaç kendiliğinden bir sonraki doğuşa kurulur: Gartua/Lagta 12 saat,
 Dartan/Kashapa 6 saat sonra. Kimse bakmasa da döngü sürer.
 
 - Gerçek kesiliş saati farklıysa `/kes` ya da `/sure` ile düzelt; döngü oradan devam eder.
 - `/sifirla` bossu döngüden çıkarır (sayaç "bilinmiyor" olur).
-- Süreyi değiştirmek için `wrangler.toml` içindeki `AUTO_KILL_MIN` değerini düzenleyip deploy et.
+- Cron dakikada bir çalıştığından geçiş doğuştan en geç ~1-2 dk sonra görünür; yeni
+  doğuş saati yine `doğuş + AUTO_KILL_SEC + respawn` olarak tam hesaplanır, kayma olmaz.
+- Süreyi değiştirmek için `wrangler.toml` içindeki `AUTO_KILL_SEC` değerini düzenleyip deploy et.
 
 ## 9b. Discord etkinlikleri
 
