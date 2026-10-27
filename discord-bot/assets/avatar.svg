@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="70%">
+      <stop offset="0" stop-color="#3a1f7a"/>
+      <stop offset="0.55" stop-color="#1b0f3f"/>
+      <stop offset="1" stop-color="#0a0618"/>
+    </radialGradient>
+    <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9fe8ff"/>
+      <stop offset="0.6" stop-color="#3fa9ff"/>
+      <stop offset="1" stop-color="#2a4bd8"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffbe0"/>
+      <stop offset="0.45" stop-color="#ffe14a"/>
+      <stop offset="1" stop-color="#ff9a1a"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="22" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <g id="wingShape">
+      <!-- tüy katmanları: dıştan içe -->
+      <path d="M470 470 C 380 330, 250 250, 90 230 C 160 290, 200 330, 230 360 C 170 350, 120 350, 70 365 C 150 400, 200 425, 240 445 C 190 455, 150 470, 115 500 C 200 505, 270 505, 330 495 C 300 525, 280 555, 270 590 C 340 560, 410 530, 470 500 Z" fill="url(#wing)" opacity="0.95"/>
+      <path d="M470 470 C 400 380, 320 330, 210 305 C 270 360, 320 400, 360 430 C 320 440, 290 455, 265 475 C 330 480, 390 480, 440 490 Z" fill="#dff6ff" opacity="0.55"/>
+    </g>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g transform="translate(512,512) scale(0.86) translate(-512,-512)">
+
+  <!-- arka halka -->
+  <circle cx="512" cy="512" r="360" fill="none" stroke="#7a5cff" stroke-opacity="0.35" stroke-width="10"/>
+  <circle cx="512" cy="512" r="330" fill="none" stroke="#ffe14a" stroke-opacity="0.18" stroke-width="4"/>
+
+  <!-- kanatlar -->
+  <g filter="url(#softglow)" transform="translate(0,10)">
+    <use href="#wingShape"/>
+    <use href="#wingShape" transform="translate(1024,0) scale(-1,1)"/>
+  </g>
+
+  <!-- küçük kıvılcımlar -->
+  <g fill="#ffe14a" filter="url(#softglow)">
+    <path d="M300 250 l14 34 l34 14 l-34 14 l-14 34 l-14 -34 l-34 -14 l34 -14 z" opacity="0.8"/>
+    <path d="M745 760 l10 24 l24 10 l-24 10 l-10 24 l-10 -24 l-24 -10 l24 -10 z" opacity="0.7"/>
+    <path d="M760 245 l8 18 l18 8 l-18 8 l-8 18 l-8 -18 l-18 -8 l18 -8 z" opacity="0.6"/>
+  </g>
+
+  <!-- şimşek -->
+  <g filter="url(#glow)">
+    <path d="M585 150 L 380 545 L 500 545 L 430 875 L 665 440 L 540 440 L 625 150 Z" fill="url(#bolt)" stroke="#fff6c4" stroke-width="10" stroke-linejoin="round"/>
+  </g>
+  </g>
+</svg>
