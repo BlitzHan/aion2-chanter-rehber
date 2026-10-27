@@ -248,6 +248,13 @@ function isAdmin(interaction, env) {
   if (!member) return false;
 
   const userId = member.user && member.user.id;
+
+  // İzinli kişi listesi doluysa yalnızca onlar değiştirebilir (rol ve yönetici izni sayılmaz).
+  const allowed = String(env.DISCORD_ALLOWED_USER_IDS || "")
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+  if (allowed.length) return allowed.includes(userId);
   if (env.DISCORD_OWNER_ID && userId === env.DISCORD_OWNER_ID) return true;
 
   if (
@@ -269,7 +276,7 @@ function isAdmin(interaction, env) {
 }
 
 function adminDenied() {
-  return ephemeral("⛔ Bu komutu sadece yetkili rol kullanabilir.");
+  return ephemeral("⛔ Boss sürelerini sadece yetkili kişiler değiştirebilir.");
 }
 
 async function cmdKill(interaction, env) {

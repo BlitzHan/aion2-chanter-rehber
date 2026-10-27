@@ -74,6 +74,7 @@ cp .dev.vars.example .dev.vars
 | Değişken | Açıklama |
 | --- | --- |
 | `SITE_URL` | Discord'daki "Siteyi aç" butonu |
+| `DISCORD_ALLOWED_USER_IDS` | Doluysa süreleri yalnızca bu kullanıcı ID'leri değiştirir (virgülle ayır); rol ve yönetici izni sayılmaz |
 | `DISCORD_ADMIN_ROLE_ID` | Komutları kullanabilecek rolün ID'si (boşsa sunucu yöneticileri) |
 | `DISCORD_CHANNEL_ID` | "Hazır" duyurularının gideceği kanal (boşsa duyuru kapalı) |
 | `DISCORD_PING_ROLE_ID` | İsteğe bağlı; duyuruda etiketlenecek rol |

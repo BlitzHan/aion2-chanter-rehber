@@ -15,6 +15,10 @@ DISCORD_APP_ID = "1564211805168083024"
 # Boş bırakırsan komutlar global kaydedilir; doluysa sadece o sunucuya (anında görünür).
 DISCORD_GUILD_ID = "1085639784908738601"
 SITE_URL = "https://blitzhan.github.io/aion2-chanter-rehber/#boss"
+# Doluysa boss sürelerini (butonlar, /kes, /sure, /sifirla) YALNIZCA bu kullanıcılar değiştirebilir;
+# aşağıdaki rol ve yönetici izni o zaman dikkate alınmaz. Virgülle ayır.
+# BlitzHan, Miusova, Yusuf İslam
+DISCORD_ALLOWED_USER_IDS = "196971380087062528,393857817670320136,515908212449345547"
 # Boş bırakırsan sadece sunucu yöneticileri komutları kullanabilir.
 DISCORD_ADMIN_ROLE_ID = ""
 # Sabit boss tablosu + "kesildi" butonlarının ve hatırlatmaların gideceği kanal (boşsa kapalı).
