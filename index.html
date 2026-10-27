@@ -264,6 +264,7 @@ table.tb td.hi{color:var(--gold);font-weight:700}
 .bossname{font-weight:600}
 .bossmap{color:var(--muted);font-size:12px}
 .boss-cd{font-variant-numeric:tabular-nums;font-weight:700}
+.boss-at{display:block;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;margin-top:2px}
 .boss-ready{color:var(--green)}
 .boss-busy{color:var(--gold)}
 .boss-actions button{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--muted);font-size:12px;margin-left:4px}
@@ -1197,7 +1198,7 @@ function renderBoss() {
     return `<tr data-bossrow="${escAttr(b.id)}" ${b.hidden ? 'style="opacity:.45"' : ""}>
       <td><div class="bossname">${b.favorite ? "★ " : ""}${escHtml(shownName)}${globalBadge}${b.hidden ? ' <span style="color:var(--red);font-size:11px">(gizli)</span>' : ""}</div><div class="bossmap">${escHtml(b.map)}${lvlTxt}${srcTxt}</div></td>
       <td>${respawnTxt}</td>
-      <td><span class="boss-cd ${cdClass}" data-bid="${escAttr(b.id)}">${cdText}</span></td>
+      <td><span class="boss-cd ${cdClass}" data-bid="${escAttr(b.id)}">${cdText}</span><span class="boss-at" data-bossat="${escAttr(b.id)}">${(!unknown && !ready) ? bossAtText(rem) : ""}</span></td>
       <td class="boss-actions">${actions}</td>
     </tr>`;
   }).join("");
@@ -1245,6 +1246,12 @@ function renderBoss() {
     </div>`;
   updateBossGlobalBar();
 }
+// Kalan sürenin denk geldiği saat: "≈ 18:04", gün değişiyorsa "yarın 02:10".
+function bossAtText(rem) {
+  const at = new Date(Date.now() + rem);
+  const hm = String(at.getHours()).padStart(2, "0") + ":" + String(at.getMinutes()).padStart(2, "0");
+  return (at.toDateString() !== new Date().toDateString() ? "yarın " : "≈ ") + hm;
+}
 function tickBoss() {
   document.querySelectorAll(".boss-cd").forEach(el => {
     const id = el.dataset.bid;
@@ -1257,6 +1264,11 @@ function tickBoss() {
     el.classList.toggle("boss-ready", !unknown && ready);
     el.classList.toggle("boss-busy", !unknown && !ready);
     el.classList.toggle("boss-unknown", unknown);
+    const atEl = el.parentNode.querySelector(".boss-at");
+    if (atEl) {
+      const txt = (!unknown && !ready) ? bossAtText(rem) : "";
+      if (atEl.textContent !== txt) atEl.textContent = txt;
+    }
   });
   const barTime = document.querySelector("[data-bossglobaltime]");
   if (barTime && bossGlobal && bossGlobal.updatedAt) {
