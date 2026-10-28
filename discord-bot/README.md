@@ -199,7 +199,8 @@ düzenlenir. Altındaki **"⚔️ Gartua kesildi"** gibi butonlar `/kes` ile ayn
 yapar (sadece yetkililer basabilir) ve tabloyu anında günceller.
 
 - `/kes`, `/sure`, `/sifirla` ve otomatik döngü de tabloyu günceller.
-- Tablo mesajı silinirse bot bir dakika içinde yenisini atar (yeniden sabitle).
+- Tablo hep kanalın son mesajıdır: altına başka mesaj gelirse bot bir dakika içinde
+  yenisini en alta atar, eskisini siler. Silinirse de yenisi atılır. Sabitlemeye gerek yok.
 - `REMIND_MIN` (varsayılan 5): doğuşa bu kadar dakika kala kanala
   "⏰ Gartua 5 dk sonra doğuyor" atılır; tur bitince mesaj silinir. `0` kapatır.
   `DISCORD_PING_ROLE_ID` doluysa hatırlatma o rolü etiketler.

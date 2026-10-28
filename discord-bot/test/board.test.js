@@ -18,16 +18,22 @@ function fakeKV(state) {
 }
 
 // Kanal mesajı isteklerini kaydeder; diğer Discord çağrılarına 200 döner.
+// GET /channels/:id kanalın son mesajını döner; bu istek calls'a yazılmaz.
 function mockDiscord(respond = () => null) {
   const calls = [];
   let nextId = 1;
+  calls.channel = { last: null };
   globalThis.fetch = async (url, init) => {
     if (!url.includes("/channels/")) return new Response("[]", { status: 200 });
+    if (init.method === "GET") return Response.json({ id: "c1", last_message_id: calls.channel.last });
     const call = { url, method: init.method, body: init.body ? JSON.parse(init.body) : null };
     calls.push(call);
     const custom = respond(call);
     if (custom) return custom;
-    if (call.method === "POST") return Response.json({ id: `m${nextId++}` });
+    if (call.method === "POST") {
+      calls.channel.last = `m${nextId}`;
+      return Response.json({ id: `m${nextId++}` });
+    }
     if (call.method === "PATCH") return Response.json({ id: url.split("/").pop() });
     return new Response(null, { status: 204 });
   };
@@ -120,6 +126,30 @@ test("tablo: kanal ayarı yoksa hiç istek atmaz", async () => {
   const env = envWith({ [GARTUA]: { until: Date.now() + 3 * MIN } }, { BOARD_CHANNEL_ID: "" });
   await runCron(env);
   assert.equal(calls.length, 0);
+});
+
+test("tablo: altına başka mesaj gelince en alta taşınır, eskisi silinir", async () => {
+  const calls = mockDiscord();
+  const env = envWith({ [GARTUA]: { until: Date.now() + 90 * MIN } });
+  await runCron(env);
+  assert.equal(JSON.parse(env.TIMERS.m.get("board")).messageId, "m1");
+
+  calls.channel.last = "kullanici-mesaji";
+  await runCron(env);
+  await runCron(env);
+
+  assert.deepEqual(calls.map((c) => c.method), ["POST", "POST", "DELETE"]);
+  assert.match(calls[2].url, /\/messages\/m1$/);
+  assert.equal(JSON.parse(env.TIMERS.m.get("board")).messageId, "m2");
+});
+
+test("tablo: son mesaj zaten tabloysa taşınmaz", async () => {
+  const calls = mockDiscord();
+  const env = envWith({ [GARTUA]: { until: Date.now() + 90 * MIN } });
+  await runCron(env);
+  await runCron(env);
+  await runCron(env);
+  assert.deepEqual(calls.map((c) => c.method), ["POST"]);
 });
 
 test("hatırlatma: doğuşa 5 dk kala bir kez atılır, tur değişince silinir", async () => {

@@ -764,6 +764,23 @@ async function syncBoard(env, { fromCommand = false } = {}) {
   if (!fromCommand) changed = (await syncReminders(env, state, board, now)) || changed;
 
   const sig = boardSignature(state, now);
+
+  // Tablonun altına başka mesaj geldiyse yenisini en alta at, eskisini sil;
+  // böylece tablo kanalda hep son mesaj olarak kalır.
+  if (!fromCommand && board.messageId && (await boardIsBuried(env, channel, board.messageId))) {
+    const res = await discordApi(env, "POST", `/channels/${channel}/messages`, renderBoard(state, now, env));
+    if (res.ok) {
+      const oldId = board.messageId;
+      board.messageId = (await res.json()).id;
+      board.sig = sig;
+      changed = true;
+      const del = await discordApi(env, "DELETE", `/channels/${channel}/messages/${oldId}`);
+      if (!del.ok && del.status !== 404) console.error("old board delete failed", del.status);
+    } else {
+      console.error("board repost failed", res.status, await res.text());
+    }
+  }
+
   if (!board.messageId || board.sig !== sig) {
     const body = renderBoard(state, now, env);
     let res = null;
@@ -784,6 +801,18 @@ async function syncBoard(env, { fromCommand = false } = {}) {
   }
 
   if (changed) await env.TIMERS.put(BOARD_KEY, JSON.stringify(board));
+}
+
+// Kanalın son mesajı tablo değilse true döner. Kanal okunamazsa tabloya dokunma.
+async function boardIsBuried(env, channel, messageId) {
+  const res = await discordApi(env, "GET", `/channels/${channel}`);
+  if (!res.ok) return false;
+  try {
+    const info = await res.json();
+    return Boolean(info.last_message_id) && info.last_message_id !== messageId;
+  } catch (_) {
+    return false;
+  }
 }
 
 async function syncReminders(env, state, board, now) {
