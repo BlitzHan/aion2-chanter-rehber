@@ -143,6 +143,27 @@ test("tablo: altına başka mesaj gelince en alta taşınır, eskisi silinir", a
   assert.equal(JSON.parse(env.TIMERS.m.get("board")).messageId, "m2");
 });
 
+test("tablo: 5 dakika dolmadan ikinci kez taşınmaz, dolunca taşınır", async () => {
+  const calls = mockDiscord();
+  const env = envWith({ [GARTUA]: { until: Date.now() + 90 * MIN } });
+  await runCron(env);
+  calls.channel.last = "mesaj-1";
+  await runCron(env); // taşındı (m2)
+
+  calls.channel.last = "mesaj-2";
+  await runCron(env);
+  await runCron(env);
+  assert.equal(calls.filter((c) => c.method === "POST").length, 2, "5 dk dolmadan taşınmamalı");
+
+  // Son taşımanın üzerinden 5 dk geçmiş gibi yap.
+  const board = JSON.parse(env.TIMERS.m.get("board"));
+  board.movedAt = Date.now() - 5 * MIN;
+  env.TIMERS.m.set("board", JSON.stringify(board));
+  await runCron(env);
+  assert.equal(calls.filter((c) => c.method === "POST").length, 3);
+  assert.equal(JSON.parse(env.TIMERS.m.get("board")).messageId, "m3");
+});
+
 test("tablo: son mesaj zaten tabloysa taşınmaz", async () => {
   const calls = mockDiscord();
   const env = envWith({ [GARTUA]: { until: Date.now() + 90 * MIN } });

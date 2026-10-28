@@ -7,6 +7,8 @@ const EVENTS_KEY = "events";
 const BOARD_KEY = "board";
 // Doğuştan kaç dakika önce kanala hatırlatma gitsin (REMIND_MIN ile değişir, 0 kapatır).
 const DEFAULT_REMIND_MIN = 5;
+// Tablo en fazla bu sıklıkla en alta taşınır; KV'nin günlük 1.000 yazma limitini korur.
+const BOARD_MOVE_COOLDOWN_MS = 5 * 60_000;
 // Discord etkinliği geçmişte başlayamaz; bu kadar yakın doğuşlar için etkinlik açılmaz.
 const EVENT_LEAD_MS = 60_000;
 // Doğuştan sonra etkinlik "şimdi oluyor" olarak bu kadar açık kalır.
@@ -766,13 +768,15 @@ async function syncBoard(env, { fromCommand = false } = {}) {
   const sig = boardSignature(state, now);
 
   // Tablonun altına başka mesaj geldiyse yenisini en alta at, eskisini sil;
-  // böylece tablo kanalda hep son mesaj olarak kalır.
-  if (!fromCommand && board.messageId && (await boardIsBuried(env, channel, board.messageId))) {
+  // böylece tablo kanalda hep son mesaj olarak kalır (en fazla 5 dakikada bir).
+  const canMove = now - (Number(board.movedAt) || 0) >= BOARD_MOVE_COOLDOWN_MS;
+  if (!fromCommand && board.messageId && canMove && (await boardIsBuried(env, channel, board.messageId))) {
     const res = await discordApi(env, "POST", `/channels/${channel}/messages`, renderBoard(state, now, env));
     if (res.ok) {
       const oldId = board.messageId;
       board.messageId = (await res.json()).id;
       board.sig = sig;
+      board.movedAt = now;
       changed = true;
       const del = await discordApi(env, "DELETE", `/channels/${channel}/messages/${oldId}`);
       if (!del.ok && del.status !== 404) console.error("old board delete failed", del.status);
