@@ -1434,7 +1434,7 @@ function renderLv() {
     ["4","p1","4. satır","PvE hasar ≥ %2"], ["5","p2","Maks Saldırı","≥15 (tavan 20)"], ["6","p3","İsabet","~29+"],
     ["7","p4","Hasar Toleransı","PvE tolerans"], ["8","skip","HP %","dokunma"], ["9","p3","İsabet","~29+"]
   ];
-  const gbTabs = LEVO_GB.map(g => `<button class="gtab lbrd${g.id === brd ? " on" : ""}" data-lvbrd="${g.id}"><img class="gtabimg" src="${g.sym}" alt=""><span>${g.n}<small>${g.sub}</small></span></button>`).join("");
+  const gbTabs = LEVO_GB.map(g => `<button class="gtab lbrd${g.id === brd ? " on" : ""}" data-lvbrd="${g.id}"><img class="gtabimg" src="${g.icon}" alt=""><span>${g.n}<small>${g.sub}</small></span></button>`).join("");
   const gbPanels = LEVO_GB.map(g => {
     const slots = slotDef.map(([n, cls, lab, val]) => {
       const is4 = n === "4";
