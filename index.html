@@ -365,6 +365,8 @@ table.tb td.hi{color:var(--gold);font-weight:700}
 .skorder b,.skorder .sk16{color:var(--lgold);font-weight:800}
 .skat16{margin:0 0 8px;padding:6px 8px;background:#15281e;border:1px solid #245c3c;border-radius:7px;font-size:11px;color:#b7bfd0;line-height:1.4}
 .skat16 b{color:var(--green)}
+.skmile{margin:0 0 8px;padding:6px 8px;background:#0e121a;border:1px solid #2b3345;border-radius:7px;font-size:10.5px;color:#9aa4b8;line-height:1.45}
+.skmile b{color:var(--lgold)}
 .specwrap{overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
 .specflow{display:flex;gap:5px;min-width:500px}
 .specnode{flex:1;min-width:0;background:linear-gradient(180deg,#0c1018,#090c13);border:1px solid #273044;border-radius:9px;padding:8px 9px;position:relative;opacity:.48;transition:all .15s ease}
@@ -1267,7 +1269,7 @@ const LEVO_SK = [
   { id:"18210000", pr:5, target:12, role:"Mobilite · menzil", picks:[2,3], picks16:[2,3], skip16:true, t:642,
     why:"<b>Menzil +10 m</b> ve <b>+%50 multi-hit</b>. Mob'lar arasını hızlı kapatır. Stamina satırına puan verme; grind akışını yavaşlatır." },
   { id:"18170000", pr:6, target:12, role:"Yan heal · 12'de bırak", picks:[1,2], picks16:[1,2], skip16:true, t:523,
-    why:"Cleric heal'i zaten çözüyor. <b>12'de bırak</b>: düşük HP'de +%20 heal ve 1000 stamina yeter. 20'ye taşıma; puanı DPS skillerine ayır. <b>Video 8:11:</b> 'Chanter healing skill'ini 12'de falan mı bırakıyor?' — DPS önceliği değil." }
+    why:"Cleric heal'i zaten çözüyor. <b>12'de bırak</b>: düşük HP'de +%20 heal ve 1000 stamina yeter. 20'ye taşıma; puanı DPS skillerine ayır. <b>Video 8:11:</b> 'Healing skill'i? Hayır canım... Kim dedi sana healing skill'i? Hiçbir alakası yok.' — DPS önceliği değil, 12 yeter." }
 ];
 
 const LEVO_ARC = [
@@ -1415,6 +1417,7 @@ function renderLv() {
       </div>
       <div class="skbar"><b>${a16 ? "16 sonrası" : "16 öncesi"}</b><span>${a16 && !s.skip16 ? "3 yuva" : "2 yuva"}</span><span class="ln"></span><span>${s.skip16 ? "16'ya gerek yok" : "16'da 5. yuva açılır"}</span></div>
       <div class="skorder"><span class="lab">Alma sırası</span>${orderSteps}${!s.skip16 ? ` <span class="sk16">→ 16'da 5</span>` : ""}</div>
+      ${!s.skip16 ? `<div class="skmile"><b>16'da:</b> 3 seçenek açılır (${txt.slice(2).join(" · ")}). <b>16–20 arası 2 aktif önerilir:</b> ${txt[picks[0]-1]} + ${txt[picks[1]-1]}. <b>20'de:</b> 3. (${txt[4]}) eklenir.</div>` : `<div class="skmile"><b>16'ya gerek yok:</b> 12'de bırak, puanı DPS skillerine ayır.</div>`}
       ${at16Note ? `<div class="skat16">${at16Note}</div>` : ""}
       <div class="specwrap" style="--n:${txt.length}"><div class="specflow" style="min-width:${txt.length === 4 ? 400 : 500}px">${nodes}</div></div>
       <p class="skwhy">${s.why}</p>
