@@ -8,6 +8,7 @@ Aion 2 Chanter için Türkçe build sayfası: https://blitzhan.github.io/aion2-c
   - Build'e bağlı [Excalidraw ilerleme rehberi](https://excalidraw.com/#json=2sEBFiQX586XxQ7aj6ZEP,uLex4jq3WrkHCUDQ36zgkQ) (PvE/PvP uzmanlık tabloları, stigma, pasif, Arcana)
 - **45+ Yol haritası**: Eldarin Prince, [Aion 2'de level 45 sonrası ne yapılır?](https://www.youtube.com/watch?v=TrMU8aBkEK0)
 - **45+ Kontrol listesi**: jackzback, [45 sonrası yapmanız ve yapmamanız gerekenler](https://www.youtube.com/watch?v=DqEfqeMVCn0)
+- **Levo**: LEVO, [Bugüne kadar gördüğünüz bütün hesapları unutun](https://www.youtube.com/watch?v=73-aa29R0GA) (Chanter build düzeltme yayını): Arcana yol haritası (4. kademe, craft yalnız Chalice of Vigor), Genus Insight kilitleme eşikleri ve pet sırası, makro, stigma ve uzmanlık düzeltmeleri, ucuz silah transferi
 - **Boss sayacı**: alan boss'ları için yeniden doğma sayacı. 4 favori boss Discord botu üzerinden global güncellenir; diğer işaretlemeler tarayıcıda saklanır. Kurulum: [`discord-bot/README.md`](discord-bot/README.md).
 
 `daevanion.json`, Questlog'daki iki Daevanion planından üretildi; adımlar "öncelikli skill → öncelikli pasif → saldırı yönlü turuncu düğüm" kuralıyla, her hedefe en ucuz yoldan sıralandı.
