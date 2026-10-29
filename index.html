@@ -360,13 +360,18 @@ table.tb td.hi{color:var(--gold);font-weight:700}
 .skbar{display:flex;align-items:center;gap:8px;margin:10px 0 7px;font-size:10.5px;color:#7d879c}
 .skbar .ln{flex:1;height:1px;background:#2b3345}
 .skbar b{color:#b9c2d4;font-weight:700}
+.skorder{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:2px 0 8px;padding:6px 8px;background:#0b0f17;border:1px solid #232c3d;border-radius:7px;font-size:11px;color:#9aa4b8}
+.skorder .lab{font-size:9px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#7d879c;margin-right:2px}
+.skorder b,.skorder .sk16{color:var(--lgold);font-weight:800}
+.skat16{margin:0 0 8px;padding:6px 8px;background:#15281e;border:1px solid #245c3c;border-radius:7px;font-size:11px;color:#b7bfd0;line-height:1.4}
+.skat16 b{color:var(--green)}
 .specwrap{overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
 .specflow{display:flex;gap:5px;min-width:500px}
-.specnode{flex:1;min-width:0;background:#0c1018;border:1px solid #273044;border-radius:8px;padding:6px 7px;position:relative;opacity:.52}
-.specnode .snhead{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:3px}
-.specnode .snlv{font-size:9px;font-weight:900;color:#758097;background:#171d29;border:1px solid #2b3345;border-radius:4px;padding:0 4px;line-height:14px}
-.specnode .snchk{font-size:10px;font-weight:900;color:#0b0d12;background:var(--lgold);border-radius:50%;width:14px;height:14px;display:none;place-items:center}
-.specnode .sntext{font-size:10.5px;line-height:1.25;color:#9aa4b8}
+.specnode{flex:1;min-width:0;background:linear-gradient(180deg,#0c1018,#090c13);border:1px solid #273044;border-radius:9px;padding:8px 9px;position:relative;opacity:.48;transition:all .15s ease}
+.specnode .snhead{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:5px}
+.specnode .snlv{font-size:10px;font-weight:900;color:#758097;background:#171d29;border:1px solid #2b3345;border-radius:5px;padding:1px 5px;line-height:15px}
+.specnode .snchk{font-size:11px;font-weight:900;color:#0b0d12;background:var(--lgold);border-radius:50%;width:16px;height:16px;display:none;place-items:center;box-shadow:0 2px 6px #0006}
+.specnode .sntext{font-size:11px;line-height:1.3;color:#9aa4b8;font-weight:500}
 .specnode.on{opacity:1;border-color:#7c6120;background:linear-gradient(180deg,#2a2312,#171a22);box-shadow:inset 0 0 0 1px #e8c06a22}
 .specnode.on .snchk{display:grid}
 .specnode.on .snlv{color:#1b1404;background:var(--lgold);border-color:var(--lgold)}
@@ -1230,12 +1235,12 @@ const LEVO_STIG = [
     why:"20 sn boyunca <b>+%20 saldırı, +200 kritik, +200 isabet, +120 savaş hızı</b> ve tüm cooldown'larda <b>−%20</b>. Partiye de gider. Boss başında elle bas; makroya koyma.", t:888 },
   { id:"18190000", rank:"2", state:"wait", badge:"SONRA", role:"Kritik · Double Chance", cur:15, to:20,
     why:"Kritik +100, isabet +100, kritik hasar +%5, double chance +%5. <b>Power of the Storm ile birlikte 20</b> olmadan başka taşa puan harcama.", t:910 },
-  { id:"18800000", rank:"3", state:"wait", badge:"SONRA", role:"Kalkan ikonlu pasif", cur:5, to:15,
-    why:"Wind's Promise etkisini <b>1,5×</b> yapar; kritik hasarını ciddi yükseltir. Videoda 15'e çekiliyor, 5'te bırakma. Kalan puan <b>Dark Crush</b> dalına.", t:949 },
+  { id:"18800000", rank:"3", state:"ok", badge:"YETERLİ", role:"Kalkan ikonlu pasif · fulledi", cur:15, to:15,
+    why:"Wind's Promise etkisini <b>1,5×</b> yapar; kritik hasarını ciddi yükseltir. <b>15'te tamam</b> (fulledi). 20 şart değil; puanı Marchutan's Wrath tetikleyicisine ve Dark Crush dalına ayır.", t:949 },
   { id:"18420000", rank:"4", state:"ok", badge:"YETERLİ", role:"Parti kalkanı · 2 dk", cur:15, to:15,
     why:"20 şart değil. Sağ tık makrosunun sonunda dursun; 2 dk buff sürekli açık kalsın. Puanı önce yukarıdaki üçlüye ayır.", t:554 },
-  { id:"18330000", rank:"PvP", state:"pvp", badge:"PvP SAYFASI", role:"Stun · heal kesme", cur:5, to:0,
-    why:"Senin karakterindeki 5'lik taş PvE rotasyonunda işe yaramıyor. 1v1 arena için; <b>PvP sayfasında dursun</b>, PvE sayfasından çıkar.", t:828 },
+  { id:"18330000", rank:"5", state:"wait", badge:"TETİKLEYİCİ", role:"Dark Crush tetikleyici · 3 sn", cur:5, to:0,
+    why:"<b>Dark Crush'ı 3 sn tetikler</b> (Spinning Strike ile birlikte). Video 15:49'da: Wind's Promise 15'e kilitlenince <b>kalan puanları buraya dök</b>; makro sonunda Dark Crush'ı yeniden açmak için basılır. PvE rotasyonunun parçası, PvP sayfasına taşıma.", t:828 },
   { id:"18130000", rank:"PvP", state:"pvp", badge:"PvP SAYFASI", role:"Defans kırma · 5'lik", cur:0, to:0,
     why:"Boss defansını %30 kırdığını sanma: gerçek etkisi çok küçük, DPS rotasyonunda kullanılmıyor. <b>Sadece PvP</b>; resetlemek boşa puan.", t:828 }
 ];
@@ -1262,7 +1267,7 @@ const LEVO_SK = [
   { id:"18210000", pr:5, target:12, role:"Mobilite · menzil", picks:[2,3], picks16:[2,3], skip16:true, t:642,
     why:"<b>Menzil +10 m</b> ve <b>+%50 multi-hit</b>. Mob'lar arasını hızlı kapatır. Stamina satırına puan verme; grind akışını yavaşlatır." },
   { id:"18170000", pr:6, target:12, role:"Yan heal · 12'de bırak", picks:[1,2], picks16:[1,2], skip16:true, t:523,
-    why:"Cleric heal'i zaten çözüyor. <b>12'de bırak</b>: düşük HP'de +%20 heal ve 1000 stamina yeter. 20'ye taşıma; puanı DPS skillerine ayır." }
+    why:"Cleric heal'i zaten çözüyor. <b>12'de bırak</b>: düşük HP'de +%20 heal ve 1000 stamina yeter. 20'ye taşıma; puanı DPS skillerine ayır. <b>Video 8:11:</b> 'Chanter healing skill'ini 12'de falan mı bırakıyor?' — DPS önceliği değil." }
 ];
 
 const LEVO_ARC = [
@@ -1364,8 +1369,10 @@ function renderLv() {
   const a16 = lvUz(), brd = lvBoard();
 
   const stigCards = LEVO_STIG.map(s => {
-    const pct = s.state === "pvp" ? 100 : s.to ? Math.round(Math.min(1, s.cur / s.to) * 100) : 100;
-    const delta = s.to > s.cur ? `+${s.to - s.cur}` : s.state === "pvp" ? "" : "tam";
+    const isKalan = !s.state.includes("pvp") && (s.to === 0 || s.to === null);
+    const pct = s.state === "pvp" ? 100 : isKalan ? 100 : (s.to ? Math.round(Math.min(1, s.cur / s.to) * 100) : 100);
+    const delta = isKalan ? "kalan puan" : (s.to > s.cur ? `+${s.to - s.cur}` : s.state === "pvp" ? "" : "tam");
+    const toLabel = s.state === "pvp" ? "PvP" : (isKalan ? "kalan" : s.to);
     return `<article class="stg ${s.state}">
       <span class="stg-rank">${s.rank}</span>
       <div class="stg-top">${ico(s.id, "")}
@@ -1374,7 +1381,7 @@ function renderLv() {
       <div class="stg-lv">
         <span class="cur">${s.cur || "—"}</span>
         <div class="bar"><i style="width:${pct}%"></i></div>
-        <span class="to">${s.state === "pvp" ? "PvP" : s.to}</span>
+        <span class="to">${toLabel}</span>
         <span class="dlt">${delta}</span>
       </div>
       <p>${s.why}</p>
@@ -1398,6 +1405,8 @@ function renderLv() {
       </div>`;
     }).join("");
     const feat = s.pr <= 3;
+    const orderSteps = (a16 ? s.picks16 : s.picks).map(p => `${p}. yuva`).join(" → ");
+    const at16Note = s.skip16 ? "" : `<b>16 olunca:</b> 5. yuvayı aç — <span style="color:#72ddb9">${txt[4] || ""}</span>. ${a16 ? "Şu an açık, rotasyona eklendi." : "16'ya kadar bekle; şimdilik 2 yuva."}`;
     return `<article class="skcard${feat ? " feat" : ""}" data-sk="${s.id}">
       <div class="skhead">
         <span class="skpr">${s.pr}</span>${ico(s.id, "skicon")}
@@ -1405,6 +1414,8 @@ function renderLv() {
         <div class="sktarget"><span>HEDEF</span><b>${s.target}<small> lv</small></b></div>
       </div>
       <div class="skbar"><b>${a16 ? "16 sonrası" : "16 öncesi"}</b><span>${a16 && !s.skip16 ? "3 yuva" : "2 yuva"}</span><span class="ln"></span><span>${s.skip16 ? "16'ya gerek yok" : "16'da 5. yuva açılır"}</span></div>
+      <div class="skorder"><span class="lab">Alma sırası</span>${orderSteps}${!s.skip16 ? ` <span class="sk16">→ 16'da 5</span>` : ""}</div>
+      ${at16Note ? `<div class="skat16">${at16Note}</div>` : ""}
       <div class="specwrap" style="--n:${txt.length}"><div class="specflow" style="min-width:${txt.length === 4 ? 400 : 500}px">${nodes}</div></div>
       <p class="skwhy">${s.why}</p>
       <div class="skfoot">${vb(s.t)}<span class="hint">${s.skip16 ? `${s.target}'de bırak` : `${s.pr <= 3 ? "20'ye taşı" : "kaynak harcama"}`}</span></div>
@@ -1486,10 +1497,10 @@ function renderLv() {
     <section class="lvcard" id="lv-stigma">
       <header class="lvhead"><img class="lvhico" src="${SK["18250000"].icon}" alt="">
         <div><span class="lvk">01 · Stigma</span><h3>Önce hangi taş?</h3></div>
-        <div class="lvhn"><b>Power of the Storm → 20</b> ve <b>Mantra → 20</b> bitmeden başka taşa puan yok. Kalkan ikonlu satır 15'e; 5'te kalmasın.</div>
+        <div class="lvhn"><b>Power of the Storm → 20</b> ve <b>Mantra → 20</b> bitmeden başka taşa puan yok. Wind's Promise (kalkan) 15'te tamam; Marchutan's Wrath tetikleyici, kalan puan oraya.</div>
       </header>
       <div class="stg-grid">${stigCards}</div>
-      <div class="lvcallout"><b>Senin durumun:</b> Mantra 15 · Power of the Storm 13 · Marchutan's Wrath 5 · kalkan skili 5. Sıra: <b>Power of the Storm 20 → Mantra 20 → kalkan ikonlu satır 15</b>. Wrath'ı PvP sayfasına taşı; PvE'de yeri yok.</div>
+      <div class="lvcallout"><b>Senin durumun:</b> Mantra 15 · Power of the Storm 13 · Marchutan's Wrath 5 (tetikleyici) · Wind's Promise 15 (tamam). Sıra: <b>Power of the Storm 20 → Mantra 20</b>; Wind's Promise 15'te bırak; kalan puanı <b>Marchutan's Wrath</b>'a dök (Dark Crush tetikleyici). Fracturing Blow PvP sayfasında kalsın.</div>
     </section>
 
     <section class="lvcard" id="lv-uz">
@@ -1514,6 +1525,7 @@ function renderLv() {
       <div class="lvarcfoot">
         <div class="lvcallout"><b>Kural:</b> Önce Dark Crush + Onslaught toplam <b>+4</b>. Sonra pasifler: Wind's Promise, Impact Hit, Attack Preparation. Yuva statı <b>Destruction</b>; 2500 eşiğini hedefle, gear skorunu kovalama. ${vb(461)}</div>
       </div>
+      <div class="lvcallout" style="margin:0 16px 14px"><b>Yuva (stat) tipleri · Video 19:24:</b> <b>Destruction</b> = saldırı (kesin, en doğrusu) · <b>Life</b> = can (HP, ikincil) · <b>Wisdom</b> = double chance (alternatif) · <b>Illusion</b> = alternatif · <b>Physical/Accuracy</b> = isabet. Kart takarken stat tipini de kontrol et; Destruction düşen kartı öncelikle.</div>
     </section>
 
     <section class="lvcard" id="lv-genus">
@@ -1526,7 +1538,14 @@ function renderLv() {
         <div class="gpanels">${gbPanels}</div>
         <aside class="gside">
           <div class="gpetorder"><div class="lab">Pet sırası</div>${petOrder}</div>
-          <div class="gtip"><b>Kilitleme:</b> Önce tüm slotları 10'a (oto analiz), sonra 4. satırı kilitle. Kristal ve altın birikmişse hemen harca; beklemek ziyan. ${vb(1257)}</div>
+          <div class="gtip"><b>Hangi slotta ne arayacağız:</b>
+            <br>· <b>4. satır:</b> PvE hasar ≥ %2 (Cogni: Kritik Hasar Boost → Hasar Boost → PvE Hasar Boost)
+            <br>· <b>1 / 5:</b> Maks Saldırı ≥ 15 (tavan 20)
+            <br>· <b>3 / 6 / 9:</b> İsabet ~29+ (tavan 40)
+            <br>· <b>7:</b> Hasar Toleransı / PvE tolerans
+            <br>· <b>2 / 8:</b> HP % — <b>atla</b>, dokunma.
+            ${vb(1257)}</div>
+          <div class="gtip"><b>Kilitleme:</b> Önce tüm slotları 10'a (oto analiz), sonra 4. satırı kilitle. Kristal ve altın birikmişse hemen harca; beklemek ziyan.</div>
           <div class="gtitle"><b>Title:</b> saldırı + <b>Unbound by Genius</b> (PvE hasar +%4.5). Kritik hasar title kullanılmıyor. ${vb(1381)}</div>
         </aside>
       </div>
