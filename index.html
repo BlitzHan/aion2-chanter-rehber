@@ -255,6 +255,37 @@ table.tb td.hi{color:var(--gold);font-weight:700}
 .donts.ok div{background:var(--greenbg);border-color:#245c3c}
 .donts.ok div b{color:var(--green)}
 
+/* levo: plan ve araçlar */
+.vbtn{display:inline-flex;align-items:center;gap:4px;background:#3a2f12;border:1px solid #5d4a1c;color:var(--gold);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap}
+.vbtn:hover{background:#5d4a1c;color:#fff}
+.lvsrch{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:13px}
+.lvsrch input{flex:1;min-width:200px;background:var(--panel2);border:1px solid var(--line2);border-radius:8px;padding:7px 12px;color:var(--text);font:inherit}
+.lvsrch input:focus{outline:1px solid #5d4a1c}
+.ltask{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:10px;padding:9px 12px;border-top:1px solid var(--line);align-items:start;font-size:13px}
+.ltask input{width:17px;height:17px;accent-color:var(--gold);margin-top:2px;cursor:pointer}
+.ltask .t b{color:var(--text);font-weight:700}
+.ltask .t .d{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.ltask.done .t{opacity:.42}
+.ltask.done .t b{text-decoration:2px line-through}
+.ltask .vbtn{margin-top:2px}
+.phase{padding-bottom:10px}
+.phase .ph{display:flex;gap:10px;padding:12px 14px 6px;background:#0f1219;border-top:1px solid var(--line)}
+.phase .ph .n{width:24px;height:24px;flex:none;border-radius:50%;background:var(--gold);color:#1b1404;display:grid;place-items:center;font-size:12px;font-weight:900}
+.phase .ph b{color:var(--gold)}
+.phase .ph .d{color:var(--muted);font-size:12.5px;margin-top:2px}
+.lvbar{height:7px;background:#10131b;border:1px solid var(--line);border-radius:99px;overflow:hidden}
+.lvbar i{display:block;height:100%;background:var(--gold);transition:width .25s}
+.lvpct{margin:6px 0 0;font-size:12px;color:var(--dim)}
+.lvfix img{width:28px;height:28px;border-radius:6px;border:1px solid var(--line2);vertical-align:middle;margin-right:7px}
+.lvfix td{vertical-align:top}
+.fsub{color:var(--dim);font-size:11px;margin-top:2px;font-weight:400}
+.lch td a{text-decoration:none}
+.lch td a:hover{color:var(--gold)}
+@media (max-width:900px){
+  .ltask{grid-template-columns:18px minmax(0,1fr) auto;padding:8px 10px}
+  .lch{font-size:12px}
+}
+
 /* boss sayacı */
 .boss-tools{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
 .boss-tools input{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--text);min-width:160px}
@@ -913,117 +944,313 @@ function renderJb() {
     <div class="card"><div class="foot" style="border-top:0">Otomatik Türkçe altyazıdan derlendi (2026-10-05 video). "Stronghold", "seal dungeon", "Substance Morph", "Hugo Fest" gibi adlar oyunun Türkçe arayüzünde biraz farklı yazılabilir. GS eşikleri videodaki Avrupa sunucusuna ait.</div></div>`;
 }
 
-// ---------- Levo: build düzeltme yayını ----------
-// Kaynak: LEVO, "Bugüne kadar gördüğünüz bütün hesapları unutun" (2026-10-26), otomatik altyazıdan
+// ---------- Levo: build kurtarma yayını (73-aa29R0GA) ----------
+// Kaynak: LEVO'nun 40 dakikalık build incelemesi (2026-10-26).
+// ▶ düğmeleri videonun o saniyesine atlar. İşaretlemeler localStorage'da tutulur.
+const LEVO_VID = "https://www.youtube.com/watch?v=73-aa29R0GA";
+const vt = s => LEVO_VID + "&t=" + s + "s";
+const vtm = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+
+const LEVO_FIX = [
+  ["18010000", "1. yuva", "HP emme", "Multi-hit", "PvE DPS'ye doğrudan etki eder."],
+  ["18010000", "2. yuva", "Düşman isabeti düşürme", "MP tüketimi", "İsabet düşürme PvP özelliği; PvE'de MP tüketimi seçilir."],
+  ["18060000", "PvP satırı", "Darbe direnci düşürme", "Orta satır (PvE)", "PvP'de en alttaki, PvE'de ortadaki kullanılır; reset cooldown'ı koru."],
+  ["18060000", "Kullanım tipi", "Sabit kullanım", "Mobil + skill hızı +%30", "Yürürken skill basmak çok önemli; skill hızı combat speed gibi."],
+  ["18120000", "Heal uzmanlığı", "+%5 HP", "Ardışık kullanım (2 hak)", "İki kez basabilmek tek basışta +%5 HP'den iyi."],
+  ["18210000", "Alt özellik", "Stamina kaynağı", "Menzil 10 m", "Uzaktaki hedefe atlamak için."],
+  ["18290000", "Zincir", "Seal (PvP zinciri)", "−5 sn cooldown", "Spinning Strike vurdukça Dark Crush açılır; kısa cooldown şart."],
+  ["18130000", "Stigma kullanımı", "PvE rotasyonunda", "PvP sayfasına taşı", "Boss savunmasını kıran stigma yalnız 1v1 arenada işe yarar."]
+];
+
+const LEVO_GENUS = [
+  ["4.", "1 — ilk ve ucuzken", "PvE hasar artışı ≥ %2 (tavan 3). 2.4 kabul, 1.4–1.7 kötü: devam."],
+  ["1 ve 5", "2", "Maks saldırı ≥ 15 (tavan 20). 10–12 kötü."],
+  ["3 · 6 · 9", "3 — en son", "Otomatik analizde Power Shard ve İsabet hero'ya; isabet ~29 kabul (tavan 40)."],
+  ["2 ve 8", "—", "HP satırları; para yakmaya değmez, bırak."]
+];
+
+const LEVO_CH = [
+  [11, "Envanter ve craft taraması"],
+  [35, "Fire Temple'a gömülen kaynak"],
+  [92, "Kural: zindan = eşik atlamak"],
+  [154, "Haftalık enerji: 2000–2400 ≈ 30 koşu"],
+  [185, "Fire Temple matematiği: 14 tur = 1 garanti"],
+  [246, "Parayı silah craftına koymak"],
+  [276, "Transfer craft'ı kaçırmak"],
+  [307, "Arcana: yanlış kart craft"],
+  [399, "Transmute havuz mantığı: craft yalnız Kâse'ye"],
+  [461, "2500 eşiği; gear skorunu kovalama"],
+  [491, "Çarşamba: Arcana Stage 4"],
+  [523, "'Healing'i 20 yapacaktım' → hayır"],
+  [554, "Makro ayarlı değil"],
+  [612, "İlk DPS testi: 14K"],
+  [642, "Uzmanlık düzeltmeleri (tek tek)"],
+  [798, "Leap tuşları"],
+  [828, "Boss savunma kıran stigma = PvP"],
+  [858, "Ağaç düzeltmeleri: boş dal sıfırla"],
+  [888, "Power of the Storm + Mantra"],
+  [949, "Kalkan ikonlu pasif Wind's Promise 15"],
+  [979, "Dark Crush filler mantığı"],
+  [1041, "İkinci test: 90K (6 kat)"],
+  [1133, "+16 = yeni uzmanlık"],
+  [1164, "Arcana kart statları"],
+  [1226, "Title: saldırı + PvE hasar"],
+  [1257, "Genus: kristal geciktirme"],
+  [1288, "Otomatik analiz: hepsini 10'a"],
+  [1381, "Title alınışı, %4.5 PvE"],
+  [1442, "Slot sırası: 4 → 1,5 → 3-6-9"],
+  [1693, "Petler: önce Cogni, sonra Natura"],
+  [1724, "ChatGPT'ye sorma; Questlog"],
+  [1784, "Transfer craft: pazardan yöntem"],
+  [1876, "Enhance maliyeti: düşük seviye ucuz"],
+  [1938, "Transfer işleminin kendisi"],
+  [1970, "Soul binding sync"],
+  [2034, "Sonuç: 140K DPS"],
+  [2068, "Partiye alınmama"],
+  [2102, "PvP sayfası ve stigma taşları"],
+  [2162, "Yanlış harcanan reset kitabı, kemer/kolye +10"],
+  [2255, "86 → 102: sistem ve maliyet"],
+  [2286, "Oyun içi davranış: dur, arkayı izle, otopot"],
+  [2388, "Sonraki iş: guard alt statları, sonra 15-2"],
+  [2418, "Zırh sync: kritik satır"]
+];
+
+const LEVO_PLAN = [
+  { id: 1, h: "Enerjiyi Arcana'ya çevir", d: "1600–1800 gear aralığında en büyük hata: haftalık enerjiyi silah/guard düşürmek için Fire Temple ve Naukum'a gömmek. Zindanlar bir sonraki eşiği atlamak içindir.",
+    tasks: [
+      ["Arcana Stage 4'ü 30 kez dön (Çarşamba reseti)", 491, "Haftalık enerji 2000–2400 ediyor; 30 koşu = 60 garanti ödül. Stage 4'ün iki tarafında da Chalice of Vigor düşüyor."],
+      ["Silah/guard düşürmek için Fire Temple ve Naukum'a dönme", 92, "Bu yerleri eşik atlamak için kullan. 1 tam tur + garanti ödüldeki takın yeter; Ferocious Horn'a 1–2 tur ayrılır. Videodaki oyuncu 3 tam tur yakaladı."],
+      ["Kalan parayı ana silah craftına koy", 246, "Silah craftı 100–120M tutuyor. Videodaki oyuncunun 17M ile başlaması imkansızdı; iki haftalık kaynak Fire Temple'da bitti."],
+      ["Hedef eşik 2500; gear skorunu kovalama", 461, "Eşiği geç, gerisi kendiliğinden gelir. Skor kovalamak enerjiyi harcar."]
+    ]},
+  { id: 2, h: "Arcana: kart, craft ve +16", d: "Enerjinin tamamına yakını buraya. Craft taşı çok nadir; yanlış karta harcanan taş ziyan.",
+    tasks: [
+      ["Craft'ı yalnız Chalice of Vigor'a harca", 399, "Diğer kartların havuzu küçük: 6 ek efektden 4'ü zaten düşerken geliyor. Kâse'nin havuzu geniş; istediğin skill'i (Dark Crush) tutturmak zor. Craft taşını Kâse'ye harca."],
+      ["Hedef: 5 kartın hepsi legendary", 307, "Her girişte 1–5 legendary düşüyor; işine yarayan skill'i taşıyanı seç."],
+      ["Dark Crush ve Spinning Strike'ı 20'ye çıkar; Onslaught yanına", 979, "Bu üçünü Arcana karta yükleyip 20'ye taşı. +16'da Dark Crush 'az hedefte hasar' yerine %100 kritik alır; Onslaught 16'da chain skill ekler."],
+      ["Kart yuva statları: Life · Destruction · Wisdom (+Illusion)", 1164, "Destruction kesin doğru (saldırı). Wisdom Double Chance için daha iyi. Çok iyi bir Illusion'lı legendary gelirse arada kullan."],
+      ["Healing'i 20 yapma; 12'de bırak", 523, "Chanter healing odaklı char değildir; cleric'ler heal'de çok daha iyi. Videodaki oyuncu healing'i 20'ye gidiyordu: hata. Uzmanlıkta 'ardışık kullanım (2 hak)' seçilir."]
+    ]},
+  { id: 3, h: "Uzmanlıkları PvE'ye çevir", d: "Videodaki oyuncunun uzmanlıkları neredeyse tümü PvP seçenekleri seçilmişti; DPS sayfası tek tek PvE'ye çevrildi. Aşağıda tablo var.",
+    tasks: [
+      ["PvE sayfasında yanlış uzmanlıkları düzelt (tablo)", 642, "HP emme → Multi-hit; düşman isabeti → MP tüketimi; stamina → menzil; Seal → −5 sn cooldown."],
+      ["Sayfaları ayır: 1. sayfa PvE, 2–3. PvP", 1102, "PvE sayfası dungeon ve mob grind için; PvP ayarlarını başka sayfada tut, o sayfa kaybolmaz. Stigma taşları PvP sayfası için 13–15'i başarıyla doldur."]
+    ]},
+  { id: 4, h: "Makro kur ve rotasyon döndür", d: "En büyük hasar kaybı budur: makro ayarlı değildi, rotasyon yoktu. Bu düzeltme tek başına hasarı 6 kat arttı: 14K → 90K.",
+    tasks: [
+      ["Sağ tık makronu kur (zincir + Guardian Blessing)", 554, "Esc → Ayarlar → Tuş ayarları → Makro. Zincir: Dark Crush → Spinning Strike → Impactful Crush; Guardian Blessing sona (2 dk buff)."],
+      ["Sol ve sağ tıkı hiç bırakma", 1004, "Weaving bu yüzden önemli; buffları elle bas."],
+      ["Dark Crush kesilince filler bas", 979, "Filler Dark Crush'ı yeniden açar; tıklara ara vermeden basmay devam et."],
+      ["Ctrl+X ile 30 sn dummy DPS ölç; hedef 90K+", 612, "Dungeon'da nasıl yapıyorsan öyle yap; buffları da aç."]
+    ]},
+  { id: 5, h: "Stigma ve skill ağacı", d: "Power of the Storm ve Mantra en önemliler; ayakkabı gibi boş dallarda puan yok.",
+    tasks: [
+      ["Power of the Storm 20 — en önemli stigma", 888, "20 sn: %20 saldırı, 200 kritik, 200 isabet, combat speed +120, tüm bekleme −%20; partiye de gidiyor. Cooldown 1,5 dk — her boss başında bas, saklama. Makroya koyma."],
+      ["Mantra 20", 910, "Power of the Storm'dan sonra ikinci öncelik."],
+      ["Kalkan ikonlu pasif (Wind's Promise) 15", 949, "En önemli pasif: kritik hasarı 1,5 katına çıkarır. Kalan puanlar Dark Crush dalına."],
+      ["Boss savunma kıran stigma PvE'de kullanma", 828, "Fracturing Blow yalnız 1v1 arenada; DPS rotasyonundaki etkisi yok denecek kadar az."],
+      ["Ayakkabı dalını ve boş dalları sıfırla; PvP için stigma taşlarını 13–15'e tamamla", 858, "Ayakkabı boşa gidemez; PvP sayfası istiyorsan stigma taşlarını o sayfaya tamamla."]
+    ]},
+  { id: 6, h: "Genus Insight ve petler", d: "Videoda bu bölüm tek başına CP'yi 153K'dan 154.9K'ya taşıdı. Yöntem: önce ucuz kilitler, sonra pahalılar.",
+    tasks: [
+      ["Kristal ve altın birikmişse hemen harca", 1257, "Videodaki oyuncu 80K kristal + 17M para ile bekledi; 5 saniyelik işi ertelemek büyük kayıp. Petler alt karakterlerle ortak; bir kez yapılır."],
+      ["Önce tüm slotları 10 seviyeye çıkar", 1288, "Otomatik analizle spam bas. Çok iyi bir satır gelirse kilitle."],
+      ["4. satırı ilk ve ucuzken kilitle (PvE hasar ≥ %2)", 1442, "Tavan 3; 2.4 kabul. 1.4–1.7 kötü, devam. Sonra 1 ve 5 (Maks saldırı 15+), en son 3-6-9 (Power Shard/İsabet). 2 ve 8'e dokunma."],
+      ["Petler: önce Cogni (full Might), sonra Natura", 1693, "Cogni full Might = +100 saldırı; saldırganlar için Might'tan değerli stat yok. Natura'da 3. seviyeye kadar her pet Precision (kritik + isabet) verir; kendi haritan + Space Rift."],
+      ["Title: saldırı + 'Unbound by Genius' (PvE +%4.5)", 1381, "Kritik hasar title'ı kullanılmıyor."]
+    ]},
+  { id: 7, h: "Gear: transfer craft ve guard", d: "Craft malzemesi ana silah için saklanır. Sıra: önce guard, sonra silah; önce ucuz transfer, sonra enhance.",
+    tasks: [
+      ["Pazardan en ucuz unique asaları al (~750K), +15'e kadar bas", 1784, "Kaç alabilirsen al; düşük seviye olduğu için basmak yarı fiyat. Ana silahta 10→11 = 310K + 7850 taş; yancıda yarısı."],
+      ["Transfer: kaynak +15 yancı, hedef ana silah", 1938, "Alt statlar ve +15 ana silaha geçer."],
+      ["Soul binding sync ile alt stat çek", 1970, "Kalan çöp iki eşya ile sync bas: Combat Speed, Weapon Damage Boost, Hasar Artışı gibi satırlar çıkıyor; Onslaught chain özelliği de geldi."],
+      ["Önce guard'daki 2 satır: combat speed + hasar boost", 2388, "Pelerin ve diğer parçalar bu sırada iki ok işareti; son sıra. Ardından ana silah 15-2 (3'e gerek yok)."],
+      ["Zırhta yalnız kritik satırı değiştir; 86'yı 102'ye taşıyamayınca dur", 2418, "Göğüsteki hasar + effect boost gibi satır varsa kilitle. 86→102 maliyeti ~100–120M; parası yoksa başlama (62→70→76→86→102)."]
+    ]}
+];
+
+function lvDoneState() { try { return JSON.parse(localStorage.getItem("lvDone") || "{}"); } catch (e) { return {}; } }
+function lvSaveDone(d) { try { localStorage.setItem("lvDone", JSON.stringify(d)); } catch (e) {} }
+function lvPct(d) {
+  const list = LEVO_PLAN.flatMap(p => p.tasks.map((_, i) => p.id + "-" + i));
+  const n = list.filter(k => d[k]).length;
+  return { pct: list.length ? Math.round(n / list.length * 100) : 0, txt: n + " / " + list.length + " iş tamam" };
+}
+
 function renderLv() {
-  const sk = (id, lv) => `<div class="s"><img src="${SK[id].icon}" alt="">${SK[id].name}<b>${lv}</b></div>`;
-  const road = [
-    ["Fire Temple ve Naukum'a enerji gömme", "", ["28 koşu = 2 garanti ödül", "bir tur yeter", "Ferocious Horn için 1-2 tur"],
-      "Bu dungeonlar bir sonraki eşiğe geçmek için. Silah ve guard düşürmek için üç kez full koşmak iki haftalık ilerlemeyi yakar. <b>Ana silah craft</b> edilir; zindanlar sadece set ve aksesuar için."],
-    ["Haftalık enerjiyi Arcana'ya ayır", "", ["haftada 2000-2400 enerji", "≈ 30 koşu = 60 garanti ödül"],
-      "Günlük enerji + craft + dükkândan haftalık scroll derken haftada 2000-2400 enerji birikiyor. Videodaki oyuncu Arcana'yı 6 kez koşmuş; bu aşamada <b>30 kez</b> koşmuş olması gerekiyordu."],
-    ["Çarşamba reset sonrası Arcana 4. kademe", "Çarşamba", ["iki taraftan da Chalice of Vigor düşer", "legendary'ler arasından seç"],
-      "Hedef 5 kartın hepsi <b>legendary</b>, doğru statlı. Düşenlerin içinden işine yarayan skill'i taşıyanı al. Hangi tarafta hangi kart var, girmeden kontrol et."],
-    ["Craft'ı sadece Chalice of Vigor'a harca", "", ["diğer kartları craftlama", "Kâse havuzu çok büyük"],
-      "Diğer kartlarda 6 olası ek efektten 4'ünü tutturmak kolay; zaten düşerken geliyor. Kâse'nin havuzu çok geniş, istediğin skill'i (Dark Crush) denk getirmek zor. Taş nadir; <b>yanlış karta craft basma</b>."],
-    ["Dark Crush ve Spinning Strike'ı 20'ye taşı", "", ["Kâse'de Dark Crush yakala", "Healing'i ~12'de bırak"],
-      "Kart seviyesini yükselt, üstüne Dark Crush taşıyan kartları ekle, <b>20</b>'ye çıkar. İkinci 20 Spinning Strike. Chanter'da iyileştirme skill'i 12 civarında kalır; ona yatırım yok."],
-  ];
-  const cards = [
-    ["Chalice of Vigor", "Kâse · en önemli", true, "100% kesin; craft yalnız buna"],
-    ["Life", "Yuva seçeneği", false, "Life (HP) biraz daha iyi; diğeri de kötü değil, iyi geleni tak"],
-    ["Destruction", "Yuva seçeneği", false, "Saldırı. Kesin doğru"],
-    ["Wisdom", "Yuva seçeneği", false, "Double Chance için daha iyi"],
-    ["Illusion", "Geçici", false, "Çalışır; çok iyi bir legendary Illusion gelirse arada kullan"],
-  ];
-  const skFix = [
-    ["Mobil cast al", "Hareket ederken skill basmak oyunun en önemli şeyi; üstüne %30 skill hızı."],
-    ["Spinning Strike: −5 sn bekleme", "Seal yerine. Spinning vurunca Dark Crush açılıyor; beklemesi ne kadar kısa o kadar iyi. 16'da alt seçenek %100 kritik."],
-    ["Healing: 2 kullanım hakkı", "%5 HP yerine. İki kez basabilmek her zaman daha iyi."],
-    ["Tremor Crush: menzil 10 m", "Uzaktaki hedefe atlamak için."],
-    ["PvP uzmanlıklarını DPS sayfasından çıkar", "Düşman isabeti düşürme → MP tüketimi; darbe direnci düşürme → orta (PvE) seçenek. 2. ve 3. sayfayı PvP'ye ayır."],
-    ["HP absorb → Multi-hit", "1. yuvadaki skill'de."],
-  ];
-  const genus = [
-    ["Kilit açık bırakma", "Kristal ve altın biriktiyse 5 saniyelik işi ertelemek büyük kayıp. Petler alt karakterlerle ortak; bir kez yapılır."],
-    ["Önce her sayfayı 10'a çıkar", "Spam bas. Yolda çok iyi bir satır gelirse kilitle, gelmezse dert etme."],
-    ["4. satırı ilk, ucuzken kilitle", "Hasar artışı / PvE hasar artışı / silah hasarı: <b>2%</b> ve üstü görünce kilitle (tavan 3; 2.4 kabul). 1.4-1.7 kötü, devam. 10K kristalin varsa daha erken dur."],
-    ["Sonra 1 ve 5", "Maks saldırı / saldırı. Tavan 20; <b>15</b> kilitle, 10-12 kötü."],
-    ["En son 3, 6, 9", "Otomatik analizde Power Shard ve İsabet'i <b>hero</b> seviyesine ayarla. İsabet tavanı 40; 29 kabul edilir."],
-    ["2 ve 8'e dokunma", "HP satırları; para yakmaya değmez."],
-  ];
-  const fix = [
-    ["Power of the Storm 20", "En önemli stigma: 20 sn boyunca %20 savaş hızı, 200 kritik, %20 saldırı, tüm skill bekleme sürelerinde %20 azalma; partiye de gidiyor. 1 dk bekleme: her boss başında ve her fırsatta bas, saklama. Makroya koyma, elle."],
-    ["Mantra 20", "Power of the Storm'dan sonra ikinci öncelik."],
-    ["Kalkan ikonlu pasif 15", "Wind's Promise kritik hasarını 1.5 katına çıkarıyor; en önemli pasif. Kalanı üstteki skill'e."],
-    ["Bota (17) puan basma", "Bot ziyan; sıfırla."],
-    ["5. stigmayı çıkar", "Boss savunmasını düşüren stigma yalnızca 1v1 PvP'de işe yarar; DPS rotasyonunda etkisi yok denecek kadar az."],
-    ["Guardian Blessing makroya", "2 dk sürüyor, sürekli açık kalmalı; makronun en sonuna ekle. 15 yeter."],
-  ];
-  const donts = [
-    ["Silah ve guard için zindan koşma", "Fire Temple'ı üç kez full koşup bilet yakmak yerine parayı ana silah craft'ına koy."],
-    ["Makrosuz oynama", "Videodaki Chanter 153K CP ile 14K DPS vuruyordu; makro kurunca 90K, düzeltmelerle 140K. Rotasyonu elle yetiştirmek yok."],
-    ["Oyun bilgisini ChatGPT'ye sorma", "Yanlış bilgilerin ortalamasını veriyor; oyunda 50M kaybettirir. Pet yeri vs. için Questlog."],
-    ["Kemer ve kolyeyi +10'a basma", "Bu parayla 3-4 eşya transfer edilirdi. (45+ Kontrol listesindeki erken oyun tavsiyesiyle çelişiyor; bu, ilerlemiş karakter için.)"],
-    ["86'lık eşyayı 102'ye taşımaya çalışma", "62 → 70 → 76 → 86 → 102; 102 olmadan işe yaramaz, ~100M ister. Para yoksa başlama."],
-    ["Guard bozukken başka yere harcama", "Önce guard alt statları, sonra ana silah 15-2. Zırhta sadece Kritik satırı değişir."],
-  ];
+  const done = lvDoneState();
+  const vlink = s => '<a class="vbtn" href="' + vt(s) + '" target="_blank" rel="noopener">&#9654; ' + vtm(s) + "</a>";
+  const taskRow = (p, i, t) => {
+    const key = p.id + "-" + i;
+    return '<label class="ltask' + (done[key] ? " done" : "") + '">'
+      + '<input type="checkbox" data-lvt="' + key + '"' + (done[key] ? " checked" : "") + ">"
+      + '<span class="t"><b>' + t[0] + '</b><span class="d">' + t[2] + "</span></span>"
+      + vlink(t[1])
+      + "</label>";
+  };
+
   $("lv").innerHTML = `
-    <div class="card"><div class="summary">
-      <span class="pill"><b>Kaynak:</b> <a href="https://www.youtube.com/watch?v=73-aa29R0GA" target="_blank" rel="noopener">LEVO · Bugüne kadar gördüğünüz bütün hesapları unutun</a></span>
-      <span class="pill"><b>Sonuç:</b> 14K → 140K DPS</span>
+    <div class="card" data-lvcard><div class="summary">
+      <span class="pill"><b>Kaynak:</b> <a href="${LEVO_VID}" target="_blank" rel="noopener">LEVO · build kurtarma yayını (40 dk)</a></span>
+      <span class="pill"><b>Sonuç:</b> 14K → 90K → 140K DPS</span>
       <span class="pill"><b>CP:</b> 153K → 159.6K</span>
-    </div></div>
+      <span class="pill"><b>Nasıl kullanılır:</b> ▶ videonun o saniyesine atlar; kareleri işaretleyebilirsin, kaydedilir.</span>
+    </div>
+    <div class="pad" style="padding-top:0"><label class="lvsrch">İçinde ara: <input id="lvSearch" placeholder="örn: makro, kâse, guard, isabet"></label> — yazdıkça kartlar ve dizin süzülür.</div></div>
 
-    <div class="card"><h2>Arcana yol haritası <span class="r">Enerji nereye gider</span></h2>
-      <ol class="road">${road.map(([h, k, g, d], i) => `<li><span class="n">${i + 1}</span><div><div class="h">${h}${k ? `<kbd>${k}</kbd>` : ""}</div><div class="g">${g.map(x => `<span>${x}</span>`).join("")}</div><div class="d">${d}</div></div></li>`).join("")}</ol></div>
+    <div class="card" data-lvcard id="lv-plan"><h2>7 aşamalı kurtarma planı <span class="r">yukarıdan aşağı; işaretler kaydedilir</span></h2>
+      <div class="pad" style="padding-bottom:6px"><div class="lvbar"><i id="lvbarfill" style="width:${lvPct(done).pct}%"></i></div>
+      <p class="lvpct" id="lvpct">${lvPct(done).txt}</p></div>
+      ${LEVO_PLAN.map((p, i) => `
+        <div class="phase" id="lv-p${p.id}">
+          <div class="ph"><span class="n">${i + 1}</span><div><b>${p.h}</b><div class="d">${p.d}</div></div></div>
+          <div class="lvtasks">${p.tasks.map((t, ti) => taskRow(p, ti, t)).join("")}</div>
+        </div>`).join("")}
+    </div>
 
-    <div class="card"><h2>Kart ve stat seçimi <span class="r">5 kart · hepsi legendary</span></h2>
+    <div class="card" data-lvcard><h2>Uzmanlıklar: yanlış → doğru <span class="r">1. sayfa PvE; PvP'yi 2. ve 3. sayfaya ayır</span></h2>
+      <div class="tbw"><table class="tb lvfix">
+        <tr><th>Skill</th><th style="color:var(--red)">Yanlış</th><th style="color:var(--green)">Doğru</th><th>Neden</th></tr>
+        ${LEVO_FIX.map(r => `<tr><td class="hi"><img src="${SK[r[0]].icon}" alt="">${SK[r[0]].name}<div class="fsub">${r[1]}</div></td><td style="color:var(--red)">${r[2]}</td><td style="color:var(--green)">${r[3]}</td><td>${r[4]}</td></tr>`).join("")}
+      </table></div>
+      <div class="foot">Tablo videodaki canlı düzeltme turundan (10:42 → 13:00) satır satır alındı.</div>
+    </div>
+
+    <div class="card" data-lvcard id="lv-macro"><h2>Makro ve rotasyon <span class="r">14K → 90K'nın sırrı</span></h2>
+      <div class="pad"><div class="two">
+        <div><div class="sub-l">Kurulum</div>
+          <ol class="steps">
+            <li><kbd>Esc</kbd> → Ayarlar → <b>Tuş ayarları</b> → aşağıda <b>Makro</b>.</li>
+            <li>Uzmanlıkları yukarıdaki tabloya göre düzelt; PvP'yi 2. ve 3. sayfaya kur.</li>
+            <li><kbd>Sol tık</kbd> = Onslaught, <kbd>Sağ tık</kbd> = makro.</li>
+            <li>Sağ tık makrosu: <b>Dark Crush → Spinning Strike → Impactful Crush</b> zinciri; <b>Guardian Blessing</b> en sona (2 dk buff, sürekli açık kalsın).</li>
+            <li>Rushing Smash ve Leap için kendi tuşunu seç; Leap E'de de kaldı.</li>
+          </ol>
+        </div>
+        <div><div class="sub-l">Oynanış</div>
+          <ol class="steps">
+            <li><b>Sol ve sağ tıkı hiç bırakma</b>; buffları elle bas, özellikle 1'deki (Onslaught) birkaç kez.</li>
+            <li>Dark Crush basmayı bıraktığında <b>filler</b>'i bas ("3" tuşu); Dark Crush yeniden açılır.</li>
+            <li>Her boss başında <b>Power of the Storm + Mantra</b>'yı beklemeden bas; partiyi de çoğaltıcı.</li>
+            <li><kbd>Ctrl+X</kbd> ile 30 sn dummy DPS ölç; <b>90K altındaysa</b> makro ve uzmanlıkları kontrol et.</li>
+            <li>Tank hedefin etrafında dönüyorsa arkasını geçme; aynı yerde dur, çok kıpırdamak DPS keser.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="tipbox" style="margin-top:12px"><b>DPS basamakları:</b> makro + basılı tık = <b>14K → 90K</b> (6 kat). Uzmanlık + stigma + Genus + transfer sonrası <b>140K</b>. Char'ın 153K CP'de tavan ~120–150K.</div>
+      </div>
+    </div>
+
+    <div class="card" data-lvcard id="lv-energy"><h2>Enerji disiplini <span class="r">zindan değil, Arcana</span></h2>
       <div class="pad">
-        <div class="arc">${cards.map(([n, t, vig, d]) => `<div class="ac ${vig ? "vig" : ""}"><div class="h">${n}</div><div class="t">${t}</div><div style="font-size:12.5px;color:var(--muted)">${d}</div></div>`).join("")}</div>
-        <div class="sub-l">20'ye çıkacak iki skill</div>
-        <div class="two"><div class="ac vig"><div class="ss">${sk("18100000", "20")}</div></div><div class="ac vig"><div class="ss">${sk("18290000", "20")}</div></div></div>
-        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Altyazıdan çıkan eşleşme: yan statta Life, Destruction (saldırı) ve Wisdom (Double Chance) seçiliyor. Videoda kart başına hangi ikonun hangi yuvaya düştüğü ekranda gösteriliyor, altyazıda net değil; oyunda Arcana → Transmute → ek efekt kısmından kontrol et.</p>
+        <div class="cmp2">
+          <div><div class="h">Yanlış</div><ul>
+            <li>Fire Temple'ı <b>3 tam tur</b> dönmek (silah/guard düşürmek için)</li>
+            <li>Silahın altındaki <b>3 buff</b>'ı bilmiyor</li>
+            <li>Parayı Naukum / Perişus'a doğru harcamak</li>
+            <li><b>2 haftalık ilerlemeyi</b> Fire Temple'da fitil etmek</li>
+          </ul></div>
+          <div><div class="h new">Doğru</div><ul>
+            <li>Haftalık <b>2000–2400 enerji</b> → <b>~30 koşu</b> → <b>60 garanti ödül</b></li>
+            <li>Fire Temple <b>1 tam tur</b>: garanti ödül + takı; Ferocious Horn'a 1–2 tur</li>
+            <li>Para <b>ana silah craftına</b> (100–120M; silah 102 için)</li>
+            <li>Eşik yeter: <b>2500</b> (gear skoru değil)</li>
+          </ul></div>
+        </div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Fire Temple matematiği: 14 tam tur = 1 garanti ödül; 28 tur = 2. Amaç eşiği aşmak; silah ve guard düşürmeyi burada bırakma.</p>
+      </div>
+    </div>
+
+    <div class="card" data-lvcard id="lv-arcana"><h2>Arcana: kart, craft ve +16 <span class="r">craft taşı çok nadir</span></h2>
+      <div class="pad">
+        <div class="arc">
+          <div class="ac vig"><div class="h">Chalice of Vigor (Kâse)</div><div class="t">En önemli kart</div><div style="font-size:12.5px;color:var(--muted)">Craft yalnız buraya. Havuzu geniş; istediğin skill'i tutturmak zor, o yüzden taş buraya harcanır. Çarşamba Stage 4: iki tarafta da Kâse düşer.</div></div>
+          <div class="ac"><div class="h">Diğer 4 kart</div><div class="t">Parşömen · Pusula · Çan · Ayna</div><div style="font-size:12.5px;color:var(--muted)">Havuzu küçük: 6 ek efektden 4'ü zaten düşerken geliyor. Craft gerekmez; legendary düşünce alman yeter.</div></div>
+        </div>
+        <div class="ord" style="margin-top:12px"><span><b>1.</b>Stage 4 dön</span><span class="ar">×</span><span><b>2.</b>5 kartı legendary</span><span class="ar">×</span><span><b>3.</b>Kâse'de Dark Crush yakala</span><span class="ar">×</span><span><b>4.</b>Dark Crush + Spinning Strike 20</span></div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Kart yuva statları: <b>Life</b> (HP), <b>Destruction</b> (saldırı — kesin doğru), <b>Wisdom</b> (Double Chance için iyi), <b>Illusion</b> (çok iyi legendary gelirse arada).</p>
+        <div class="tipbox" style="margin-top:10px"><b>+16 unutma:</b> Dark Crush, Spinning Strike ve Onslaught <b>+16</b>'da 5. uzmanlıkları açar; Dark Crush 16'da "az hedefte hasar" yerine <b>%100 kritik</b> alır. Healing <b>~12'de kalır</b>.</div>
+      </div>
+    </div>
+
+    <div class="card" data-lvcard><h2>Stigma ve skill ağacı <span class="r">öncelik: PotS 20 → Mantra 20 → pasif 15</span></h2>
+      <div class="pad"><div class="donts ok">
+        <div><b>Power of the Storm 20</b>20 sn: %20 saldırı, 200 kritik, 200 isabet, combat speed +120, tüm bekleme −%20; partiye de gidiyor. Cooldown 1,5 dk — her boss başında ve her fırsatta bas. Makroya koyma.</div>
+        <div><b>Mantra 20</b>Power of the Storm'dan sonra ikinci öncelik.</div>
+        <div><b>Wind's Promise pasifi 15 (kalkan ikon)</b>Kritik hasarı 1,5 katına çıkarır; en önemli pasif. Ayakkabı dalı (17) ziyan; sıfırla, kalan puanları Dark Crush dalına ver.</div>
+        <div><b>PvP'yi ayrı sayfaya</b>Boss savunmasını kıran stigma yalnız 1v1 arena içindir; PvE DPS rotasyonuna yaramaz. PvP sayfası için stigma taşlarını 13–15'e tamamla.</div>
       </div></div>
+    </div>
 
-    <div class="card" id="lv-genus"><h2>Genus Insight <span class="r">En hızlı CP kaynağı</span></h2>
+    <div class="card" data-lvcard id="lv-genus"><h2>Genus Insight ve petler <span class="r">en hızlı CP kaynağı</span></h2>
       <div class="pad">
-        <div class="ord"><span><b>1.</b>Hepsi 10. seviye</span><span class="ar">›</span><span><b>2.</b>4. satır ≥ 2%</span><span class="ar">›</span><span><b>3.</b>1 ve 5 · Maks saldırı 15+</span><span class="ar">›</span><span><b>4.</b>3, 6, 9 · Power Shard, İsabet</span></div>
-        <div class="tbw" style="margin-top:12px"><table class="tb"><tr><th>Adım</th><th>Ne yapılır</th></tr>
-          ${genus.map(([h, d]) => `<tr><td class="hi">${h}</td><td>${d}</td></tr>`).join("")}</table></div>
+        <div class="tbw"><table class="tb">
+          <tr><th>Satır</th><th>Öncelik</th><th>Kilitleme kriteri</th></tr>
+          ${LEVO_GENUS.map(r => `<tr><td class="hi">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}
+        </table></div>
         <div class="two" style="margin-top:12px">
-          <div class="tipbox"><b>Neden bu sıra?</b> Kilitli satır arttıkça analiz pahalılaşıyor. 4. satırı her şey açıkken, ucuzken bul; diğerlerini sonra çek. Ortalama bir seviye yakala, maksimuma çıkarmak oyun sonu işi. Para başka yerlere de lazım.</div>
-          <div class="tipbox"><b>Pet önceliği:</b> önce <b>Cogni</b> petlerini bitir (kendi haritan + Space Rift); full Might +100 saldırı veriyor, saldırgan için Might en değerli stat. Sonra <b>Natura</b>: en alttaki satır kritik + isabet; 3. seviyeye kadar her pet precision verir. Yerler için Questlog.</div>
+          <div class="tipbox"><b>Neden bu sıra?</b> Kilitli satır arttıkça otomatik analiz pahalılaşıyor. 4. satırı her şey açıkken, ucuzken bul. Parayı her yere harcan; kademeli ilerle.</div>
+          <div class="tipbox"><b>Pet önceliği:</b> önce <b>Cogni</b> petleri (kendi haritan + Space Rift): full Might = <b>+100 saldırı</b>; saldırgan için Might'tan değerli stat yok. Sonra <b>Natura</b>: 3. seviyeye kadar her pet <b>Precision</b> (kritik + isabet) verir. Title: saldırı + <b>Unbound by Genius</b> (PvE hasar +%4.5).</div>
         </div>
-        <p class="muted" style="font-size:12.5px;margin:10px 0 0"><b style="color:var(--text)">Title:</b> saldırı title'ı sabit, PvE hasar artışı al; kritik hasar title'ı kullanılmıyor. Genus'tan açılan title (PvP hasar +4.5%) da alınır. Videoda yalnız bu bölüm CP'yi 153K'dan 154.9K'ya taşıdı.</p>
       </div></div>
 
-    <div class="card"><h2>Makro ve rotasyon <span class="r">14K → 90K</span></h2>
+    <div class="card" data-lvcard id="lv-transfer"><h2>Silah transfer craftı <span class="r">ana silaha +15 ucuz yol</span></h2>
       <div class="pad">
-        <div class="two">
-          <div class="tipbox"><b>Kurulum:</b> Esc → Ayarlar → Tuş ayarları → Makro. Dark Crush'ı Spinning Strike'ın, Impactful Crush'ı onun üstüne bağla; Guardian Blessing sona. Leap 1'de olsun (alışkın değilsen E).</div>
-          <div class="tipbox"><b>Oynanış:</b> sol ve sağ tıkı bırakma, buffları elle bas. Dark Crush gelmez olursa <b>3</b>'e bas, rotasyon döner. Dark Rush biter bitmez Dark Crush'a bas.</div>
-        </div>
-        <div class="sub-l">Uzmanlık düzeltmeleri (PvE sayfası)</div>
-        <div class="donts ok">${skFix.map(([b, d]) => `<div><b>${b}</b>${d}</div>`).join("")}</div>
+        <ol class="steps">
+          <li>Pazarda <b>unique asa</b>'yı süz, en ucuz sırala (videoda ~750K); kaç alabilirsen al.</li>
+          <li>Yancı silahı <b>+15'e kadar bas</b>: düşük seviye olduğu için maliyet yarı (ana silahta 10→11 = 310K + 7850 taş; yancıda bunun yarısı). "Elin korkak alışmasın".</li>
+          <li><b>Transfer</b>: kaynak +15 yancı, hedef ana silah → alt statlar ve +15 geçer.</li>
+          <li><b>Soul binding sync</b>: kalan çöp iki eşya ile sync bas; Combat Speed / Weapon Damage Boost / Hasar Artışı gibi satırlar çıkar (Onslaught 16 chain de buldu).</li>
+          <li>Öncelik: <b>önce guard'daki 2 satır</b> (combat speed + hasar boost), <b>sonra</b> ana silah 15-2 ("üç eşik gerekmiyor").</li>
+          <li>Zırhta <b>yalnız kritik satırı</b> değiştir; göğüsteki hasar + effect boost gibi iyi satır varsa dokunma. Pelerin sync en son.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="card" data-lvcard><h2>Yapma listesi <span class="r">videodaki gerçek hatalar</span></h2>
+      <div class="pad"><div class="donts">
+        <div><b>ChatGPT'ye build sorma</b>Binlerce kaynaktan ortalama çeker, oyunda 50M kaybettirir. Pet yerleri vs. için Questlog GG.</div>
+        <div><b>Kemer ve kolyeyi +10'a basma</b>Videodaki oyuncu bunu erken yaptıysa 3–4 item transfer edebilirdi.</div>
+        <div><b>86'yı 102'ye taşıma</b>62 → 70 → 76 → 86 → 102; 102 olmadan işe yaramaz, ~100–120M ister. Paran yoksa başlama.</div>
+        <div><b>Reset kitabı çöpe harcama</b>Videodaki oyuncu görev silahına yanlışlıkla harcadı; o kitap ciddi değer.</div>
+        <div><b>Makrosuz oynama</b>Weaving, rotasyon ve DPS yükselişi makroya bağlı; 14K DPS atan char makroyla 90K'ya çıktı.</div>
+        <div><b>Transfer craft'ı unutma</b>Pazardan çektiğin çöp silahlarla ana silaha alt stat ve +15 taşırsın; hand craft mesleğin 50'deyse işin kolay.</div>
       </div></div>
+    </div>
 
-    <div class="card"><h2>Stigma ve pasif</h2>
-      <div class="pad"><div class="donts ok">${fix.map(([b, d]) => `<div><b>${b}</b>${d}</div>`).join("")}</div></div></div>
+    <div class="card" data-lvcard><h2>Video dizini <span class="r">bağlantı o saniyeye atlar</span></h2>
+      <div class="tbw"><table class="tb lch"><tr><th>Süre</th><th>Konu</th></tr>
+        ${LEVO_CH.map(c => `<tr data-lch><td style="white-space:nowrap"><a href="${vt(c[0])}" target="_blank" rel="noopener"><b>${vtm(c[0])}</b></a></td><td>${c[1]}</td></tr>`).join("")}
+      </table></div>
+    </div>
 
-    <div class="card"><h2>Ucuz silah transferi <span class="r">Ana silaha +15</span></h2>
-      <div class="pad"><ol style="margin:0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7">
-        <li>Pazarda en ucuz <b style="color:var(--text)">unique asa</b>ları al (videoda 750K).</li>
-        <li>Düşük seviyeli olduğu için basmak ucuz: 10 → 11 ana silahın yarı parası, yarı taşı. <b style="color:var(--text)">15</b>'e çıkar.</li>
-        <li>Transfer: kaynak eşya 15'lik olan; alt statlar ve +15 ana silaha geçer.</li>
-        <li>Soul binding'de kalan iki çöp eşyayla hasar artışını hemen al.</li>
-        <li>Alt stat önceliği: <b style="color:var(--text)">savaş hızı</b>, sonra silah hasarı ve hasar artışı.</li>
-      </ol></div></div>
+    <div class="card"><div class="foot" style="border-top:0">Kaynak: LEVO'nun build kurtarma yayını (40 dk, 2026-10-26). Türkçe otomatik altyazıdan derlendi; skill rotasyonunu yayındaki Chanter gösterdi. Oyun içi bazı adlar altyazıda bozuk geçebilir.</div></div>`;
+}
 
-    <div class="card"><h2>Yapma</h2>
-      <div class="pad"><div class="donts">${donts.map(([b, d]) => `<div><b>${b}</b>${d}</div>`).join("")}</div></div></div>
-
-    <div class="card"><div class="foot" style="border-top:0">Türkçe yayının otomatik altyazısından derlendi (2026-10-26). LEVO Chanter uzmanı olmadığını söylüyor; skill rotasyonu kısmını yayındaki Chanter oyuncusu (Kuzey) düzeltiyor. Bazı oyun içi adlar altyazıda bozuk geçtiği için yaklaşık yazıldı.</div></div>`;
+function bindLvEvents() {
+  if ($("lv").dataset.bound) return;
+  $("lv").dataset.bound = "1";
+  $("lv").addEventListener("change", e => {
+    const k = e.target.dataset && e.target.dataset.lvt;
+    if (!k) return;
+    const d = lvDoneState();
+    d[k] = e.target.checked;
+    lvSaveDone(d);
+    e.target.closest(".ltask").classList.toggle("done", e.target.checked);
+    const pct = lvPct(d);
+    $("lvbarfill").style.width = pct.pct + "%";
+    $("lvpct").textContent = pct.txt;
+  });
+  $("lv").addEventListener("input", e => {
+    if (e.target.id !== "lvSearch") return;
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll("#lv [data-lvcard]").forEach(c => {
+      c.style.display = !q || c.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+    document.querySelectorAll("#lv [data-lch]").forEach(r => {
+      r.style.display = !q || r.textContent.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
 }
 
 // ---------- Boss sayacı ----------
@@ -1402,7 +1629,7 @@ function render() {
   if (tab === "mb") renderMb();
   else if (tab === "g") renderG();
   else if (tab === "jb") renderJb();
-  else if (tab === "lv") renderLv();
+  else if (tab === "lv") { renderLv(); bindLvEvents(); }
   else renderBoss();
 }
 
