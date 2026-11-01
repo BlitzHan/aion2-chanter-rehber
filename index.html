@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aion 2 Chanter Build + Cleric Healer Build</title>
-<meta name="description" content="Aion 2 Chanter build (Mour4SB) ve Cleric HEALER BUILD: skill ve uzmanlık sırası (PvE/PvP), stigma, pasif, macro, Daevanion, Arcana, ekipman ve healer rotasyonu.">
+<title>Aion 2 Chanter Build + Cleric Healer Build + Cleric Build</title>
+<meta name="description" content="Aion 2 Chanter build (Mour4SB), Cleric HEALER BUILD ve jackzback'in güncel Cleric build'i: skill ve uzmanlık sırası, stigma, makro, Daevanion, Arcana, kanat/title/pantheon ve ekipman.">
 <link rel="icon" href="icons/ICON_CH_SKILL_019.webp">
 <style>
 :root{
@@ -633,6 +633,7 @@ a.boss-discord:hover{color:var(--gold)}
   <div class="tabs" role="tablist">
     <button data-tab="mb" class="on">Build</button>
     <button data-tab="hb">HEALER BUILD</button>
+    <button data-tab="cb">CLERIC BUILD</button>
     <button data-tab="g">45+ Yol haritası</button>
     <button data-tab="jb">45+ Kontrol listesi</button>
     <button data-tab="lv">Levo</button>
@@ -644,6 +645,7 @@ a.boss-discord:hover{color:var(--gold)}
   <main>
     <div id="mb"></div>
     <div id="hb" hidden></div>
+    <div id="cb" hidden></div>
     <div id="g" hidden></div>
     <div id="jb" hidden></div>
     <div id="lv" hidden></div>
@@ -651,7 +653,7 @@ a.boss-discord:hover{color:var(--gold)}
   </main>
 </div>
 
-<footer>Resmi değildir. Skill isimleri ve ikonları NCSOFT'a aittir. Build: <a href="https://www.twitch.tv/mour4sb" target="_blank" rel="noopener">Mour4SB</a>.</footer>
+<footer>Resmi değildir. Skill isimleri ve ikonları NCSOFT'a aittir. Build: <a href="https://www.twitch.tv/mour4sb" target="_blank" rel="noopener">Mour4SB</a> · Cleric build: <a href="https://kick.com/jackzback" target="_blank" rel="noopener">jackzback</a>.</footer>
 
 <script>
 const BOSS_DEFAULTS = [{"name": "Blooming Korin", "map": "Verteron", "min": 60, "lvl": 45}, {"name": "Heretic Layla", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Black Tentacle Lawa", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Phantasm Kasia", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Centurion Demiros", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Divine Ansas", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Harvest Manager Moshav", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Sentinel K'nash", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Scholar Aulla", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Forest Warrior Aullamu", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Chaser Taulo", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Neikel of the East", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Researcher Setram", "map": "Verteron", "min": 360, "lvl": 45}, {"name": "Eternal Gartua", "map": "Verteron", "min": 720, "lvl": 51, "fav": true}, {"name": "Silent Dartan (Verteron)", "map": "Verteron", "min": 360, "lvl": 48, "fav": true}, {"name": "Soul Ruler Kashapa (Verteron)", "map": "Verteron", "min": 360, "lvl": 48, "fav": true}, {"name": "High Commander Lagta (Verteron)", "map": "Verteron", "min": 720, "lvl": 48, "fav": true}, {"name": "Melted Danar", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Faithful Rajit", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Berserker Vargor", "map": "Altgard", "min": 60, "lvl": 45}, {"name": "Blood Warrior Lannar", "map": "Altgard", "min": 90, "lvl": 45}, {"name": "Advisor Resana", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Rotten Kutar", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Black Warrior Aed", "map": "Altgard", "min": 30, "lvl": 45}, {"name": "Predator Garsan", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Deceiver Trid", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Blue Wave Kelpina", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "High Overseer Nutah", "map": "Altgard", "min": 120, "lvl": 45}, {"name": "Special Operations Leader Linx", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Desecrator Newbold", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Specter Archon Axios", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Addicted Hardirun", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Executioner Barthien", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Kernon of the West", "map": "Verteron", "min": 30, "lvl": 45}, {"name": "Drakan Battalion Weapon Guruta", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Veteran Shujakan", "map": "Altgard", "min": 180, "lvl": 45}, {"name": "Visionary Karuka", "map": "Altgard", "min": 240, "lvl": 45}, {"name": "Dark Shadow Vishwada", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Sharp Shylak", "map": "Altgard", "min": 360, "lvl": 45}, {"name": "Immortal Gartua", "map": "Altgard", "min": 720, "lvl": 51, "fav": true}, {"name": "High Commander Lagta (Altgard)", "map": "Altgard", "min": 720, "lvl": 48, "fav": true}, {"name": "Soul Ruler Kashapa (Altgard)", "map": "Altgard", "min": 360, "lvl": 48, "fav": true}, {"name": "Silent Dartan (Altgard)", "map": "Altgard", "min": 360, "lvl": 48, "fav": true}, {"name": "Kusan the Mad Gladiator", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Ritualist Garshim", "map": "Verteron", "min": 120, "lvl": 45}, {"name": "Bodyguard Teegant", "map": "Verteron", "min": 90, "lvl": 45}, {"name": "Furious Saursus", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Bloodfang Pnyn", "map": "Verteron", "min": 180, "lvl": 45}, {"name": "Argo, the Spirit King", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Watcher Kaira", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Reshanta's Root)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Shade Island)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Guardian Lord Nahma (Lonely Island)", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Tamasa", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Argo", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}, {"name": "Executor Kaira", "map": "Chaotic Lower Reshanta", "min": 0, "lvl": 65, "manualOnly": true}];
@@ -2018,7 +2020,7 @@ const HB_SK = {
   "17040000": ["Judgment Thunder", "icons/sb/cleric/17040000.webp"],
   "17150000": ["Divine Aura", "icons/sb/cleric/17150000.webp"],
   "17350000": ["Condemnation", "icons/sb/cleric/17350000.webp"],
-  "17370000": ["Lightning Strike", "icons/sb/cleric/17370000.webp"],
+  "17370000": ["Lightning Strike Scattershot", "icons/sb/cleric/17370000.webp"],
   "17080000": ["Debilitating Mark", "icons/sb/cleric/17080000.webp"],
   "17070000": ["Chain of Torment", "icons/sb/cleric/17070000.webp"],
   "17240000": ["Defiance", "icons/sb/cleric/17240000.webp"],
@@ -2027,6 +2029,11 @@ const HB_SK = {
   "17440000": ["Noble Aura", "icons/sb/cleric/17440000.webp"],
   "17400000": ["Earth Punishment", "icons/sb/cleric/17400000.webp"],
   "17410000": ["Light of Protection", "icons/sb/cleric/17410000.webp"],
+  "17430000": ["Prayer of Amplification", "icons/sb/cleric/17430000.webp"],
+  "17420000": ["Yustiel's Power", "icons/sb/cleric/17420000.webp"],
+  "17290000": ["Absolution", "icons/sb/cleric/17290000.webp"],
+  "17060000": ["Bolt", "icons/sb/cleric/17060000.webp"],
+  "17090000": ["Light of Regeneration", "icons/sb/cleric/17090000.webp"],
   "17740000": ["Healing Enhancement", "icons/sb/cleric/17740000.webp"],
   "17720000": ["Empyrean Lords' Benediction", "icons/sb/cleric/17720000.webp"],
   "17750000": ["Immortal Veil", "icons/sb/cleric/17750000.webp"],
@@ -2228,11 +2235,216 @@ function renderHb() {
     <div class="card"><div class="foot" style="border-top:0">Kaynak: <a href="${HB.video}" target="_blank" rel="noopener">“THE MOST POWERFUL HEALER BUILD IN THE GAME! Aion 2 Healer Build (Gear, Skills, Rotation)”</a> · otomatik İngilizce altyazı: <a href="${HB.sub}" target="_blank" rel="noopener">healer-build.en.srt</a>. Video bir sponsor bölümü içeriyor; build kısmı 02:30'dan sonra başlıyor. Skill isimleri videodaki otomatik altyazıdan düzeltildi (ör. “gen of the torment” → Chain of Torment, “noble arrow” → Noble Aura).</div></div>`;
 }
 
+// ---------- CLERIC BUILD: jackzback, güncel (Bbq4yZZwFL8) ----------
+// Kaynak: "Aion 2 Cleric Build Rehberi Haftalık Güncelleme" videosu (otomatik Türkçe altyazı).
+const CB = {
+  video: "https://www.youtube.com/watch?v=Bbq4yZZwFL8",
+  sub: "altyazilar/cleric-build.tr.srt",
+  first: "https://youtu.be/23GnBGjnw8U",
+  gear: "https://youtu.be/ErK5xW9WfbQ",
+  craft: "https://youtu.be/aET6GPX_74o",
+  // [skill, hedef seviye, uzmanlık yuvaları, neden, öncelikli]
+  skills: [
+    ["17350000", "20", "2 · 4 → 5", "Ana DPS. Kritik vurdukça cooldown sıfırlanır; Earth's Retribution açıkken neredeyse hiç durmadan atılır. İlk 20 yapılacak skill, Arcana'da ilk +1 de buna.", true],
+    ["17150000", "20", "3 · 5 → 4", "Tek hedefte +%50 saldırı hızı (yuva 3). 8'de 3 ve 5 ile başla; 16–20'de 4'ü ekle.", true],
+    ["17040000", "20", "2 → mana yuvası en son", "En çok mana yakan skill. Mana giderini düşüren yuvayı en sona bırak: o açılana kadar 2 ile oyna, sonra 5 · 2 · 1 (video: “5 2 1 5”).", true],
+    ["17060000", "20", "3 · 4 → 5", "Şarjlı atış. Makro şarj etmez: elle at ya da şarj yuvasına koy; 20'de 5'i ekle.", true],
+    ["17100000", "20*", "1 · 5", "Hızlı heal. 1-4, 1-3, 1-2 de olur; çok heal atamıyorsan 1-2'ye in.", false],
+    ["17120000", "20*", "1 · 3", "Cooldown dönüşü için 1-3; PvP'de ani heal gerekiyorsa 1-2.", false],
+    ["17090000", "20*", "3 · 4", "Sürekli heal. 1-4, 2-4, 4-5 de çalışır; videoda 3-4.", false],
+    ["17070000", "12", "2 · 4", "DoT + debuff; boss'ta süreyi tazele.", false],
+    ["17370000", "12", "2 · 3", "Videoda sorgulanıyor: hasar katkısı düşük bulunuyor, yerine Defiance düşünülüyor.", false],
+    ["17240000", "12", "3 · 4", "CC kırıcı; PvE'de kritik anda, PvP'de zaten elinin altında.", false],
+    ["17010000", "20+", "—", "Sol tık zinciri. Arcana şansı yüzünden istemeden 20'yi geçti; puanı buraya değil Condemnation'a ayır.", false]
+  ],
+  // [stigma, sıra, not]
+  stigmas: [
+    ["17010000", "1 · önce 20", "Condemnation'a garantili kritik; açık olduğu sürece Condemnation kendini yeniler."],
+    ["17430000", "2 · 20", "Saldırı artışı. Puan yetiyorsa 20'ye kadar götür."],
+    ["17440000", "3 · 20", "Sürekli açık aura; open world'de hep açık kaldığı için Noble Aura seçili."],
+    ["17410000", "4 · Chanter varsa çıkar", "Chanter'ın mantrasıyla çakışır → Yustiel's Power (Absolution alternatif)."]
+  ],
+  macro: [
+    "<b>Sol tık = alan makrosu.</b> Buff'lar, heal'lar, Light of Regeneration ve Earth's Retribution zinciri burada. Basılı tutunca buff ve heal kendi kendine açılır.",
+    "<b>Sağ tık = tek hedef.</b> Condemnation buraya taşındı. Earth's Retribution stigması açıkken Condemnation kritik vurur ve cooldown'ı sıfırlar.",
+    "<b>Pencere ~14 sn.</b> Earth's Retribution aktifken sağ tıkta kal — Condemnation makine tüfeği gibi döner. 14. saniyede cooldown'a girince sağ tıkı bırak, sol tıka dön.",
+    "<b>Açılış:</b> sol tıkla buff + parti heal'ı aç → Earth's Retribution → sağ tık spam → süre bitince sol tık.",
+    "<b>Bolt elle.</b> Şarj istiyorsan makronun şarj yuvasına, “arada dönsün” istiyorsan normal akışa koy. Sağ tık makrosunda Bolt şarj etmez, hasarı düşük çıkar.",
+    "<b>Tıkandıysa:</b> Sağ tık basılıyken skill atmıyorsa <kbd>1</kbd>'e bas, makro kesilmez; sonra devam et."
+  ],
+  passives: [
+    "<b>Sıra ilk videodaki gibi.</b> Pasifleri 1'den 10'a say: <b>3 · 4 · 8</b> öncelikli.",
+    "<b>1</b> ve <b>10</b> da yüksek değerli; erken açılan 1 ile son sıradaki 10'u atlama.",
+    "<b>2 · 6 · 9</b> PvE'de düşük öncelik (PvP tarafında iş değişiyor).",
+    "Radiant Benediction ve heal pasifleri bu sıranın içinde; asıl kural: puanı kullandığın skile akan pasife ver."
+  ]
+};
+
+function renderCb() {
+  const skillRows = CB.skills.map(([id, lv, picks, why, key]) => `<tr>
+    <td style="white-space:normal"><span style="display:inline-flex;align-items:center;gap:8px;vertical-align:middle">${hbImg(id)}<span>${hbName(id)}</span></span></td>
+    <td class="hi">${lv}</td><td>${picks}</td><td>${why}${key ? ` <span class="tag key">Öncelikli</span>` : ""}</td></tr>`).join("");
+
+  const stigTiles = CB.stigmas.map(([id, ord, note], i) => `<div class="tl"><span class="pn">${i + 1}</span>${hbImg(id)}<div class="tn">${hbName(id)}</div><div class="td"><b>${ord}</b><br>${note}</div></div>`).join("");
+
+  $("cb").innerHTML = `
+    <nav class="jump">
+      <a href="#cb-ozet">Özet</a><a href="#cb-skill">Skill</a><a href="#cb-makro">Makro</a>
+      <a href="#cb-stig">Stigma · Pasif</a><a href="#cb-daeva">Daeva</a><a href="#cb-arcana">Arcana</a>
+      <a href="#cb-ekstra">Kanat · Title</a><a href="#cb-ekip">Ekipman</a><a href="#cb-oynanis">Oynanış</a>
+    </nav>
+
+    <div class="card" id="cb-ozet"><h2>CLERIC BUILD <span class="r">jackzback · güncel · 2800 GS</span></h2>
+      <div class="pad">
+        <div class="who">
+          <span class="pill"><b>Sınıf:</b> Cleric (hasar + heal)</span>
+          <span class="pill"><b>Kaynak:</b> <a href="${CB.video}" target="_blank" rel="noopener">video</a> · <a href="${CB.sub}" target="_blank" rel="noopener">altyazı (TR)</a></span>
+          <span class="pill"><b>Hedef:</b> Ludra 2800 / 3000</span>
+          <span class="pill"><b>Başlangıç:</b> <a href="${CB.first}" target="_blank" rel="noopener">0–2000 GS rehberi</a></span>
+          <span class="pill"><b>Eşya:</b> <a href="${CB.gear}" target="_blank" rel="noopener">eşya rehberi</a></span>
+        </div>
+        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap:</b> <b>Condemnation</b>'ı 20'ye çıkar, Arcana'da ilk +1'i ona ver. Uzmanlıklarda ilk iki yuva <b>2 ve 4</b>, üçüncü yuva açılınca <b>3</b>. Makroyu <b>sol tık = alan, sağ tık = Condemnation</b> olacak şekilde kur. Stigmada önce <b>Earth's Retribution</b> 20. Arcana'da <b>4 sarı kart → +150 P.attack</b>. Silah, alt silah ve eldivende <b>combat speed</b>.</div>
+        <div class="hero">
+          <div class="hs"><div class="h"><span class="n">1</span>Skill</div><div class="icons">${hbImg("17350000")}${hbImg("17150000")}${hbImg("17040000")}${hbImg("17060000")}</div><div class="d"><b>Condemnation · Divine Aura · Judgment Thunder · Bolt 20.</b> Mana azaltan yuvayı en sona bırak.</div></div>
+          <div class="hs"><div class="h"><span class="n">2</span>Makro</div><div class="icons">${hbImg("17350000")}${hbImg("17010000")}</div><div class="d"><b>Sol tık alan, sağ tık Condemnation.</b> Earth's Retribution ~14 sn; bitince sol tıka dön.</div></div>
+          <div class="hs"><div class="h"><span class="n">3</span>Stigma</div><div class="icons">${hbImg("17010000")}${hbImg("17430000")}${hbImg("17440000")}${hbImg("17410000")}</div><div class="d"><b>Earth's Retribution · Prayer of Amplification · Noble Aura · Light of Protection.</b> Chanter varsa sonuncuyu çıkar.</div></div>
+          <div class="hs"><div class="h"><span class="n">4</span>Pasif</div><div class="d"><b>Sıra ilk videoyla aynı:</b> 3 · 4 · 8 öncelik, sonra 1 ve 10. 2 · 6 · 9 düşük.</div></div>
+          <div class="hs"><div class="h"><span class="n">5</span>Arcana</div><div class="d"><b>4 sarı (Vigor) kart = +150 P.attack.</b> Kâse'de Condemnation +1. Combat power'a değil skill +1'e bak.</div></div>
+          <div class="hs"><div class="h"><span class="n">6</span>Ekipman</div><div class="d"><b>Combat speed</b> (silah · alt silah · eldiven), <b>hareket hızı</b> (ayakkabı), takıdan <b>skill +1</b>. Ludra için accuracy ~1300.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="cb-skill"><h2>Skill ve uzmanlık <span class="r">Hedef seviye · yuva numarası</span></h2>
+      <div class="tbw"><table class="tb">
+        <tr><th>Skill</th><th>Hedef</th><th>Uzmanlık</th><th>Neden</th></tr>
+        ${skillRows}
+      </table></div>
+      <div class="legend"><span>Yuvalar 8 · 12 · 16'da açılır; numara oyundaki uzmanlık yuvası</span><span>* Heal odaklı oynayacaksan 20; hasar build'inde puan önce Condemnation / Divine Aura / Judgment Thunder / Bolt'a</span></div>
+      <div class="tipbox" style="margin:12px 14px"><b>Genel kural (video):</b> bir skilde ilk iki yuva açıldığında <b>2 ve 4</b>'ü seç; üçüncü yuva açılınca <b>3</b>'ü getir. Bu videoda tek tek verilenler bu kuralın istisnaları — tablodaki değerler geçerli.</div>
+      <div class="foot">Puan sırası: <b>Condemnation → Divine Aura → Judgment Thunder → Bolt</b>. Arcana şansı yüzünden sol tık zinciri (Earth's Retribution) 20'yi geçti; puan oraya akıtılmıyor.</div>
+    </div>
+
+    <div class="card" id="cb-makro"><h2>Makro <span class="r">Sol tık alan · sağ tık tek hedef</span></h2>
+      <div class="pad">
+        <ol class="steps">${CB.macro.map(x => `<li>${x}</li>`).join("")}</ol>
+        <div class="tipbox" style="margin-top:12px"><b>Bu videonun en büyük değişikliği:</b> makro sağ tıktan sol tıka taşındı, sağ tık Condemnation spam'ine ayrıldı. Eski hâli kadar konforlu değil ama DPS penceresinde belirgin şekilde daha verimli. Sol tık buff'ı açtığı için parti heal'ı da kendiliğinden dönüyor.</div>
+      </div>
+    </div>
+
+    <div class="card" id="cb-stig"><h2>Stigma ve pasif <span class="r">4 stigma · pasif sırası</span></h2>
+      <div class="pad">
+        <div class="sub-l">Stigma · PvE seti</div>
+        <div class="tiles">${stigTiles}</div>
+        <div class="tipbox" style="margin-top:10px"><b>Dördü de 20 olabilir.</b> Partinde Chanter varsa <b>Light of Protection</b> çıkar, yerine <b>Yustiel's Power</b> gelir (Absolution da oynanabilir; büyük vuruş öncesi defans için Yustiel tercih ediliyor). <b>Summon Resurrection</b> yalnızca sabit partide: cooldown uzun, rastgele grupta kimse taşa basmıyor.</div>
+        <div class="sub-l">Pasif · öncelik</div>
+        <ul class="steps">${CB.passives.map(x => `<li>${x}</li>`).join("")}</ul>
+      </div>
+    </div>
+
+    <div class="card" id="cb-daeva"><h2>Daeva Board <span class="r">Sıra skill düğümlerinde</span></h2>
+      <div class="pad">
+        <ul class="steps">
+          <li><b>İlk videoya göre büyük değişiklik yok.</b> Öncelik her zaman <b>skill düğümleri</b>.</li>
+          <li>Mavi (skill) düğümlere yetişemiyorsan kenardaki düğümlerden kes; puanı skora taşımayan yere harcama.</li>
+          <li><b>Turuncular tuzak:</b> cazip görünüyorlar, peşine düşme.</li>
+          <li><b>7. sayfa:</b> Conquest hard mod (Crow) dropu + iki zindanın 30'ar dropu = tek seferde <b>60 GS</b> craft. Malzeme gelince tahtayı aç.</li>
+          <li><b>Azphel panosu</b> PvP tarafı; videoda ayrıca gösteriliyor.</li>
+        </ul>
+        <div class="tipbox" style="margin-top:10px"><b>Kural:</b> bir düğüm aktif skill seviyesi vermiyorsa ikinci sırada. Skill +1, yanındaki stat artışından her zaman daha değerli.</div>
+      </div>
+    </div>
+
+    <div class="card" id="cb-arcana"><h2>Arcana <span class="r">4 sarı kart · skill +1</span></h2>
+      <div class="pad">
+        <div class="two">
+          <div class="cmp2"><div><div class="h">Ne arıyoruz</div><ul>
+            <li><b>4 sarı (Vigor) kart → +150 P.attack.</b> Bell of Magic ile de oynanabilir.</li>
+            <li>Kart statı <b>Destruction</b> ise saldırı artışı veriyor (oyunda <kbd>P</kbd> ile kontrol et).</li>
+            <li><b>Combat power tuzağı:</b> kartı çıkarınca 170K → 168K düşüyor ama skill +1 daha güçlü. Rakama değil skora bak.</li>
+            <li>Kâse dışındaki kartlarda skill +1 zorlamak pahalı; takıdan +skill almak daha ucuz.</li>
+          </ul></div></div>
+          <div class="cmp2"><div><div class="h">Craft sırası</div><ul>
+            <li><b>Kâse:</b> Condemnation seç (ikinci skill çok pahalı) → <b>Condemnation +1</b> zorla.</li>
+            <li><b>2. kart:</b> Light of Regeneration / Judgment Thunder / Light Aura</li>
+            <li><b>3:</b> Prayer of Concentration / Lord's Grace / Veil / Benediction</li>
+            <li><b>4:</b> Condemnation / Torment / Bolt / Retribution</li>
+            <li><b>5:</b> Benediction / Block Enhancement / Grace</li>
+            <li><b>Öncelik:</b> Condemnation → Divine Aura → Judgment Thunder / Bolt / Chain of Torment. Heal oynayacaksan Light of Regeneration / Healing Light.</li>
+          </ul></div></div>
+        </div>
+        <div class="tipbox" style="margin-top:10px"><b>Skill bonusu silaha değil takıya:</b> silahta weapon damage boost · combat speed · might · damage boost arıyorsun. Silahta skill +1 görürsen geçici çözüm say, aksesuarda ara.</div>
+      </div>
+    </div>
+
+    <div class="card" id="cb-ekstra"><h2>Kanat · Title · Pantheon <span class="r">Uzun vade</span></h2>
+      <div class="pad">
+        <div class="two">
+          <div class="cmp2" style="grid-template-columns:1fr">
+            <div><div class="h">Kanat</div><ul>
+              <li><b>Forest Spring Wings (Vakron):</b> damage boost + damage tolerance + accuracy; üçünde de iyi.</li>
+              <li><b>Sezon kanadı (Alizra):</b> yakınsan cleric için BiS.</li>
+              <li><b>Dark Veil:</b> düşerse kullan, fena değil.</li>
+              <li><b>Night Wing:</b> accuracy yok, damage boost zayıf — tercih etme.</li>
+            </ul></div>
+            <div><div class="h">Title</div><ul>
+              <li><b>Journey Pet</b> (CS) — ana tercih.</li>
+              <li><b>True Hell and Back</b> — cooldown reduction; zor içerikte.</li>
+              <li><b>Rule of Creation</b> — defans + boss damage tolerance; PvP'de bloklu sürümü.</li>
+            </ul></div>
+          </div>
+          <div class="cmp2"><div><div class="h">Pantheon</div><ul>
+            <li><b>Zikel</b> — Nightmare Shop (boss + 14K puan). Attack increase veriyor.</li>
+            <li><b>Illusion + Wisdom artwork</b> — cooldown + mana maliyeti. Sarı Illusion Life Destiny'den daha iyi.</li>
+            <li><b>Unbound Genius</b> — tüm petler 10 olunca gelen PvE title'ı; artwork'lerle birlikte güçlü.</li>
+            <li>Kalanlar dungeon / world boss / achievement kaynaklı; önce cooldown-mana ikilisine bak.</li>
+          </ul></div></div>
+        </div>
+        <div class="tipbox" style="margin-top:10px"><b>Accuracy neden:</b> Ludra ile birlikte isabet ihtiyacı artıyor. Kore'de 1300–1500, cleric/chanter için ~1600 isteniyordu; bizde 1200–1300'ün yeteceği konuşuluyor. Kanat ve yemek bu açığı kapatmanın en ucuz yolu.</div>
+      </div>
+    </div>
+
+    <div class="card" id="cb-ekip"><h2>Ekipman <span class="r">PvE · PvP · Ludra hazırlığı</span></h2>
+      <div class="pad">
+        <div class="two">
+          <div class="cmp2"><div><div class="h">PvE</div><ul>
+            <li><b>Silah:</b> combat speed + multi chance · might · weapon damage boost · damage boost.</li>
+            <li><b>Alt silah · eldiven:</b> combat speed. Üçünde de olursa karakter belirgin rahatlıyor.</li>
+            <li><b>Ayakkabı:</b> movement speed.</li>
+            <li><b>Takı:</b> skill +1 (dört slota kadar), kolye combat speed.</li>
+            <li><b>Zırh:</b> iyi rollu 36 lvl eşya bul → +15 → içini ve artısını aktar.</li>
+          </ul></div></div>
+          <div class="cmp2"><div><div class="h">PvP</div><ul>
+            <li><b>Blok:</b> yemeksiz 1277, yemekli ~1300; hedef 1500–1600.</li>
+            <li>Blok, karşı tarafın accuracy'si düşükse hasarı kesiyor; accuracy de isabet demek.</li>
+            <li><b>Title:</b> bloklu sürüm; <b>PvP ekipmanı</b> ayrı set.</li>
+            <li>PvP tarafı ayrı videoya bırakıldı; bu sayfa PvE build'i.</li>
+          </ul></div></div>
+        </div>
+        <div class="tipbox" style="margin-top:10px"><b>Transfer hilesi:</b> düzgün bir 36 lvl eşya bul → +15 yap → hem içini hem artısını asıl eşyaya aktar. Tek eşya 3–5 milyona geliyor, doğrudan basmaktan çok daha ucuz. <b>Mor (felsefe taşı) efekti transferde uçar</b> — Ludra öncesi boşuna basma.</div>
+        <div class="tipbox" style="margin-top:8px"><b>Ludra:</b> 4 Kasım'da geliyor, 2800 normal / 3000 hard. Şu an piyasa telaşlı; pahalı eşyayı kovalama, telaş geçince fiyatlar sakinleşiyor. Hard dungeon dropları sarı eşya arzını da artırıyor.</div>
+      </div>
+    </div>
+
+    <div class="card" id="cb-oynanis"><h2>Oynanış <span class="r">Video notu</span></h2>
+      <div class="pad">
+        <ul class="steps">
+          <li>Video gameplay göstermiyor: sorular ve canlı dungeon/boss kesimleri <b>Kick yayınına</b> bırakılıyor.</li>
+          <li><b>PvP ayrı video</b> olacak; bu build PvE hasar + heal üzerine.</li>
+          <li>Build'in iddiası “en iyi” olmak değil: yayıncı 2800 GS'e bununla geldi, her içeriği bununla yapıyor.</li>
+          <li>Ayar noktaları: makro sırası, Bolt'un yeri ve Lightning Scatter Shot → Defiance geçişi. Kendi oynayışına göre değiştirmesi serbest.</li>
+        </ul>
+      </div>
+      <div class="foot">Kaynak: <a href="${CB.video}" target="_blank" rel="noopener">“Aion 2 Cleric Build Rehberi Haftalık Güncelleme”</a> (38 dk) · otomatik Türkçe altyazı: <a href="${CB.sub}" target="_blank" rel="noopener">cleric-build.tr.srt</a>. Skill adları altyazıdan düzeltildi (“change of torment” → Chain of Torment, “light regen” → Light of Regeneration, “Yustiel” → Yustiel's Power). Altyazıda “divine retribution” geçen sol tık skill'i, oyundaki adıyla <b>Earth's Retribution</b> olarak yazıldı.</div>
+    </div>`;
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  ["mb", "hb", "g", "jb", "lv", "boss"].forEach(k => $(k).hidden = tab !== k);
+  ["mb", "hb", "cb", "g", "jb", "lv", "boss"].forEach(k => $(k).hidden = tab !== k);
   if (tab === "mb") renderMb();
   else if (tab === "hb") renderHb();
+  else if (tab === "cb") renderCb();
   else if (tab === "g") renderG();
   else if (tab === "jb") renderJb();
   else if (tab === "lv") { renderLv(); bindLvEvents(); }
@@ -2312,7 +2524,7 @@ if (bossGlobalConfigured()) {
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DVJ = dv;
   const h = location.hash.slice(1);
-  if (["mb", "hb", "g", "jb", "lv", "boss"].includes(h)) tab = h;
+  if (["mb", "hb", "cb", "g", "jb", "lv", "boss"].includes(h)) tab = h;
   render();
   if (h.startsWith("mb-")) { const t = $(h); if (t) t.scrollIntoView(); }
 });
