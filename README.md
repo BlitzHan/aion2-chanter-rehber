@@ -6,6 +6,9 @@ Aion 2 Chanter için Türkçe build sayfası: https://blitzhan.github.io/aion2-c
   - Video: [O guia definitivo do Chanter no Aion 2](https://www.youtube.com/watch?v=uzvtZ1ZeERc) (Portekizce otomatik altyazıdan)
   - Questlog: [Mour4SB karakter sayfası](https://questlog.gg/aion-2/en/character-builder/GrandStonesOfTheFlame?build-id=10657) (ekipman setleri, Daevanion planları, skill build'i)
   - Build'e bağlı [Excalidraw ilerleme rehberi](https://excalidraw.com/#json=2sEBFiQX586XxQ7aj6ZEP,uLex4jq3WrkHCUDQ36zgkQ) (PvE/PvP uzmanlık tabloları, stigma, pasif, Arcana)
+- **HEALER BUILD** sekmesi: Cleric healer build'i (PvE). Puan önceliği Healing Light → Radiant Recovery → Earth's Retribution 8 (mana) → Judgment Thunder / Divine Aura / Condemnation 20; stigma, pasif, rotasyon, stat/ekipman, Arcana ve Daevanion.
+  - Video: [THE MOST POWERFUL HEALER BUILD IN THE GAME! Aion 2 Healer Build](https://www.youtube.com/watch?v=CfbIUWQGsYU) (otomatik İngilizce altyazı)
+  - Altyazı: [`altyazilar/healer-build.en.srt`](altyazilar/healer-build.en.srt) · düz metin: [`altyazilar/healer-build.en.txt`](altyazilar/healer-build.en.txt)
 - **45+ Yol haritası**: Eldarin Prince, [Aion 2'de level 45 sonrası ne yapılır?](https://www.youtube.com/watch?v=TrMU8aBkEK0)
 - **45+ Kontrol listesi**: jackzback, [45 sonrası yapmanız ve yapmamanız gerekenler](https://www.youtube.com/watch?v=DqEfqeMVCn0)
 - **Levo**: LEVO, [Bugüne kadar gördüğünüz bütün hesapları unutun](https://www.youtube.com/watch?v=73-aa29R0GA) (Chanter build düzeltme yayını): Arcana yol haritası (4. kademe, craft yalnız Chalice of Vigor), Genus Insight kilitleme eşikleri ve pet sırası, makro, stigma ve uzmanlık düzeltmeleri, ucuz silah transferi

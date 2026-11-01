@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Aion 2 Chanter Build</title>
-<meta name="description" content="Aion 2 Chanter build (Mour4SB): skill ve uzmanlık sırası (PvE/PvP), stigma, pasif, macro, Daevanion 315/386, Arcana, Genus Insight, Pantheon, mana taşı ve ekipman.">
+<title>Aion 2 Chanter Build + Cleric Healer Build</title>
+<meta name="description" content="Aion 2 Chanter build (Mour4SB) ve Cleric HEALER BUILD: skill ve uzmanlık sırası (PvE/PvP), stigma, pasif, macro, Daevanion, Arcana, ekipman ve healer rotasyonu.">
 <link rel="icon" href="icons/ICON_CH_SKILL_019.webp">
 <style>
 :root{
@@ -632,6 +632,7 @@ a.boss-discord:hover{color:var(--gold)}
   </div>
   <div class="tabs" role="tablist">
     <button data-tab="mb" class="on">Build</button>
+    <button data-tab="hb">HEALER BUILD</button>
     <button data-tab="g">45+ Yol haritası</button>
     <button data-tab="jb">45+ Kontrol listesi</button>
     <button data-tab="lv">Levo</button>
@@ -642,6 +643,7 @@ a.boss-discord:hover{color:var(--gold)}
 <div class="layout" id="lay">
   <main>
     <div id="mb"></div>
+    <div id="hb" hidden></div>
     <div id="g" hidden></div>
     <div id="jb" hidden></div>
     <div id="lv" hidden></div>
@@ -2007,10 +2009,230 @@ function tickBoss() {
   }
 }
 
+// ---------- HEALER BUILD: Cleric (CfbIUWQGsYU) ----------
+// Kaynak: "THE MOST POWERFUL HEALER BUILD IN THE GAME!" videosu (otomatik Ingilizce altyazi).
+const HB_SK = {
+  "17100000": ["Healing Light", "icons/sb/cleric/17100000.webp"],
+  "17120000": ["Radiant Recovery", "icons/sb/cleric/17120000.webp"],
+  "17010000": ["Earth's Retribution", "icons/sb/cleric/17010000.webp"],
+  "17040000": ["Judgment Thunder", "icons/sb/cleric/17040000.webp"],
+  "17150000": ["Divine Aura", "icons/sb/cleric/17150000.webp"],
+  "17350000": ["Condemnation", "icons/sb/cleric/17350000.webp"],
+  "17370000": ["Lightning Strike", "icons/sb/cleric/17370000.webp"],
+  "17080000": ["Debilitating Mark", "icons/sb/cleric/17080000.webp"],
+  "17070000": ["Chain of Torment", "icons/sb/cleric/17070000.webp"],
+  "17240000": ["Defiance", "icons/sb/cleric/17240000.webp"],
+  "17160000": ["Benevolence", "icons/sb/cleric/17160000.webp"],
+  "17390000": ["Summon Resurrection", "icons/sb/cleric/17390000.webp"],
+  "17440000": ["Noble Aura", "icons/sb/cleric/17440000.webp"],
+  "17400000": ["Earth Punishment", "icons/sb/cleric/17400000.webp"],
+  "17410000": ["Light of Protection", "icons/sb/cleric/17410000.webp"],
+  "17740000": ["Healing Enhancement", "icons/sb/cleric/17740000.webp"],
+  "17720000": ["Empyrean Lords' Benediction", "icons/sb/cleric/17720000.webp"],
+  "17750000": ["Immortal Veil", "icons/sb/cleric/17750000.webp"],
+  "17790000": ["Survival Willpower", "icons/sb/cleric/17790000.webp"],
+  "17780000": ["Earth's Grace", "icons/sb/cleric/17780000.webp"],
+  "17730000": ["Empyrean Lord's Grace", "icons/sb/cleric/17730000.webp"],
+  "17800000": ["Radiant Benediction", "icons/sb/cleric/17800000.webp"]
+};
+const hbName = id => HB_SK[id][0];
+const hbImg = id => `<img class="ic" src="${HB_SK[id][1]}" alt="${hbName(id)}" title="${hbName(id)}">`;
+const HB_SPECS = {
+  "17100000": [[8,"+2 ardışık kullanım"],[8,"HP %50 veya altındayken heal +%20"],[8,"%50 ihtimalle 1 debuff siler"],[12,"Ek olarak Max HP'nin %2'si"],[16,"Cooldown −2 sn"]],
+  "17120000": [[8,"2 debuff'a kadar siler"],[8,"+1 ardışık kullanım"],[8,"Cooldown −3 sn"],[12,"10 sn +%10 gelen heal"],[16,"Ek olarak Max HP'nin %5'i"]],
+  "17010000": [[8,"+%20 MP doldurma (132 MP)"],[8,"Discharge zincir skill'i ihtimali +%20"],[8,"+%50 multi-hit"],[12,"Discharge isabetinde Bolt cooldown'u −7 sn"],[16,"Block ve Evasion'ı yok sayar"]],
+  "17040000": [[8,"−%20 MP harcama"],[8,"Az hedefte %12'ye kadar fazla hasar"],[8,"Divine Punishment isabetinde 5 sn düşman combat speed −%10"],[12,"Divine Punishment isabetinde %10 ihtimalle 2 sn root"],[16,"Divine Punishment 1 kez daha çalışır"]],
+  "17150000": [[8,"Aura çevresindeki 4 düşmana 3 sn %40 slow"],[8,"AoE'ye dönüştürür"],[8,"Aura saldırı hızı +%50"],[12,"Aura süresi +3 sn (8 sn)"],[16,"Cooldown −10 sn"]],
+  "17350000": [[8,"İsabette 100 MP yeniler"],[8,"Az hedefte %12'ye kadar fazla hasar"],[8,"%20 ihtimalle 3 sn root"],[12,"Kritik vurunca cooldown sıfırlanır"],[16,"Multi-hit olur"]],
+  "17370000": [[8,"%5 HP emme"],[8,"120 MP yeniler"],[8,"Hareket halinde kullanılır"],[12,"Multi-hit olur"],[16,"Her vuruşta tüm cooldown'lar −1 sn"]],
+  "17080000": [[8,"MP harcamaz, 150 MP yeniler"],[8,"DoT süresince hedefin defense'i −%15"],[8,"%20 ihtimalle 3 sn stun"],[12,"Damage boost debuff'ı +%10 PvE / +%5 PvP"],[16,"Block ve Evasion'ı yok sayar; DoT aralığı yarıya iner"]],
+  "17070000": [[8,"5 sn %40 slow"],[8,"DoT süresi +3 sn (13 sn)"],[8,"%20 ihtimalle 3 sn knockdown"],[12,"Damage tolerance debuff'ı +%10 PvE / +%5 PvP"],[16,"Block ve Evasion'ı yok sayar; DoT aralığı yarıya iner"]],
+  "17240000": [[8,"Blessing of Regeneration zincir skill'i"],[8,"Kullanınca 1.000 stamina yeniler"],[8,"Kullanınca %10 HP yeniler"],[12,"Tenacity +2 sn"],[16,"Tenacity süresince +%50 PvE / +%25 PvP damage tolerance"]]
+};
+const HB = {
+  video: "https://www.youtube.com/watch?v=CfbIUWQGsYU",
+  sub: "altyazilar/healer-build.en.srt",
+  // [id, hedef seviye, uzmanlik slotlari, aciklama, oncelikli mi]
+  skills: [
+    ["17100000", 16, [1,4,5], "Ana heal. Önce bunu 16'ya çıkar: 8'de iki kez üst üste kullanabilmek, 12'de max HP'ye göre ek heal, 16'da cooldown kısalması.", true],
+    ["17120000", 16, [2,4,5], "Parti heal'i ve cleanse. İkinci heal önceliği. 8'de +1 kullanım (slot 2) veya cooldown −3 sn (slot 3); 12'de gelen heal +%10; 16'da max HP'nin %5'i.", true],
+    ["17010000", 8, [1], "Mana kaynağı. 8'de mana doldurma uzmanlığını (slot 1, +%20 MP) al ve bırak. Normal saldırıya işlev kazandırır.", true],
+    ["17040000", 20, [2,5,1], "Hasar. Boss'ta az hedefe +%12 (slot 2) ve 16'da Divine Punishment'ın bir kez daha çalışması (slot 5) iyi. 12'de root (slot 4) da seçilebilir.", false],
+    ["17150000", 20, [3,4,5], "Hasar/buff. Tek hedefte %50 saldırı hızı (slot 3) boss için; AoE farmında slot 2. Sonra süre +3 sn (slot 4) ve cooldown −10 sn (slot 5).", false],
+    ["17350000", 20, [2,4,5], "Ana hasar. Az hedefte +%12 (slot 2), kritikte cooldown sıfırlama (slot 4) ve 16'da multi-hit (slot 5).", false],
+    ["17370000", 8, [1], "8'de bırak: stagger sırasında %5 HP emme (slot 1). Hasar yatırımı yaparsan 12'de multi-hit (slot 4) alınabilir.", false],
+    ["17080000", 12, [2,4], "Debuff/DoT. Hedefin savunmasını düşürür; 12'de damage boost debuff'ı (slot 4) partinin hasarını artırır.", false],
+    ["17070000", 12, [2,4], "Debuff/DoT. 12'de hedefin damage tolerance'ını düşürür (slot 4); süre uzatma (slot 2) ile birlikte.", false],
+    ["17240000", 12, [3,4], "CC kırıcı. Kullanınca %10 HP (slot 3) ve tenacity +2 sn (slot 4); zor içerikte kendini kurtarır.", false]
+  ],
+  // [id, rol, not]
+  stigmas: [
+    ["17160000", "Parti HoT", "Sürekli açık tut; süresi bitince yenile. Heal'in temeli."],
+    ["17390000", "Diriltme", "Gruba girmeden önce 1. seviye al. 5'te cast 2 sn'den 1 sn'ye iner."],
+    ["17440000", "Kalıcı ek hasar", "2 sn'de bir ek hasar; heal aralarında boş durmazsın."],
+    ["17400000", "Burst + debuff", "Kısa cooldown'lu hasar; debuff'ı partinin işini kolaylaştırır."],
+    ["17410000", "Parti savunması", "Chanter yoksa 5'e çıkar. Chanter varsa önceliği düşür."]
+  ],
+  passives: [
+    ["17740000", "İlk pasif. Heal boost."],
+    ["17720000", "HP ve MP."],
+    ["17750000", "Savunma ve kritik direnci."],
+    ["17790000", "Durum etkisi direnci."],
+    ["17780000", "Hasar desteği."],
+    ["17730000", "Hasar desteği."]
+  ],
+  rot: [
+    "<b>Benevolence</b>'ı sürekli açık tut; süresi bitince yenile.",
+    "Biri hasar aldığında <b>Healing Light</b> bas.",
+    "Ağır vuruş gelmeden kalkan/defansif buff'ı hazırla (<b>Light of Protection</b> gibi).",
+    "Parti stabilleşince normal saldırıya dön: <b>Debilitating Mark › Chain of Torment › Earth Punishment › Condemnation</b>.",
+    "Boss mekaniği başlayınca bir vuruş daha atmak yerine herkesi yaşatmaya odaklan.",
+    "Macro kullanıyorsan <b>heal ve kalkanı manuel</b> tut; bu tuşlar her an hazır olmalı."
+  ]
+};
+
+function renderHb() {
+  const skillRows = HB.skills.map(([id, lv, picks, why, key], i) => {
+    const specs = HB_SPECS[id] || [];
+    const ord = {}; picks.forEach((s, j) => ord[s] = j + 1);
+    const pips = [1,2,3,4,5].map(slot => {
+      const spec = specs[slot - 1];
+      return `<span class="pip s${slot} ${ord[slot] ? "on" : ""}" title="Yuva ${slot}${spec ? " · Lv " + spec[0] + ": " + spec[1] : ""}">${ord[slot] || ""}</span>`;
+    }).join("");
+    const chosen = picks.map((slot, j) => {
+      const spec = specs[slot - 1];
+      return spec ? `<li><b>${j + 1}</b><span class="lv">Yuva ${slot} · Lv ${spec[0]}</span>${spec[1]}</li>` : "";
+    }).join("");
+    return `<li class="${key ? "key" : ""}"><span class="n">${i + 1}</span>${hbImg(id)}
+      <div><div class="nm">${hbName(id)}<span class="to">→ ${lv}</span>${key ? `<span class="tag key">Öncelikli</span>` : ""}</div>
+        <div class="pips">${pips}</div><ol class="chosen">${chosen}</ol><div class="why">${why}</div></div></li>`;
+  }).join("");
+
+  $("hb").innerHTML = `
+    <nav class="jump">
+      <a href="#hb-ozet">Özet</a><a href="#hb-skill">Skill puanı</a><a href="#hb-uzmanlik">Uzmanlık</a>
+      <a href="#hb-stig">Stigma · Pasif</a><a href="#hb-rot">Rotasyon</a><a href="#hb-stat">Stat · Ekipman</a>
+      <a href="#hb-arcana">Arcana</a><a href="#hb-dv">Daevanion</a>
+    </nav>
+
+    <div class="card" id="hb-ozet"><h2>HEALER BUILD <span class="r">Cleric · PvE</span></h2>
+      <div class="pad">
+        <div class="who">
+          <span class="pill"><b>Sınıf:</b> Cleric (healer)</span>
+          <span class="pill"><b>Kaynak:</b> <a href="${HB.video}" target="_blank" rel="noopener">video</a> · <a href="${HB.sub}" target="_blank" rel="noopener">altyazı (EN)</a></span>
+          <span class="pill"><b>Silah:</b> Mace + Shield</span>
+        </div>
+        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap — hangi skile puan?</b> Önce <b>Healing Light</b> ve <b>Radiant Recovery</b>'yi 16'ya; <b>Earth's Retribution</b>'ı 8'e (mana uzmanlığı); sonra <b>Judgment Thunder</b>, <b>Divine Aura</b> ve <b>Condemnation</b>'ı 20'ye. <b>Lightning Strike</b> 8'de kalsın; <b>Debilitating Mark</b>, <b>Chain of Torment</b> ve <b>Defiance</b> en son 12. Heal yetmiyorsa hasar skill'lerine dokunma.</div>
+        <div class="hero">
+          <div class="hs"><div class="h"><span class="n">1</span>Heal</div><div class="icons">${hbImg("17100000")}${hbImg("17120000")}</div><div class="d"><b>Healing Light + Radiant Recovery</b> 16. İkisi de ana heal; önce bunlar.</div></div>
+          <div class="hs"><div class="h"><span class="n">2</span>Mana</div><div class="icons">${hbImg("17010000")}</div><div class="d"><b>Earth's Retribution 8.</b> Mana doldurma uzmanlığını al; normal saldırı MP verir.</div></div>
+          <div class="hs"><div class="h"><span class="n">3</span>Hasar</div><div class="icons">${hbImg("17040000")}${hbImg("17150000")}${hbImg("17350000")}</div><div class="d"><b>Judgment Thunder · Divine Aura · Condemnation 20.</b> Heal oturunca hasara geç.</div></div>
+          <div class="hs"><div class="h"><span class="n">4</span>Stigma</div><div class="icons">${hbImg("17160000")}${hbImg("17390000")}${hbImg("17440000")}</div><div class="d"><b>Benevolence</b> açık, <b>Summon Resurrection</b> 1, <b>Noble Aura</b> hasar için.</div></div>
+          <div class="hs"><div class="h"><span class="n">5</span>Pasif</div><div class="icons">${hbImg("17740000")}${hbImg("17720000")}${hbImg("17750000")}</div><div class="d"><b>Healing Enhancement › Empyrean Benediction › Immortal Veil › Survival Willpower.</b></div></div>
+          <div class="hs"><div class="h"><span class="n">6</span>Uzun vade</div><div class="d"><b>Stat:</b> Constitution + Willpower. <b>Arcana:</b> Protected Soul. <b>Daevanion:</b> cooldown › savaş hızı › savunma › saldırı.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="hb-skill"><h2>Skill puanı sırası <span class="r">Yukarıdan aşağı</span></h2>
+      <ol class="skl">${skillRows}</ol>
+      <div class="legend"><span><span class="pip s1 on">1</span><span class="pip s2 on">2</span><span class="pip s3 on">3</span><span class="pip s4 on">4</span><span class="pip s5 on">5</span> uzmanlık yuvası; içindeki sayı = alma sırası</span><span>Yuva 1–3 Lv 8'de, 4 Lv 12'de, 5 Lv 16'da açılır</span></div>
+      <div class="foot">Puan sınırlıysa önce heal'i dungeon'a yetecek kadar aç, sonra hasara geç. Video da bunu söylüyor: “build enough healing for your dungeon first.”</div>
+    </div>
+
+    <div class="card" id="hb-uzmanlik"><h2>Uzmanlık seçimi <span class="r">8 · 12 · 16 eşikleri</span></h2>
+      <div class="tbw"><table class="tb"><tr><th>Skill</th><th>Hedef</th><th>Seçilecek uzmanlık</th><th>Neden</th></tr>
+        <tr><td>Healing Light</td><td class="hi">16</td><td>Yuva 1 (+2 kullanım) · 4 (max HP %2) · 5 (cd −2 sn)</td><td>Ana heal; iki kez üst üste basmak ve cd kısaltmak hayat kurtarır.</td></tr>
+        <tr><td>Radiant Recovery</td><td class="hi">16</td><td>Yuva 2 (+1 kullanım) veya 3 (cd −3 sn) · 4 (gelen heal +%10) · 5 (max HP %5)</td><td>Parti heal'i + cleanse. 8'de 2 veya 3'ü seç; 12 ve 16 heal'i büyütür.</td></tr>
+        <tr><td>Earth's Retribution</td><td class="hi">8</td><td>Yuva 1 (+%20 MP doldurma)</td><td>Mana kaynağı. Videoda özellikle bu uzmanlık söyleniyor.</td></tr>
+        <tr><td>Judgment Thunder</td><td class="hi">20</td><td>Yuva 2 (az hedef +%12) · 5 (ekstra Divine Punishment) · 1 (MP)</td><td>Boss hasarı. 12'de root (yuva 4) da alınabilir.</td></tr>
+        <tr><td>Divine Aura</td><td class="hi">20</td><td>Yuva 3 (tek hedef +%50 saldırı hızı) · 4 (süre +3 sn) · 5 (cd −10 sn)</td><td>Tek hedef boss için 3; AoE farmında 2.</td></tr>
+        <tr><td>Condemnation</td><td class="hi">20</td><td>Yuva 2 (az hedef +%12) · 4 (kritikte cd sıfır) · 5 (multi-hit)</td><td>Ana hasar; 20'de üçü birden.</td></tr>
+        <tr><td>Lightning Strike</td><td class="hi">8</td><td>Yuva 1 (%5 HP emme)</td><td>Stagger sırasında can çalar. Hasar yatırımı yaparsan 12'de yuva 4.</td></tr>
+        <tr><td>Debilitating Mark</td><td class="hi">12</td><td>Yuva 2 (savunma −%15) · 4 (damage boost debuff)</td><td>Partinin hasarını artırır; heal oturunca.</td></tr>
+        <tr><td>Chain of Torment</td><td class="hi">12</td><td>Yuva 2 (süre +3 sn) · 4 (damage tolerance debuff)</td><td>DoT + debuff; boss'ta sürekli yenile.</td></tr>
+        <tr><td>Defiance</td><td class="hi">12</td><td>Yuva 3 (%10 HP) · 4 (tenacity +2 sn)</td><td>CC kırıcı; zor içerikte kendini kurtarır.</td></tr>
+      </table></div>
+      <div class="foot">Video “specialties will unlock at 8, 12 and 16” diyor; puanı bu eşiklere hedefle. Bir skill 8'de kalacaksa uzmanlık yuvasını boş bırakma.</div>
+    </div>
+
+    <div class="card" id="hb-stig"><h2>Stigma ve pasif</h2>
+      <div class="pad">
+        <div class="sub-l">Stigma · healer seti</div>
+        <div class="tiles five">${HB.stigmas.map(([id, role, note], i) => `<div class="tl"><span class="pn">${i + 1}</span>${hbImg(id)}<div class="tn">${hbName(id)}</div><div class="td"><b>${role}</b><br>${note}</div></div>`).join("")}</div>
+        <div class="sub-l">Pasif · sırayla</div>
+        <div class="tiles five">${HB.passives.map(([id, note], i) => `<div class="tl"><span class="pn">${i + 1}</span>${hbImg(id)}<div class="tn">${hbName(id)}</div><div class="td">${note}</div></div>`).join("")}</div>
+        <div class="tipbox" style="margin-top:10px"><b>Healer kendi canını da düşünmeli.</b> Immortal Veil ve Survival Willpower sadece “iyi olur” değil: healer ayakta kalırsa partiyi kaldırır. Hasar pasiflerini en sona bırak.</div>
+      </div>
+    </div>
+
+    <div class="card" id="hb-rot"><h2>Rotasyon <span class="r">Heal › kalkan › hasar</span></h2>
+      <div class="pad"><ol class="steps">${HB.rot.map(x => `<li>${x}</li>`).join("")}</ol>
+        <div class="tipbox" style="margin-top:10px"><b>İki sayfalık çubuk:</b> 1. sayfada hasar (Judgment Thunder, Divine Aura, Condemnation, Debilitating Mark, Chain of Torment), 2. sayfada heal/kalkan/diriltme (Healing Light, Radiant Recovery, Benevolence, Light of Protection, Summon Resurrection) dursun. Böylece “healer lazım” dendiğinde tek tuşla geçersin.</div>
+      </div>
+    </div>
+
+    <div class="card" id="hb-stat"><h2>Stat ve ekipman</h2>
+      <div class="pad">
+        <div class="sub-l">Stat önceliği</div>
+        <div class="ord"><span><b>1.</b>Constitution + Willpower</span><span class="ar">›</span><span><b>2.</b>Healing Boost</span><span class="ar">›</span><span><b>3.</b>Health</span><span class="ar">›</span><span><b>4.</b>Defense</span><span class="ar">›</span><span><b>5.</b>Combat Speed</span><span class="ar">›</span><span><b>6.</b>Movement Speed + Mana/Regen</span></div>
+        <p class="muted" style="font-size:12.5px;margin:10px 0 0">Pantheon'da <b>Wisdom + Life</b> iyi seçenekler. Attack'ı tamamen bırakma: ana heal'ler silah attack power'ıyla ölçekleniyor.</p>
+        <div class="two" style="margin-top:12px">
+          <div class="cmp2"><div><div class="h">Heal seti (grup)</div><ul>
+            <li><b>Silah:</b> combat speed · survival · yeterli attack</li>
+            <li><b>Silah bonusu:</b> Healing Light · Radiant Recovery · Light of Regeneration</li>
+            <li><b>Zırh:</b> health · defense · combat speed · constitution</li>
+            <li><b>Zırh bonusu:</b> Healing Enhancement · Empyrean Benediction · Immortal Veil</li>
+            <li><b>Takı:</b> mana · natural mana regen · health · block · defense</li>
+          </ul></div></div>
+          <div class="cmp2"><div><div class="h">Solo hasar seti (ayrı)</div><ul>
+            <li><b>Silah hasarı artışı</b> · damage boost · attack · crit</li>
+            <li>Heal setini bozmadan ayrı bir set tut.</li>
+            <li>Soul binding roll'ları rastgele: işe yaramazsa <b>soul cadex reset</b> ile yeniden döndür.</li>
+            <li>Boss mekaniğinde ölüyorsan önce <b>durability</b>, manan bitiyorsa <b>mana regen</b> yatırımı yap.</li>
+          </ul></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="hb-arcana"><h2>Arcana <span class="r">Heal önce, combat power sonra</span></h2>
+      <div class="pad">
+        <div class="cmp2">
+          <div><div class="h">Heal seti</div><ul>
+            <li><b>Protected Soul</b> — en iyi heal seti; restoration'ı artırır. İlk hedef.</li>
+            <li><b>Magic Armor</b> veya <b>Primal Vigor</b> — boss mekaniğinde hayatta kalmak zorsa alternatif.</li>
+            <li>Kart seçerken <b>Healing Light · Radiant Recovery · Light of Regeneration</b> ve heal pasiflerine bak.</li>
+          </ul></div>
+          <div><div class="h">Damage seti</div><ul>
+            <li><b>Frenzy</b> — ayrı solo hasar seti için.</li>
+            <li>Transcendence ana kart kaynağı; yedek kartları çekirdek skillere yedir.</li>
+            <li>İstenmeyen kartları fragment'a çevirip üst tier craft et.</li>
+          </ul></div>
+        </div>
+        <div class="tipbox" style="margin-top:10px"><b>Kural:</b> combat power'a bakmadan önce kartın verdiği skill bonusuna bak. Heal kartı, yüksek GS'li rastgele karttan daha değerli.</div>
+      </div>
+    </div>
+
+    <div class="card" id="hb-dv"><h2>Daevanion <span class="r">Pano sırası</span></h2>
+      <div class="pad">
+        <div class="ord"><span><b>1.</b>Cooldown azaltma</span><span class="ar">›</span><span><b>2.</b>Combat speed</span><span class="ar">›</span><span><b>3.</b>Defense</span><span class="ar">›</span><span><b>4.</b>Attack</span></div>
+        <ul class="steps" style="margin-top:10px">
+          <li><b>Ezekiel panosu:</b> önce <b>damage tolerance</b>, sonra damage boost.</li>
+          <li><b>Mavi düğümler</b> aktif skill seviyesi, <b>yeşil düğümler</b> pasif seviyesi verir; kullandığın skill/pasife git.</li>
+          <li><b>Aerial panosu:</b> önce PvE damage tolerance.</li>
+          <li><b>Genesis Insight:</b> health · defense · healing boost · combat speed · mana regen. Pet bonusu, gear roll'u ve Arcana'yı birlikte değerlendir; ekipmanı yeniden rollamadan önce hepsine bak.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card"><div class="foot" style="border-top:0">Kaynak: <a href="${HB.video}" target="_blank" rel="noopener">“THE MOST POWERFUL HEALER BUILD IN THE GAME! Aion 2 Healer Build (Gear, Skills, Rotation)”</a> · otomatik İngilizce altyazı: <a href="${HB.sub}" target="_blank" rel="noopener">healer-build.en.srt</a>. Video bir sponsor bölümü içeriyor; build kısmı 02:30'dan sonra başlıyor. Skill isimleri videodaki otomatik altyazıdan düzeltildi (ör. “gen of the torment” → Chain of Torment, “noble arrow” → Noble Aura).</div></div>`;
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  ["mb", "g", "jb", "lv", "boss"].forEach(k => $(k).hidden = tab !== k);
+  ["mb", "hb", "g", "jb", "lv", "boss"].forEach(k => $(k).hidden = tab !== k);
   if (tab === "mb") renderMb();
+  else if (tab === "hb") renderHb();
   else if (tab === "g") renderG();
   else if (tab === "jb") renderJb();
   else if (tab === "lv") { renderLv(); bindLvEvents(); }
@@ -2090,7 +2312,7 @@ if (bossGlobalConfigured()) {
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DVJ = dv;
   const h = location.hash.slice(1);
-  if (["g", "jb", "lv", "boss"].includes(h)) tab = h;
+  if (["mb", "hb", "g", "jb", "lv", "boss"].includes(h)) tab = h;
   render();
   if (h.startsWith("mb-")) { const t = $(h); if (t) t.scrollIntoView(); }
 });

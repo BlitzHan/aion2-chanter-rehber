@@ -1,0 +1,1143 @@
+1
+00:00:00,240 --> 00:00:04,319
+This is the only healer guide that you
+
+2
+00:00:02,080 --> 00:00:06,240
+will ever need for AON 2. We will go
+
+3
+00:00:04,319 --> 00:00:08,080
+over your healing and damage rotation,
+
+4
+00:00:06,240 --> 00:00:10,320
+the skills worth upgrading, and how to
+
+5
+00:00:08,080 --> 00:00:12,160
+build your stats, gear, and the arcana.
+
+6
+00:00:10,320 --> 00:00:14,320
+So, if you want to keep your party alive
+
+7
+00:00:12,160 --> 00:00:16,320
+and heal without wasting resources on
+
+8
+00:00:14,320 --> 00:00:18,480
+the wrong upgrades, then here's how to
+
+9
+00:00:16,320 --> 00:00:20,240
+build your healer properly. First up,
+
+10
+00:00:18,480 --> 00:00:22,720
+let's go over on how to actually play
+
+11
+00:00:20,240 --> 00:00:24,560
+the cleric for our PVE setup. Our goal
+
+12
+00:00:22,720 --> 00:00:26,480
+here is just to keep the group healthy,
+
+13
+00:00:24,560 --> 00:00:28,320
+prepare for incoming damage, and use
+
+14
+00:00:26,480 --> 00:00:30,400
+offensive skills whenever healing is
+
+15
+00:00:28,320 --> 00:00:32,559
+covered. For rotation, just keep
+
+16
+00:00:30,400 --> 00:00:34,640
+benevolence running for ongoing party
+
+17
+00:00:32,559 --> 00:00:36,239
+healing. Use healing light when someone
+
+18
+00:00:34,640 --> 00:00:38,399
+takes damage and apply your shield
+
+19
+00:00:36,239 --> 00:00:40,320
+before a heavy attack lands. However,
+
+20
+00:00:38,399 --> 00:00:42,079
+when the group is stable, just combine
+
+21
+00:00:40,320 --> 00:00:44,239
+in the regular attacks between
+
+22
+00:00:42,079 --> 00:00:46,480
+debilitating mark gen of the torment,
+
+23
+00:00:44,239 --> 00:00:48,640
+earths punishment, and condemnation.
+
+24
+00:00:46,480 --> 00:00:50,480
+Your debuffs will also help the other
+
+25
+00:00:48,640 --> 00:00:52,960
+damage dealers too. So, contributing
+
+26
+00:00:50,480 --> 00:00:54,640
+damage is also the part of your job. But
+
+27
+00:00:52,960 --> 00:00:56,640
+then when a boss mechanic starts,
+
+28
+00:00:54,640 --> 00:00:58,719
+getting another attack out matters less
+
+29
+00:00:56,640 --> 00:01:00,719
+than just keeping everyone alive. And
+
+30
+00:00:58,719 --> 00:01:02,719
+remember, if you use macro, then just
+
+31
+00:01:00,719 --> 00:01:04,320
+keep healing and shielding under manual
+
+32
+00:01:02,719 --> 00:01:05,840
+control. You will need these buttons
+
+33
+00:01:04,320 --> 00:01:08,080
+ready for the situations in front of
+
+34
+00:01:05,840 --> 00:01:09,840
+you. So overall, as a healer, you want
+
+35
+00:01:08,080 --> 00:01:11,600
+to learn about patterns, position
+
+36
+00:01:09,840 --> 00:01:13,680
+safely, and interrupt your damage
+
+37
+00:01:11,600 --> 00:01:15,439
+sequences whenever someone needs help.
+
+38
+00:01:13,680 --> 00:01:17,280
+And let me quickly introduce you to
+
+39
+00:01:15,439 --> 00:01:19,280
+Gearup booster because if you're
+
+40
+00:01:17,280 --> 00:01:20,880
+planning to play AON 2 before global
+
+41
+00:01:19,280 --> 00:01:22,799
+release or you just live in a region
+
+42
+00:01:20,880 --> 00:01:24,720
+that is locked then gearup also helps
+
+43
+00:01:22,799 --> 00:01:26,640
+with the region locking. So the simple
+
+44
+00:01:24,720 --> 00:01:29,119
+steps are click the link in description
+
+45
+00:01:26,640 --> 00:01:30,880
+open gear booster then search for AO2
+
+46
+00:01:29,119 --> 00:01:32,960
+and then click boost and see account
+
+47
+00:01:30,880 --> 00:01:34,720
+signup. Remember keep your selected
+
+48
+00:01:32,960 --> 00:01:37,119
+region consistent with the gear web
+
+49
+00:01:34,720 --> 00:01:39,600
+boost node. After registration, you will
+
+50
+00:01:37,119 --> 00:01:41,439
+see Aon2 Global in the purple lobby and
+
+51
+00:01:39,600 --> 00:01:43,759
+you'll be ready to grab the standard
+
+52
+00:01:41,439 --> 00:01:45,840
+founders package to start your journey.
+
+53
+00:01:43,759 --> 00:01:47,680
+However, this is not it because Gearup
+
+54
+00:01:45,840 --> 00:01:49,520
+is also made to lower your latency
+
+55
+00:01:47,680 --> 00:01:51,680
+across different servers. And the best
+
+56
+00:01:49,520 --> 00:01:52,960
+part is that they're not just a booster.
+
+57
+00:01:51,680 --> 00:01:55,040
+It also comes with a built-in
+
+58
+00:01:52,960 --> 00:01:56,799
+translation and DPS tool, which is a
+
+59
+00:01:55,040 --> 00:01:58,799
+huge selling point. It doesn't only
+
+60
+00:01:56,799 --> 00:02:00,479
+track your own damage, but it gives you
+
+61
+00:01:58,799 --> 00:02:02,399
+real-time team damage ranking during
+
+62
+00:02:00,479 --> 00:02:04,479
+group content. and it breaks your damage
+
+63
+00:02:02,399 --> 00:02:06,719
+down by skill, summon, stone, and damage
+
+64
+00:02:04,479 --> 00:02:08,399
+over time. So now you can actually see
+
+65
+00:02:06,719 --> 00:02:10,239
+what is carrying your damage and what
+
+66
+00:02:08,399 --> 00:02:12,080
+needs improvement on top of it. If
+
+67
+00:02:10,239 --> 00:02:13,920
+you're connecting from another region or
+
+68
+00:02:12,080 --> 00:02:15,840
+trying to get smoother gameplay, then
+
+69
+00:02:13,920 --> 00:02:17,520
+gearup also helps to reduce ping,
+
+70
+00:02:15,840 --> 00:02:19,680
+stabilize your connection, and make the
+
+71
+00:02:17,520 --> 00:02:22,239
+combat feel much more cleaner. So what
+
+72
+00:02:19,680 --> 00:02:24,560
+are you betting for? For FPS boost, DPS
+
+73
+00:02:22,239 --> 00:02:26,720
+meter, and early A2 access, click my
+
+74
+00:02:24,560 --> 00:02:29,341
+link description and use code kid games
+
+75
+00:02:26,720 --> 00:02:30,000
+for 10% off.
+
+76
+00:02:29,341 --> 00:02:32,080
+>> [snorts]
+
+77
+00:02:30,000 --> 00:02:33,760
+>> Next up, let's go over our skills. The
+
+78
+00:02:32,080 --> 00:02:35,840
+healing light is your main repeatable
+
+79
+00:02:33,760 --> 00:02:37,760
+heal, so prioritize leveling it and
+
+80
+00:02:35,840 --> 00:02:39,920
+consider the specialty that provides two
+
+81
+00:02:37,760 --> 00:02:42,319
+consecutive heals. The radiant recovery
+
+82
+00:02:39,920 --> 00:02:43,680
+is also another early healing priority.
+
+83
+00:02:42,319 --> 00:02:45,599
+Then for mana, bring the earth
+
+84
+00:02:43,680 --> 00:02:47,760
+retribution to level eight and select
+
+85
+00:02:45,599 --> 00:02:49,519
+this mana recovery specialty. This gives
+
+86
+00:02:47,760 --> 00:02:51,760
+your regular attack a useful role
+
+87
+00:02:49,519 --> 00:02:53,760
+between other spells. Then for damage,
+
+88
+00:02:51,760 --> 00:02:56,160
+work towards level 20 on the judgment
+
+89
+00:02:53,760 --> 00:02:58,319
+thunder, divine aura, and condemnation.
+
+90
+00:02:56,160 --> 00:03:00,080
+And remember, with limited points, build
+
+91
+00:02:58,319 --> 00:03:02,239
+enough healing for your dungeon first
+
+92
+00:03:00,080 --> 00:03:04,400
+before pushing any other damage skill.
+
+93
+00:03:02,239 --> 00:03:06,319
+The divine aura can switch between AUV
+
+94
+00:03:04,400 --> 00:03:08,319
+option for clearing maps and specialty,
+
+95
+00:03:06,319 --> 00:03:10,239
+granting 50% more attack speed for
+
+96
+00:03:08,319 --> 00:03:12,480
+single targets. The judgment thunders
+
+97
+00:03:10,239 --> 00:03:14,400
+also has 12% damage specialty, which is
+
+98
+00:03:12,480 --> 00:03:16,239
+another useful bossing choice. Our
+
+99
+00:03:14,400 --> 00:03:18,319
+lightning strike can stay at level eight
+
+100
+00:03:16,239 --> 00:03:19,920
+for its health recovery during stagger.
+
+101
+00:03:18,319 --> 00:03:22,319
+However, if you're investing further
+
+102
+00:03:19,920 --> 00:03:24,159
+into the damage, then level 12 multi-hit
+
+103
+00:03:22,319 --> 00:03:26,159
+option is also worth considering.
+
+104
+00:03:24,159 --> 00:03:28,080
+Debilitating Mark, Chen of Torment, and
+
+105
+00:03:26,159 --> 00:03:30,400
+Defiance can also receive points after
+
+106
+00:03:28,080 --> 00:03:32,640
+your core skills with level 12 being a
+
+107
+00:03:30,400 --> 00:03:34,640
+reasonable later target. Remember that
+
+108
+00:03:32,640 --> 00:03:36,720
+specialties will unlock at level 8, 12,
+
+109
+00:03:34,640 --> 00:03:38,400
+and 16. So, we want to target these
+
+110
+00:03:36,720 --> 00:03:40,400
+useful break points. Just collect
+
+111
+00:03:38,400 --> 00:03:42,239
+feathers and exchange them at the town's
+
+112
+00:03:40,400 --> 00:03:44,239
+monolith for the wisdom stones to keep
+
+113
+00:03:42,239 --> 00:03:45,760
+your skills progressing. Then, moving
+
+114
+00:03:44,239 --> 00:03:47,519
+into the passives, and the healing
+
+115
+00:03:45,760 --> 00:03:49,440
+enhancement is a priority here for
+
+116
+00:03:47,519 --> 00:03:51,599
+increasing healing boost. Devon
+
+117
+00:03:49,440 --> 00:03:53,120
+Benediction rises your health and mana
+
+118
+00:03:51,599 --> 00:03:55,280
+while immortal veil will improve
+
+119
+00:03:53,120 --> 00:03:57,680
+defenses and critical hit resistance.
+
+120
+00:03:55,280 --> 00:03:59,599
+The survival willpower is another option
+
+121
+00:03:57,680 --> 00:04:01,519
+for status effect resistance. These
+
+122
+00:03:59,599 --> 00:04:03,680
+bonuses will help you to survive and
+
+123
+00:04:01,519 --> 00:04:05,680
+keep casting when the pull gets messy. A
+
+124
+00:04:03,680 --> 00:04:07,040
+healer who stays alive can recover the
+
+125
+00:04:05,680 --> 00:04:09,120
+group, so don't neglect your own
+
+126
+00:04:07,040 --> 00:04:10,959
+durability. And then for more offensive
+
+127
+00:04:09,120 --> 00:04:12,959
+setups, the Earth Grace and Emperion
+
+128
+00:04:10,959 --> 00:04:14,560
+Lord's Grace will support your damage.
+
+129
+00:04:12,959 --> 00:04:16,160
+And then as you move into the harder
+
+130
+00:04:14,560 --> 00:04:18,400
+group content, you can shift your
+
+131
+00:04:16,160 --> 00:04:20,160
+investment towards healing and survival
+
+132
+00:04:18,400 --> 00:04:22,079
+instead of keeping every healing choice
+
+133
+00:04:20,160 --> 00:04:23,919
+unchanged. And then on top of all of
+
+134
+00:04:22,079 --> 00:04:25,759
+this, the stigma skills will give us
+
+135
+00:04:23,919 --> 00:04:27,680
+several important support tools. You
+
+136
+00:04:25,759 --> 00:04:29,360
+want to keep benevolence active and
+
+137
+00:04:27,680 --> 00:04:32,360
+refresh it when its duration ends.
+
+138
+00:04:29,360 --> 00:04:32,360
+Absolutely
+
+139
+00:04:33,199 --> 00:04:37,360
+target for both. You want to take summon
+
+140
+00:04:35,360 --> 00:04:39,600
+resurrection at level one before joining
+
+141
+00:04:37,360 --> 00:04:41,520
+groups. Its initial cast will take two
+
+142
+00:04:39,600 --> 00:04:43,440
+seconds and reaching level five will
+
+143
+00:04:41,520 --> 00:04:45,360
+reduce that by 1 second. Having a
+
+144
+00:04:43,440 --> 00:04:47,520
+resurrection available will save your
+
+145
+00:04:45,360 --> 00:04:49,919
+teammates from relying entirely on
+
+146
+00:04:47,520 --> 00:04:51,840
+consumable revolable stones. Then for
+
+147
+00:04:49,919 --> 00:04:53,759
+damage between heals, the noble arrow
+
+148
+00:04:51,840 --> 00:04:55,759
+will provide recurring damage every 2
+
+149
+00:04:53,759 --> 00:04:57,360
+seconds. The earth punishment is another
+
+150
+00:04:55,759 --> 00:04:59,040
+useful choice thanks to its short
+
+151
+00:04:57,360 --> 00:05:00,639
+cooldown and debuff. The lightning
+
+152
+00:04:59,040 --> 00:05:02,880
+protection also will depend on your
+
+153
+00:05:00,639 --> 00:05:04,560
+party. Without a chanter, level five is
+
+154
+00:05:02,880 --> 00:05:06,479
+the early target. However, with a
+
+155
+00:05:04,560 --> 00:05:08,400
+chanter supplying strong buffs, you can
+
+156
+00:05:06,479 --> 00:05:10,400
+give it even a lower priority while the
+
+157
+00:05:08,400 --> 00:05:11,919
+stigma points are limited. On top of it,
+
+158
+00:05:10,400 --> 00:05:13,840
+I recommend to choose your offensive
+
+159
+00:05:11,919 --> 00:05:15,680
+slots around how much healing the fight
+
+160
+00:05:13,840 --> 00:05:17,680
+will need and then reinvest in the
+
+161
+00:05:15,680 --> 00:05:19,360
+stigmas that you're actually using.
+
+162
+00:05:17,680 --> 00:05:21,840
+Finally, for the stigma shards, you want
+
+163
+00:05:19,360 --> 00:05:24,160
+to use ascension quests or the PVP shop
+
+164
+00:05:21,840 --> 00:05:26,320
+and morph fragments when available. And
+
+165
+00:05:24,160 --> 00:05:28,080
+finally, the conquest, transcendence,
+
+166
+00:05:26,320 --> 00:05:32,000
+and regional rift quests will provide
+
+167
+00:05:28,080 --> 00:05:33,680
+fragments for further upgrades.
+
+168
+00:05:32,000 --> 00:05:35,680
+Next up, we have our cleric stats and
+
+169
+00:05:33,680 --> 00:05:37,600
+for the healing setup, constitution and
+
+170
+00:05:35,680 --> 00:05:39,840
+the willpower are the main attributes to
+
+171
+00:05:37,600 --> 00:05:41,759
+focus on. Also, wisdom and life are
+
+172
+00:05:39,840 --> 00:05:44,080
+useful pantheon options for healing,
+
+173
+00:05:41,759 --> 00:05:46,080
+resource efficiency, and survivability.
+
+174
+00:05:44,080 --> 00:05:48,160
+Your practical priorities is healing
+
+175
+00:05:46,080 --> 00:05:50,160
+boost, health, defenses, and combat
+
+176
+00:05:48,160 --> 00:05:52,639
+speed with movement speed helping you to
+
+177
+00:05:50,160 --> 00:05:54,720
+repossession. Mana and regeneration will
+
+178
+00:05:52,639 --> 00:05:56,479
+also matter when the fight runs long.
+
+179
+00:05:54,720 --> 00:05:58,320
+Just don't ignore attacks because you're
+
+180
+00:05:56,479 --> 00:06:00,160
+healing. Your baseline healing spells
+
+181
+00:05:58,320 --> 00:06:01,840
+will scale with the weapon attack power.
+
+182
+00:06:00,160 --> 00:06:04,000
+So maintaining that foundation will
+
+183
+00:06:01,840 --> 00:06:06,319
+improve your support output, too. Next,
+
+184
+00:06:04,000 --> 00:06:08,000
+for gear, we're using mace and a shield.
+
+185
+00:06:06,319 --> 00:06:10,400
+You want to prioritize combat speed for
+
+186
+00:06:08,000 --> 00:06:12,000
+smoother casting, useful survival stats,
+
+187
+00:06:10,400 --> 00:06:14,080
+and enough attack to support your
+
+188
+00:06:12,000 --> 00:06:16,000
+healing. You can look for bonuses to
+
+189
+00:06:14,080 --> 00:06:18,240
+healing, light, radiant recovery, and
+
+190
+00:06:16,000 --> 00:06:20,560
+the light of the regeneration. On armor,
+
+191
+00:06:18,240 --> 00:06:22,960
+focus on health, defenses, combat speed,
+
+192
+00:06:20,560 --> 00:06:25,039
+and constitution. Useful skill bonuses
+
+193
+00:06:22,960 --> 00:06:27,440
+will also include healing enhancement,
+
+194
+00:06:25,039 --> 00:06:29,600
+vom benediction and immortal veil. Then
+
+195
+00:06:27,440 --> 00:06:31,759
+for accessories, mana and natural mana
+
+196
+00:06:29,600 --> 00:06:33,919
+regeneration will help to sustain longer
+
+197
+00:06:31,759 --> 00:06:35,680
+fights. While health, block, and defense
+
+198
+00:06:33,919 --> 00:06:37,360
+will help you to survive damage while
+
+199
+00:06:35,680 --> 00:06:38,800
+keeping the group alive. If you can
+
+200
+00:06:37,360 --> 00:06:40,880
+maintain a separate damage setup for
+
+201
+00:06:38,800 --> 00:06:42,560
+solo content, then weapon damage boost,
+
+202
+00:06:40,880 --> 00:06:44,639
+damage boost, attack, and the critical
+
+203
+00:06:42,560 --> 00:06:46,400
+hit will become even more valuable. And
+
+204
+00:06:44,639 --> 00:06:48,560
+my best recommendation is for you to
+
+205
+00:06:46,400 --> 00:06:50,560
+maintain also a separate damage setup
+
+206
+00:06:48,560 --> 00:06:52,479
+for solo content. And in this case,
+
+207
+00:06:50,560 --> 00:06:54,240
+weapon damage boost, damage boost,
+
+208
+00:06:52,479 --> 00:06:55,840
+attack, and critical hit will become
+
+209
+00:06:54,240 --> 00:06:57,520
+even more valuable. You want to keep
+
+210
+00:06:55,840 --> 00:06:59,199
+these roles aligned with your offensive
+
+211
+00:06:57,520 --> 00:07:01,440
+skills instead of weakening the healing
+
+212
+00:06:59,199 --> 00:07:03,520
+setup that you will rely later on for
+
+213
+00:07:01,440 --> 00:07:05,120
+difficult content. On top of it, don't
+
+214
+00:07:03,520 --> 00:07:07,120
+forget that the soul binding roles are
+
+215
+00:07:05,120 --> 00:07:09,039
+random. If an otherwise useful piece
+
+216
+00:07:07,120 --> 00:07:11,280
+misses your priorities, then reroll it
+
+217
+00:07:09,039 --> 00:07:13,440
+with a soul cadex reset rather than just
+
+218
+00:07:11,280 --> 00:07:14,880
+judging it only by its default stats.
+
+219
+00:07:13,440 --> 00:07:16,880
+Next or the arcana, you want to
+
+220
+00:07:14,880 --> 00:07:18,800
+prioritize cards that improve healing
+
+221
+00:07:16,880 --> 00:07:20,720
+light, radiant recovery, light of
+
+222
+00:07:18,800 --> 00:07:22,880
+regeneration, and your important healing
+
+223
+00:07:20,720 --> 00:07:24,880
+passives. Just look at the skill bonuses
+
+224
+00:07:22,880 --> 00:07:26,639
+before chasing ra combat power.
+
+225
+00:07:24,880 --> 00:07:28,639
+Protected soul is the best in slot
+
+226
+00:07:26,639 --> 00:07:30,800
+healing set to work towards because it
+
+227
+00:07:28,639 --> 00:07:33,039
+increases the restoration. Magic armor
+
+228
+00:07:30,800 --> 00:07:34,800
+or primal vigor can also be alternatives
+
+229
+00:07:33,039 --> 00:07:36,639
+when surviving boss mechanics will
+
+230
+00:07:34,800 --> 00:07:38,720
+become much bigger problem. And then
+
+231
+00:07:36,639 --> 00:07:40,800
+frenzy is also an option for separate
+
+232
+00:07:38,720 --> 00:07:42,639
+damage setup. The transcendence is your
+
+233
+00:07:40,800 --> 00:07:44,240
+main source of cards you want to feed
+
+234
+00:07:42,639 --> 00:07:46,080
+spare cards into the ones that are
+
+235
+00:07:44,240 --> 00:07:48,000
+supporting your core skills and then
+
+236
+00:07:46,080 --> 00:07:49,680
+coordinate those bonuses with your gear
+
+237
+00:07:48,000 --> 00:07:52,000
+to reach the useful skill levels.
+
+238
+00:07:49,680 --> 00:07:54,000
+Unwanted cards can also be extracted for
+
+239
+00:07:52,000 --> 00:07:55,840
+fragments and used to craft higher tier
+
+240
+00:07:54,000 --> 00:07:57,680
+cards. Just check out the route when the
+
+241
+00:07:55,840 --> 00:07:59,599
+random jobs aren't giving you the skill
+
+242
+00:07:57,680 --> 00:08:01,360
+that you need. Next for the Vanian
+
+243
+00:07:59,599 --> 00:08:03,039
+board, our early priorities here are
+
+244
+00:08:01,360 --> 00:08:05,360
+cool down reduction then the combat
+
+245
+00:08:03,039 --> 00:08:07,440
+speed followed by defenses and attack.
+
+246
+00:08:05,360 --> 00:08:09,599
+Shorter cooldowns and faster casting
+
+247
+00:08:07,440 --> 00:08:11,440
+will help to respond while defenses will
+
+248
+00:08:09,599 --> 00:08:13,599
+keep you alive long enough to rescue
+
+249
+00:08:11,440 --> 00:08:15,280
+your party. On the Ezekiel board, you
+
+250
+00:08:13,599 --> 00:08:17,120
+want to take damage tolerance before
+
+251
+00:08:15,280 --> 00:08:18,560
+moving into the damage boost. After
+
+252
+00:08:17,120 --> 00:08:20,639
+those priorities, you want to target
+
+253
+00:08:18,560 --> 00:08:22,400
+bonuses to the active and passive skills
+
+254
+00:08:20,639 --> 00:08:24,080
+that you actually use. The blue skill
+
+255
+00:08:22,400 --> 00:08:25,520
+nodes will add active skill levels,
+
+256
+00:08:24,080 --> 00:08:27,280
+while the green skill nodes will add
+
+257
+00:08:25,520 --> 00:08:29,039
+passive levels. Follow those useful
+
+258
+00:08:27,280 --> 00:08:30,639
+upgrades across your board instead of
+
+259
+00:08:29,039 --> 00:08:32,640
+just spending limited points on every
+
+260
+00:08:30,639 --> 00:08:34,399
+nearby stat. Regional quests and
+
+261
+00:08:32,640 --> 00:08:36,479
+explorations will also provide more
+
+262
+00:08:34,399 --> 00:08:38,000
+books as you progress. And then when you
+
+263
+00:08:36,479 --> 00:08:40,000
+reach the aerial board, you want to
+
+264
+00:08:38,000 --> 00:08:42,240
+prioritize its PvE damage tolerance
+
+265
+00:08:40,000 --> 00:08:44,240
+first. And finally, we have the Genesis
+
+266
+00:08:42,240 --> 00:08:45,839
+Insight with your pet bonuses, gear
+
+267
+00:08:44,240 --> 00:08:47,519
+rolls, and the arcana. You want to
+
+268
+00:08:45,839 --> 00:08:49,440
+review all of these setups together
+
+269
+00:08:47,519 --> 00:08:51,120
+before re-rolling equipment because the
+
+270
+00:08:49,440 --> 00:08:53,040
+choices that you make here will support
+
+271
+00:08:51,120 --> 00:08:54,720
+the same healing setup. Specifically,
+
+272
+00:08:53,040 --> 00:08:56,640
+for a healing build, you want to look at
+
+273
+00:08:54,720 --> 00:08:58,800
+your health, defenses, healing boost,
+
+274
+00:08:56,640 --> 00:09:00,399
+combat speed, and mana regeneration.
+
+275
+00:08:58,800 --> 00:09:01,920
+attack will still matter because your
+
+276
+00:09:00,399 --> 00:09:03,680
+main heals will scale with the weapon
+
+277
+00:09:01,920 --> 00:09:05,440
+attack power. However, if you're
+
+278
+00:09:03,680 --> 00:09:07,440
+surviving comfortably but running out of
+
+279
+00:09:05,440 --> 00:09:09,279
+mana, then focus your next upgrades on
+
+280
+00:09:07,440 --> 00:09:10,800
+sustaining longer fights. And if boss
+
+281
+00:09:09,279 --> 00:09:13,279
+mechanics keep killing you, then just
+
+282
+00:09:10,800 --> 00:09:15,200
+improve your durability first. Also, the
+
+283
+00:09:13,279 --> 00:09:16,640
+last rule of thumb is that your upgrades
+
+284
+00:09:15,200 --> 00:09:18,240
+should solve the problem that is
+
+285
+00:09:16,640 --> 00:09:21,600
+actually limiting your performance in
+
+286
+00:09:18,240 --> 00:09:21,600
+the content that you're actually
