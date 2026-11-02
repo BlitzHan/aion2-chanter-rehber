@@ -142,6 +142,20 @@ test("etkinlik: açma başarısızsa sonraki dakikada yeniden dener", async () =
   assert.deepEqual(calls.map((c) => c.method), ["POST", "POST"]);
 });
 
+test("etkinlik: açma hep başarısızsa KV'ye her dakika yazmaz", async () => {
+  console.error = () => {};
+  const calls = mockDiscord((c) => (c.method === "POST" ? new Response("x", { status: 403 }) : null));
+  const env = envWith({ "Immortal Gartua": { until: Date.now() + 90 * MIN } });
+  let puts = 0;
+  const put = env.TIMERS.put;
+  env.TIMERS.put = async (k, v) => { if (k === "events") puts++; return put(k, v); };
+
+  for (let i = 0; i < 5; i++) await runCron(env);
+
+  assert.equal(calls.filter((c) => c.method === "POST").length, 5);
+  assert.equal(puts, 1);
+});
+
 test("etkinlik: silinecek etkinlik zaten yoksa (404) yenisini yine açar", async () => {
   const calls = mockDiscord((c) => (c.method === "DELETE" ? new Response("", { status: 404 }) : null));
   const env = envWith({ "Immortal Gartua": { until: Date.now() + 300 * MIN } });

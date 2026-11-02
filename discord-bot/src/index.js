@@ -608,8 +608,9 @@ async function syncEvents(env) {
 
   const state = await readState(env);
   const events = (await env.TIMERS.get(EVENTS_KEY, "json")) || {};
+  // KV'nin ücretsiz planı günde 1000 yazma veriyor: yalnızca içerik değişince yaz.
+  const before = JSON.stringify(events);
   const now = Date.now();
-  let changed = false;
 
   for (const boss of BOSSES) {
     const s = state.bosses[boss.id] || {};
@@ -623,11 +624,11 @@ async function syncEvents(env) {
       let recorded = until;
       if (until > now + EVENT_LEAD_MS) {
         id = await createEvent(env, boss, until, s);
-        // Açılamadıysa kaydetme; sonraki dakika yeniden denensin.
+        // Açılamadıysa until boş kalır, sonraki dakika yeniden denenir.
+        // Kayıt öncekiyle aynı olduğundan bu denemeler KV'ye yazmaz.
         if (!id) recorded = null;
       }
       events[boss.id] = { until: recorded, id, active: false };
-      changed = true;
       continue;
     }
 
@@ -639,12 +640,12 @@ async function syncEvents(env) {
       if (res.ok || (res.status < 500 && res.status !== 429)) {
         if (!res.ok) console.error("event start failed", boss.id, res.status, await res.text());
         ev.active = true;
-        changed = true;
       }
     }
   }
 
-  if (changed) await env.TIMERS.put(EVENTS_KEY, JSON.stringify(events));
+  const after = JSON.stringify(events);
+  if (after !== before) await env.TIMERS.put(EVENTS_KEY, after);
 }
 
 async function createEvent(env, boss, until, s) {
