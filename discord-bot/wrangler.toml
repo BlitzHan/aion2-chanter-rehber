@@ -9,7 +9,9 @@ crons = ["* * * * *"]
 
 [vars]
 # Doğuştan kaç saniye sonra boss ölmüş sayılıp sayaç yeni tura kurulsun.
-AUTO_KILL_SEC = "40"
+# Boss başına süre src/bosses.js içindeki killSec'te (Gartua/Lagta 20, Kashapa/Dartan 35).
+# Burayı doldurursan hepsini tek değerle ezer; boş bırak.
+AUTO_KILL_SEC = ""
 # Discord Developer Portal > General Information > Application ID
 DISCORD_APP_ID = "1564211805168083024"
 # Boş bırakırsan komutlar global kaydedilir; doluysa sadece o sunucuya (anında görünür).

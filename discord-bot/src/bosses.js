@@ -9,6 +9,7 @@
 //   "Silent Dartan (Verteron)"
 //
 // respawnMin: boss kesildikten sonra yeniden doğması kaç dakika sürüyorsa onu yaz.
+// killSec: doğuştan kaç saniye sonra ölmüş sayılsın (otomatik döngü bununla yeni tura geçer).
 export const BOSSES = [
   {
     id: "Immortal Gartua",
@@ -16,6 +17,7 @@ export const BOSSES = [
     short: "Gartua",
     map: "Altgard",
     respawnMin: 720,
+    killSec: 20,
   },
   {
     id: "High Commander Lagta (Altgard)",
@@ -23,6 +25,7 @@ export const BOSSES = [
     short: "Lagta",
     map: "Altgard",
     respawnMin: 720,
+    killSec: 20,
   },
   {
     id: "Soul Ruler Kashapa (Altgard)",
@@ -30,6 +33,7 @@ export const BOSSES = [
     short: "Kashapa",
     map: "Altgard",
     respawnMin: 360,
+    killSec: 35,
   },
   {
     id: "Silent Dartan (Altgard)",
@@ -37,6 +41,7 @@ export const BOSSES = [
     short: "Dartan",
     map: "Altgard",
     respawnMin: 360,
+    killSec: 35,
   },
 ];
 

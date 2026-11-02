@@ -209,15 +209,16 @@ yapar (sadece yetkililer basabilir) ve tabloyu anında günceller.
 
 ## 9a. Otomatik döngü
 
-Boss doğduktan `AUTO_KILL_SEC` saniye sonra (varsayılan 40) kesilmiş sayılır ve
+Boss doğduktan `killSec` saniye sonra (Gartua/Lagta 20, Kashapa/Dartan 35) kesilmiş sayılır ve
 sayaç kendiliğinden bir sonraki doğuşa kurulur: Gartua/Lagta 12 saat,
 Dartan/Kashapa 6 saat sonra. Kimse bakmasa da döngü sürer.
 
 - Gerçek kesiliş saati farklıysa `/kes` ya da `/sure` ile düzelt; döngü oradan devam eder.
 - `/sifirla` bossu döngüden çıkarır (sayaç "bilinmiyor" olur).
 - Cron dakikada bir çalıştığından geçiş doğuştan en geç ~1-2 dk sonra görünür; yeni
-  doğuş saati yine `doğuş + AUTO_KILL_SEC + respawn` olarak tam hesaplanır, kayma olmaz.
-- Süreyi değiştirmek için `wrangler.toml` içindeki `AUTO_KILL_SEC` değerini düzenleyip deploy et.
+  doğuş saati yine `doğuş + killSec + respawn` olarak tam hesaplanır, kayma olmaz.
+- Süreyi değiştirmek için `src/bosses.js` içindeki `killSec` değerini düzenleyip deploy et.
+  `wrangler.toml`'daki `AUTO_KILL_SEC` doluysa tüm bossları tek değerle ezer (normalde boş).
 
 ## 9b. Discord etkinlikleri
 

@@ -24,18 +24,18 @@ async function runCron(env) {
 
 const stateOf = (env) => JSON.parse(env.TIMERS.m.get("state")).bosses;
 
-test("döngü: doğuştan 40 sn geçince boss kesilmiş sayılır, sayaç yeni tura kurulur", async () => {
+test("döngü: Gartua doğuştan 20 sn geçince kesilmiş sayılır, sayaç yeni tura kurulur", async () => {
   const until = Date.now() - 2 * MIN;
   const env = { TIMERS: fakeKV({ bosses: { "Immortal Gartua": { until, announced: true } }, updatedAt: 1 }) };
   await runCron(env);
   const g = stateOf(env)["Immortal Gartua"];
-  assert.equal(g.until, until + 40_000 + 720 * MIN);
+  assert.equal(g.until, until + 20_000 + 720 * MIN);
   assert.equal(g.announced, false);
   assert.match(g.updatedBy, /otomatik/);
 });
 
-test("döngü: doğuştan 40 sn geçmeden dokunmaz", async () => {
-  const until = Date.now() - 20_000;
+test("döngü: Dartan doğuştan 35 sn geçmeden dokunmaz", async () => {
+  const until = Date.now() - 30_000;
   const env = { TIMERS: fakeKV({ bosses: { "Silent Dartan (Altgard)": { until } }, updatedAt: 1 }) };
   await runCron(env);
   assert.equal(stateOf(env)["Silent Dartan (Altgard)"].until, until);
@@ -46,9 +46,9 @@ test("döngü: uzun süre bakılmasa da turları atlayıp geleceğe kurar", asyn
   const env = { TIMERS: fakeKV({ bosses: { "Soul Ruler Kashapa (Altgard)": { until } }, updatedAt: 1 }) };
   await runCron(env);
   const next = stateOf(env)["Soul Ruler Kashapa (Altgard)"].until;
-  const cycle = 40_000 + 360 * MIN;
-  assert.ok(next + 40_000 > Date.now(), "yeni sayaç güncel turda olmalı");
-  assert.ok(next - cycle + 40_000 <= Date.now(), "bir tur fazla atlanmamalı");
+  const cycle = 35_000 + 360 * MIN;
+  assert.ok(next + 35_000 > Date.now(), "yeni sayaç güncel turda olmalı");
+  assert.ok(next - cycle + 35_000 <= Date.now(), "bir tur fazla atlanmamalı");
   assert.equal((next - until) % cycle, 0);
 });
 
@@ -58,7 +58,21 @@ test("döngü: sıfırlanmış (bilinmeyen) boss döngüye girmez", async () => 
   assert.deepEqual(stateOf(env), {});
 });
 
-test("döngü: AUTO_KILL_SEC ayarı kullanılır", async () => {
+test("döngü: Lagta 20 sn, Gartua'dan bağımsız 12 saatlik tura kurulur", async () => {
+  const until = Date.now() - 25_000;
+  const env = { TIMERS: fakeKV({ bosses: { "High Commander Lagta (Altgard)": { until } }, updatedAt: 1 }) };
+  await runCron(env);
+  assert.equal(stateOf(env)["High Commander Lagta (Altgard)"].until, until + 20_000 + 720 * MIN);
+});
+
+test("döngü: Kashapa doğuştan 35 sn geçince kesilmiş sayılır", async () => {
+  const until = Date.now() - 36_000;
+  const env = { TIMERS: fakeKV({ bosses: { "Soul Ruler Kashapa (Altgard)": { until } }, updatedAt: 1 }) };
+  await runCron(env);
+  assert.equal(stateOf(env)["Soul Ruler Kashapa (Altgard)"].until, until + 35_000 + 360 * MIN);
+});
+
+test("döngü: AUTO_KILL_SEC doluysa boss sürelerini ezer", async () => {
   const until = Date.now() - 11 * MIN;
   const env = {
     AUTO_KILL_SEC: "600",

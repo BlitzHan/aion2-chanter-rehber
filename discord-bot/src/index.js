@@ -14,7 +14,8 @@ const EVENT_LEAD_MS = 60_000;
 // Doğuştan sonra etkinlik "şimdi oluyor" olarak bu kadar açık kalır.
 const EVENT_LENGTH_MS = 2 * 60 * 60_000;
 // Doğuştan bu kadar saniye sonra boss ölmüş sayılır ve sayaç yeni tura kurulur.
-// wrangler.toml'daki AUTO_KILL_SEC ile değiştirilebilir.
+// Boss başına bosses.js'teki killSec geçerli; bu değer killSec yazılmamış bosslar için.
+// wrangler.toml'da AUTO_KILL_SEC doluysa hepsini ezer.
 const DEFAULT_AUTO_KILL_SEC = 40;
 const DISCORD_API = "https://discord.com/api/v10";
 
@@ -553,17 +554,16 @@ async function syncCommands(env) {
 // Otomatik döngü
 // ---------------------------------------------------------------------------
 
-// Doğuşun üzerinden AUTO_KILL_SEC saniye geçen bossu kesilmiş sayar ve sayacı
+// Doğuşun üzerinden killSec saniye geçen bossu kesilmiş sayar ve sayacı
 // bir sonraki doğuşa kurar. Uzun süre kimse bakmasa da döngü kaldığı yerden
 // tutarlı devam eder. /kes ve /sure ile yapılan düzeltmeler döngüyü kaydırır.
 async function autoAdvance(env) {
   if (!env.TIMERS) return;
 
   const raw = Number(env.AUTO_KILL_SEC);
-  const killSec = env.AUTO_KILL_SEC !== undefined && env.AUTO_KILL_SEC !== "" && Number.isFinite(raw) && raw >= 0
+  const override = env.AUTO_KILL_SEC !== undefined && env.AUTO_KILL_SEC !== "" && Number.isFinite(raw) && raw >= 0
     ? raw
-    : DEFAULT_AUTO_KILL_SEC;
-  const killMs = killSec * 1000;
+    : null;
 
   const state = await readState(env);
   const now = Date.now();
@@ -573,6 +573,8 @@ async function autoAdvance(env) {
     const s = state.bosses[boss.id];
     if (!s || !s.until || !boss.respawnMin) continue;
 
+    const killSec = override ?? boss.killSec ?? DEFAULT_AUTO_KILL_SEC;
+    const killMs = killSec * 1000;
     let until = Number(s.until);
     if (until + killMs > now) continue;
 
