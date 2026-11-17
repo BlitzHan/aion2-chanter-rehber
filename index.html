@@ -620,6 +620,33 @@ a.boss-discord:hover{color:var(--gold)}
   .arc,.pan{grid-template-columns:1fr}
   .tiles.five{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* sıfırdan cleric */
+.scgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px 16px}
+.scst{display:inline-flex;gap:5px;align-items:center;color:var(--lgold);font-weight:800}
+.scst em{font-style:normal;font-size:9.5px;font-weight:900;color:#7d879c;background:#171d29;border:1px solid #2b3345;border-radius:5px;padding:0 5px}
+.skorder .ar{color:#4f5a70;font-weight:900}
+.scgrid .specwrap{overflow:visible}
+.scgrid .specflow{display:grid;grid-template-columns:1fr;gap:4px;min-width:0!important}
+.scgrid .specnode{display:flex;align-items:center;gap:8px;padding:5px 8px}
+.scgrid .specnode .snhead{margin:0;flex:none;width:96px;justify-content:flex-start;gap:6px}
+.scgrid .specnode .snnew{top:50%;right:6px;transform:translateY(-50%)}
+.scroad{display:flex;flex-direction:column;gap:8px}
+.scr{display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:stretch}
+.scrl{background:linear-gradient(180deg,#e8c06a,#c99b3d);color:#1b1404;border-radius:9px;font-weight:900;font-size:13px;display:grid;place-items:center;text-align:center;padding:6px}
+.scrb{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.scrh{display:flex;align-items:center;gap:8px;font-weight:800;flex-wrap:wrap}
+.scrh .icons{display:flex;gap:4px}
+.scrh .icons img{width:26px;height:26px;border-radius:6px;border:1px solid var(--line2)}
+.scrd{color:var(--muted);font-size:12.5px;margin-top:3px}
+.scrd b{color:var(--text)}
+.scp .scpl{font-size:10.5px;font-weight:800;margin-top:3px;color:var(--muted)}
+.scp.top{border-color:#7a2f2f;background:#2a1414}
+.scp.top .pn{background:#e05a5a;color:#2a0606}
+.scp.top .scpl{color:#ff9a9a}
+.scp.key .scpl{color:var(--lgold)}
+.scp.skip{opacity:.5}
+@media (max-width:760px){.scgrid{grid-template-columns:1fr;padding:12px}.scr{grid-template-columns:64px 1fr}.tiles.five{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -634,6 +661,7 @@ a.boss-discord:hover{color:var(--gold)}
     <button data-tab="mb" class="on">Build</button>
     <button data-tab="hb">HEALER BUILD</button>
     <button data-tab="cb">CLERIC BUILD</button>
+    <button data-tab="sc">SIFIRDAN CLERIC</button>
     <button data-tab="g">45+ Yol haritası</button>
     <button data-tab="jb">45+ Kontrol listesi</button>
     <button data-tab="lv">Levo</button>
@@ -646,6 +674,7 @@ a.boss-discord:hover{color:var(--gold)}
     <div id="mb"></div>
     <div id="hb" hidden></div>
     <div id="cb" hidden></div>
+    <div id="sc" hidden></div>
     <div id="g" hidden></div>
     <div id="jb" hidden></div>
     <div id="lv" hidden></div>
@@ -2245,7 +2274,7 @@ const CB = {
   craft: "https://youtu.be/aET6GPX_74o",
   // [skill, hedef seviye, uzmanlık yuvaları, neden, öncelikli]
   skills: [
-    ["17350000", "20", "2 · 4 → 5", "Ana DPS. Kritik vurdukça cooldown sıfırlanır; Earth's Retribution açıkken neredeyse hiç durmadan atılır. İlk 20 yapılacak skill, Arcana'da ilk +1 de buna.", true],
+    ["17350000", "20", "2 · 4 → 5", "Ana DPS. Kritik vurdukça cooldown sıfırlanır; Earth Punishment açıkken neredeyse hiç durmadan atılır. İlk 20 yapılacak skill, Arcana'da ilk +1 de buna.", true],
     ["17150000", "20", "3 · 5 → 4", "Tek hedefte +%50 saldırı hızı (yuva 3). 8'de 3 ve 5 ile başla; 16–20'de 4'ü ekle.", true],
     ["17040000", "20", "2 → mana yuvası en son", "En çok mana yakan skill. Mana giderini düşüren yuvayı en sona bırak: o açılana kadar 2 ile oyna, sonra 5 · 2 · 1 (video: “5 2 1 5”).", true],
     ["17060000", "20", "3 · 4 → 5", "Şarjlı atış. Makro şarj etmez: elle at ya da şarj yuvasına koy; 20'de 5'i ekle.", true],
@@ -2259,16 +2288,16 @@ const CB = {
   ],
   // [stigma, sıra, not]
   stigmas: [
-    ["17010000", "1 · önce 20", "Condemnation'a garantili kritik; açık olduğu sürece Condemnation kendini yeniler."],
+    ["17400000", "1 · önce 20", "Condemnation'a garantili kritik; açık olduğu sürece Condemnation kendini yeniler."],
     ["17430000", "2 · 20", "Saldırı artışı. Puan yetiyorsa 20'ye kadar götür."],
     ["17440000", "3 · 20", "Sürekli açık aura; open world'de hep açık kaldığı için Noble Aura seçili."],
     ["17410000", "4 · Chanter varsa çıkar", "Chanter'ın mantrasıyla çakışır → Yustiel's Power (Absolution alternatif)."]
   ],
   macro: [
     "<b>Sol tık = alan makrosu.</b> Buff'lar, heal'lar, Light of Regeneration ve Earth's Retribution zinciri burada. Basılı tutunca buff ve heal kendi kendine açılır.",
-    "<b>Sağ tık = tek hedef.</b> Condemnation buraya taşındı. Earth's Retribution stigması açıkken Condemnation kritik vurur ve cooldown'ı sıfırlar.",
-    "<b>Pencere ~14 sn.</b> Earth's Retribution aktifken sağ tıkta kal — Condemnation makine tüfeği gibi döner. 14. saniyede cooldown'a girince sağ tıkı bırak, sol tıka dön.",
-    "<b>Açılış:</b> sol tıkla buff + parti heal'ı aç → Earth's Retribution → sağ tık spam → süre bitince sol tık.",
+    "<b>Sağ tık = tek hedef.</b> Condemnation buraya taşındı. Earth Punishment stigması açıkken Condemnation kritik vurur ve cooldown'ı sıfırlar.",
+    "<b>Pencere ~14 sn.</b> Earth Punishment aktifken sağ tıkta kal — Condemnation makine tüfeği gibi döner. 14. saniyede cooldown'a girince sağ tıkı bırak, sol tıka dön.",
+    "<b>Açılış:</b> sol tıkla buff + parti heal'ı aç → Earth Punishment → sağ tık spam → süre bitince sol tık.",
     "<b>Bolt elle.</b> Şarj istiyorsan makronun şarj yuvasına, “arada dönsün” istiyorsan normal akışa koy. Sağ tık makrosunda Bolt şarj etmez, hasarı düşük çıkar.",
     "<b>Tıkandıysa:</b> Sağ tık basılıyken skill atmıyorsa <kbd>1</kbd>'e bas, makro kesilmez; sonra devam et."
   ],
@@ -2303,11 +2332,11 @@ function renderCb() {
           <span class="pill"><b>Başlangıç:</b> <a href="${CB.first}" target="_blank" rel="noopener">0–2000 GS rehberi</a></span>
           <span class="pill"><b>Eşya:</b> <a href="${CB.gear}" target="_blank" rel="noopener">eşya rehberi</a></span>
         </div>
-        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap:</b> <b>Condemnation</b>'ı 20'ye çıkar, Arcana'da ilk +1'i ona ver. Uzmanlıklarda ilk iki yuva <b>2 ve 4</b>, üçüncü yuva açılınca <b>3</b>. Makroyu <b>sol tık = alan, sağ tık = Condemnation</b> olacak şekilde kur. Stigmada önce <b>Earth's Retribution</b> 20. Arcana'da <b>4 sarı kart → +150 P.attack</b>. Silah, alt silah ve eldivende <b>combat speed</b>.</div>
+        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap:</b> <b>Condemnation</b>'ı 20'ye çıkar, Arcana'da ilk +1'i ona ver. Uzmanlıklarda ilk iki yuva <b>2 ve 4</b>, üçüncü yuva açılınca <b>3</b>. Makroyu <b>sol tık = alan, sağ tık = Condemnation</b> olacak şekilde kur. Stigmada önce <b>Earth Punishment</b> 20. Arcana'da <b>4 sarı kart → +150 P.attack</b>. Silah, alt silah ve eldivende <b>combat speed</b>.</div>
         <div class="hero">
           <div class="hs"><div class="h"><span class="n">1</span>Skill</div><div class="icons">${hbImg("17350000")}${hbImg("17150000")}${hbImg("17040000")}${hbImg("17060000")}</div><div class="d"><b>Condemnation · Divine Aura · Judgment Thunder · Bolt 20.</b> Mana azaltan yuvayı en sona bırak.</div></div>
-          <div class="hs"><div class="h"><span class="n">2</span>Makro</div><div class="icons">${hbImg("17350000")}${hbImg("17010000")}</div><div class="d"><b>Sol tık alan, sağ tık Condemnation.</b> Earth's Retribution ~14 sn; bitince sol tıka dön.</div></div>
-          <div class="hs"><div class="h"><span class="n">3</span>Stigma</div><div class="icons">${hbImg("17010000")}${hbImg("17430000")}${hbImg("17440000")}${hbImg("17410000")}</div><div class="d"><b>Earth's Retribution · Prayer of Amplification · Noble Aura · Light of Protection.</b> Chanter varsa sonuncuyu çıkar.</div></div>
+          <div class="hs"><div class="h"><span class="n">2</span>Makro</div><div class="icons">${hbImg("17350000")}${hbImg("17400000")}</div><div class="d"><b>Sol tık alan, sağ tık Condemnation.</b> Earth Punishment ~14 sn; bitince sol tıka dön.</div></div>
+          <div class="hs"><div class="h"><span class="n">3</span>Stigma</div><div class="icons">${hbImg("17400000")}${hbImg("17430000")}${hbImg("17440000")}${hbImg("17410000")}</div><div class="d"><b>Earth Punishment · Prayer of Amplification · Noble Aura · Light of Protection.</b> Chanter varsa sonuncuyu çıkar.</div></div>
           <div class="hs"><div class="h"><span class="n">4</span>Pasif</div><div class="d"><b>Sıra ilk videoyla aynı:</b> 3 · 4 · 8 öncelik, sonra 1 ve 10. 2 · 6 · 9 düşük.</div></div>
           <div class="hs"><div class="h"><span class="n">5</span>Arcana</div><div class="d"><b>4 sarı (Vigor) kart = +150 P.attack.</b> Kâse'de Condemnation +1. Combat power'a değil skill +1'e bak.</div></div>
           <div class="hs"><div class="h"><span class="n">6</span>Ekipman</div><div class="d"><b>Combat speed</b> (silah · alt silah · eldiven), <b>hareket hızı</b> (ayakkabı), takıdan <b>skill +1</b>. Ludra için accuracy ~1300.</div></div>
@@ -2439,12 +2468,285 @@ function renderCb() {
     </div>`;
 }
 
+// ---------- SIFIRDAN CLERIC: jackzback ilk rehber (23GnBGjnw8U) + güncelleme (Bbq4yZZwFL8) ----------
+// Yeni başlayan için: level 1'den 2000 GS'ye. Skill verisi aion2.gg (istemci 2026-11-05), sıra ve seçimler videodan.
+Object.assign(HB_SK, {
+  "17710000": ["Warm Benediction", "icons/sb/cleric/17710000.webp"],
+  "17760000": ["Heal Block", "icons/sb/cleric/17760000.webp"],
+  "17770000": ["Prayer of Concentration", "icons/sb/cleric/17770000.webp"],
+  "17270000": ["Salvation", "icons/sb/cleric/17270000.webp"]
+});
+const SC_SPECS = Object.assign({}, HB_SPECS, {
+  "17060000": [[8,"Tam şarjda %30 ihtimalle 3 sn stun"],[8,"+300 skill isabeti"],[8,"+%30 skill hızı (daha hızlı şarj)"],[12,"Az hedefte %20'ye kadar fazla hasar"],[16,"İsabet edince her vuruş kritik"]],
+  "17090000": [[8,"Heal süresince +%5 defans"],[8,"HP %50 altındayken heal +%20"],[8,"Heal süresince +%5 gelen heal"],[12,"Heal süresince +%5 hareket hızı"],[16,"Heal süresince +%5 PvE hasar toleransı"]]
+});
+const SC = {
+  video: "https://www.youtube.com/watch?v=23GnBGjnw8U",
+  upd: "https://www.youtube.com/watch?v=Bbq4yZZwFL8",
+  sub: "altyazilar/sifirdan-cleric.tr.srt",
+  t: s => `https://www.youtube.com/watch?v=23GnBGjnw8U&t=${s}s`,
+  // pr: puan sırası, lv: karakter seviyesinde açılır, target: hedef skill seviyesi
+  // s8/s12/s16/s20: o skill seviyesinde aktif uzmanlık yuvaları (16'ya kadar 2, 20'de 3 aktif)
+  skills: [
+    { id:"17350000", pr:1, lv:8, target:"20", role:"Ana hasar · 3 sn cooldown",
+      tr:"Hasarının kaynağı. 4 hedefe toprak hasarı. 12. seviyede gelen uzmanlıkla <b>kritik vurunca cooldown'u sıfırlanır</b>; Earth Punishment stigması açıkken her vuruş kritik olduğu için durmadan atılır.",
+      s8:[2,1], s12:[2,4], s16:[4,5], s20:[2,4,5],
+      note:"<b>İlk fullenecek skill bu.</b> Önce 12 (cooldown sıfırlama), sonra 16, sonra 20. Arcana'da ilk +1 de buna." },
+    { id:"17150000", pr:2, lv:3, target:"20", role:"Hasar · 30 sn cooldown",
+      tr:"Yanında 5 sn duran bir aura çağırır; seçtiğin hedefe sürekli vurur. Condemnation'dan sonra en önemli skill.",
+      s8:[3,2], s12:[3,4], s16:[3,5], s20:[3,4,5],
+      note:"Yuva 3 = aura <b>%50 daha hızlı</b> vurur. 8–11 arası level kasarken yuva 2 (alan hasarı) iş görür; 12'de 4'e geç." },
+    { id:"17060000", pr:3, lv:14, target:"20", role:"Şarjlı büyük vuruş · 45 sn",
+      tr:"Basılı tutup 3 kademeye kadar şarj edilen büyük vuruş. Boss'un sendeleme (stagger) barını da doldurur.",
+      s8:[3,2], s12:[3,4], s16:[3,5], s20:[3,4,5],
+      note:"Yuva 3 = daha hızlı şarj. Makroya koyma, <b>elle at</b>: makro şarj etmez." },
+    { id:"17040000", pr:4, lv:1, target:"20", role:"Alan hasarı · çok mana yer",
+      tr:"4 hedefe rüzgâr hasarı, ardından Divine Punishment zinciri. Oyundaki en çok mana yakan skill'in.",
+      s8:[2,1], s12:[2,4], s16:[2,5], s20:[1,2,5],
+      note:"16'ya kadar <b>2 · 4</b>, 5. yuva açılınca <b>2 · 5</b>. Mana azaltan yuva 1'i en sona (20) bırak." },
+    { id:"17080000", pr:5, lv:1, target:"12", role:"Hasar + DoT · 10 sn",
+      tr:"4 hedefe hasar ve 10 sn boyunca süren yanma (DoT). Düşmanın verdiği hasarı %5 düşürür.",
+      s8:[2,1], s12:[2,4], s16:[2,5], s20:null,
+      note:"<b>2 · 4</b>; puan artarsa 16'da <b>2 · 5</b>. Boss'ta süresi bitmeden tazele." },
+    { id:"17070000", pr:6, lv:4, target:"12", role:"Hasar + DoT · 20 sn",
+      tr:"4 hedefe hasar ve 10 sn DoT. Düşmanın hasar toleransını düşürür: tüm parti daha çok vurur.",
+      s8:[2,3], s12:[2,4], s16:[4,5], s20:null,
+      note:"<b>2 · 4</b>; 16'da <b>4 · 5</b>. Tek başına görev yaparken ve PvP'de yuva 3 (knockdown) mob'larda da iyi çalışır." },
+    { id:"17090000", pr:7, lv:7, target:"12", role:"Parti heal'i (HoT) · 30 sn",
+      tr:"Partinin üstüne 30 sn kalan bir heal bırakır, 2 sn'de bir can doldurur. <b>Makronun ana parçası</b>.",
+      s8:[2,1], s12:[2,4], s16:[4,5], s20:null,
+      note:"Genel tercih <b>2 · 4</b>. jackzback partisi sağlam olduğu için 1 · 4 (defans) oynuyor; ileride Arcana'dan seviye gelirse <b>4 · 5</b>." },
+    { id:"17100000", pr:8, lv:10, target:"8", role:"Anlık tek heal · 6 sn",
+      tr:"Sana ve partide canı en düşük kişiye anlık heal. Zor anda bas.",
+      s8:[1,3], s12:null, s16:null, s20:null,
+      note:"<b>1 · 3</b>: üst üste 2 kez daha atılır + %50 debuff siler. 8 yeter; puan artarsa en son büyüt." },
+    { id:"17120000", pr:9, lv:12, target:"8", role:"Parti heal'i + temizlik · 12 sn",
+      tr:"Tüm partiye heal ve 1 debuff temizleme.",
+      s8:[2,3], s12:null, s16:null, s20:null,
+      note:"<b>2 · 3</b>: +1 kullanım ve cooldown −3 sn. 8 yeter." },
+    { id:"17010000", pr:10, lv:1, target:"12", role:"Sol tık · temel saldırı",
+      tr:"Temel saldırın. Hasar verir ve <b>MP yeniler</b>; zincirle Thunder and Lightning → Discharge'a döner.",
+      s8:[2,1], s12:[2,4], s16:null, s20:null,
+      note:"<b>2 · 4</b>: Discharge daha sık çıkar, çıktıkça <b>Bolt cooldown'u −7 sn</b>. 12'den sonra puan verme." },
+    { id:"17370000", pr:11, lv:5, target:"12", role:"Bayılan boss'a vuruş",
+      tr:"Boss sendeleyip bayıldığında (stagger) atılan güçlü vuruş.",
+      s8:[3,1], s12:[3,4], s16:[3,5], s20:null,
+      note:"En önemlisi <b>yuva 3</b>: hareket ederken atılır. <b>3 · 4</b>, 16'da <b>3 · 5</b>." },
+    { id:"17240000", pr:12, lv:16, target:"8", role:"Kontrol kırıcı · isteğe bağlı",
+      tr:"Stun, knockdown, korku gibi kontrolleri kırar, 5 sn bağışıklık verir.",
+      s8:[3,2], s12:[3,4], s16:null, s20:null,
+      note:"İlk videoda yok; güncellemede <b>3 · 4</b>. Puan en son buraya." }
+  ],
+  // [id, durum(key|mid|skip), açılış lv, ne yapar]
+  passives: [
+    ["17710000", "key", 1, "Max HP +%6. Erken açılır; 3-4-8'den sonra ilk bu."],
+    ["17720000", "skip", 6, "Blok +200, blokta can. PvP'de önemli; şimdilik boş."],
+    ["17730000", "top", 9, "Kritik +100 ve ek hasar. <b>En önemli 3'lüden.</b>"],
+    ["17740000", "top", 11, "Heal gücünü artırır. <b>En önemli 3'lüden.</b>"],
+    ["17750000", "mid", 13, "Defans +%2, kritik direnci. Puan kalınca."],
+    ["17760000", "skip", 15, "Rakibin aldığı heal'i azaltır. PvP; şimdilik boş."],
+    ["17770000", "mid", 17, "HP %50 altına inince kalkan + heal artışı. Puan kalınca."],
+    ["17780000", "top", 21, "Kritik hasar +%10,5, isabet +100. <b>En önemli 3'lüden.</b>"],
+    ["17790000", "skip", 23, "Durum direnci. PvP; şimdilik boş."],
+    ["17800000", "key", 25, "Her saldırında partiye heal: vurdukça heal atarsın."]
+  ],
+  // [id, sıra, ne yapar]
+  stigmas: [
+    ["17400000", "1 · 5 → 10 → 15 → 20", "<b>5. seviyede Condemnation bu hedefe hep kritik vurur.</b> Build bunun üstüne kurulu."],
+    ["17430000", "2 · 5 → 20", "1 dk'da bir 10 sn saldırı +%20. 5'te hasar artışı."],
+    ["17410000", "3 · 5 → 20", "Açık kalan aura: partinin hasarı ve heal'i artar."],
+    ["17440000", "4 · 5 → 20", "5 dk peşinden gelen aura, kendi kendine vurur."]
+  ],
+  macro: [
+    "<b>Makro tuşunu sağ tık yap:</b> Ayarlar › Combat › Key setting › makro tuşu = sağ tık. Başka tuş seçersen anlatılan her şey o tuşla olur.",
+    "<b>Skill barını diz.</b> Sıra senin el alışkanlığın; önemli olan iki ana hattın dolu olması.",
+    "<b>Makroya ekle:</b> <b>8 × Light of Regeneration</b> + <b>1 × Earth Punishment</b>. Earth Punishment açıkken Condemnation kritik atıp kendini sıfırlar.",
+    "<b>Oynanış:</b> önce sol tık (Earth's Retribution), sonra <b>sağ tıkı basılı tut</b>. Makro dönmeye başlar, Light of Regeneration partinin üstünde sürekli yenilenir.",
+    "<b>Sıkışınca elle:</b> biri çok can kaybederse <b>Healing Light</b> (en düşük cana gider), herkes yediyse <b>Radiant Recovery</b>. <b>Bolt</b>'u her zaman elle şarj edip at.",
+    "<b>Dikkat:</b> Earth Punishment stigması level 22'de açılır. Ona kadar makroda sadece Light of Regeneration olur; hasarı elle atarsın."
+  ],
+  road: [
+    ["1–7", "Başlangıç", ["17010000","17040000","17080000","17150000","17070000"], "Sol tık Earth's Retribution. Puanları <b>Divine Aura</b> ve <b>Judgment Thunder</b>'a ver. 7'de Light of Regeneration gelir: partiye at."],
+    ["8", "Condemnation", ["17350000"], "<b>Gelen bütün puan Condemnation'a.</b> Skill seviyesi 8 → uzmanlık yuvası 2. Önce CoT/DM at, sonra Condemnation."],
+    ["10–16", "Heal ve Bolt", ["17100000","17120000","17060000"], "Healing Light (10), Radiant Recovery (12), Bolt (14). Heal'leri 8'de bırak, Bolt'u büyüt."],
+    ["Skill 12", "Kritik = sıfırlama", ["17350000"], "Condemnation 12 olunca <b>yuva 4</b>'ü seç: kritik vurunca cooldown sıfırlanır."],
+    ["22", "1. stigma", ["17400000"], "<b>Earth Punishment</b> tak, hemen 5'e çıkar. Makroya ekle. Burada hasar patlar."],
+    ["27 · 32 · 37", "Diğer stigmalar", ["17430000","17410000","17440000"], "Prayer of Amplification → Light of Protection → Noble Aura. Hepsini 5'e, sonra sırayla 20'ye."],
+    ["45+", "GS kasma", [], "Daeva tahtası (U), Abyss tüyleri, ekipman. 2000 GS'den sonra <a href=\"#cb\" data-tab=\"cb\">CLERIC BUILD</a> sekmesine geç."]
+  ]
+};
+
+function scNodes(id, picks, nextPick) {
+  const sp = SC_SPECS[id] || [];
+  return sp.map(([lv, t], i) => {
+    const slot = i + 1, on = picks.includes(slot), nw = nextPick && nextPick.includes(slot) && !on;
+    return `<div class="specnode${on ? " on" : ""}${nw ? " future" : ""}"><span class="snnew">${nw ? "SONRA" : ""}</span>
+      <div class="snhead"><span class="snlv">${slot}. · Lv ${lv}</span><span class="snchk">✓</span></div><div class="sntext">${t}</div></div>`;
+  }).join("");
+}
+
+function renderSc() {
+  const stages = s => [["8", s.s8], ["12", s.s12], ["16", s.s16], ["20", s.s20]].filter(x => x[1])
+    .map(([lv, p]) => `<span class="scst"><em>Skill ${lv}</em>${p.join(" · ")}</span>`).join(`<span class="ar">›</span>`);
+  const mainPicks = s => (+s.target >= 12 && s.s12) ? s.s12 : s.s8;
+  const later = s => s.s20 || s.s16;
+
+  const cards = SC.skills.map(s => `<article class="skcard${s.pr <= 4 ? " feat" : ""}">
+      <div class="skhead"><span class="skpr">${s.pr}</span>${hbImg(s.id).replace('class="ic"', 'class="skicon"')}
+        <div><div class="skname">${hbName(s.id)}</div><div class="skrole">${s.role} · Lv ${s.lv}'de açılır</div></div>
+        <div class="sktarget"><span>HEDEF</span><b>${s.target}<small> lv</small></b></div></div>
+      <p class="skwhy" style="margin:8px 0">${s.tr}</p>
+      <div class="skorder"><span class="lab">Seçim</span>${stages(s)}</div>
+      <div class="specwrap"><div class="specflow">${scNodes(s.id, mainPicks(s), later(s))}</div></div>
+      <p class="skwhy">${s.note}</p>
+    </article>`).join("");
+
+  const road = SC.road.map(([lv, h, ids, d]) => `<div class="scr"><div class="scrl">${lv}</div><div class="scrb">
+      <div class="scrh">${h}<span class="icons">${ids.map(hbImg).join("")}</span></div><div class="scrd">${d}</div></div></div>`).join("");
+
+  const passLab = { top: "Önce", key: "Sonra", mid: "Puan kalınca", skip: "Boş bırak" };
+  const pass = SC.passives.map(([id, st, lv, d], i) => `<div class="tl scp ${st}"><span class="pn">${i + 1}</span>${hbImg(id)}
+      <div class="tn">${hbName(id)}</div><div class="scpl">${passLab[st]} · Lv ${lv}</div><div class="td">${d}</div></div>`).join("");
+
+  const stig = SC.stigmas.map(([id, o, d], i) => `<div class="tl"><span class="pn">${i + 1}</span>${hbImg(id)}<div class="tn">${hbName(id)}</div><div class="td"><b>${o}</b><br>${d}</div></div>`).join("");
+
+  const sk = SC.skills.slice().sort((a, b) => a.pr - b.pr);
+  const order = `<div class="skroad"><span class="lab">Puan sırası</span>${sk.map((s, i) => `<span class="skr${s.pr <= 4 ? " main" : ""}"><b>${s.pr}</b>${hbImg(s.id)}<span>${hbName(s.id)}</span><em>${s.target}</em></span>${i < sk.length - 1 ? `<span class="ar">›</span>` : ""}`).join("")}</div>`;
+
+  $("sc").innerHTML = `
+    <nav class="jump">
+      <a href="#sc-ozet">Özet</a><a href="#sc-yol">Level yolu</a><a href="#sc-skill">Skill · uzmanlık</a>
+      <a href="#sc-pasif">Pasif</a><a href="#sc-stig">Stigma</a><a href="#sc-makro">Makro</a>
+      <a href="#sc-daeva">Daeva · GS</a><a href="#sc-ekip">Ekipman · kanat</a>
+    </nav>
+
+    <div class="card" id="sc-ozet"><h2>SIFIRDAN CLERIC <span class="r">Yeni başlayan · level 1 → 2000 GS</span></h2>
+      <div class="pad">
+        <div class="who">
+          <span class="pill"><b>Sınıf:</b> Cleric (hasar + heal)</span>
+          <span class="pill"><b>Kaynak:</b> jackzback · <a href="${SC.video}" target="_blank" rel="noopener">rehber videosu</a> · <a href="${SC.upd}" target="_blank" rel="noopener">güncelleme</a></span>
+          <span class="pill"><b>Altyazı:</b> <a href="${SC.sub}" target="_blank" rel="noopener">TR</a></span>
+          <span class="pill"><b>Skill verisi:</b> aion2.gg</span>
+        </div>
+        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap:</b> İlk fullenecek skill <b>Condemnation</b> (önce 12, sonra 16, 20). Puan sırası <b>Condemnation → Divine Aura → Bolt → Judgment Thunder</b>. Makro: <b>sağ tık</b>, içine <b>8 Light of Regeneration + 1 Earth Punishment</b>. İlk stigma <b>Earth Punishment</b>; 5'e çıkınca Condemnation hep kritik vurur. Pasifte <b>3 · 4 · 8</b>.</div>
+        <div class="hero">
+          <div class="hs"><div class="h"><span class="n">1</span>İlk skill</div><div class="icons">${hbImg("17350000")}</div><div class="d"><b>Condemnation.</b> Level 8'de gelir; gelen her puan buna. 12'de yuva 4 = kritikte cooldown sıfırlanır.</div></div>
+          <div class="hs"><div class="h"><span class="n">2</span>Makro</div><div class="icons">${hbImg("17090000")}<span class="ar">×8</span>${hbImg("17400000")}</div><div class="d"><b>Sağ tık basılı tut.</b> Heal kendi döner, sen hasara ve acil heal'e bakarsın.</div></div>
+          <div class="hs"><div class="h"><span class="n">3</span>Stigma</div><div class="icons">${hbImg("17400000")}${hbImg("17430000")}${hbImg("17410000")}${hbImg("17440000")}</div><div class="d"><b>Earth Punishment ilk.</b> Partide Chanter varsa Light of Protection'ı çıkar.</div></div>
+          <div class="hs"><div class="h"><span class="n">4</span>Pasif</div><div class="icons">${hbImg("17730000")}${hbImg("17740000")}${hbImg("17780000")}</div><div class="d"><b>3 · 4 · 8 önce</b>, sonra 1 ve 10. 2 · 6 · 9 boş (PvP).</div></div>
+          <div class="hs"><div class="h"><span class="n">5</span>Rol</div><div class="d"><b>Sadece healer değilsin.</b> Partinin hasarının en az %5'ini, ideal ~%10'unu vur; yoksa drop alamazsın. Heal'i makro ve pasifler döndürür.</div></div>
+          <div class="hs"><div class="h"><span class="n">6</span>Ekipman</div><div class="d"><b>Silah + eldiven:</b> combat speed. <b>Ayakkabı:</b> hareket hızı. <b>Genel:</b> blok, HP, Might.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="sc-yol"><h2>Level yolu <span class="r">Hangi seviyede ne yapılır</span></h2>
+      <div class="pad"><div class="scroad">${road}</div>
+        <div class="tipbox" style="margin-top:12px"><b>Uzmanlık nasıl çalışır:</b> Skill penceresinde (<kbd>K</kbd>) her skill'in altında 5 seçenek var, soldan sağa <b>1–5</b> diye say. Skill seviyesi <b>8</b>'de ilk üç seçenek, <b>12</b>'de 4., <b>16</b>'da 5. açılır. 16'ya kadar <b>2 seçenek</b> aktif, <b>20</b>'de 3. Kartlardaki “2 · 4” = 2. ve 4. seçeneği işaretle.</div>
+      </div>
+    </div>
+
+    <div class="card" id="sc-skill"><h2>Skill ve uzmanlık <span class="r">Kart sırası = puan sırası</span></h2>
+      ${order}
+      <div class="sklegend"><span><span class="dot on"></span>şimdi seçili</span><span><span class="dot off"></span>sonra seçilecek (kesik çizgi)</span><span>“Skill 8 / 12 / 16 / 20” = o skill'in seviyesi, karakter seviyesi değil</span></div>
+      <div class="scgrid">${cards}</div>
+      <div class="foot"><a href="${SC.t(57)}" target="_blank" rel="noopener">Videoda skill bölümü (00:57)</a>. Fazla puanın varsa yukarıdaki sırayla git: önce Condemnation, sonra Divine Aura, Bolt, Judgment Thunder… Heal'ler AoE çalıştığı için gear'ın kötü değilse zaten yeterli heal çıkar.</div>
+    </div>
+
+    <div class="card" id="sc-pasif"><h2>Pasif <span class="r">Soldan sağa 1–10</span></h2>
+      <div class="pad"><div class="tiles five">${pass}</div>
+        <div class="tipbox" style="margin-top:10px"><b>Sıra:</b> <b>3 · 8 · 4</b> (kırmızı olanlar) → <b>1</b> → <b>10</b> → 5 · 7. <b>2 · 6 · 9</b> PvP'ye kadar boş. <a href="${SC.t(411)}" target="_blank" rel="noopener">Videoda 06:51</a></div>
+      </div>
+    </div>
+
+    <div class="card" id="sc-stig"><h2>Stigma <span class="r">Level 22, 27, 32, 37'de yuva açılır</span></h2>
+      <div class="pad"><div class="tiles">${stig}</div>
+        <div class="tipbox" style="margin-top:10px"><b>Her stigmayı 5 → 10 → 15 → 20 diye büyüt</b>; alt özellikleri bu seviyelerde kendiliğinden açılır. Önce dördünü de 5'e çıkar, sonra Earth Punishment'tan başlayarak 20'ye.</div>
+        <div class="two" style="margin-top:12px">
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Partide Chanter varsa</div><ul>
+            <li>Chanter'ın mantrası <b>Light of Protection</b> ile üst üste binmez → onu çıkar.</li>
+            <li>Çok ölüyorsan: <span style="display:inline-flex;gap:4px;align-items:center;vertical-align:middle">${hbImg("17270000")}<b>Salvation</b></span> — 3 sn hasar ve kontrol bağışıklığı, panik butonu.</li>
+            <li>Partiye fayda istiyorsan: <span style="display:inline-flex;gap:4px;align-items:center;vertical-align:middle">${hbImg("17420000")}<b>Yustiel's Power</b></span> — parti hasar toleransı.</li>
+          </ul></div></div>
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Stigma puanı nereden</div><ul>
+            <li><b>Festival / etkinlik shop'ları</b> — hepsini yap.</li>
+            <li><b>Abyss shop</b> (Abyss puanı).</li>
+            <li><b>Nightmare shop</b> — Nightmare boss'unu kesip puan biriktir.</li>
+            <li>Stigma seviyesi combat power verir; DPS kadar sana da önemli.</li>
+          </ul></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="sc-makro"><h2>Makro <span class="r">Başlangıç makrosu · sağ tık</span></h2>
+      <div class="pad">
+        <ol class="steps">${SC.macro.map(x => `<li>${x}</li>`).join("")}</ol>
+        <div class="tipbox" style="margin-top:12px"><b>Elle oynarken sıra:</b> Chain of Torment + Debilitating Mark (debuff) → Earth Punishment → Condemnation spam → Divine Aura → Bolt (şarjlı) → Judgment Thunder. Boss bayılınca Lightning Strike Scattershot. <a href="${SC.t(1470)}" target="_blank" rel="noopener">Videoda skill barı (24:30)</a> · <a href="${SC.t(1556)}" target="_blank" rel="noopener">makro (25:56)</a></div>
+        <div class="legend" style="margin-top:10px"><span>2000 GS'den sonra jackzback makroyu değiştirdi (sol tık alan, sağ tık Condemnation): <a href="#cb-makro" data-tab="cb">CLERIC BUILD › Makro</a></span></div>
+      </div>
+    </div>
+
+    <div class="card" id="sc-daeva"><h2>Daeva tahtası · GS <span class="r">U menüsü</span></h2>
+      <div class="pad">
+        <div class="two">
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Puan nereye</div><ul>
+            <li><b>Mavi düğümler önce:</b> skill puanı sırasıyla (Condemnation, Divine Aura…). Amaç skillerin 8 / 12 / 16 yuvalarını açmak.</li>
+            <li><b>İçinde MP yazan düğümden uzak dur.</b> HP, kritik ve atak al.</li>
+            <li><b>Puan yetmiyorsa</b> uzaktaki yeşil düğümlerden kırp.</li>
+            <li><b>Turuncuları sona bırak</b>, peşine düşme.</li>
+            <li>Tahtanın <b>sol tarafını</b> önceliklendir.</li>
+          </ul></div></div>
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Abyss tüyleri: kolay 36 GS</div><ul>
+            <li>Abyss haritasında <b>200 tüy</b> var; dünyadakilerin aksine <b>hepsini</b> topla.</li>
+            <li>Hepsi bitince <b>36 puan</b> → tahtaya ver, GS artar.</li>
+            <li>PK açık bölge: <b>rift zamanı</b> git, millet rift yaparken topla.</li>
+            <li>Mini haritayı <kbd>Alt</kbd>+<kbd>M</kbd> ile istediğin yere taşı.</li>
+          </ul></div></div>
+        </div>
+        <div class="tipbox" style="margin-top:10px"><b>Cleric ve Templar önce GS kasabilir</b> (içeriğe girmek için), diğer sınıflar combat power'a yüklenir. <a href="${SC.t(580)}" target="_blank" rel="noopener">Videoda Daeva (09:40)</a> · <a href="${SC.t(764)}" target="_blank" rel="noopener">Abyss tüyleri (12:44)</a></div>
+      </div>
+    </div>
+
+    <div class="card" id="sc-ekip"><h2>Ekipman · kanat · title <span class="r">0–2000 GS</span></h2>
+      <div class="pad">
+        <div class="two">
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Ekipmanda ne ara</div><ul>
+            <li><b>Silah ve eldiven: combat speed.</b> Görürsen yapış — mavi silah bile combat speed'liyse sarıdan iyi olabilir.</li>
+            <li><b>Silah / alt silah:</b> Might, weapon damage boost, atak.</li>
+            <li><b>Ayakkabı:</b> hareket hızı (takıda da gelirse süper).</li>
+            <li><b>Geri kalan:</b> blok, HP, defans. Blok Cleric'te çok önemli.</li>
+            <li>Mavi eşyayı <b>+5/+6</b>'dan fazla basma. Rünlerde <b>3–5</b> yeter.</li>
+          </ul></div></div>
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Statı değiştirmek (soul binding)</div><ul>
+            <li>Eşyaya tıkla › <b>Soul bind</b>: bir sarı eşya verip tek satırı yeniden çevir; olası sonuçları önceden gösterir.</li>
+            <li><b>Soul Codex</b> kitabı tüm satırları sıfırlar.</li>
+            <li><b>Pet'ler:</b> her pet 3. seviyede <b>+1 Might</b> verir → 100 pet = 100 Might. Haritadaki küpleri anahtarla mutlaka aç.</li>
+          </ul></div></div>
+        </div>
+        <div class="two" style="margin-top:12px">
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Kanat</div><ul>
+            <li><b>Şimdilik:</b> elindeki ya da Ultimate Daeva Wings. Pure Odil ile craftlanan ucuz kanatlar da olur.</li>
+            <li><b>Hedef:</b> <b>Forest Spring Wings</b> (base ~400K + 7 Radiant Odil ile craft). Hasar, tolerans, boss hasarı; uzun süre herkes bunu kullanır.</li>
+            <li>Kanatlar takmasan da sahip olunca stat verir.</li>
+          </ul></div></div>
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Title · Arcana</div><ul>
+            <li><b>Title:</b> oyunun verdiği kart + <b>True Hell and Back</b> (cooldown); hareket hızlısı da olur.</li>
+            <li><b>Arcana:</b> kartlarda <b>Condemnation +1</b>'i önceliklendir. 2000–2100 sıçramasında sarı kart çok işe yarar.</li>
+          </ul></div></div>
+        </div>
+        <div class="tipbox" style="margin-top:10px"><a href="${SC.t(1155)}" target="_blank" rel="noopener">Videoda Arcana (19:15)</a> · <a href="${SC.t(1174)}" target="_blank" rel="noopener">eşya (19:34)</a> · <a href="${SC.t(989)}" target="_blank" rel="noopener">title ve kanat (16:29)</a>. 2000 GS'ye gelince: <a href="#cb" data-tab="cb">CLERIC BUILD</a>.</div>
+      </div>
+      <div class="foot">Kaynak: jackzback, <a href="${SC.video}" target="_blank" rel="noopener">“AION 2 Cleric Build Rehberi! Skill ve Stat Dağılımı”</a> (29 dk, otomatik Türkçe altyazı: <a href="${SC.sub}" target="_blank" rel="noopener">sifirdan-cleric.tr.srt</a>) ve <a href="${SC.upd}" target="_blank" rel="noopener">haftalık güncelleme</a>. Skill açıklamaları, açılış seviyeleri ve uzmanlık metinleri aion2.gg (istemci 2026-11-05) ve aion2builds.com'dan. Altyazıdaki “Earth Retribution” stigması oyundaki adıyla <b>Earth Punishment</b>.</div>
+    </div>`;
+}
+
 function render() {
   document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
-  ["mb", "hb", "cb", "g", "jb", "lv", "boss"].forEach(k => $(k).hidden = tab !== k);
+  ["mb", "hb", "cb", "sc", "g", "jb", "lv", "boss"].forEach(k => $(k).hidden = tab !== k);
   if (tab === "mb") renderMb();
   else if (tab === "hb") renderHb();
   else if (tab === "cb") renderCb();
+  else if (tab === "sc") renderSc();
   else if (tab === "g") renderG();
   else if (tab === "jb") renderJb();
   else if (tab === "lv") { renderLv(); bindLvEvents(); }
@@ -2524,7 +2826,7 @@ if (bossGlobalConfigured()) {
 Promise.all([fetch("skills.json").then(r => r.json()), fetch("daevanion.json").then(r => r.json())]).then(([d, dv]) => {
   SK = d; DVJ = dv;
   const h = location.hash.slice(1);
-  if (["mb", "hb", "cb", "g", "jb", "lv", "boss"].includes(h)) tab = h;
+  if (["mb", "hb", "cb", "sc", "g", "jb", "lv", "boss"].includes(h)) tab = h;
   render();
   if (h.startsWith("mb-")) { const t = $(h); if (t) t.scrollIntoView(); }
 });

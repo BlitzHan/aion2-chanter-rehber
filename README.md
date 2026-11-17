@@ -12,6 +12,10 @@ Aion 2 Chanter için Türkçe build sayfası: https://blitzhan.github.io/aion2-c
 - **CLERIC BUILD** sekmesi: jackzback'in güncel Cleric build'i (2800 GS, PvE hasar + heal). Skill/uzmanlık yuvaları, sol tık = alan / sağ tık = Condemnation makrosu, stigma ve pasif sırası, Daevanion, 4 sarı Arcana kartı ve craft sırası, kanat/title/pantheon, ekipman ve Ludra hazırlığı.
   - Video: [Aion 2 Cleric Build Rehberi Haftalık Güncelleme](https://www.youtube.com/watch?v=Bbq4yZZwFL8) (otomatik Türkçe altyazıdan)
   - Altyazı: [`altyazilar/cleric-build.tr.srt`](altyazilar/cleric-build.tr.srt) · düz metin: [`altyazilar/cleric-build.tr.txt`](altyazilar/cleric-build.tr.txt)
+- **SIFIRDAN CLERIC** sekmesi: yeni başlayan için level 1 → 2000 GS Cleric rehberi. Level yolu, 12 skill'in Türkçe açıklaması, her skill için skill 8/12/16/20'de hangi uzmanlık seçeneği, puan sırası (Condemnation ilk), pasif sırası (3 · 4 · 8), stigma (Earth Punishment ilk), başlangıç makrosu (sağ tık: 8 × Light of Regeneration + Earth Punishment), Daeva tahtası, Abyss tüyleri, ekipman ve kanat.
+  - Video: jackzback, [AION 2 Cleric Build Rehberi! Skill ve Stat Dağılımı](https://www.youtube.com/watch?v=23GnBGjnw8U) + [güncelleme](https://www.youtube.com/watch?v=Bbq4yZZwFL8)
+  - Altyazı: [`altyazilar/sifirdan-cleric.tr.srt`](altyazilar/sifirdan-cleric.tr.srt) · düz metin: [`altyazilar/sifirdan-cleric.tr.txt`](altyazilar/sifirdan-cleric.tr.txt)
+  - Skill açıklamaları, açılış seviyeleri ve uzmanlık metinleri: aion2.gg (istemci 2026-11-05), aion2builds.com
 - **45+ Yol haritası**: Eldarin Prince, [Aion 2'de level 45 sonrası ne yapılır?](https://www.youtube.com/watch?v=TrMU8aBkEK0)
 - **45+ Kontrol listesi**: jackzback, [45 sonrası yapmanız ve yapmamanız gerekenler](https://www.youtube.com/watch?v=DqEfqeMVCn0)
 - **Levo**: LEVO, [Bugüne kadar gördüğünüz bütün hesapları unutun](https://www.youtube.com/watch?v=73-aa29R0GA) (Chanter build düzeltme yayını): Arcana yol haritası (4. kademe, craft yalnız Chalice of Vigor), Genus Insight kilitleme eşikleri ve pet sırası, makro, stigma ve uzmanlık düzeltmeleri, ucuz silah transferi
