@@ -622,6 +622,31 @@ a.boss-discord:hover{color:var(--gold)}
 }
 
 /* sıfırdan cleric */
+#sc{--lgold:#e8c06a;--lteal:#72ddb9}
+.kbar{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end}
+.kgrp{display:flex;flex-direction:column;gap:6px}
+.kcap{font-size:10px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;color:#7d879c}
+.knums,.kqert{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap}
+.kstack{display:flex;flex-direction:column;gap:4px}
+.krow{display:flex;align-items:center;gap:4px}
+.kidx{width:10px;font-size:10px;color:#7d879c;font-weight:800;text-align:right}
+.kk{position:relative;width:74px;min-height:78px;background:#0e121a;border:1px solid #2b3345;border-radius:9px;padding:6px 4px 5px;display:flex;flex-direction:column;align-items:center;gap:3px}
+.kk img{width:40px;height:40px;border-radius:7px;border:1px solid #39445c}
+.kk .kn{font-size:9.5px;line-height:1.15;text-align:center;color:#b9c2d4}
+.kk .kl{position:absolute;left:4px;top:3px;font-size:10px;font-weight:900;color:#1b1404;background:var(--gold);border-radius:4px;padding:0 4px;line-height:14px;z-index:1}
+.kk.empty{opacity:.45}
+.kk.empty:after{content:"boş";margin:auto;font-size:10px;color:#7d879c}
+.kk.up{border-style:dashed;border-color:#5c4a1d}
+.kbar{flex-direction:column;align-items:flex-start}
+.kk.hot{border-color:#e8c06a;background:#231d0e}
+.msteps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ms{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:7px 9px}
+.ms img{width:34px;height:34px;border-radius:7px;border:1px solid var(--line2)}
+.ms .mn{width:20px;height:20px;flex:none;border-radius:50%;background:var(--gold);color:#1b1404;font-weight:900;font-size:11px;display:grid;place-items:center}
+.ms .mk{font-size:12px;font-weight:700}
+.ms .md{font-size:10.5px;color:var(--muted)}
+.ms.t{border-color:#7c6120;background:#231d0e}
+@media (max-width:760px){.msteps{grid-template-columns:repeat(2,minmax(0,1fr))}.kk{width:62px}.kk img{width:34px;height:34px}}
 .scgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px 16px}
 .scst{display:inline-flex;gap:5px;align-items:center;color:var(--lgold);font-weight:800}
 .scst em{font-style:normal;font-size:9.5px;font-weight:900;color:#7d879c;background:#171d29;border:1px solid #2b3345;border-radius:5px;padding:0 5px}
@@ -2558,13 +2583,21 @@ const SC = {
     ["17440000", "4 · 5 → 20", "5 dk peşinden gelen aura, kendi kendine vurur."]
   ],
   macro: [
-    "<b>Makro tuşunu sağ tık yap:</b> Ayarlar › Combat › Key setting › makro tuşu = sağ tık. Başka tuş seçersen anlatılan her şey o tuşla olur.",
-    "<b>Skill barını diz.</b> Sıra senin el alışkanlığın; önemli olan iki ana hattın dolu olması.",
-    "<b>Makroya ekle:</b> <b>8 × Light of Regeneration</b> + <b>1 × Earth Punishment</b>. Earth Punishment açıkken Condemnation kritik atıp kendini sıfırlar.",
-    "<b>Oynanış:</b> önce sol tık (Earth's Retribution), sonra <b>sağ tıkı basılı tut</b>. Makro dönmeye başlar, Light of Regeneration partinin üstünde sürekli yenilenir.",
-    "<b>Sıkışınca elle:</b> biri çok can kaybederse <b>Healing Light</b> (en düşük cana gider), herkes yediyse <b>Radiant Recovery</b>. <b>Bolt</b>'u her zaman elle şarj edip at.",
-    "<b>Dikkat:</b> Earth Punishment stigması level 22'de açılır. Ona kadar makroda sadece Light of Regeneration olur; hasarı elle atarsın."
+    "<b>Makro tuşunu sağ tık yap:</b> Ayarlar › Combat › Key setting › makro tuşu = sağ tık. Başka tuş seçersen her şey o tuşla olur.",
+    "<b>Önce skill barını yukarıdaki gibi diz.</b> Makro skile değil <b>tuşa</b> basar: E ve T'nin üstündeki 4'er skill bu yüzden önemli.",
+    "<b>Makro penceresi:</b> Skill penceresi (<kbd>K</kbd>) › sağ üstte <b>Macro</b>. Aşağıdaki 8 adımı sırayla ekle, her adımın Delay'i <b>10 ms</b>. Bitince alttaki sarı butonla kaydet.",
+    "<b>Oynanış:</b> önce sol tık, sonra <b>sağ tıkı basılı tut</b>. Makro E ve T'ye basıp durur; Light of Regeneration partide sürekli yenilenir, arada hazır olan hasar skilleri çıkar.",
+    "<b>Sıkışınca elle:</b> tek kişi düştüyse <kbd>2</kbd> Healing Light (en düşük cana gider), herkes yediyse <kbd>3</kbd> Radiant Recovery. <kbd>4</kbd> Bolt'u her zaman elle şarj edip at."
   ],
+  // skill barı: videodaki kurulum (24:35)
+  bar: {
+    nums: [null, "17100000", "17120000", "17060000", "17440000", null, null, "17410000"],
+    q: "17370000", r: "17010000",
+    e: ["17090000", "17430000", "17070000", "17350000"],
+    t: ["17400000", "17150000", "17080000", "17040000"]
+  },
+  // makro adımları: [tuş, skill]
+  steps: [["E","17090000"],["E","17090000"],["T","17400000"],["E","17090000"],["E","17090000"],["E","17090000"],["E","17090000"],["E","17090000"]],
   road: [
     ["1–7", "Başlangıç", ["17010000","17040000","17080000","17150000","17070000"], "Sol tık Earth's Retribution. Puanları <b>Divine Aura</b> ve <b>Judgment Thunder</b>'a ver. 7'de Light of Regeneration gelir: partiye at."],
     ["8", "Condemnation", ["17350000"], "<b>Gelen bütün puan Condemnation'a.</b> Skill seviyesi 8 → uzmanlık yuvası 2. Önce CoT/DM at, sonra Condemnation."],
@@ -2583,6 +2616,21 @@ function scNodes(id, picks, nextPick) {
     return `<div class="specnode${on ? " on" : ""}${nw ? " future" : ""}"><span class="snnew">${nw ? "SONRA" : ""}</span>
       <div class="snhead"><span class="snlv">${slot}. · Lv ${lv}</span><span class="snchk">✓</span></div><div class="sntext">${t}</div></div>`;
   }).join("");
+}
+
+function scKey(id, label, extra) {
+  return `<div class="kk${id ? "" : " empty"}${extra || ""}">${label ? `<span class="kl">${label}</span>` : ""}${id ? hbImg(id) + `<span class="kn">${hbName(id)}</span>` : ""}</div>`;
+}
+function scBar() {
+  const B = SC.bar, rows = [3, 2, 1];
+  const stack = (arr, key) => `<div class="kstack">${rows.map(i => `<div class="krow"><span class="kidx">${i}</span>${scKey(arr[i], "", " up")}</div>`).join("")}<div class="krow"><span class="kidx">0</span>${scKey(arr[0], key, " hot")}</div></div>`;
+  return `<div class="kbar">
+    <div class="kgrp"><div class="kcap">Rakam tuşları</div><div class="knums">${B.nums.map((id, i) => scKey(id, String(i + 1))).join("")}</div></div>
+    <div class="kgrp"><div class="kcap">Q · E · R · T</div><div class="kqert">${scKey(B.q, "Q")}${stack(B.e, "E")}${scKey(B.r, "R")}${stack(B.t, "T")}</div></div>
+  </div>`;
+}
+function scSteps() {
+  return `<div class="msteps">${SC.steps.map(([k, id], i) => `<div class="ms${k === "T" ? " t" : ""}"><span class="mn">${i + 1}</span>${hbImg(id)}<div><div class="mk"><kbd>${k}</kbd> ${hbName(id)}</div><div class="md">Delay 10 ms</div></div></div>`).join("")}</div>`;
 }
 
 function renderSc() {
@@ -2616,7 +2664,7 @@ function renderSc() {
   $("sc").innerHTML = `
     <nav class="jump">
       <a href="#sc-ozet">Özet</a><a href="#sc-yol">Level yolu</a><a href="#sc-skill">Skill · uzmanlık</a>
-      <a href="#sc-pasif">Pasif</a><a href="#sc-stig">Stigma</a><a href="#sc-makro">Makro</a>
+      <a href="#sc-pasif">Pasif</a><a href="#sc-stig">Stigma</a><a href="#sc-makro">Skill barı · makro</a>
       <a href="#sc-daeva">Daeva · GS</a><a href="#sc-ekip">Ekipman · kanat</a>
     </nav>
 
@@ -2628,10 +2676,10 @@ function renderSc() {
           <span class="pill"><b>Altyazı:</b> <a href="${SC.sub}" target="_blank" rel="noopener">TR</a></span>
           <span class="pill"><b>Skill verisi:</b> aion2.gg</span>
         </div>
-        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap:</b> İlk fullenecek skill <b>Condemnation</b> (önce 12, sonra 16, 20). Puan sırası <b>Condemnation → Divine Aura → Bolt → Judgment Thunder</b>. Makro: <b>sağ tık</b>, içine <b>8 Light of Regeneration + 1 Earth Punishment</b>. İlk stigma <b>Earth Punishment</b>; 5'e çıkınca Condemnation hep kritik vurur. Pasifte <b>3 · 4 · 8</b>.</div>
+        <div class="tipbox" style="margin-bottom:12px"><b>Kısa cevap:</b> İlk fullenecek skill <b>Condemnation</b> (önce 12, sonra 16, 20). Puan sırası <b>Condemnation → Divine Aura → Bolt → Judgment Thunder</b>. Makro: <b>sağ tık</b>, 8 adım: <b>E, E, T, E, E, E, E, E</b> (E'de Light of Regeneration, T'de Earth Punishment dizili). İlk stigma <b>Earth Punishment</b>; 5'e çıkınca Condemnation hep kritik vurur. Pasifte <b>3 · 4 · 8</b>.</div>
         <div class="hero">
           <div class="hs"><div class="h"><span class="n">1</span>İlk skill</div><div class="icons">${hbImg("17350000")}</div><div class="d"><b>Condemnation.</b> Level 8'de gelir; gelen her puan buna. 12'de yuva 4 = kritikte cooldown sıfırlanır.</div></div>
-          <div class="hs"><div class="h"><span class="n">2</span>Makro</div><div class="icons">${hbImg("17090000")}<span class="ar">×8</span>${hbImg("17400000")}</div><div class="d"><b>Sağ tık basılı tut.</b> Heal kendi döner, sen hasara ve acil heal'e bakarsın.</div></div>
+          <div class="hs"><div class="h"><span class="n">2</span>Makro</div><div class="icons">${hbImg("17090000")}<span class="ar">×7</span>${hbImg("17400000")}<span class="ar">×1</span></div><div class="d"><b>Sağ tık basılı tut.</b> Heal kendi döner, sen hasara ve acil heal'e bakarsın.</div></div>
           <div class="hs"><div class="h"><span class="n">3</span>Stigma</div><div class="icons">${hbImg("17400000")}${hbImg("17430000")}${hbImg("17410000")}${hbImg("17440000")}</div><div class="d"><b>Earth Punishment ilk.</b> Partide Chanter varsa Light of Protection'ı çıkar.</div></div>
           <div class="hs"><div class="h"><span class="n">4</span>Pasif</div><div class="icons">${hbImg("17730000")}${hbImg("17740000")}${hbImg("17780000")}</div><div class="d"><b>3 · 4 · 8 önce</b>, sonra 1 ve 10. 2 · 6 · 9 boş (PvP).</div></div>
           <div class="hs"><div class="h"><span class="n">5</span>Rol</div><div class="d"><b>Sadece healer değilsin.</b> Partinin hasarının en az %5'ini, ideal ~%10'unu vur; yoksa drop alamazsın. Heal'i makro ve pasifler döndürür.</div></div>
@@ -2678,10 +2726,30 @@ function renderSc() {
       </div>
     </div>
 
-    <div class="card" id="sc-makro"><h2>Makro <span class="r">Başlangıç makrosu · sağ tık</span></h2>
+    <div class="card" id="sc-makro"><h2>Skill barı ve makro <span class="r">Videodaki kurulum · sağ tık makro</span></h2>
       <div class="pad">
-        <ol class="steps">${SC.macro.map(x => `<li>${x}</li>`).join("")}</ol>
-        <div class="tipbox" style="margin-top:12px"><b>Elle oynarken sıra:</b> Chain of Torment + Debilitating Mark (debuff) → Earth Punishment → Condemnation spam → Divine Aura → Bolt (şarjlı) → Judgment Thunder. Boss bayılınca Lightning Strike Scattershot. <a href="${SC.t(1470)}" target="_blank" rel="noopener">Videoda skill barı (24:30)</a> · <a href="${SC.t(1556)}" target="_blank" rel="noopener">makro (25:56)</a></div>
+        <div class="sub-l">1 · Skill barı</div>
+        ${scBar()}
+        <div class="two" style="margin-top:12px">
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Neden E ve T'ye 4'er skill</div><ul>
+            <li>Bar'da bir tuşun üstüne <b>0–3</b> diye 4 skill dizilebiliyor. Videoda yalnızca <b>E</b> ve <b>T</b> böyle dolu, toplam <b>8 skill</b>.</li>
+            <li><b>E:</b> Light of Regeneration · Prayer of Amplification · Chain of Torment · Condemnation</li>
+            <li><b>T:</b> Earth Punishment · Divine Aura · Debilitating Mark · Judgment Thunder</li>
+            <li>Makro bu iki tuşa bastıkça o sütundaki skiller döner. Judgment Thunder'ı T'den çıkaranlar var; jackzback daha verimlisini bulamamış.</li>
+          </ul></div></div>
+          <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Level 22'den önce</div><ul>
+            <li>Stigma yok, yani Earth Punishment, Prayer of Amplification, Noble Aura ve Light of Protection boş.</li>
+            <li><b>E:</b> Light of Regeneration · Chain of Torment · Condemnation</li>
+            <li><b>T:</b> Divine Aura · Debilitating Mark · Judgment Thunder</li>
+            <li>Stigma geldikçe yerlerine ekle: Earth Punishment T'nin en altına, Prayer of Amplification E'nin ikinci sırasına.</li>
+            <li>Diğer tuşların yeri senin el alışkanlığın; önemli olan E ve T hatları.</li>
+          </ul></div></div>
+        </div>
+
+        <div class="sub-l" style="margin-top:16px">2 · Makroya eklenecekler (8 adım)</div>
+        ${scSteps()}
+        <ol class="steps" style="margin-top:12px">${SC.macro.map(x => `<li>${x}</li>`).join("")}</ol>
+        <div class="tipbox" style="margin-top:12px"><b>Level 22'den önce makro:</b> Earth Punishment yokken 3. adıma da E koy (8 × E). Stigma gelince 3. adımı T yap. <a href="${SC.t(1475)}" target="_blank" rel="noopener">Videoda skill barı (24:35)</a> · <a href="${SC.t(1576)}" target="_blank" rel="noopener">makro penceresi (26:16)</a> · <a href="${SC.t(1660)}" target="_blank" rel="noopener">son hâli (27:40)</a></div>
         <div class="legend" style="margin-top:10px"><span>2000 GS'den sonra jackzback makroyu değiştirdi (sol tık alan, sağ tık Condemnation): <a href="#cb-makro" data-tab="cb">CLERIC BUILD › Makro</a></span></div>
       </div>
     </div>
