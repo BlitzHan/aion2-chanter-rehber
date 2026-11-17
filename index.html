@@ -622,6 +622,12 @@ a.boss-discord:hover{color:var(--gold)}
 }
 
 /* sıfırdan cleric */
+.scshot{margin:0 0 12px}
+.scshot img{display:block;max-width:100%;height:auto;border-radius:10px;border:1px solid var(--line2)}
+.scshot figcaption{font-size:11.5px;color:var(--muted);margin-top:5px}
+.scmac{display:grid;grid-template-columns:260px 1fr;gap:14px;align-items:start}
+.scmac .msteps{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:760px){.scmac{grid-template-columns:1fr}.scmac .scshot img{max-width:260px}}
 #sc{--lgold:#e8c06a;--lteal:#72ddb9}
 .kbar{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end}
 .kgrp{display:flex;flex-direction:column;gap:6px}
@@ -2585,7 +2591,7 @@ const SC = {
   macro: [
     "<b>Makro tuşunu sağ tık yap:</b> Ayarlar › Combat › Key setting › makro tuşu = sağ tık. Başka tuş seçersen her şey o tuşla olur.",
     "<b>Önce skill barını yukarıdaki gibi diz.</b> Makro skile değil <b>tuşa</b> basar: E ve T'nin üstündeki 4'er skill bu yüzden önemli.",
-    "<b>Makro penceresi:</b> Skill penceresi (<kbd>K</kbd>) › sağ üstte <b>Macro</b>. Aşağıdaki 8 adımı sırayla ekle, her adımın Delay'i <b>10 ms</b>. Bitince alttaki sarı butonla kaydet.",
+    "<b>Makro penceresi:</b> Skill penceresi (<kbd>K</kbd>) › sağ üstte <b>Macro</b>. Alttaki sarı <b>Add Macro</b> ile 8 adımı sırayla ekle, her adımın Delay'i <b>10 ms</b>. Adımda görünen ikon, o tuşun en alttaki (0) skill'i.",
     "<b>Oynanış:</b> önce sol tık, sonra <b>sağ tıkı basılı tut</b>. Makro E ve T'ye basıp durur; Light of Regeneration partide sürekli yenilenir, arada hazır olan hasar skilleri çıkar.",
     "<b>Sıkışınca elle:</b> tek kişi düştüyse <kbd>2</kbd> Healing Light (en düşük cana gider), herkes yediyse <kbd>3</kbd> Radiant Recovery. <kbd>4</kbd> Bolt'u her zaman elle şarj edip at."
   ],
@@ -2729,6 +2735,7 @@ function renderSc() {
     <div class="card" id="sc-makro"><h2>Skill barı ve makro <span class="r">Videodaki kurulum · sağ tık makro</span></h2>
       <div class="pad">
         <div class="sub-l">1 · Skill barı</div>
+        <figure class="scshot"><a href="icons/sc/skill-bari.png" target="_blank" rel="noopener"><img src="icons/sc/skill-bari.png" alt="jackzback'in Cleric skill barı" loading="lazy" width="785" height="308"></a><figcaption>Videodan (24:35): alttaki satırda tuş harfleri (1–8, Q E R T). E ve T'nin üstüne 0–3 satırlarında 4'er skill dizili.</figcaption></figure>
         ${scBar()}
         <div class="two" style="margin-top:12px">
           <div class="cmp2" style="grid-template-columns:1fr"><div><div class="h">Neden E ve T'ye 4'er skill</div><ul>
@@ -2747,7 +2754,8 @@ function renderSc() {
         </div>
 
         <div class="sub-l" style="margin-top:16px">2 · Makroya eklenecekler (8 adım)</div>
-        ${scSteps()}
+        <div class="scmac"><figure class="scshot"><a href="icons/sc/makro.png" target="_blank" rel="noopener"><img src="icons/sc/makro.png" alt="jackzback'in makro penceresi" loading="lazy" width="439" height="620"></a><figcaption>Videodan (27:45): makronun ilk 5 adımı. 6–8 de Light of Regeneration (E).</figcaption></figure>
+        ${scSteps()}</div>
         <ol class="steps" style="margin-top:12px">${SC.macro.map(x => `<li>${x}</li>`).join("")}</ol>
         <div class="tipbox" style="margin-top:12px"><b>Level 22'den önce makro:</b> Earth Punishment yokken 3. adıma da E koy (8 × E). Stigma gelince 3. adımı T yap. <a href="${SC.t(1475)}" target="_blank" rel="noopener">Videoda skill barı (24:35)</a> · <a href="${SC.t(1576)}" target="_blank" rel="noopener">makro penceresi (26:16)</a> · <a href="${SC.t(1660)}" target="_blank" rel="noopener">son hâli (27:40)</a></div>
         <div class="legend" style="margin-top:10px"><span>2000 GS'den sonra jackzback makroyu değiştirdi (sol tık alan, sağ tık Condemnation): <a href="#cb-makro" data-tab="cb">CLERIC BUILD › Makro</a></span></div>
